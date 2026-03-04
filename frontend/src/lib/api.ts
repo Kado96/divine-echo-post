@@ -25,7 +25,24 @@ export const apiService = {
             }
             throw new Error('Unauthorized');
         }
-        if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
+        if (!response.ok) {
+            let errorMsg = `API Error: ${response.statusText}`;
+            try {
+                const errData = await response.json();
+                console.error(`Backend error details on ${endpoint}:`, errData);
+                const firstError = Object.values(errData)[0];
+                if (Array.isArray(firstError)) {
+                    errorMsg = firstError[0];
+                } else if (errData.detail) {
+                    errorMsg = errData.detail;
+                } else if (typeof firstError === 'string') {
+                    errorMsg = firstError;
+                }
+            } catch (e) {
+                // Not JSON or empty body
+            }
+            throw new Error(errorMsg);
+        }
         return await response.json();
     },
 

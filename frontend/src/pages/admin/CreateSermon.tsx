@@ -95,8 +95,8 @@ const CreateSermon = () => {
             await apiService.post('/admin/sermons/sermons/', dataToCreate);
             toast.success(publish ? t("common.published_success") : t("common.draft_saved"));
             navigate("/admin/sermons");
-        } catch (error) {
-            toast.error(t("common.error_saving"));
+        } catch (error: any) {
+            toast.error(error.message || t("common.error_saving"));
         } finally {
             setLoading(false);
         }

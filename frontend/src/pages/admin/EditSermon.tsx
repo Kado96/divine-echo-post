@@ -116,8 +116,8 @@ const EditSermon = () => {
             await apiService.updateSermon(id, dataToUpdate);
             toast.success(t("common.saved_success"));
             if (publish) navigate("/admin/sermons");
-        } catch (error) {
-            toast.error(t("common.error_saving"));
+        } catch (error: any) {
+            toast.error(error.message || t("common.error_saving"));
         } finally {
             setSaving(false);
         }
@@ -496,8 +496,8 @@ const EditSermon = () => {
                 await apiService.deleteSermon(id);
                 toast.success(t("common.deleted_success"));
                 navigate("/admin/sermons");
-            } catch (error) {
-                toast.error(t("common.error_deleting"));
+            } catch (error: any) {
+                toast.error(error.message || t("common.error_deleting"));
             }
         }
     }

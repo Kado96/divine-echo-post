@@ -56,9 +56,9 @@ const EditAnnouncement = () => {
             await apiService.updateAnnouncement(id, dataToSubmit);
             toast.success(t("common.updated_success"));
             navigate("/admin/announcements");
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error updating announcement:", error);
-            toast.error(t("common.error_saving"));
+            toast.error(error.message || t("common.error_saving"));
         } finally {
             setSaving(false);
         }

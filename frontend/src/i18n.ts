@@ -58,7 +58,11 @@ const resources = {
                 error_saving: "Erreur lors de l'enregistrement",
                 current_file: "Fichier actuel",
                 reset: "Réinitialiser",
-                new_selection: "Nouvelle sélection"
+                new_selection: "Nouvelle sélection",
+                title_required: "Le titre est obligatoire",
+                published_success: "Publiée avec succès !",
+                draft_saved: "Brouillon enregistré !",
+                created_success: "Créé avec succès !"
             },
             admin: {
                 dashboard: "Tableau de Bord",
@@ -507,7 +511,11 @@ const resources = {
                 error_saving: "Error while saving",
                 current_file: "Current file",
                 reset: "Reset",
-                new_selection: "New selection"
+                new_selection: "New selection",
+                title_required: "Title is required",
+                published_success: "Successfully published!",
+                draft_saved: "Draft saved!",
+                created_success: "Successfully created!"
             },
             admin: {
                 dashboard: "Dashboard",
@@ -956,7 +964,11 @@ const resources = {
                 error_saving: "Habaye ikibazo mu gufata",
                 current_file: "Igikoresho gihari",
                 reset: "Kuvugura",
-                new_selection: "Ico wahisemwo gishasha"
+                new_selection: "Ico wahisemwo gishasha",
+                title_required: "Umutwe urakenewe",
+                published_success: "Vyashizweko neza !",
+                draft_saved: "Ikandiko ryafashwe !",
+                created_success: "Vyaremwe neza !"
             },
             admin: {
                 dashboard: "Ikibanza",
@@ -1405,7 +1417,11 @@ const resources = {
                 error_saving: "Hitilafu wakati wa kuhifadhi",
                 current_file: "Faili ya sasa",
                 reset: "Anza upya",
-                new_selection: "Uteuzi mpya"
+                new_selection: "Uteuzi mpya",
+                title_required: "Kichwa kinahitajika",
+                published_success: "Imechapishwa kwa mafanikio!",
+                draft_saved: "Rasimu imehifadhiwa!",
+                created_success: "Imeundwa kwa mafanikio!"
             },
             admin: {
                 dashboard: "Dashibodi",

@@ -57,8 +57,8 @@ const EditTestimonial = () => {
             });
             toast.success(t("common.saved_success"));
             navigate("/admin/testimonials");
-        } catch (error) {
-            toast.error(t("common.error_saving"));
+        } catch (error: any) {
+            toast.error(error.message || t("common.error_saving"));
         } finally {
             setLoading(false);
         }

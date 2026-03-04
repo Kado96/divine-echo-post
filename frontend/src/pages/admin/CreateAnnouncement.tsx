@@ -29,9 +29,9 @@ const CreateAnnouncement = () => {
             await apiService.post('/announcements/admin/', dataToSubmit);
             toast.success(t("common.saved_success"));
             navigate("/admin/announcements");
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error saving announcement:", error);
-            toast.error(t("common.error_saving"));
+            toast.error(error.message || t("common.error_saving"));
         } finally {
             setLoading(false);
         }
