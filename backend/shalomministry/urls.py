@@ -94,8 +94,9 @@ urlpatterns = [
     path('register/', RegisterViewSet.as_view(), name='register'),
     path('refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('admin/', admin.site.urls),
-    path('api/', ShalomMinistryView.as_view()),
-    path('api/test-cors/', test_cors, name="test-cors"),  # Test CORS simple
+    
+    # Routes API spécifiques d'abord
+    path('api/test-cors/', test_cors, name="test-cors"),
     path('api/accounts/', include("api.accounts.urls")),
     path('api/shops/', include("api.shops.urls")),
     path('api/courses/', include("api.courses.urls")),
@@ -105,6 +106,10 @@ urlpatterns = [
     path('api/testimonials/', include("api.testimonials.urls")),
     path('api/admin/sermons/', include(sermon_admin_urls)),
     path('api/admin/shops/', include(shop_admin_urls)),
+    
+    # Racine de l'API ensuite
+    path('api/', ShalomMinistryView.as_view()),
+    
     path('api-auth/', include('rest_framework.urls')),
     path('api/login/', CustomTokenObtainPairView.as_view(), name="login"),
     path('api/register/', RegisterViewSet.as_view(), name="register"),
