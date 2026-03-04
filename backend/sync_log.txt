@@ -1,0 +1,440 @@
+2026-01-25 11:53:13,321 - ERROR - ❌ Erreur de connexion à la base de production: 'TIME_ZONE'
+2026-01-25 11:53:13,324 - ERROR - 
+❌ Erreur fatale: 'TIME_ZONE'
+2026-01-25 11:53:13,514 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 492, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 103, in __init__
+    self._setup_prod_database()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 166, in _setup_prod_database
+    with connections['prod'].cursor() as cursor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 316, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 292, in _cursor
+    self.ensure_connection()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 240, in connect
+    self.check_settings()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 264, in check_settings
+    if self.settings_dict["TIME_ZONE"] is not None and not settings.USE_TZ:
+       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'TIME_ZONE'
+
+2026-01-25 11:57:26,867 - ERROR - ❌ Erreur de connexion à la base de production: could not translate host name "db.xxxx.supabase.co" to address: Name or service not known
+
+2026-01-25 11:57:27,001 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "db.xxxx.supabase.co" to address: Name or service not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 184, in _setup_prod_database
+    with connections['prod'].cursor() as cursor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 316, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 292, in _cursor
+    self.ensure_connection()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 274, in ensure_connection
+    with self.wrap_database_errors:
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: could not translate host name "db.xxxx.supabase.co" to address: Name or service not known
+
+
+2026-01-25 11:57:27,023 - ERROR - 
+❌ Erreur fatale: could not translate host name "db.xxxx.supabase.co" to address: Name or service not known
+
+2026-01-25 11:57:27,028 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "db.xxxx.supabase.co" to address: Name or service not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 512, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 103, in __init__
+    self._setup_prod_database()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 184, in _setup_prod_database
+    with connections['prod'].cursor() as cursor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 316, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 292, in _cursor
+    self.ensure_connection()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 274, in ensure_connection
+    with self.wrap_database_errors:
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: could not translate host name "db.xxxx.supabase.co" to address: Name or service not known
+
+
+2026-01-25 12:05:41,168 - ERROR - ❌ Erreur de connexion à la base de production: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.71.225.44), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+2026-01-25 12:05:41,169 - ERROR - 
+2026-01-25 12:05:41,169 - ERROR - 💡 PROBLÈME: Authentification échouée.
+2026-01-25 12:05:41,171 - ERROR -    Vérifiez que le mot de passe dans DATABASE_URL est correct.
+2026-01-25 12:05:41,177 - ERROR - 
+❌ Erreur fatale: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.71.225.44), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+2026-01-25 12:05:41,181 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.71.225.44), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 553, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 119, in __init__
+    self._setup_prod_database()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 200, in _setup_prod_database
+    with connections['prod'].cursor() as cursor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 316, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 292, in _cursor
+    self.ensure_connection()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 274, in ensure_connection
+    with self.wrap_database_errors:
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.71.225.44), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+
+2026-01-25 12:09:13,138 - ERROR - ❌ Erreur de connexion à la base de production: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.65.151.229), port 5432 failed: timeout expired
+connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.71.225.44), port 5432 failed: timeout expired
+
+2026-01-25 12:09:13,139 - ERROR - 
+2026-01-25 12:09:13,140 - ERROR - 💡 PROBLÈME: Impossible de se connecter au serveur.
+2026-01-25 12:09:13,141 - ERROR -    Vérifiez votre connexion internet et que le serveur Supabase est accessible.
+2026-01-25 12:09:13,146 - ERROR - 
+❌ Erreur fatale: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.65.151.229), port 5432 failed: timeout expired
+connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.71.225.44), port 5432 failed: timeout expired
+
+2026-01-25 12:09:13,151 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.65.151.229), port 5432 failed: timeout expired
+connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.71.225.44), port 5432 failed: timeout expired
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 579, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 119, in __init__
+    self._setup_prod_database()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 215, in _setup_prod_database
+    with connections['prod'].cursor() as cursor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 316, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 292, in _cursor
+    self.ensure_connection()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 274, in ensure_connection
+    with self.wrap_database_errors:
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.65.151.229), port 5432 failed: timeout expired
+connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.71.225.44), port 5432 failed: timeout expired
+
+
+2026-01-26 01:05:23,124 - ERROR - 
+❌ Erreur fatale: ❌ DATABASE_URL n'est pas défini.
+Définissez la variable d'environnement DATABASE_URL avec l'URL Supabase.
+Exemple PowerShell: $env:DATABASE_URL = 'postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+Exemple Bash: export DATABASE_URL='postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+2026-01-26 01:05:23,145 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 595, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 97, in __init__
+    raise ValueError(
+ValueError: ❌ DATABASE_URL n'est pas défini.
+Définissez la variable d'environnement DATABASE_URL avec l'URL Supabase.
+Exemple PowerShell: $env:DATABASE_URL = 'postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+Exemple Bash: export DATABASE_URL='postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+
+2026-01-26 01:05:33,255 - ERROR - 
+❌ Erreur fatale: ❌ DATABASE_URL n'est pas défini.
+Définissez la variable d'environnement DATABASE_URL avec l'URL Supabase.
+Exemple PowerShell: $env:DATABASE_URL = 'postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+Exemple Bash: export DATABASE_URL='postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+2026-01-26 01:05:33,258 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 595, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 97, in __init__
+    raise ValueError(
+ValueError: ❌ DATABASE_URL n'est pas défini.
+Définissez la variable d'environnement DATABASE_URL avec l'URL Supabase.
+Exemple PowerShell: $env:DATABASE_URL = 'postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+Exemple Bash: export DATABASE_URL='postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+
+2026-01-26 01:05:59,426 - ERROR - ❌ Erreur de connexion à la base de production: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.65.151.229), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+2026-01-26 01:05:59,439 - ERROR - 
+2026-01-26 01:05:59,440 - ERROR - 💡 PROBLÈME: Authentification échouée.
+2026-01-26 01:05:59,442 - ERROR -    Causes possibles:
+2026-01-26 01:05:59,443 - ERROR -    1. Le mot de passe dans DATABASE_URL est incorrect
+2026-01-26 01:05:59,444 - ERROR -    2. Le nom d'utilisateur est incorrect (doit être: postgres.eiokoxdmgxxyexmqfsua)
+2026-01-26 01:05:59,444 - ERROR -    3. Le mot de passe n'est pas correctement encodé en URL
+2026-01-26 01:05:59,445 - ERROR - 
+2026-01-26 01:05:59,446 - ERROR -    SOLUTION:
+2026-01-26 01:05:59,447 - ERROR -    1. Vérifiez que votre URL contient: postgres.eiokoxdmgxxyexmqfsua (pas juste 'postgres')
+2026-01-26 01:05:59,450 - ERROR -    2. Vérifiez que le mot de passe est correctement encodé (ex: @ devient %40)
+2026-01-26 01:05:59,451 - ERROR -    3. Format attendu: postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require
+2026-01-26 01:05:59,452 - ERROR -    4. Utilisateur actuellement utilisé: postgres.eiokoxdmgxxyexmqfsua
+2026-01-26 01:05:59,452 - ERROR -    5. URL actuelle (masquée): postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@...
+2026-01-26 01:05:59,874 - ERROR - 
+❌ Erreur fatale: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.65.151.229), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+2026-01-26 01:05:59,882 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.65.151.229), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 595, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 119, in __init__
+    self._setup_prod_database()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\sync_local_to_prod.py", line 215, in _setup_prod_database
+    with connections['prod'].cursor() as cursor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 316, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 292, in _cursor
+    self.ensure_connection()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 274, in ensure_connection
+    with self.wrap_database_errors:
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 275, in ensure_connection
+    self.connect()
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\base\base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\django\db\backends\postgresql\base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\shalom_ministry - v1.2\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.65.151.229), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+

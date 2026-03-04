@@ -1,0 +1,3 @@
+# Ce dossier contient les fichiers statiques Django
+# Les fichiers statiques collectés avec `python manage.py collectstatic` seront placés ici en production
+

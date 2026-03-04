@@ -1,0 +1,32 @@
+[tool.pyright]
+include = ["."]
+exclude = [
+    "**/__pycache__",
+    "**/node_modules",
+    "**/venv",
+    "**/.venv"
+]
+venvPath = "."
+venv = "venv"
+pythonVersion = "3.10"
+pythonPlatform = "All"
+typeCheckingMode = "basic"
+reportMissingImports = "none"
+reportMissingTypeStubs = false
+
+[tool.basedpyright]
+include = ["."]
+exclude = [
+    "**/__pycache__",
+    "**/node_modules",
+    "**/venv",
+    "**/.venv"
+]
+venvPath = "."
+venv = "venv"
+pythonVersion = "3.10"
+pythonPlatform = "All"
+typeCheckingMode = "basic"
+reportMissingImports = "none"
+reportMissingTypeStubs = false
+
