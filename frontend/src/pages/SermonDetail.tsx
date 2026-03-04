@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Calendar, Headphones, User, ArrowLeft, Play, Download, Share2, Facebook, MessageCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { apiService } from "@/lib/api";
-import { stripHtml } from "@/lib/utils";
+import { stripHtml, getFullImageUrl } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -87,9 +87,9 @@ const SermonDetail = () => {
                     <video
                         controls
                         className="w-full h-full"
-                        poster={sermon.image_url}
+                        poster={getFullImageUrl(sermon.image_url)}
                     >
-                        <source src={sermon.video_file || sermon.video_url} type="video/mp4" />
+                        <source src={getFullImageUrl(sermon.video_file || sermon.video_url)} type="video/mp4" />
                         {t("common.browser_video_error")}
                     </video>
                 </div>
@@ -99,7 +99,7 @@ const SermonDetail = () => {
                 <div className="bg-card rounded-2xl p-8 shadow-xl border border-border">
                     <div className="flex flex-col md:flex-row items-center gap-8">
                         <div className="w-48 h-48 rounded-xl overflow-hidden shadow-lg shrink-0">
-                            <img src={sermon.image_url || "/placeholder-sermon.jpg"} alt={sermon.title} className="w-full h-full object-cover" />
+                            <img src={getFullImageUrl(sermon.image_url) || "/placeholder-sermon.jpg"} alt={sermon.title} className="w-full h-full object-cover" />
                         </div>
                         <div className="flex-1 w-full">
                             <h3 className="text-xl font-bold mb-4">{t("common.listen_audio")}</h3>
@@ -107,7 +107,7 @@ const SermonDetail = () => {
                                 controls
                                 className="w-full mb-6"
                             >
-                                <source src={sermon.audio_file || sermon.audio_url} type="audio/mpeg" />
+                                <source src={getFullImageUrl(sermon.audio_file || sermon.audio_url)} type="audio/mpeg" />
                                 {t("common.browser_audio_error")}
                             </audio>
                             <div className="flex flex-wrap gap-4">
@@ -126,7 +126,7 @@ const SermonDetail = () => {
         return (
             <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl bg-black flex items-center justify-center">
                 {sermon.image_url ? (
-                    <img src={sermon.image_url} alt={sermon.title} className="w-full h-full object-cover" />
+                    <img src={getFullImageUrl(sermon.image_url)} alt={sermon.title} className="w-full h-full object-cover" />
                 ) : (
                     <div className="flex flex-col items-center gap-4 text-muted-foreground">
                         <Play className="w-12 h-12 opacity-20" />
@@ -145,7 +145,7 @@ const SermonDetail = () => {
                 <PageHero
                     title={stripHtml(sermon.title)}
                     subtitle={stripHtml(sermon.category_name || t("common.general"))}
-                    image={sermon.image_url}
+                    image={getFullImageUrl(sermon.image_url)}
                 />
 
                 <div className="container mx-auto px-4 py-12">

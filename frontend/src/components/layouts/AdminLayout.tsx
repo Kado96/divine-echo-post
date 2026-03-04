@@ -120,7 +120,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
 
                 <div className="p-4 m-2 rounded-lg bg-[#191e23]/50 border border-gray-700/50">
                     <a
-                        href={`${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000'}/admin/`}
+                        href={`${import.meta.env.VITE_API_URL?.replace('/api', '')}/admin/`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-between text-[11px] text-gray-500 hover:text-white transition-colors uppercase font-bold tracking-widest"

@@ -168,21 +168,30 @@ REST_FRAMEWORK = {
 }
 
 # ==========================
-# CORS CONFIGURATION
+# CORS & CSRF CONFIGURATION
 # ==========================
 
 from corsheaders.defaults import default_headers
 
 # Autoriser les origines en production
-if not DEBUG:
+if not DEBUG or not is_local_dev:
     CORS_ALLOWED_ORIGINS = [
         "https://shalomministry.wuaze.com",
         "https://www.shalomministry.wuaze.com",
+        "https://shalom-ministry-backend-ipu3.onrender.com",
     ]
+    CSRF_TRUSTED_ORIGINS = [
+        "https://shalomministry.wuaze.com",
+        "https://www.shalomministry.wuaze.com",
+        "https://shalom-ministry-backend-ipu3.onrender.com",
+    ]
+    # Important pour Render/Proxies afin que Django sache qu'il est en HTTPS
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 else:
     # En développement, autoriser tout pour faciliter la connexion
     CORS_ALLOW_ALL_ORIGINS = True
     CORS_ALLOWED_ORIGINS = [
+        "http://localhost:5173", # Vite default
         "http://localhost:8080",
         "http://127.0.0.1:8080",
     ]
@@ -194,6 +203,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = list(default_headers) + [
     "authorization",
     "content-type",
+    "x-csrftoken",
 ]
 
 # ==========================

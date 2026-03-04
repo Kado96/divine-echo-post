@@ -9,7 +9,7 @@ import emissionMeditation from "@/assets/emission-meditation.jpg";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { apiService } from "@/lib/api";
-import { stripHtml } from "@/lib/utils";
+import { stripHtml, getFullImageUrl } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 const RecentEmissions = () => {
@@ -36,7 +36,7 @@ const RecentEmissions = () => {
           duration: sermon.duration_minutes ? `${sermon.duration_minutes} min` : "N/A",
           listeners: sermon.views_count || 0,
           isNew: true,
-          image: sermon.image || emissionPreaching,
+          image: getFullImageUrl(sermon.image) || emissionPreaching,
         })) || [];
         setRecentItems(items);
         setSettings(settingsData);
