@@ -98,14 +98,16 @@ ROOT_URLCONF = 'shalomministry.urls'
 WSGI_APPLICATION = 'shalomministry.wsgi.application'
 
 # ==========================
-# DATABASE CONFIG (Supabase Direct)  ✅ MODIFIÉ UNIQUEMENT ICI
+# DATABASE CONFIG (Production: PostgreSQL / Local: SQLite)
 # ==========================
 
+# Utiliser DATABASE_URL si présent (Render/Production), sinon SQLite (Local)
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 # ==========================
