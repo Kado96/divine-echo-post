@@ -1034,21 +1034,32 @@ const resources = {
                     }
                 },
                 pages_page: {
-                    title: "Ibiranga Amadohote",
-                    desc: "Hindura mu buryo bworoshe amajambo ari ku rubuga rwanyu",
-                    search_placeholder: "Ni ubuhe buryo bw'urubuga wipfuza guhindura?",
-                    modify_btn: "Hindura amajambo",
-                    update_banner: "Gira urubuga rwawe rushasha!",
-                    update_banner_desc: "Kuvugurura amajambo kenshi bifasha abashitsi bawe kumenya amakuru nshasha.",
+                    title: "Genura Izindi Mbuga",
+                    desc: "Hinyanyura uko urubuga rwashizweho n'ivyamamaza ku rubuga rwa Shalom Ministry.",
+                    search_placeholder: "Andura umuce...",
+                    modify_btn: "Hinyanyura ibirimo",
+                    update_banner: "Ibihinduka ubu nyene !",
+                    update_banner_desc: "Ibihindutse vyose ubu bica biboneka kuri site y'abantu bose.",
                     sections: {
-                        hero: "Ikibanza co Hejuru",
+                        hero: "Isanamu y'ikaze",
+                        header: "UMUTWE / HERO",
                         about: "Ibitwerekeye",
-                        contact: "Aho dushobora kubasanga",
-                        footer: "Ikibanza co munsi",
-                        header: "Umutwe",
-                        content: "Ibirimo",
-                        footer_nav: "Ubuyobozi bwo munsi",
-                        structure: "Imiterere"
+                        content: "IBIRIMO NYAMUKURU",
+                        featured: "Émissions zibanze",
+                        categories: "Umuce w'Imice",
+                        announcements: "Umuce w'Amatangazo",
+                        testimonials: "Umuce w'Intahe",
+                        contact: "Twandikire",
+                        footer_nav: "INSI YA PAGES",
+                        footer: "Munsi y'urubuga",
+                        structure: "UKO RUTEGUYE"
+                    },
+                    edit_subtitle: "Hinyanyura amajambo n'amasanamu vy'iki gice kugira bijane n'ivyo ukeneye.",
+                    form: {
+                        subtitle: "Umutwe muto / Badge",
+                        main_title: "Umutwe mukuru",
+                        description: "Insiguro / Ibirimo",
+                        save_note: "Wibuke gufata ivyo wahinduye kugira biboneke kw'urubuga."
                     }
                 },
                 categories_page: {
@@ -1124,35 +1135,6 @@ const resources = {
                         date: "Igihe",
                         status_published: "Byashizweko",
                         status_draft: "Ibikandiko"
-                    }
-                },
-                pages_page: {
-                    title: "Genura Izindi Mbuga",
-                    desc: "Hinyanyura uko urubuga rwashizweho n'ivyamamaza ku rubuga rwa Shalom Ministry.",
-                    search_placeholder: "Andura umuce...",
-                    modify_btn: "Hinyanyura ibirimo",
-                    update_banner: "Ibihinduka ubu nyene !",
-                    update_banner_desc: "Ibihindutse vyose ubu bica biboneka kuri site y'abantu bose.",
-                    sections: {
-                        hero: "Isanamu y'ikaze",
-                        header: "UMUTWE / HERO",
-                        about: "Ibitwerekeye",
-                        content: "IBIRIMO NYAMUKURU",
-                        featured: "Émissions zibanze",
-                        categories: "Umuce w'Imice",
-                        announcements: "Umuce w'Amatangazo",
-                        testimonials: "Umuce w'Intahe",
-                        contact: "Twandikire",
-                        footer_nav: "INSI YA PAGES",
-                        footer: "Munsi y'urubuga",
-                        structure: "UKO RUTEGUYE"
-                    },
-                    edit_subtitle: "Hinyanyura amajambo n'amasanamu vy'iki gice kugira bijane n'ivyo ukeneye.",
-                    form: {
-                        subtitle: "Umutwe muto / Badge",
-                        main_title: "Umutwe mukuru",
-                        description: "Insiguro / Ibirimo",
-                        save_note: "Wibuke gufata ivyo wahinduye kugira biboneke kw'urubuga."
                     }
                 },
                 users_page: {
@@ -1498,24 +1480,6 @@ const resources = {
                         priority_normal: "Kawaida",
                         event_date: "Tarehe ya hafla:",
                         status: "Hali:"
-                    }
-                },
-                pages_page: {
-                    title: "Ugeuzaji wa Kurasa",
-                    desc: "Badilisha kwa urahisi maandishi yanayoonyeshwa kwenye tovuti yako ya umma",
-                    search_placeholder: "Je! Ni sehemu gani unayotaka kubadilisha?",
-                    modify_btn: "Hariri maudhui",
-                    update_banner: "Weka tovuti yako safi!",
-                    update_banner_desc: "Sasisho za mara kwa mara kwa maandishi yako husaidia kuweka wageni wako kushiriki.",
-                    sections: {
-                        hero: "Bango la kichwa",
-                        about: "Sehemu ya Kuhusu",
-                        contact: "Maelezo ya Mawasiliano",
-                        footer: "Chini ya Ukurasa",
-                        header: "Kichwa",
-                        content: "Maudhui Kuu",
-                        footer_nav: "Urambazaji wa chini",
-                        structure: "Muundo"
                     }
                 },
                 categories_page: {
