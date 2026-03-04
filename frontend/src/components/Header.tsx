@@ -90,15 +90,24 @@ const Header = () => {
         <div className="hidden md:flex items-center gap-3">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/10 h-8 w-8 p-0">
+              <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/10 h-8 flex gap-2 items-center px-2">
                 <Globe className="w-4 h-4" />
+                <span className="text-[10px] font-bold uppercase">{i18n.language}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-primary border-primary-foreground/10 text-primary-foreground">
-              <DropdownMenuItem onClick={() => changeLanguage('fr')} className="focus:bg-accent focus:text-accent-foreground text-xs">Français</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage('en')} className="focus:bg-accent focus:text-accent-foreground text-xs">English</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage('rn')} className="focus:bg-accent focus:text-accent-foreground text-xs">Kirundi</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage('sw')} className="focus:bg-accent focus:text-accent-foreground text-xs">Swahili</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage('fr')} className="focus:bg-accent focus:text-accent-foreground text-xs gap-2">
+                <span>🇫🇷</span> Français
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage('en')} className="focus:bg-accent focus:text-accent-foreground text-xs gap-2">
+                <span>🇺🇸</span> English
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage('rn')} className="focus:bg-accent focus:text-accent-foreground text-xs gap-2">
+                <span>🇧🇮</span> Kirundi
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage('sw')} className="focus:bg-accent focus:text-accent-foreground text-xs gap-2">
+                <span>🇹🇿</span> Swahili
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -139,7 +148,26 @@ const Header = () => {
                   {link.label}
                 </a>
               ))}
-              <Link to="/admin">
+              <div className="flex flex-wrap gap-2 pt-2 border-t border-primary-foreground/10">
+                <Button variant="ghost" size="sm" onClick={() => { changeLanguage('fr'); setMobileOpen(false); }} className={`h-10 px-3 flex gap-2 items-center text-primary-foreground rounded-lg ${i18n.language === 'fr' ? 'bg-accent text-accent-foreground' : 'hover:bg-primary-foreground/10'}`}>
+                  <span className="text-xl">🇫🇷</span>
+                  <span className="text-xs font-bold">FR</span>
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => { changeLanguage('rn'); setMobileOpen(false); }} className={`h-10 px-3 flex gap-2 items-center text-primary-foreground rounded-lg ${i18n.language === 'rn' ? 'bg-accent text-accent-foreground' : 'hover:bg-primary-foreground/10'}`}>
+                  <span className="text-xl">🇧🇮</span>
+                  <span className="text-xs font-bold">RN</span>
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => { changeLanguage('en'); setMobileOpen(false); }} className={`h-10 px-3 flex gap-2 items-center text-primary-foreground rounded-lg ${i18n.language === 'en' ? 'bg-accent text-accent-foreground' : 'hover:bg-primary-foreground/10'}`}>
+                  <span className="text-xl">🇺🇸</span>
+                  <span className="text-xs font-bold">EN</span>
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => { changeLanguage('sw'); setMobileOpen(false); }} className={`h-10 px-3 flex gap-2 items-center text-primary-foreground rounded-lg ${i18n.language === 'sw' ? 'bg-accent text-accent-foreground' : 'hover:bg-primary-foreground/10'}`}>
+                  <span className="text-xl">🇹🇿</span>
+                  <span className="text-xs font-bold">SW</span>
+                </Button>
+              </div>
+
+              <Link to="/admin" onClick={() => setMobileOpen(false)}>
                 <Button variant="outline" size="sm" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 w-fit mt-2">
                   <User className="w-4 h-4 mr-1" />
                   {t("nav.admin")}
