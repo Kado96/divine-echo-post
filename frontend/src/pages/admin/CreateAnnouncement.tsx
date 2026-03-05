@@ -52,7 +52,7 @@ const CreateAnnouncement = () => {
                     <form className="space-y-6" onSubmit={(e) => handleSubmit(e, true)}>
                         <div className="space-y-2">
                             <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.announcements_page.form.title")}</label>
-                            <input
+                            <input id="createannouncement-input-1" name="createannouncement-input-1"
                                 type="text"
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -65,7 +65,7 @@ const CreateAnnouncement = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.announcements_page.form.priority")}</label>
-                                <select
+                                <select id="createannouncement-select-2" name="createannouncement-select-2"
                                     value={formData.priority}
                                     onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
                                     className="w-full px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm"
@@ -77,7 +77,7 @@ const CreateAnnouncement = () => {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.announcements_page.form.event_date")}</label>
-                                <input
+                                <input id="createannouncement-input-3" name="createannouncement-input-3"
                                     type="date"
                                     value={formData.event_date}
                                     onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
@@ -88,7 +88,7 @@ const CreateAnnouncement = () => {
 
                         <div className="space-y-2">
                             <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.announcements_page.form.message")}</label>
-                            <textarea
+                            <textarea id="createannouncement-textarea-4" name="createannouncement-textarea-4"
                                 value={formData.content}
                                 onChange={(e) => setFormData({ ...formData, content: stripHtml(e.target.value) })}
                                 className="w-full h-40 px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm resize-none"

@@ -89,7 +89,7 @@ const CategoriesSection = () => {
               <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">{t("categories.search_label") || "RECHERCHER"}</h3>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
-                <Input
+                <Input id="categoriessection-input-1" name="categoriessection-input-1"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t("categories.search_placeholder")}

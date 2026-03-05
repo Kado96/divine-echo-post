@@ -54,7 +54,7 @@ const CreateTestimonial = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.testimonials_page.form.author")}</label>
-                                <input
+                                <input id="createtestimonial-input-1" name="createtestimonial-input-1"
                                     type="text"
                                     value={formData.author}
                                     onChange={(e) => setFormData({ ...formData, author: e.target.value })}
@@ -65,7 +65,7 @@ const CreateTestimonial = () => {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.testimonials_page.form.rating")}</label>
-                                <select
+                                <select id="createtestimonial-select-2" name="createtestimonial-select-2"
                                     value={formData.rating}
                                     onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
                                     className="w-full px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm"
@@ -78,7 +78,7 @@ const CreateTestimonial = () => {
 
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.sermons_page.form.language")}</label>
-                                <select
+                                <select id="createtestimonial-select-3" name="createtestimonial-select-3"
                                     value={formData.language}
                                     onChange={(e) => setFormData({ ...formData, language: e.target.value })}
                                     className="w-full px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm"
@@ -94,7 +94,7 @@ const CreateTestimonial = () => {
                         <div className="space-y-2 relative">
                             <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.testimonials_page.form.content")}</label>
                             <div className="relative">
-                                <textarea
+                                <textarea id="createtestimonial-textarea-4" name="createtestimonial-textarea-4"
                                     value={formData.content}
                                     onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                                     className="w-full h-40 pl-10 pr-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm resize-none italic"

@@ -166,7 +166,7 @@ const AdminEditPage = () => {
                         <>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.pages_page.form.subtitle")} ({activeLang.toUpperCase()})</label>
-                                <input
+                                <input id="editpage-input-1" name="editpage-input-1"
                                     type="text"
                                     value={getFieldValue("hero_subtitle")}
                                     onChange={(e) => handleFieldChange("hero_subtitle", e.target.value)}
@@ -176,7 +176,7 @@ const AdminEditPage = () => {
 
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.pages_page.form.main_title")} ({activeLang.toUpperCase()})</label>
-                                <input
+                                <input id="editpage-input-2" name="editpage-input-2"
                                     type="text"
                                     value={getFieldValue("hero_title")}
                                     onChange={(e) => handleFieldChange("hero_title", e.target.value)}
@@ -186,7 +186,7 @@ const AdminEditPage = () => {
 
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.pages_page.form.description")} ({activeLang.toUpperCase()})</label>
-                                <textarea
+                                <textarea id="editpage-textarea-3" name="editpage-textarea-3"
                                     value={getFieldValue("hero_description")}
                                     onChange={(e) => handleFieldChange("hero_description", e.target.value)}
                                     className="w-full h-32 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
@@ -196,7 +196,7 @@ const AdminEditPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.settings_page.form.emissions")} ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-4" name="editpage-input-4"
                                         type="text"
                                         value={getFieldValue("btn_emissions")}
                                         onChange={(e) => handleFieldChange("btn_emissions", e.target.value)}
@@ -205,7 +205,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.settings_page.form.teachings")} ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-5" name="editpage-input-5"
                                         type="text"
                                         value={getFieldValue("btn_teachings")}
                                         onChange={(e) => handleFieldChange("btn_teachings", e.target.value)}
@@ -214,7 +214,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.settings_page.form.meditation")} ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-6" name="editpage-input-6"
                                         type="text"
                                         value={getFieldValue("btn_meditation")}
                                         onChange={(e) => handleFieldChange("btn_meditation", e.target.value)}
@@ -277,7 +277,7 @@ const AdminEditPage = () => {
                                         <div key={stat.key} className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl">
                                             <div className="space-y-1.5">
                                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Valeur (ex: 120+)</label>
-                                                <input
+                                                <input id="editpage-input-7" name="editpage-input-7"
                                                     type="text"
                                                     value={settings?.[stat.valueKey] || ""}
                                                     onChange={(e) => updateField(stat.valueKey, e.target.value)}
@@ -286,7 +286,7 @@ const AdminEditPage = () => {
                                             </div>
                                             <div className="space-y-1.5">
                                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Label ({activeLang.toUpperCase()})</label>
-                                                <input
+                                                <input id="editpage-input-8" name="editpage-input-8"
                                                     type="text"
                                                     value={getFieldValue(stat.key)}
                                                     onChange={(e) => handleFieldChange(stat.key, e.target.value)}
@@ -305,7 +305,7 @@ const AdminEditPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre À Propos ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-9" name="editpage-input-9"
                                         type="text"
                                         value={getFieldValue("about_title")}
                                         onChange={(e) => handleFieldChange("about_title", e.target.value)}
@@ -314,7 +314,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-10" name="editpage-input-10"
                                         type="text"
                                         value={getFieldValue("about_title_accent")}
                                         onChange={(e) => handleFieldChange("about_title_accent", e.target.value)}
@@ -323,7 +323,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Badge ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-11" name="editpage-input-11"
                                         type="text"
                                         value={getFieldValue("about_badge")}
                                         onChange={(e) => handleFieldChange("about_badge", e.target.value)}
@@ -333,7 +333,7 @@ const AdminEditPage = () => {
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.pages_page.form.description")} ({activeLang.toUpperCase()})</label>
-                                <textarea
+                                <textarea id="editpage-textarea-12" name="editpage-textarea-12"
                                     value={getFieldValue("about_content")}
                                     onChange={(e) => handleFieldChange("about_content", e.target.value)}
                                     className="w-full h-80 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
@@ -347,7 +347,7 @@ const AdminEditPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Contact ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-13" name="editpage-input-13"
                                         type="text"
                                         value={getFieldValue("contact_title")}
                                         onChange={(e) => handleFieldChange("contact_title", e.target.value)}
@@ -356,7 +356,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-14" name="editpage-input-14"
                                         type="text"
                                         value={getFieldValue("contact_title_accent")}
                                         onChange={(e) => handleFieldChange("contact_title_accent", e.target.value)}
@@ -365,7 +365,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Badge ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-15" name="editpage-input-15"
                                         type="text"
                                         value={getFieldValue("contact_badge")}
                                         onChange={(e) => handleFieldChange("contact_badge", e.target.value)}
@@ -376,7 +376,7 @@ const AdminEditPage = () => {
 
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description Contact ({activeLang.toUpperCase()})</label>
-                                <textarea
+                                <textarea id="editpage-textarea-16" name="editpage-textarea-16"
                                     value={getFieldValue("contact_description")}
                                     onChange={(e) => handleFieldChange("contact_description", e.target.value)}
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
@@ -386,7 +386,7 @@ const AdminEditPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Email de contact</label>
-                                    <input
+                                    <input id="editpage-input-17" name="editpage-input-17"
                                         type="email"
                                         value={settings?.contact_email || ""}
                                         onChange={(e) => updateField("contact_email", e.target.value)}
@@ -395,7 +395,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Téléphone</label>
-                                    <input
+                                    <input id="editpage-input-18" name="editpage-input-18"
                                         type="text"
                                         value={settings?.contact_phone || ""}
                                         onChange={(e) => updateField("contact_phone", e.target.value)}
@@ -404,7 +404,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Adresse Physique</label>
-                                    <input
+                                    <input id="editpage-input-19" name="editpage-input-19"
                                         type="text"
                                         value={settings?.contact_address || ""}
                                         onChange={(e) => updateField("contact_address", e.target.value)}
@@ -413,7 +413,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Heures d'ouverture ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-20" name="editpage-input-20"
                                         type="text"
                                         value={getFieldValue("contact_hours")}
                                         onChange={(e) => handleFieldChange("contact_hours", e.target.value)}
@@ -428,7 +428,7 @@ const AdminEditPage = () => {
                         <div className="space-y-6">
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nom du Ministère / Site</label>
-                                <input
+                                <input id="editpage-input-21" name="editpage-input-21"
                                     type="text"
                                     value={settings?.site_name || ""}
                                     onChange={(e) => updateField("site_name", e.target.value)}
@@ -437,7 +437,7 @@ const AdminEditPage = () => {
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description Pied de page ({activeLang.toUpperCase()})</label>
-                                <textarea
+                                <textarea id="editpage-textarea-22" name="editpage-textarea-22"
                                     value={getFieldValue("footer_description")}
                                     onChange={(e) => handleFieldChange("footer_description", e.target.value)}
                                     className="w-full h-32 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
@@ -446,7 +446,7 @@ const AdminEditPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Liens Rapides ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-23" name="editpage-input-23"
                                         type="text"
                                         value={getFieldValue("footer_quick_links_title")}
                                         onChange={(e) => handleFieldChange("footer_quick_links_title", e.target.value)}
@@ -455,7 +455,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Contact ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-24" name="editpage-input-24"
                                         type="text"
                                         value={getFieldValue("footer_contact_title")}
                                         onChange={(e) => handleFieldChange("footer_contact_title", e.target.value)}
@@ -464,7 +464,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Réseaux Sociaux ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-25" name="editpage-input-25"
                                         type="text"
                                         value={getFieldValue("footer_social_title")}
                                         onChange={(e) => handleFieldChange("footer_social_title", e.target.value)}
@@ -473,7 +473,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Mention Copyright ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-26" name="editpage-input-26"
                                         type="text"
                                         value={getFieldValue("footer_copyright")}
                                         onChange={(e) => handleFieldChange("footer_copyright", e.target.value)}
@@ -489,7 +489,7 @@ const AdminEditPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Badge ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-27" name="editpage-input-27"
                                         type="text"
                                         value={getFieldValue("section_featured_badge")}
                                         onChange={(e) => handleFieldChange("section_featured_badge", e.target.value)}
@@ -498,7 +498,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-28" name="editpage-input-28"
                                         type="text"
                                         value={getFieldValue("section_featured_accent")}
                                         onChange={(e) => handleFieldChange("section_featured_accent", e.target.value)}
@@ -508,7 +508,7 @@ const AdminEditPage = () => {
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Principal ({activeLang.toUpperCase()})</label>
-                                <input
+                                <input id="editpage-input-29" name="editpage-input-29"
                                     type="text"
                                     value={getFieldValue("section_featured")}
                                     onChange={(e) => handleFieldChange("section_featured", e.target.value)}
@@ -517,7 +517,7 @@ const AdminEditPage = () => {
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description ({activeLang.toUpperCase()})</label>
-                                <textarea
+                                <textarea id="editpage-textarea-30" name="editpage-textarea-30"
                                     value={getFieldValue("section_featured_desc")}
                                     onChange={(e) => handleFieldChange("section_featured_desc", e.target.value)}
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
@@ -531,7 +531,7 @@ const AdminEditPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Principal ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-31" name="editpage-input-31"
                                         type="text"
                                         value={getFieldValue("section_categories")}
                                         onChange={(e) => handleFieldChange("section_categories", e.target.value)}
@@ -540,7 +540,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-32" name="editpage-input-32"
                                         type="text"
                                         value={getFieldValue("section_categories_accent")}
                                         onChange={(e) => handleFieldChange("section_categories_accent", e.target.value)}
@@ -550,7 +550,7 @@ const AdminEditPage = () => {
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description ({activeLang.toUpperCase()})</label>
-                                <textarea
+                                <textarea id="editpage-textarea-33" name="editpage-textarea-33"
                                     value={getFieldValue("section_categories_desc")}
                                     onChange={(e) => handleFieldChange("section_categories_desc", e.target.value)}
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
@@ -564,7 +564,7 @@ const AdminEditPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Badge ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-34" name="editpage-input-34"
                                         type="text"
                                         value={getFieldValue("section_announcements_badge")}
                                         onChange={(e) => handleFieldChange("section_announcements_badge", e.target.value)}
@@ -573,7 +573,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-35" name="editpage-input-35"
                                         type="text"
                                         value={getFieldValue("section_announcements_accent")}
                                         onChange={(e) => handleFieldChange("section_announcements_accent", e.target.value)}
@@ -583,7 +583,7 @@ const AdminEditPage = () => {
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Principal ({activeLang.toUpperCase()})</label>
-                                <input
+                                <input id="editpage-input-36" name="editpage-input-36"
                                     type="text"
                                     value={getFieldValue("section_announcements_title")}
                                     onChange={(e) => handleFieldChange("section_announcements_title", e.target.value)}
@@ -592,7 +592,7 @@ const AdminEditPage = () => {
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description ({activeLang.toUpperCase()})</label>
-                                <textarea
+                                <textarea id="editpage-textarea-37" name="editpage-textarea-37"
                                     value={getFieldValue("section_announcements_desc")}
                                     onChange={(e) => handleFieldChange("section_announcements_desc", e.target.value)}
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
@@ -606,7 +606,7 @@ const AdminEditPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Badge ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-38" name="editpage-input-38"
                                         type="text"
                                         value={getFieldValue("section_testimonials_badge")}
                                         onChange={(e) => handleFieldChange("section_testimonials_badge", e.target.value)}
@@ -615,7 +615,7 @@ const AdminEditPage = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input
+                                    <input id="editpage-input-39" name="editpage-input-39"
                                         type="text"
                                         value={getFieldValue("section_testimonials_accent")}
                                         onChange={(e) => handleFieldChange("section_testimonials_accent", e.target.value)}
@@ -625,7 +625,7 @@ const AdminEditPage = () => {
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Principal ({activeLang.toUpperCase()})</label>
-                                <input
+                                <input id="editpage-input-40" name="editpage-input-40"
                                     type="text"
                                     value={getFieldValue("section_testimonials_title")}
                                     onChange={(e) => handleFieldChange("section_testimonials_title", e.target.value)}
@@ -634,7 +634,7 @@ const AdminEditPage = () => {
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description ({activeLang.toUpperCase()})</label>
-                                <textarea
+                                <textarea id="editpage-textarea-41" name="editpage-textarea-41"
                                     value={getFieldValue("section_testimonials_desc")}
                                     onChange={(e) => handleFieldChange("section_testimonials_desc", e.target.value)}
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"

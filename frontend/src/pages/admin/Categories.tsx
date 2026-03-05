@@ -69,7 +69,7 @@ const AdminCategories = () => {
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="bg-white border-b border-border text-xs font-bold text-gray-700 uppercase tracking-wider">
-                                        <th className="px-3 py-2 w-8"><input type="checkbox" aria-label={t("common.select_all")} /></th>
+                                        <th className="px-3 py-2 w-8"><input id="categories-input-1" name="categories-input-1" type="checkbox" aria-label={t("common.select_all")} /></th>
                                         <th className="px-3 py-2">{t("admin.categories_page.table.name")}</th>
                                         <th className="px-3 py-2">{t("admin.categories_page.table.slug")}</th>
                                         <th className="px-3 py-2 text-right">{t("admin.categories_page.table.total")}</th>
@@ -78,7 +78,7 @@ const AdminCategories = () => {
                                 <tbody>
                                     {categories.map((cat) => (
                                         <tr key={cat.id} className="border-b border-gray-100 hover:bg-[#f6f7f7] group">
-                                            <td className="px-3 py-3 w-8"><input type="checkbox" aria-label={cat.name} /></td>
+                                            <td className="px-3 py-3 w-8"><input id="categories-input-2" name="categories-input-2" type="checkbox" aria-label={cat.name} /></td>
                                             <td className="px-3 py-3">
                                                 <span className="text-sm font-bold text-[#2271b1] cursor-pointer hover:text-[#135e96]">{cat.name}</span>
                                                 <div className="flex items-center gap-2 text-[10px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity mt-1">

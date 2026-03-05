@@ -31,20 +31,20 @@ const AdminMedia = () => {
                             <button className="p-1.5 bg-gray-100 border-r border-gray-300"><Grid className="w-4 h-4 text-gray-700" /></button>
                             <button className="p-1.5 bg-white"><List className="w-4 h-4 text-gray-400" /></button>
                         </div>
-                        <select className="text-xs border-border bg-white py-1 px-2 border outline-none">
+                        <select id="media-select-1" name="media-select-1" className="text-xs border-border bg-white py-1 px-2 border outline-none">
                             <option>{t("admin.media_page.all_media")}</option>
                             <option>{t("admin.media_page.images")}</option>
                             <option>{t("admin.media_page.audio")}</option>
                             <option>{t("admin.media_page.video")}</option>
                         </select>
-                        <select className="text-xs border-border bg-white py-1 px-2 border outline-none">
+                        <select id="media-select-2" name="media-select-2" className="text-xs border-border bg-white py-1 px-2 border outline-none">
                             <option>{t("admin.media_page.all_dates")}</option>
                         </select>
                         <Button size="sm" variant="ghost" className="text-xs text-[#2271b1] p-0 h-auto hover:bg-transparent">{t("admin.media_page.bulk_select")}</Button>
                     </div>
 
                     <div className="relative">
-                        <input type="text" placeholder={t("admin.media_page.search")} className="pl-8 pr-3 py-1 bg-white border border-border text-xs focus:ring-1 focus:ring-[#2271b1] outline-none w-48" />
+                        <input id="media-input-3" name="media-input-3" type="text" placeholder={t("admin.media_page.search")} className="pl-8 pr-3 py-1 bg-white border border-border text-xs focus:ring-1 focus:ring-[#2271b1] outline-none w-48" />
                         <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
                     </div>
                 </div>

@@ -275,7 +275,7 @@ const EditSermon = () => {
                                     {formData.content_type === "video" && (
                                         <div className="pt-2 border-t border-dashed border-border">
                                             <p className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2">{t("admin.sermons_page.form.local_file")}</p>
-                                            <input
+                                            <input id="editsermon-input-1" name="editsermon-input-1"
                                                 type="file"
                                                 accept="video/*"
                                                 onChange={(e) => setMediaFile(e.target.files ? e.target.files[0] : null)}
@@ -292,7 +292,7 @@ const EditSermon = () => {
                                 </div>
                             ) : (
                                 <div className="space-y-2">
-                                    <input
+                                    <input id="editsermon-input-2" name="editsermon-input-2"
                                         type="file"
                                         accept="audio/*"
                                         onChange={(e) => setMediaFile(e.target.files ? e.target.files[0] : null)}
@@ -441,7 +441,7 @@ const EditSermon = () => {
                                         <Calendar className="w-3.5 h-3.5" />
                                         <span>{t("admin.sermons_page.table.date")}:</span>
                                     </div>
-                                    <input
+                                    <input id="editsermon-input-3" name="editsermon-input-3"
                                         type="date"
                                         value={formData.sermon_date}
                                         onChange={(e) => setFormData({ ...formData, sermon_date: e.target.value })}

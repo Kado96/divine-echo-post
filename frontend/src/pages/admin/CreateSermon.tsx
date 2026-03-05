@@ -246,7 +246,7 @@ const CreateSermon = () => {
                                     {formData.content_type === "video" && (
                                         <div className="pt-2 border-t border-dashed border-border">
                                             <p className="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-tight">Ou charger un fichier local</p>
-                                            <input
+                                            <input id="createsermon-input-1" name="createsermon-input-1"
                                                 type="file"
                                                 accept="video/*"
                                                 onChange={(e) => setMediaFile(e.target.files ? e.target.files[0] : null)}
@@ -258,7 +258,7 @@ const CreateSermon = () => {
                                 </div>
                             ) : (
                                 <div className="space-y-2">
-                                    <input
+                                    <input id="createsermon-input-2" name="createsermon-input-2"
                                         type="file"
                                         accept="audio/*"
                                         onChange={(e) => setMediaFile(e.target.files ? e.target.files[0] : null)}
@@ -359,7 +359,7 @@ const CreateSermon = () => {
                                         <Calendar className="w-3.5 h-3.5" />
                                         <span>{t("admin.sermons_page.table.date")}:</span>
                                     </div>
-                                    <input
+                                    <input id="createsermon-input-3" name="createsermon-input-3"
                                         type="date"
                                         value={formData.sermon_date}
                                         onChange={(e) => setFormData({ ...formData, sermon_date: e.target.value })}
@@ -385,7 +385,7 @@ const CreateSermon = () => {
                                 <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider">{t("admin.sermons_page.form.author")}</h3>
                             </div>
                             <div className="p-4">
-                                <input
+                                <input id="createsermon-input-4" name="createsermon-input-4"
                                     type="text"
                                     value={formData.preacher_name}
                                     onChange={(e) => setFormData({ ...formData, preacher_name: e.target.value })}
