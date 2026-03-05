@@ -49,6 +49,14 @@ const EditTestimonial = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!id) return;
+        if (!formData.author.trim()) {
+            toast.error(t("common.author_required"));
+            return;
+        }
+        if (!formData.content.trim()) {
+            toast.error(t("common.content_required"));
+            return;
+        }
         try {
             setLoading(true);
             await apiService.updateTestimonial(id, {

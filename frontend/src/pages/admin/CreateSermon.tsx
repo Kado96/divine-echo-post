@@ -58,6 +58,14 @@ const CreateSermon = () => {
             toast.error(t("common.title_required"));
             return;
         }
+        if (!formData.description.trim()) {
+            toast.error(t("common.description_required") || "La description est obligatoire");
+            return;
+        }
+        if (!formData.preacher_name.trim()) {
+            toast.error(t("common.preacher_required") || "Le nom du prédicateur est obligatoire");
+            return;
+        }
         try {
             setLoading(true);
             const dataToCreate = new FormData();

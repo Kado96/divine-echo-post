@@ -22,6 +22,14 @@ const CreateAnnouncement = () => {
 
     const handleSubmit = async (e: React.FormEvent, publish = true) => {
         e.preventDefault();
+        if (!formData.title) {
+            toast.error(t("common.title_required"));
+            return;
+        }
+        if (!formData.content.trim()) {
+            toast.error(t("common.content_required"));
+            return;
+        }
         try {
             setLoading(true);
             const dataToSubmit = { ...formData, is_active: publish };

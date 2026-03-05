@@ -60,6 +60,10 @@ const resources = {
                 reset: "Réinitialiser",
                 new_selection: "Nouvelle sélection",
                 title_required: "Le titre est obligatoire",
+                author_required: "Le nom de l'auteur est obligatoire",
+                description_required: "La description est obligatoire",
+                content_required: "Le contenu est obligatoire",
+                preacher_required: "Le nom du prédicateur est obligatoire",
                 published_success: "Publiée avec succès !",
                 draft_saved: "Brouillon enregistré !",
                 created_success: "Créé avec succès !"
@@ -513,6 +517,10 @@ const resources = {
                 reset: "Reset",
                 new_selection: "New selection",
                 title_required: "Title is required",
+                author_required: "Author name is required",
+                description_required: "Description is required",
+                content_required: "Content is required",
+                preacher_required: "Preacher name is required",
                 published_success: "Successfully published!",
                 draft_saved: "Draft saved!",
                 created_success: "Successfully created!"
@@ -966,6 +974,10 @@ const resources = {
                 reset: "Kuvugura",
                 new_selection: "Ico wahisemwo gishasha",
                 title_required: "Umutwe urakenewe",
+                author_required: "Izina ry'uwayanditse rirakenewe",
+                description_required: "Insiguro irakenewe",
+                content_required: "Ibirimo birakenewe",
+                preacher_required: "Izina ry'umupasitori rirakenewe",
                 published_success: "Vyashizweko neza !",
                 draft_saved: "Ikandiko ryafashwe !",
                 created_success: "Vyaremwe neza !"
@@ -1419,6 +1431,10 @@ const resources = {
                 reset: "Anza upya",
                 new_selection: "Uteuzi mpya",
                 title_required: "Kichwa kinahitajika",
+                author_required: "Jina la mwandishi linahitajika",
+                description_required: "Maelezo yanahitajika",
+                content_required: "Maudhui yanahitajika",
+                preacher_required: "Jina la mchungaji linahitajika",
                 published_success: "Imechapishwa kwa mafanikio!",
                 draft_saved: "Rasimu imehifadhiwa!",
                 created_success: "Imeundwa kwa mafanikio!"

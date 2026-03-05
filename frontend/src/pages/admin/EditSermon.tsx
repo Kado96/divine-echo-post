@@ -82,6 +82,18 @@ const EditSermon = () => {
 
     const handleSave = async (publish = false) => {
         if (!id) return;
+        if (!formData.title) {
+            toast.error(t("common.title_required"));
+            return;
+        }
+        if (!formData.description.trim()) {
+            toast.error(t("common.description_required"));
+            return;
+        }
+        if (!formData.preacher_name.trim()) {
+            toast.error(t("common.preacher_required"));
+            return;
+        }
         try {
             setSaving(true);
             const dataToUpdate = new FormData();
