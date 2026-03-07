@@ -1,9 +1,9 @@
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { ChevronLeft, Loader2, Eye, EyeOff } from "lucide-react";
+import { ChevronLeft, Loader2, Eye, EyeOff, Upload, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiService } from "@/lib/api";
 import { toast } from "sonner";
@@ -21,15 +21,28 @@ const AdminCreateUser = () => {
         role: "pastor",
         is_active: true
     });
+    const [photoFile, setPhotoFile] = useState<File | null>(null);
+    const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
     const createMutation = useMutation({
         mutationFn: (data: typeof formData) => {
-            // Prepare data for backend (is_superuser based on role)
-            const payload = {
-                ...data,
-                is_superuser: data.role === "admin",
-                is_staff: true
-            };
+            const payload = new FormData();
+            payload.append("username", data.username);
+            payload.append("email", data.email);
+            payload.append("first_name", data.first_name);
+            payload.append("last_name", data.last_name);
+            payload.append("password", data.password);
+            payload.append("is_superuser", data.role === "admin" ? "true" : "false");
+            payload.append("is_staff", "true");
+            payload.append("is_active", data.is_active ? "true" : "false");
+
+            if (photoFile) {
+                payload.append("photo", photoFile);
+            }
+
             return apiService.createUser(payload);
         },
         onSuccess: () => {
@@ -37,21 +50,46 @@ const AdminCreateUser = () => {
             navigate("/admin/users");
         },
         onError: (err: any) => {
-            toast.error(err.message || "Erreur lors de la création de l'utilisateur");
+            if (err.data && typeof err.data === 'object') {
+                const errors: Record<string, string> = {};
+                Object.entries(err.data).forEach(([key, value]) => {
+                    errors[key] = Array.isArray(value) ? value[0] : String(value);
+                });
+                setFieldErrors(errors);
+            }
+            toast.error(err.message || t("admin.users_page.form.error_creating"));
         }
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        setFieldErrors({});
         createMutation.mutate(formData);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
+        setFieldErrors(prev => ({ ...prev, [name]: "" }));
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
         }));
+    };
+
+    const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setPhotoFile(file);
+            setPhotoPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const handleRemovePhoto = () => {
+        setPhotoFile(null);
+        setPhotoPreview(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
     };
 
     return (
@@ -67,6 +105,47 @@ const AdminCreateUser = () => {
 
                 <div className="bg-white border border-border shadow-sm p-6 rounded-2xl">
                     <form onSubmit={handleSubmit} className="space-y-6">
+
+                        {/* Profile Photo Upload */}
+                        <div className="flex flex-col items-center sm:items-start gap-4 mb-6">
+                            <label htmlFor="user-photo" className="text-xs font-bold text-gray-700 uppercase cursor-pointer">Photo de profil (Optionnel)</label>
+                            <div className="flex items-center gap-6">
+                                <div className="relative group">
+                                    <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-center bg-gray-50 overflow-hidden relative">
+                                        {photoPreview ? (
+                                            <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <>
+                                                <Upload className="w-6 h-6 text-gray-400 mb-1" />
+                                                <span className="text-[10px] text-gray-500 uppercase font-bold px-2 text-center">Ajouter</span>
+                                            </>
+                                        )}
+                                    </div>
+                                    <input
+                                        id="user-photo"
+                                        type="file"
+                                        ref={fileInputRef}
+                                        onChange={handlePhotoChange}
+                                        accept="image/jpeg,image/png,image/webp"
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                    {photoPreview && (
+                                        <button
+                                            type="button"
+                                            onClick={handleRemovePhoto}
+                                            className="absolute -top-2 -right-2 bg-white text-red-500 border border-gray-200 rounded-full p-1 shadow-md hover:bg-red-50 transition-colors z-10"
+                                        >
+                                            <X className="w-4 h-4" />
+                                        </button>
+                                    )}
+                                </div>
+                                <div className="text-sm text-gray-500 max-w-xs">
+                                    <p className="mb-1 text-gray-700 font-medium">Formats acceptés :</p>
+                                    <p>JPEG, PNG, WebP. Poids max : 2Mo.</p>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-1.5">
                                 <label htmlFor="user-username" className="text-xs font-bold text-gray-700 uppercase">{t("admin.users_page.form.username")}</label>
@@ -76,9 +155,11 @@ const AdminCreateUser = () => {
                                     type="text"
                                     value={formData.username}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg"
+                                    autoComplete="username"
+                                    className={`w-full px-3 py-2 bg-white border ${fieldErrors.username ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg`}
                                     required
                                 />
+                                {fieldErrors.username && <p className="text-xs text-red-500 mt-1">{fieldErrors.username}</p>}
                             </div>
                             <div className="space-y-1.5">
                                 <label htmlFor="user-email" className="text-xs font-bold text-gray-700 uppercase">{t("admin.users_page.form.email")}</label>
@@ -88,9 +169,11 @@ const AdminCreateUser = () => {
                                     type="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg"
+                                    autoComplete="email"
+                                    className={`w-full px-3 py-2 bg-white border ${fieldErrors.email ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg`}
                                     required
                                 />
+                                {fieldErrors.email && <p className="text-xs text-red-500 mt-1">{fieldErrors.email}</p>}
                             </div>
                         </div>
 
@@ -103,8 +186,10 @@ const AdminCreateUser = () => {
                                     type="text"
                                     value={formData.first_name}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg"
+                                    autoComplete="given-name"
+                                    className={`w-full px-3 py-2 bg-white border ${fieldErrors.first_name ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg`}
                                 />
+                                {fieldErrors.first_name && <p className="text-xs text-red-500 mt-1">{fieldErrors.first_name}</p>}
                             </div>
                             <div className="space-y-1.5">
                                 <label htmlFor="user-last-name" className="text-xs font-bold text-gray-700 uppercase">{t("admin.users_page.form.last_name")}</label>
@@ -114,14 +199,16 @@ const AdminCreateUser = () => {
                                     type="text"
                                     value={formData.last_name}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg"
+                                    autoComplete="family-name"
+                                    className={`w-full px-3 py-2 bg-white border ${fieldErrors.last_name ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg`}
                                 />
+                                {fieldErrors.last_name && <p className="text-xs text-red-500 mt-1">{fieldErrors.last_name}</p>}
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
                             <div className="space-y-1.5">
-                                <label htmlFor="user-password" className="text-xs font-bold text-gray-700 uppercase">Mot de passe</label>
+                                <label htmlFor="user-password" className="text-xs font-bold text-gray-700 uppercase">{t("admin.users_page.form.password")}</label>
                                 <div className="relative">
                                     <input
                                         id="user-password"
@@ -129,7 +216,8 @@ const AdminCreateUser = () => {
                                         type={showPassword ? "text" : "password"}
                                         value={formData.password}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg pr-10"
+                                        autoComplete="new-password"
+                                        className={`w-full px-3 py-2 bg-white border ${fieldErrors.password ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg pr-10`}
                                         required
                                     />
                                     <button
@@ -140,6 +228,7 @@ const AdminCreateUser = () => {
                                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                                     </button>
                                 </div>
+                                {fieldErrors.password && <p className="text-xs text-red-500 mt-1">{fieldErrors.password}</p>}
                             </div>
                             <div className="space-y-1.5">
                                 <label htmlFor="user-role" className="text-xs font-bold text-gray-700 uppercase">{t("admin.users_page.form.role")}</label>
@@ -148,11 +237,12 @@ const AdminCreateUser = () => {
                                     name="role"
                                     value={formData.role}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg"
+                                    className={`w-full px-3 py-2 bg-white border ${fieldErrors.role ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg`}
                                 >
                                     <option value="pastor">{t("admin.users_page.form.role_pastor")}</option>
                                     <option value="admin">{t("admin.users_page.form.role_admin")}</option>
                                 </select>
+                                {fieldErrors.role && <p className="text-xs text-red-500 mt-1">{fieldErrors.role}</p>}
                             </div>
                         </div>
 
@@ -165,7 +255,7 @@ const AdminCreateUser = () => {
                                 onChange={handleChange}
                                 className="rounded-sm border-gray-300 text-[#2271b1] focus:ring-[#2271b1]"
                             />
-                            <label htmlFor="is_active" className="text-sm text-gray-600 cursor-pointer">Compte actif</label>
+                            <label htmlFor="is_active" className="text-sm text-gray-600 cursor-pointer">{t("admin.users_page.form.is_active")}</label>
                         </div>
 
                         <div className="pt-6 border-t border-gray-100">
@@ -177,7 +267,7 @@ const AdminCreateUser = () => {
                                 {createMutation.isPending ? (
                                     <>
                                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                        En cours...
+                                        {t("admin.users_page.form.creating")}
                                     </>
                                 ) : (
                                     t("admin.users_page.form.submit")

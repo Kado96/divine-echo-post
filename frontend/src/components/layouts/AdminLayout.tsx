@@ -22,7 +22,7 @@ import {
     User,
     LogOut
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, getFullImageUrl } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import {
     DropdownMenu,
@@ -182,8 +182,12 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
                                     <p className="text-xs font-bold text-[#1d2327]">{user?.username || t("admin.layout.admin_name")}</p>
                                     <p className="text-[10px] text-green-500 font-bold uppercase tracking-tighter">{t("admin.layout.online")}</p>
                                 </div>
-                                <div className="w-8 h-8 bg-[#2271b1] rounded-full flex items-center justify-center text-white shadow-sm">
-                                    <User className="w-4 h-4" />
+                                <div className="w-8 h-8 bg-[#2271b1] rounded-full flex items-center justify-center text-white shadow-sm overflow-hidden border border-gray-100">
+                                    {user?.photo_display || user?.photo ? (
+                                        <img src={getFullImageUrl(user.photo_display || user.photo)} alt="Profil" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <User className="w-4 h-4" />
+                                    )}
                                 </div>
                                 <ChevronDown className={cn("w-3 h-3 text-gray-400 transition-transform", isUserMenuOpen && "rotate-180")} />
                             </button>

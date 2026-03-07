@@ -1,6 +1,22 @@
 from rest_framework import serializers
 from django.conf import settings
-from .models import SiteSettings
+from .models import SiteSettings, TeamMember
+
+
+class TeamMemberSerializer(serializers.ModelSerializer):
+    photo_display = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TeamMember
+        fields = ['id', 'name', 'role_fr', 'role_rn', 'role_en', 'role_sw', 'photo', 'photo_display', 'order']
+
+    def get_photo_display(self, obj):
+        if obj.photo:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.photo.url)
+            return f"{settings.MEDIA_URL}{obj.photo}"
+        return None
 
 
 class SiteSettingsSerializer(serializers.ModelSerializer):
@@ -59,8 +75,10 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'twitter_url',
             'whatsapp_url',
             # Contenu pages - Français
+            'hero_badge_fr',
             'hero_title_fr',
             'hero_subtitle_fr',
+            'hero_description_fr',
             'about_content_fr',
             'contact_content_fr',
             # UI Elements - Français
@@ -96,8 +114,10 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'about_badge_fr',
             'contact_badge_fr',
             # Contenu pages - Kirundi
+            'hero_badge_rn',
             'hero_title_rn',
             'hero_subtitle_rn',
+            'hero_description_rn',
             'about_content_rn',
             'contact_content_rn',
             # UI Elements - Kirundi
@@ -129,8 +149,10 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'about_badge_rn',
             'contact_badge_rn',
             # Contenu pages - English
+            'hero_badge_en',
             'hero_title_en',
             'hero_subtitle_en',
+            'hero_description_en',
             'about_content_en',
             'contact_content_en',
             # UI Elements - English
@@ -162,8 +184,10 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'about_badge_en',
             'contact_badge_en',
             # Contenu pages - Swahili
+            'hero_badge_sw',
             'hero_title_sw',
             'hero_subtitle_sw',
+            'hero_description_sw',
             'about_content_sw',
             'contact_content_sw',
             # UI Elements - Swahili
@@ -220,6 +244,11 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'subheading_size',
             'body_size',
             'small_size',
+            'ticker_enabled',
+            'ticker_speed',
+            'ticker_refresh_interval',
+            'ticker_bg_color',
+            'ticker_opacity',
             'created_at',
             'updated_at',
         ]

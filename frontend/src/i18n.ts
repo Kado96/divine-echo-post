@@ -56,6 +56,8 @@ const resources = {
                 view_of: "Voir",
                 saved_success: "Enregistré avec succès !",
                 error_saving: "Erreur lors de l'enregistrement",
+                error_loading_categories: "Erreur de chargement des catégories",
+                no_categories_found: "Aucune catégorie trouvée",
                 current_file: "Fichier actuel",
                 reset: "Réinitialiser",
                 new_selection: "Nouvelle sélection",
@@ -66,7 +68,9 @@ const resources = {
                 preacher_required: "Le nom du prédicateur est obligatoire",
                 published_success: "Publiée avec succès !",
                 draft_saved: "Brouillon enregistré !",
-                created_success: "Créé avec succès !"
+                created_success: "Créé avec succès !",
+                show_more: "Voir plus",
+                is_required: "est obligatoire"
             },
             admin: {
                 dashboard: "Tableau de Bord",
@@ -130,6 +134,13 @@ const resources = {
                     title: "Gestion des Annonces",
                     desc: "Gérez les informations importantes pour vos fidèles",
                     add_btn: "Nouvelle Annonce",
+                    create_title: "Créer une annonce",
+                    edit_title: "Modifier l'annonce",
+                    back: "Retour aux annonces",
+                    validation: {
+                        title_fr_required: "Le titre en Français est requis",
+                        content_fr_required: "Le contenu en Français est requis"
+                    },
                     filters: {
                         all: "Toutes",
                         online: "En ligne",
@@ -139,8 +150,19 @@ const resources = {
                     item: {
                         priority_high: "Haute",
                         priority_normal: "Normale",
+                        priority_low: "Basse",
                         event_date: "Date d'événement :",
-                        status: "Statut :"
+                        status: "Statut :",
+                        status_published: "En ligne",
+                        status_draft: "Brouillon"
+                    },
+                    form: {
+                        title: "Titre de l'annonce",
+                        placeholder_title: "Entrez le titre...",
+                        priority: "Priorité",
+                        event_date: "Date de l'événement",
+                        message: "Message / Contenu",
+                        submit: "Enregistrer l'annonce"
                     }
                 },
                 categories_page: {
@@ -165,7 +187,11 @@ const resources = {
                         show: "Afficher"
                     },
                     edit_title: "Modifier la catégorie",
-                    manage: "Gérer"
+                    manage: "Gérer",
+                    validation: {
+                        name_required: "Le nom est requis",
+                        confirm_delete: "Êtes-vous sûr de vouloir supprimer la catégorie \"{{name}}\" ?"
+                    }
                 },
                 sermons_page: {
                     title: "Gestion des Sermons",
@@ -251,6 +277,9 @@ const resources = {
                     title: "Équipe & Pasteurs",
                     desc: "Gérez les administrateurs et contributeurs",
                     add_btn: "Ajouter un membre",
+                    filters: {
+                        search_label: "Rechercher",
+                    },
                     search_placeholder: "Chercher par nom ou email...",
                     create_title: "Ajouter un nouvel utilisateur",
                     form: {
@@ -262,8 +291,14 @@ const resources = {
                         send_notification: "Envoyer email de bienvenue",
                         role: "Rôle",
                         role_pastor: "Pasteur / Auteur",
+                        role_pasteur: "Pasteur / Auteur",
                         role_admin: "Administrateur",
-                        submit: "Ajouter l'utilisateur"
+                        password: "Mot de passe",
+                        is_active: "Compte actif",
+                        creating: "Création en cours...",
+                        error_creating: "Erreur lors de la création de l'utilisateur",
+                        submit: "Ajouter l'utilisateur",
+                        edit_submit: "Enregistrer les modifications"
                     }
                 },
                 media_page: {
@@ -333,7 +368,8 @@ const resources = {
                     }
                 },
                 settings_page: {
-                    title: "Réglages Généraux",
+                    title: "Paramètres de la plateforme",
+                    subtitle: "Gérez l'identité et les paramètres de votre plateforme",
                     site_lang: "Langue du Site",
                     lang_help: "Sélectionnez la langue par défaut du portail.",
                     site_title: "Titre du Site",
@@ -342,10 +378,23 @@ const resources = {
                     slogan_val: "Une Parole qui transforme",
                     slogan_help: "Affiché après le titre dans le navigateur.",
                     save: "Enregistrer les modifications",
+                    logo_section: "Logo du Site",
+                    logo_preview: "Aperçu du logo",
+                    change_logo: "Changer le logo",
+                    choose_logo: "Choisir un logo",
+                    logo_help: "Format recommandé : PNG ou SVG transparent. Taille suggérée : 200x200px.",
                     form: {
                         emissions: "Nom de l'onglet Sermons",
-                        teachings: "Nom de l'onglet Cours",
-                        meditation: "Nom de l'onglet Méditation"
+                        teachings: "Nom de l'onglet Enseignements",
+                        meditation: "Nom de l'onglet Méditation",
+                        ticker_section: "Bandeau défilant (Type France 24)",
+                        ticker_enabled: "Activer le bandeau",
+                        ticker_desc: "Activer le bandeau type \"France 24\" en bas du site",
+                        ticker_speed: "Vitesse (secondes)",
+                        ticker_refresh: "Mise à jour (sec)",
+                        ticker_color_label: "Couleur de fond",
+                        ticker_opacity_label: "Opacité",
+                        ticker_help: "Le bandeau affiche automatiquement les annonces actives. L'opacité permet de le rendre transparent."
                     }
                 }
             },
@@ -403,6 +452,7 @@ const resources = {
                 stats_label: "Années de service",
                 quote: "La Parole de Dieu n'est pas seulement un récit, c'est une puissance qui recrée l'âme et aligne l'esprit.",
                 pastor_title: "Pasteur Principal",
+                verse_of_day_label: "Verset du jour :",
                 team_title: "Notre Équipe",
                 team_desc: "Une équipe dévouée au service du Royaume pour vous accompagner dans votre parcours chrétien."
             },
@@ -429,7 +479,10 @@ const resources = {
                     subject_placeholder: "De quoi souhaitez-vous parler ?",
                     message: "Votre message",
                     message_placeholder: "Comment pouvons-nous vous aider ?",
-                    submit: "Envoyer le message"
+                    submit: "Envoyer le message",
+                    success: "Message envoyé avec succès !",
+                    error: "Erreur lors de l'envoi du message. Veuillez réessayer.",
+                    sending: "Envoi du message..."
                 }
             },
             footer: {
@@ -513,6 +566,8 @@ const resources = {
                 view_of: "View",
                 saved_success: "Saved successfully!",
                 error_saving: "Error while saving",
+                error_loading_categories: "Error loading categories",
+                no_categories_found: "No categories found",
                 current_file: "Current file",
                 reset: "Reset",
                 new_selection: "New selection",
@@ -523,7 +578,9 @@ const resources = {
                 preacher_required: "Preacher name is required",
                 published_success: "Successfully published!",
                 draft_saved: "Draft saved!",
-                created_success: "Successfully created!"
+                created_success: "Successfully created!",
+                show_more: "Show more",
+                is_required: "is required"
             },
             admin: {
                 dashboard: "Dashboard",
@@ -584,9 +641,16 @@ const resources = {
                     }
                 },
                 announcements_page: {
-                    title: "Announcements",
+                    title: "Announcements Management",
                     desc: "Manage important news for your followers",
                     add_btn: "New Announcement",
+                    create_title: "Create Announcement",
+                    edit_title: "Edit Announcement",
+                    back: "Back to announcements",
+                    validation: {
+                        title_fr_required: "Title in French is required",
+                        content_fr_required: "Content in French is required"
+                    },
                     filters: {
                         all: "All",
                         online: "Online",
@@ -596,8 +660,19 @@ const resources = {
                     item: {
                         priority_high: "High",
                         priority_normal: "Normal",
+                        priority_low: "Low",
                         event_date: "Event date:",
-                        status: "Status:"
+                        status: "Status:",
+                        status_published: "Online",
+                        status_draft: "Draft"
+                    },
+                    form: {
+                        title: "Announcement title",
+                        placeholder_title: "Enter title...",
+                        priority: "Priority",
+                        event_date: "Event date",
+                        message: "Message / Content",
+                        submit: "Save announcement"
                     }
                 },
                 categories_page: {
@@ -622,7 +697,11 @@ const resources = {
                         show: "Show"
                     },
                     edit_title: "Edit Category",
-                    manage: "Manage"
+                    manage: "Manage",
+                    validation: {
+                        name_required: "Name is required",
+                        confirm_delete: "Are you sure you want to delete the category \"{{name}}\" ?"
+                    }
                 },
                 sermons_page: {
                     title: "Sermons Management",
@@ -708,6 +787,9 @@ const resources = {
                     title: "Team & Pastors",
                     desc: "Manage administrators and contributors",
                     add_btn: "Add Team Member",
+                    filters: {
+                        search_label: "Search",
+                    },
                     search_placeholder: "Search by name or email...",
                     create_title: "Add New User",
                     form: {
@@ -720,7 +802,12 @@ const resources = {
                         role: "Role",
                         role_pastor: "Pastor / Author",
                         role_admin: "Administrator",
-                        submit: "Add New User"
+                        password: "Password",
+                        is_active: "Active account",
+                        creating: "Creating...",
+                        error_creating: "Error creating user",
+                        submit: "Add New User",
+                        edit_submit: "Save changes"
                     }
                 },
                 media_page: {
@@ -790,19 +877,33 @@ const resources = {
                     }
                 },
                 settings_page: {
-                    title: "General Settings",
+                    title: "Platform Settings",
+                    subtitle: "Manage your platform's identity and settings",
                     site_lang: "Site Language",
                     lang_help: "Select the site's default language.",
                     site_title: "Site Title",
                     site_title_val: "Shalom Ministry",
-                    slogan: "Slogan / Motto",
+                    slogan: "Tagline / Motto",
                     slogan_val: "A Word that transforms",
                     slogan_help: "Displayed after the title in the browser.",
                     save: "Save changes",
+                    logo_section: "Site Logo",
+                    logo_preview: "Logo preview",
+                    change_logo: "Change logo",
+                    choose_logo: "Choose a logo",
+                    logo_help: "Recommended format: transparent PNG or SVG. Suggested size: 200x200px.",
                     form: {
                         emissions: "Broadcasting Tab Name",
                         teachings: "Teachings Tab Name",
-                        meditation: "Meditation Tab Name"
+                        meditation: "Meditation Tab Name",
+                        ticker_section: "Scrolling News Ticker",
+                        ticker_enabled: "Enable Ticker",
+                        ticker_desc: "Enable 'France 24' style ticker at the bottom of the site",
+                        ticker_speed: "Speed (seconds)",
+                        ticker_refresh: "Update (sec)",
+                        ticker_color_label: "Background color",
+                        ticker_opacity_label: "Opacity",
+                        ticker_help: "The ticker automatically displays active announcements. Opacity allows for transparency."
                     }
                 }
             },
@@ -860,6 +961,7 @@ const resources = {
                 stats_label: "Years of Service",
                 quote: "The Word of God is not just a story, it is a power that recreates the soul and aligns the spirit.",
                 pastor_title: "Senior Pastor",
+                verse_of_day_label: "Verse of the Day:",
                 team_title: "Our Team",
                 team_desc: "A team dedicated to serving the Kingdom to accompany you in your Christian journey."
             },
@@ -886,7 +988,10 @@ const resources = {
                     subject_placeholder: "What would you like to talk about?",
                     message: "Your message",
                     message_placeholder: "How can we help you?",
-                    submit: "Send Message"
+                    submit: "Send Message",
+                    success: "Message sent successfully!",
+                    error: "Error sending message. Please try again.",
+                    sending: "Sending message..."
                 }
             },
             footer: {
@@ -980,7 +1085,8 @@ const resources = {
                 preacher_required: "Izina ry'umupasitori rirakenewe",
                 published_success: "Vyashizweko neza !",
                 draft_saved: "Ikandiko ryafashwe !",
-                created_success: "Vyaremwe neza !"
+                created_success: "Vyaremwe neza !",
+                show_more: "Raba bindi"
             },
             admin: {
                 dashboard: "Ikibanza",
@@ -1044,6 +1150,9 @@ const resources = {
                     title: "Amakuru",
                     desc: "Tunganya ubutumwa buhabwa abantu bose",
                     add_btn: "Amakuru bishasha",
+                    create_title: "Kwandika amakuru",
+                    edit_title: "Hinyanyura amakuru",
+                    back: "Subira ku makuru",
                     filters: {
                         all: "Vyose",
                         online: "Ku murongo",
@@ -1053,8 +1162,19 @@ const resources = {
                     item: {
                         priority_high: "Hejuru",
                         priority_normal: "Bisanzwe",
+                        priority_low: "hasi",
                         event_date: "Igihe:",
-                        status: "Uko bihagaze:"
+                        status: "Uko bihagaze:",
+                        status_published: "Biriko",
+                        status_draft: "Ububiko"
+                    },
+                    form: {
+                        title: "Umutwe w'amakuru",
+                        placeholder_title: "Andika umutwe...",
+                        priority: "Igihe",
+                        event_date: "Umusi",
+                        message: "Ubutumwa / Ibirimo",
+                        submit: "Emeza amakuru"
                     }
                 },
                 pages_page: {
@@ -1177,6 +1297,10 @@ const resources = {
                         role: "Ibanga",
                         role_pastor: "Umupasitori",
                         role_admin: "Ubuyobozi",
+                        password: "Ijambo kabanga",
+                        is_active: "Konti ikora",
+                        creating: "Biriko birakorwa...",
+                        error_creating: "Habaye ikibazo mu kongerako",
                         submit: "Ongerako umukozi"
                     }
                 },
@@ -1257,9 +1381,13 @@ const resources = {
                     slogan_help: "Byerekanwa inyuma y'umutwe w'urubuga.",
                     save: "Bika amahinduka",
                     form: {
-                        emissions: "Kwitirira Inyigisho",
-                        teachings: "Kwitirira Amashuri",
-                        meditation: "Kwitirira Ukuzirikana"
+                        emissions: "Izina ry'Inyigisho",
+                        teachings: "Izina ry'Inyigisho",
+                        meditation: "Izina ry'Amagambo",
+                        ticker_section: "Bandeau défilant (France 24)",
+                        ticker_enabled: "Kuvura bandeau",
+                        ticker_speed: "Umuvuduko (sec)",
+                        ticker_refresh: "Refresh (sec)"
                     }
                 }
             },
@@ -1343,7 +1471,10 @@ const resources = {
                     subject_placeholder: "Wipfuza kuvugako iki?",
                     message: "Ubutumwa bwawe",
                     message_placeholder: "Twogufasha gute?",
-                    submit: "Rungika ubutumwa"
+                    submit: "Rungika ubutumwa",
+                    success: "Ubutumwa bwarungitswe neza !",
+                    error: "Habaye ikibazo mu kurungika ubutumwa. Subiramwo.",
+                    sending: "Biriko birarungikwa..."
                 }
             },
             footer: {
@@ -1437,7 +1568,8 @@ const resources = {
                 preacher_required: "Jina la mchungaji linahitajika",
                 published_success: "Imechapishwa kwa mafanikio!",
                 draft_saved: "Rasimu imehifadhiwa!",
-                created_success: "Imeundwa kwa mafanikio!"
+                created_success: "Imeundwa kwa mafanikio!",
+                show_more: "Onyesha zaidi"
             },
             admin: {
                 dashboard: "Dashibodi",
@@ -1634,6 +1766,10 @@ const resources = {
                         role: "Jukumu",
                         role_pastor: "Mchungaji / Mwandishi",
                         role_admin: "Msimamizi",
+                        password: "Nenosiri",
+                        is_active: "Akaunti inayotumika",
+                        creating: "Inaunda...",
+                        error_creating: "Hitilafu wakati wa kuunda mtumiaji",
                         submit: "Ongeza Mtumiaji Mpya"
                     }
                 },
@@ -1800,7 +1936,10 @@ const resources = {
                     subject_placeholder: "Je! Ungetaka kuzungumza juu ya nini?",
                     message: "Ujumbe wako",
                     message_placeholder: "Tunawezaje kukusaidia?",
-                    submit: "Tuma Ujumbe"
+                    submit: "Tuma Ujumbe",
+                    success: "Ujumbe umetumwa vyema!",
+                    error: "Hitilafu imetokea wakati wa kutuma ujumbe. Tafadhali jaribu tena.",
+                    sending: "Inatuma ujumbe..."
                 }
             },
             footer: {

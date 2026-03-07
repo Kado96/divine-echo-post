@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, ChevronRight, Flame, Headphones, Calendar, Music, BookOpen, Users, HeartPulse, Radio } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { apiService } from "@/lib/api";
-import { stripHtml } from "@/lib/utils";
+import { stripHtml, getFullImageUrl } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +39,7 @@ const CategoriesSection = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [i18n.language]);
 
   const getSetting = (key: string) => {
     if (!settings) return null;
@@ -86,13 +86,14 @@ const CategoriesSection = () => {
           {/* Sidebar */}
           <aside className="w-full lg:w-80 shrink-0 space-y-8">
             <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">{t("categories.search_label") || "RECHERCHER"}</h3>
+              <label htmlFor="categoriessection-input-1" className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 block cursor-pointer">{t("categories.search_label") || "RECHERCHER"}</label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
                 <Input id="categoriessection-input-1" name="categoriessection-input-1"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t("categories.search_placeholder")}
+                  autoComplete="off"
                   className="pl-10 bg-gray-50 border-gray-100 h-12 rounded-xl focus-visible:ring-accent"
                 />
               </div>
@@ -168,7 +169,7 @@ const CategoriesSection = () => {
                         {/* Background Image */}
                         <div className="absolute inset-0">
                           <img
-                            src={item.image || "https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=2070&auto=format&fit=crop"}
+                            src={item.image_url ? getFullImageUrl(item.image_url) : (item.image ? getFullImageUrl(item.image) : "https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=2070&auto=format&fit=crop")}
                             alt={item.title}
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           />

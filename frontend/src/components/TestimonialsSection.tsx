@@ -8,6 +8,7 @@ const TestimonialsSection = () => {
     const [settings, setSettings] = useState<any>(null);
     const { t, i18n } = useTranslation();
     const [testimonials, setTestimonials] = useState<any[]>([]);
+    const [visibleCount, setVisibleCount] = useState(3);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -18,15 +19,14 @@ const TestimonialsSection = () => {
                     apiService.getSettings()
                 ]);
                 const results = Array.isArray(testimonialsData) ? testimonialsData : (testimonialsData.results || []);
-                // Filters only verified, current language, and latest 3
+                // Filters only verified, current language
                 const currentLang = i18n.language || 'fr';
-                const verified = results
+                const verifiedSubset = results
                     .filter((item: any) =>
                         (item.status === "Vérifié" || item.status === "Published") &&
                         (item.language === currentLang)
-                    )
-                    .slice(0, 3);
-                setTestimonials(verified);
+                    );
+                setTestimonials(verifiedSubset);
                 setSettings(settingsData);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -46,6 +46,8 @@ const TestimonialsSection = () => {
     };
 
     if (!loading && testimonials.length === 0) return null;
+
+    const visibleTestimonials = testimonials.slice(0, visibleCount);
 
     return (
         <section className="py-16 bg-muted/30" id="testimonials">
@@ -70,15 +72,12 @@ const TestimonialsSection = () => {
                     </p>
                 </motion.div>
 
-                <div className={`grid gap-8 ${testimonials.length === 1 ? "grid-cols-1 max-w-xl mx-auto" :
-                    testimonials.length === 2 ? "grid-cols-1 lg:grid-cols-2 max-w-4xl mx-auto" :
-                        "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-                    }`}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {loading
                         ? [1, 2, 3].map((i) => (
                             <div key={i} className="bg-card rounded-3xl p-8 border border-border animate-pulse h-64"></div>
                         ))
-                        : testimonials.map((item, i) => (
+                        : visibleTestimonials.map((item, i) => (
                             <motion.div
                                 key={item.id}
                                 initial={{ opacity: 0, y: 30 }}
@@ -114,6 +113,17 @@ const TestimonialsSection = () => {
                             </motion.div>
                         ))}
                 </div>
+
+                {testimonials.length > visibleCount && (
+                    <div className="mt-12 text-center">
+                        <button
+                            onClick={() => setVisibleCount(prev => prev + 6)}
+                            className="inline-flex items-center gap-2 px-8 py-3 bg-white border border-border rounded-full font-bold text-accent hover:bg-accent hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg"
+                        >
+                            {t("common.show_more") || "Voir plus"}
+                        </button>
+                    </div>
+                )}
             </div>
         </section>
     );

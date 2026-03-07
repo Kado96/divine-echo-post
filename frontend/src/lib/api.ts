@@ -1,5 +1,17 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+export class ApiError extends Error {
+    status: number;
+    data: any;
+
+    constructor(message: string, status: number, data: any) {
+        super(message);
+        this.name = 'ApiError';
+        this.status = status;
+        this.data = data;
+    }
+}
+
 export const apiService = {
     getHeaders(contentType: string | null = 'application/json') {
         const token = localStorage.getItem('token');
@@ -19,17 +31,19 @@ export const apiService = {
             localStorage.removeItem('token');
             localStorage.removeItem('refresh_token');
             localStorage.removeItem('user');
-            // Redirect only if in browser
             if (typeof window !== 'undefined') {
                 window.location.href = '/admin/login';
             }
             throw new Error('Unauthorized');
         }
+
         if (!response.ok) {
             let errorMsg = `API Error: ${response.statusText}`;
+            let errData = null;
             try {
-                const errData = await response.json();
+                errData = await response.json();
                 console.error(`Backend error details on ${endpoint}:`, errData);
+
                 const firstError = Object.values(errData)[0];
                 if (Array.isArray(firstError)) {
                     errorMsg = firstError[0];
@@ -41,7 +55,7 @@ export const apiService = {
             } catch (e) {
                 // Not JSON or empty body
             }
-            throw new Error(errorMsg);
+            throw new ApiError(errorMsg, response.status, errData);
         }
         return await response.json();
     },
@@ -59,19 +73,72 @@ export const apiService = {
         }
     },
 
+    async delete(endpoint: string) {
+        try {
+            const response = await fetch(`${API_URL}${endpoint}`, {
+                method: 'DELETE',
+                headers: this.getHeaders(null),
+                credentials: 'include'
+            });
+            if (response.status === 204) return true;
+            if (response.status === 401) return this.handleResponse(response, endpoint);
+            if (!response.ok) throw new Error('Delete failed');
+            return true;
+        } catch (error) {
+            console.error(`Delete error on ${endpoint}:`, error);
+            throw error;
+        }
+    },
+
     // Helper for sermons
     async getSermons() {
-        return this.get('/sermons/');
+        return this.get(`/sermons/?t=${Date.now()}`);
     },
 
     // Helper for categories
     async getSermonCategories() {
-        return this.get('/sermons/categories/');
+        // Use a cache-busting timestamp to ensure we get fresh categories on mobile
+        return this.get(`/sermons/categories/?t=${Date.now()}`);
+    },
+
+    async createSermonCategory(data: any) {
+        return this.post('/sermons/categories/', data);
+    },
+
+    async updateSermonCategory(slug: string, data: any) {
+        try {
+            const response = await fetch(`${API_URL}/sermons/categories/${slug}/`, {
+                method: 'PATCH',
+                headers: this.getHeaders('application/json'),
+                body: JSON.stringify(data),
+                credentials: 'include'
+            });
+            return await this.handleResponse(response, `category update ${slug}`);
+        } catch (error) {
+            console.error("Category update error:", error);
+            throw error;
+        }
+    },
+
+    async deleteSermonCategory(slug: string | number) {
+        try {
+            const response = await fetch(`${API_URL}/sermons/categories/${slug}/`, {
+                method: 'DELETE',
+                headers: this.getHeaders(null),
+                credentials: 'include'
+            });
+            if (response.status === 401) return this.handleResponse(response, `category delete ${slug}`);
+            if (!response.ok) throw new Error('Delete failed');
+            return true;
+        } catch (error) {
+            console.error("Category delete error:", error);
+            throw error;
+        }
     },
 
     // Helper for settings
     async getSettings() {
-        return this.get('/settings/current/');
+        return this.get(`/settings/current/?t=${Date.now()}`);
     },
 
     async updateSettings(data: any) {
@@ -105,6 +172,34 @@ export const apiService = {
             console.error("Settings update error:", error);
             throw error;
         }
+    },
+
+    // Helper for team
+    async getTeamMembers() {
+        return this.get('/settings/team/');
+    },
+
+    async createTeamMember(data: FormData) {
+        return this.post('/settings/team/', data, 'multipart/form-data');
+    },
+
+    async updateTeamMember(id: number, data: FormData) {
+        try {
+            const response = await fetch(`${API_URL}/settings/team/${id}/`, {
+                method: 'PATCH',
+                headers: this.getHeaders(null),
+                body: data,
+                credentials: 'include'
+            });
+            return await this.handleResponse(response, 'team member update');
+        } catch (error) {
+            console.error("Team member update error:", error);
+            throw error;
+        }
+    },
+
+    async deleteTeamMember(id: number) {
+        return this.delete(`/settings/team/${id}/`);
     },
 
     // Helper for testimonials
@@ -266,11 +361,12 @@ export const apiService = {
     },
 
     async updateUser(id: string | number, data: any) {
+        const isFormData = data instanceof FormData;
         try {
             const response = await fetch(`${API_URL}/accounts/users/${id}/`, {
                 method: 'PATCH',
-                headers: this.getHeaders('application/json'),
-                body: JSON.stringify(data),
+                headers: this.getHeaders(isFormData ? null : 'application/json'),
+                body: isFormData ? data : JSON.stringify(data),
                 credentials: 'include'
             });
             return await this.handleResponse(response, `/accounts/users/${id}/`);
@@ -294,5 +390,9 @@ export const apiService = {
             console.error("User delete error:", error);
             throw error;
         }
+    },
+
+    async sendContactMessage(data: any) {
+        return this.post('/contacts/contacts/', data);
     }
 };

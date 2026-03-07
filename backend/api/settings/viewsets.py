@@ -8,8 +8,8 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.conf import settings as django_settings
 import logging
 from api.accounts.viewsets.dependencies import IsAdminOrSuperUser
-from .models import SiteSettings
-from .serializers import SiteSettingsSerializer
+from .models import SiteSettings, TeamMember
+from .serializers import SiteSettingsSerializer, TeamMemberSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -266,8 +266,7 @@ class SiteSettingsViewSet(viewsets.ModelViewSet):
     def current(self, request):
         """Action personnalisée pour récupérer l'objet unique directement (sans liste)"""
         try:
-            # Désactiver la pagination pour cette action
-            self.paginator = None
+            # Désactiver la pagination pour cette action (déjà géré par la propriété paginator)
             
             # Utiliser get_settings() qui gère automatiquement la création si nécessaire
             settings = SiteSettings.get_settings()
@@ -334,3 +333,17 @@ class SiteSettingsViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
+class TeamMemberViewSet(viewsets.ModelViewSet):
+    """ViewSet pour gérer les membres de l'équipe"""
+    queryset = TeamMember.objects.all()
+    serializer_class = TeamMemberSerializer
+    permission_classes = [AllowAny]
+    pagination_class = None
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+
+    def get_permissions(self):
+        """Lecture publique, écriture admin seulement"""
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        return [IsAdminOrSuperUser()]

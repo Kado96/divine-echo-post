@@ -12,11 +12,15 @@ from .serializers import (
 )
 
 
-class SermonCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+class SermonCategoryViewSet(viewsets.ModelViewSet):
     queryset = SermonCategory.objects.all()
     serializer_class = SermonCategorySerializer
     lookup_field = "slug"
-    permission_classes = [AllowAny]
+
+    def get_permissions(self):
+        if self.action in ["list", "retrieve"]:
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
 
 class SermonViewSet(viewsets.ReadOnlyModelViewSet):

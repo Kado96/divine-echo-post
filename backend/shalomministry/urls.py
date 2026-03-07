@@ -18,8 +18,8 @@ from api.shops.urls import admin_urlpatterns as shop_admin_urls
 from api.test_cors import test_cors  # Test CORS
 
 # Import des handlers personnalisés pour les erreurs HTTP
-from .handlers import handler400, handler403, handler404, handler500
-from .views import ShalomMinistryView, RootView, ImageProxyView
+from shalomministry.handlers import handler400, handler403, handler404, handler500
+from shalomministry.views import ShalomMinistryView, RootView, ImageProxyView
 
 admin.site.site_header = 'SHALOM MINISTRY ADMINISTRATION'
 admin.site.index_title = 'Shalom Ministry Admin'
@@ -104,6 +104,7 @@ urlpatterns = [
     path('api/announcements/', include('api.announcements.urls')),
     path('api/settings/', include("api.settings.urls")),
     path('api/testimonials/', include("api.testimonials.urls")),
+    path('api/contacts/', include("api.contacts.urls")),
     path('api/admin/sermons/', include(sermon_admin_urls)),
     path('api/admin/shops/', include(shop_admin_urls)),
     

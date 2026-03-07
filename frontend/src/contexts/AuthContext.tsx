@@ -11,6 +11,7 @@ interface User {
     is_superuser: boolean;
     is_staff: boolean;
     groups: string[];
+    photo_display?: string;
 }
 
 interface AuthContextType {
@@ -107,6 +108,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             is_superuser: data.is_superuser || false,
             is_staff: data.is_staff || false,
             groups: data.groups || [],
+            photo_display: data.photo_display || undefined,
         };
 
         // Store in state

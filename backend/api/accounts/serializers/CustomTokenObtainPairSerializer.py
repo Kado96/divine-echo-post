@@ -143,6 +143,20 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         except Exception as e:
             # Si erreur avec Account, continuer sans (non bloquant pour le login)
             pass
+
+        # Retourner la photo
+        try:
+            from api.accounts.models import Account
+            account = Account.objects.get(user=self.user)
+            if account.photo:
+                request = self.context.get('request')
+                photo_url = account.photo.url
+                if request is not None:
+                    data['photo_display'] = request.build_absolute_uri(photo_url)
+                else:
+                    data['photo_display'] = photo_url
+        except Exception:
+            pass
         
         # Mettre à jour les groupes seulement si pas déjà défini
         if 'groups' not in data or not data.get('groups'):

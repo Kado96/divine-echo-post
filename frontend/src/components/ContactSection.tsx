@@ -13,10 +13,38 @@ import { stripHtml } from "@/lib/utils";
 const ContactSection = () => {
   const { t, i18n } = useTranslation();
   const [settings, setSettings] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
 
   useEffect(() => {
     apiService.getSettings().then(setSettings).catch(console.error);
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await apiService.sendContactMessage(formData);
+      // @ts-ignore
+      import("sonner").then(({ toast }) => {
+        toast.success(t("contact.form.success") || "Message envoyé avec succès !");
+      });
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      console.error(error);
+      // @ts-ignore
+      import("sonner").then(({ toast }) => {
+        toast.error(t("contact.form.error") || "Erreur lors de l'envoi du message.");
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getSetting = (key: string) => {
     if (!settings) return null;
@@ -115,27 +143,27 @@ const ContactSection = () => {
           >
             <div className="bg-card rounded-3xl p-8 shadow-2xl border border-border">
               <h3 className="text-xl font-bold text-foreground mb-6">{t("contact.form_title")}</h3>
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="contact-name" className="text-sm font-medium text-foreground mb-1.5 block">{t("contact.form.name")}</label>
-                    <Input id="contact-name" name="name" autoComplete="name" placeholder={t("contact.form.name_placeholder")} className="bg-muted/50 border-border" required />
+                    <Input id="contact-name" name="name" autoComplete="name" placeholder={t("contact.form.name_placeholder")} className="bg-muted/50 border-border" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
                   </div>
                   <div>
                     <label htmlFor="contact-email" className="text-sm font-medium text-foreground mb-1.5 block">{t("contact.form.email")}</label>
-                    <Input id="contact-email" name="email" type="email" autoComplete="email" placeholder={t("contact.form.email_placeholder")} className="bg-muted/50 border-border" required />
+                    <Input id="contact-email" name="email" type="email" autoComplete="email" placeholder={t("contact.form.email_placeholder")} className="bg-muted/50 border-border" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="contact-subject" className="text-sm font-medium text-foreground mb-1.5 block">{t("contact.form.subject")}</label>
-                  <Input id="contact-subject" name="subject" autoComplete="off" placeholder={t("contact.form.subject_placeholder")} className="bg-muted/50 border-border" required />
+                  <Input id="contact-subject" name="subject" autoComplete="off" placeholder={t("contact.form.subject_placeholder")} className="bg-muted/50 border-border" required value={formData.subject} onChange={(e) => setFormData({ ...formData, subject: e.target.value })} />
                 </div>
                 <div>
                   <label htmlFor="contact-message" className="text-sm font-medium text-foreground mb-1.5 block">{t("contact.form.message")}</label>
-                  <Textarea id="contact-message" name="message" autoComplete="off" placeholder={t("contact.form.message_placeholder")} className="bg-muted/50 border-border min-h-[140px] resize-none" required />
+                  <Textarea id="contact-message" name="message" autoComplete="off" placeholder={t("contact.form.message_placeholder")} className="bg-muted/50 border-border min-h-[140px] resize-none" required value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} />
                 </div>
-                <Button size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 gap-2 text-base">
-                  <Send className="w-4 h-4" /> {t("contact.form.submit")}
+                <Button type="submit" size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 gap-2 text-base" disabled={loading}>
+                  {loading ? <span className="animate-spin">⌛</span> : <Send className="w-4 h-4" />} {loading ? t("contact.form.sending") || "Envoi..." : t("contact.form.submit")}
                 </Button>
               </form>
             </div>

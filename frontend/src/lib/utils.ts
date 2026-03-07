@@ -19,22 +19,30 @@ export function stripHtml(html: string) {
 export function getFullImageUrl(url: string | null | undefined): string {
   if (!url) return "";
 
-  // Si c'est déjà une URL absolue correcte, on la garde
-  if (url.startsWith('https://')) return url;
-
-  // Base URL de l'API (sans le /api à la fin)
-  const baseUrl = (import.meta.env.VITE_API_URL || '').replace('/api', '');
-
-  // Si l'URL contient localhost, on remplace par la base URL de production
-  if (url.includes('localhost:8000')) {
-    return url.replace('http://localhost:8000', baseUrl).replace('http://', 'https://');
+  // If it's already an absolute URL
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    // If it's localhost in HTTPS, force HTTP (localhost:8000 doesn't support SSL)
+    if (url.includes('localhost') && url.startsWith('https://')) {
+      return url.replace('https://', 'http://');
+    }
+    // For production URLs, we can leave them as is or ensure HTTPS if needed
+    return url;
   }
 
-  // Si l'URL est relative (commence par /media/ ou /api/media/)
-  if (url.startsWith('/')) {
-    return `${baseUrl}${url}`.replace('http://', 'https://');
+  // Base URL of the API (without /api at the end)
+  const apiUrl = import.meta.env.VITE_API_URL || '';
+  const baseUrl = apiUrl.replace('/api', '').replace(/\/$/, '');
+
+  // If the path is relative (/media/...)
+  const relativePath = url.startsWith('/') ? url : `/${url}`;
+
+  // Combine baseUrl and relativePath
+  const fullUrl = `${baseUrl}${relativePath}`;
+
+  // If the resulting URL is on localhost, ensure it's http
+  if (fullUrl.includes('localhost') && fullUrl.startsWith('https://')) {
+    return fullUrl.replace('https://', 'http://');
   }
 
-  return url;
+  return fullUrl;
 }
-

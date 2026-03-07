@@ -5,4 +5,3 @@ from django.contrib.auth.models import User
 
 
 from api.accounts.models import *
-from api.accounts.serializers import *

@@ -4,6 +4,7 @@ import { Menu, X, User, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { apiService } from "@/lib/api";
+import { getFullImageUrl } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import {
   DropdownMenu,
@@ -25,13 +26,14 @@ const Header = () => {
         document.title = data.site_name;
       }
       if (data.logo) {
+        const fullLogoUrl = getFullImageUrl(data.logo);
         const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
         if (link) {
-          link.href = data.logo;
+          link.href = fullLogoUrl;
         } else {
           const newLink = document.createElement('link');
           newLink.rel = 'icon';
-          newLink.href = data.logo;
+          newLink.href = fullLogoUrl;
           document.head.appendChild(newLink);
         }
       }
@@ -57,7 +59,7 @@ const Header = () => {
         <a href="/" className="flex items-center gap-3">
           {settings?.logo ? (
             <img
-              src={settings.logo}
+              src={getFullImageUrl(settings.logo)}
               alt={settings.site_name || "Logo"}
               className="h-10 w-auto object-contain"
             />

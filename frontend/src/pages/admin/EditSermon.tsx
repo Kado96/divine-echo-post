@@ -15,8 +15,17 @@ import {
     Save,
     Plus,
     Tag,
-    Settings
+    Settings,
+    Share2,
+    Facebook,
+    MessageCircle
 } from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { apiService } from "@/lib/api";
@@ -31,6 +40,7 @@ const EditSermon = () => {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [categories, setCategories] = useState<any[]>([]);
+    const [categoriesLoading, setCategoriesLoading] = useState(false);
     const [formData, setFormData] = useState<any>({
         title: "",
         content_type: "video",
@@ -39,11 +49,27 @@ const EditSermon = () => {
         preacher_name: "",
         sermon_date: "",
         is_active: false,
-        category: ""
+        category: "",
+        slug: ""
     });
 
     const [mediaFile, setMediaFile] = useState<File | null>(null);
     const [coverImage, setCoverImage] = useState<File | null>(null);
+
+    const fetchCategories = async () => {
+        try {
+            setCategoriesLoading(true);
+            const data = await apiService.getSermonCategories();
+            const results = Array.isArray(data) ? data : (data.results || []);
+            setCategories(results);
+            return results;
+        } catch (err) {
+            console.error("Failed to fetch categories", err);
+            return [];
+        } finally {
+            setCategoriesLoading(false);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,10 +77,8 @@ const EditSermon = () => {
             try {
                 const [sermonData, categoriesData] = await Promise.all([
                     apiService.getSermonById(id),
-                    apiService.getSermonCategories()
+                    fetchCategories()
                 ]);
-
-                setCategories(Array.isArray(categoriesData) ? categoriesData : (categoriesData.results || []));
 
                 setFormData({
                     title: sermonData.title || "",
@@ -62,23 +86,29 @@ const EditSermon = () => {
                     content_url: sermonData.content_type === "youtube" ? sermonData.video_url : (sermonData.video_url || sermonData.audio_url || ""),
                     description: stripHtml(sermonData.description || ""),
                     preacher_name: sermonData.preacher_name || "",
-                    sermon_date: sermonData.sermon_date ? (sermonData.sermon_date.includes('T') ? sermonData.sermon_date.split('T')[0] : sermonData.sermon_date) : "",
+                    sermon_date: sermonData.sermon_date ? (sermonDateToISO(sermonData.sermon_date)) : "",
                     is_active: sermonData.is_active || false,
                     category: sermonData.category || "",
+                    slug: sermonData.slug || "",
                     existingImage: sermonData.image_url || sermonData.image,
                     existingVideo: sermonData.video_file,
                     existingAudio: sermonData.audio_file
                 });
             } catch (error) {
-                toast.error(t("common.error_loading"));
+                toast.error(t("common.error_loading") || "Erreur de chargement");
                 navigate("/admin/sermons");
             } finally {
                 setLoading(false);
             }
         };
 
+        const sermonDateToISO = (dateStr: string) => {
+            if (!dateStr) return "";
+            return dateStr.includes('T') ? dateStr.split('T')[0] : dateStr;
+        };
+
         fetchData();
-    }, [id, navigate]);
+    }, [id, navigate, t]);
 
     const handleSave = async (publish = false) => {
         if (!id) return;
@@ -129,9 +159,30 @@ const EditSermon = () => {
             toast.success(t("common.saved_success"));
             if (publish) navigate("/admin/sermons");
         } catch (error: any) {
-            toast.error(error.message || t("common.error_saving"));
+            console.error("Save error:", error);
+            if (error.data && typeof error.data === 'object') {
+                const firstError = Object.values(error.data)[0];
+                const msg = Array.isArray(firstError) ? firstError[0] : String(firstError);
+                toast.error(`Erreur : ${msg}`);
+            } else {
+                toast.error(error.message || t("common.error_saving"));
+            }
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleShare = (platform: 'facebook' | 'whatsapp') => {
+        if (!formData.slug) {
+            toast.error("Le sermon doit être enregistré pour être partagé");
+            return;
+        }
+        const url = `${window.location.origin}/sermon/${formData.slug}`;
+        const title = formData.title;
+        if (platform === 'facebook') {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400');
+        } else if (platform === 'whatsapp') {
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(title + " " + url)}`, '_blank');
         }
     };
 
@@ -156,14 +207,32 @@ const EditSermon = () => {
                     </Link>
                     <div className="flex items-center justify-between">
                         <h1 className="text-2xl font-bold text-[#1d2327]">{t("common.edit_of")} {formData.title}</h1>
-                        <Button
-                            onClick={() => handleSave(false)}
-                            disabled={saving}
-                            className="bg-[#2271b1] hover:bg-blue-700 text-white gap-2"
-                        >
-                            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                            {t("admin.sermons_page.form.update")}
-                        </Button>
+                        <div className="flex items-center gap-3">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" className="gap-2 border-blue-200 text-[#2271b1] hover:bg-blue-50 h-10">
+                                        <Share2 className="w-4 h-4" />
+                                        Partager
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem onClick={() => handleShare('facebook')} className="gap-2">
+                                        <Facebook className="w-4 h-4 text-blue-600" /> Facebook
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleShare('whatsapp')} className="gap-2">
+                                        <MessageCircle className="w-4 h-4 text-green-600" /> WhatsApp
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <Button
+                                onClick={() => handleSave(false)}
+                                disabled={saving}
+                                className="bg-[#2271b1] hover:bg-blue-700 text-white gap-2 h-10"
+                            >
+                                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                {t("admin.sermons_page.form.update")}
+                            </Button>
+                        </div>
                     </div>
                 </header>
 
@@ -172,9 +241,10 @@ const EditSermon = () => {
                     <div className="flex-1 space-y-6">
                         {/* Title */}
                         <div className="space-y-1.5">
-                            <label htmlFor="sermon-title" className="text-sm font-semibold text-gray-700">{t("admin.sermons_page.form.title")}</label>
+                            <label htmlFor="sermon-title" className="text-sm font-semibold text-gray-700 cursor-pointer">{t("admin.sermons_page.form.title")}</label>
                             <input
                                 id="sermon-title"
+                                name="title"
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 type="text"
@@ -216,14 +286,25 @@ const EditSermon = () => {
                                 <h2 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                                     <Tag className="w-4 h-4 text-accent" />
                                     {t("admin.categories")}
+                                    {categoriesLoading && <Loader2 className="w-3 h-3 animate-spin text-gray-400" />}
                                 </h2>
-                                <Link
-                                    to="/admin/categories"
-                                    className="text-[10px] text-[#2271b1] hover:underline flex items-center gap-1"
-                                >
-                                    <Settings className="w-3 h-3" />
-                                    {t("admin.categories_page.manage")}
-                                </Link>
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={fetchCategories}
+                                        className="text-[10px] text-gray-400 hover:text-accent transition-colors"
+                                        title="Actualiser"
+                                    >
+                                        <Loader2 className={`w-3 h-3 ${categoriesLoading ? 'animate-spin' : ''}`} />
+                                    </button>
+                                    <Link
+                                        to="/admin/categories"
+                                        className="text-[10px] text-[#2271b1] hover:underline flex items-center gap-1"
+                                    >
+                                        <Settings className="w-3 h-3" />
+                                        {t("admin.categories_page.manage") || "Gérer"}
+                                    </Link>
+                                </div>
                             </div>
                             <div className="flex flex-wrap gap-2">
                                 <button
@@ -249,15 +330,20 @@ const EditSermon = () => {
                                         {cat.name}
                                     </button>
                                 ))}
+                                {!categoriesLoading && categories.length === 0 && (
+                                    <p className="text-[10px] text-gray-400 italic py-1">
+                                        {t("admin.categories_page.no_categories_found") || "Aucune catégorie trouvée"}
+                                    </p>
+                                )}
                             </div>
                         </div>
 
                         {/* URL or File Input based on selection */}
                         <div className="bg-white border border-border p-4 shadow-sm">
                             <div className="flex items-center justify-between mb-4">
-                                <h2 className="text-sm font-semibold text-gray-700">
+                                <label htmlFor="sermon-media-source" className="text-sm font-semibold text-gray-700 cursor-pointer">
                                     {formData.content_type === "youtube" ? t("admin.sermons_page.form.url") : (formData.content_type === "video" ? t("admin.sermons_page.form.video_link_or_file") : t("admin.sermons_page.form.file"))}
-                                </h2>
+                                </label>
                                 {formData.content_type === "video" && formData.content_url.includes("youtube") && (
                                     <span className="text-[10px] text-[#2271b1] font-bold">{t("admin.sermons_page.form.youtube_detected")}</span>
                                 )}
@@ -266,9 +352,10 @@ const EditSermon = () => {
                             {(formData.content_type === "youtube" || formData.content_type === "video") ? (
                                 <div className="space-y-4">
                                     <div className="space-y-1">
-                                        <p className="text-[10px] text-gray-400 uppercase font-bold tracking-tight">{t("admin.sermons_page.form.video_url_help")}</p>
+                                        <label htmlFor="sermon-media-source" className="text-[10px] text-gray-400 uppercase font-bold tracking-tight cursor-pointer block">{t("admin.sermons_page.form.video_url_help")}</label>
                                         <input
-                                            id="sermon-url"
+                                            id="sermon-media-source"
+                                            name="content_url"
                                             type="text"
                                             value={formData.content_url}
                                             onChange={(e) => {
@@ -286,8 +373,10 @@ const EditSermon = () => {
 
                                     {formData.content_type === "video" && (
                                         <div className="pt-2 border-t border-dashed border-border">
-                                            <p className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2">{t("admin.sermons_page.form.local_file")}</p>
-                                            <input id="editsermon-input-1" name="editsermon-input-1"
+                                            <label htmlFor="sermon-video-file" className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 cursor-pointer block">{t("admin.sermons_page.form.local_file")}</label>
+                                            <input
+                                                id="sermon-video-file"
+                                                name="video_file"
                                                 type="file"
                                                 accept="video/*"
                                                 onChange={(e) => setMediaFile(e.target.files ? e.target.files[0] : null)}
@@ -304,7 +393,9 @@ const EditSermon = () => {
                                 </div>
                             ) : (
                                 <div className="space-y-2">
-                                    <input id="editsermon-input-2" name="editsermon-input-2"
+                                    <input
+                                        id="sermon-media-source"
+                                        name="audio_file"
                                         type="file"
                                         accept="audio/*"
                                         onChange={(e) => setMediaFile(e.target.files ? e.target.files[0] : null)}
@@ -323,9 +414,9 @@ const EditSermon = () => {
                         {/* Cover Image */}
                         <div className="bg-white border border-border shadow-sm overflow-hidden">
                             <div className="p-3 border-b border-border bg-gray-50/50 flex items-center justify-between">
-                                <h2 className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                                <label htmlFor="cover-upload-edit" className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2 cursor-pointer">
                                     <ImageIcon className="w-3.5 h-3.5" /> {t("admin.sermons_page.form.image")}
-                                </h2>
+                                </label>
                                 {(coverImage || formData.existingImage) && (
                                     <button
                                         onClick={() => {
@@ -383,6 +474,7 @@ const EditSermon = () => {
                                     )}
                                     <input
                                         id="cover-upload-edit"
+                                        name="image"
                                         type="file"
                                         accept="image/*"
                                         onChange={(e) => setCoverImage(e.target.files ? e.target.files[0] : null)}
@@ -394,9 +486,10 @@ const EditSermon = () => {
 
                         {/* Description */}
                         <div className="bg-white border border-border p-4 shadow-sm">
-                            <label htmlFor="sermon-description" className="block text-sm font-semibold text-gray-700 mb-2">{t("admin.sermons_page.form.content")}</label>
+                            <label htmlFor="sermon-description" className="block text-sm font-semibold text-gray-700 mb-2 cursor-pointer">{t("admin.sermons_page.form.content")}</label>
                             <textarea
                                 id="sermon-description"
+                                name="description"
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 className="w-full h-48 px-3 py-2 bg-white border border-border text-sm focus:ring-1 focus:ring-[#2271b1] outline-none resize-none"
@@ -449,11 +542,13 @@ const EditSermon = () => {
 
                                 {/* Date Selector */}
                                 <div className="flex items-center justify-between text-[11px] text-gray-600 pt-1">
-                                    <div className="flex items-center gap-1.5">
+                                    <label htmlFor="sermon-date" className="flex items-center gap-1.5 cursor-pointer">
                                         <Calendar className="w-3.5 h-3.5" />
                                         <span>{t("admin.sermons_page.table.date")}:</span>
-                                    </div>
-                                    <input id="editsermon-input-3" name="editsermon-input-3"
+                                    </label>
+                                    <input
+                                        id="sermon-date"
+                                        name="sermon_date"
                                         type="date"
                                         value={formData.sermon_date}
                                         onChange={(e) => setFormData({ ...formData, sermon_date: e.target.value })}
@@ -486,8 +581,10 @@ const EditSermon = () => {
                                 <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider">{t("admin.sermons_page.form.author")}</h3>
                             </div>
                             <div className="p-4">
+                                <label htmlFor="preacher_name" className="sr-only">{t("admin.sermons_page.form.author")}</label>
                                 <input
-                                    id="sermon-author"
+                                    id="preacher_name"
+                                    name="preacher_name"
                                     type="text"
                                     value={formData.preacher_name}
                                     onChange={(e) => setFormData({ ...formData, preacher_name: e.target.value })}

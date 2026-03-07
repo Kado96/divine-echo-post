@@ -9,8 +9,10 @@ SEXES = (
 
 class Account(models.Model):
     id = models.BigAutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='account')
     is_active = models.BooleanField(default=True)
+    
+    photo = models.ImageField(upload_to='users_photos/', blank=True, null=True)
     
     phone_number = models.CharField(max_length=16, unique=True, null=True)
     otp_code = models.CharField(max_length=5, editable=False, null=True)

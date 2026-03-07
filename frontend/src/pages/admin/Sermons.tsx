@@ -11,8 +11,15 @@ import {
     Trash2,
     Edit2,
     Eye,
-    Loader2
+    Loader2,
+    Share2
 } from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { apiService } from "@/lib/api";
@@ -53,6 +60,16 @@ const AdminSermons = () => {
         }
     };
 
+    const handleShare = (sermon: any, platform: 'facebook' | 'whatsapp') => {
+        const url = `${window.location.origin}/sermon/${sermon.slug}`;
+        const title = sermon.title;
+        if (platform === 'facebook') {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400');
+        } else if (platform === 'whatsapp') {
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(title + " " + url)}`, '_blank');
+        }
+    };
+
     const filteredSermons = sermons.filter(s =>
         s.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (s.preacher_name && s.preacher_name.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -84,6 +101,7 @@ const AdminSermons = () => {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder={t("admin.sermons_page.search_placeholder")}
+                            autoComplete="off"
                             className="w-full pl-10 pr-4 py-3 bg-white border border-border rounded-xl text-sm focus:ring-2 focus:ring-blue-50 outline-none shadow-sm"
                         />
                         <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" />
@@ -148,6 +166,25 @@ const AdminSermons = () => {
                                             >
                                                 <Eye className="w-4 h-4" />
                                             </Button>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        className="h-9 w-9 p-0 hover:bg-blue-50 text-blue-600"
+                                                    >
+                                                        <Share2 className="w-4 h-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuItem onClick={() => handleShare(sermon, 'facebook')}>
+                                                        Facebook
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => handleShare(sermon, 'whatsapp')}>
+                                                        WhatsApp
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
                                             <Button
                                                 variant="ghost"
                                                 size="sm"

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiService } from "@/lib/api";
 import { useState } from "react";
+import { getFullImageUrl } from "@/lib/utils";
 
 const AdminUsers = () => {
     const { t } = useTranslation();
@@ -40,7 +41,8 @@ const AdminUsers = () => {
 
     const filteredUsers = users.filter((user: any) =>
         user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (user.first_name + " " + user.last_name).toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (user.first_name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (user.last_name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -84,6 +86,7 @@ const AdminUsers = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder={t("admin.users_page.search_placeholder")}
+                        autoComplete="off"
                         className="w-full pl-10 pr-4 py-3 bg-white border border-border rounded-xl text-sm shadow-sm focus:ring-2 focus:ring-blue-100 outline-none"
                     />
                     <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -103,9 +106,19 @@ const AdminUsers = () => {
                         {filteredUsers.map((user: any) => (
                             <div key={user.id} className="bg-white border border-border rounded-xl p-5 shadow-sm relative group overflow-hidden hover:border-blue-200 transition-colors">
                                 <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-12 h-12 rounded-full bg-blue-50 text-[#2271b1] flex items-center justify-center font-black text-lg">
-                                        {(user.first_name || user.username)[0].toUpperCase()}
-                                    </div>
+                                    {user.photo_display || user.photo ? (
+                                        <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-gray-100">
+                                            <img
+                                                src={getFullImageUrl(user.photo_display || user.photo)}
+                                                alt={user.username}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="w-12 h-12 rounded-full bg-blue-50 text-[#2271b1] flex items-center justify-center font-black text-lg flex-shrink-0">
+                                            {(user.first_name || user.username)[0].toUpperCase()}
+                                        </div>
+                                    )}
                                     <div className="min-w-0">
                                         <h3 className="font-bold text-[#1d2327] truncate">
                                             {user.first_name || user.last_name

@@ -2,6 +2,26 @@ from django.db import models
 from django.core.cache import cache
 
 
+class TeamMember(models.Model):
+    """Membres de l'équipe Shalom"""
+    name = models.CharField(max_length=200)
+    role_fr = models.CharField(max_length=200, blank=True, default="Membre de l'équipe")
+    role_rn = models.CharField(max_length=200, blank=True, default="Uwizeye umurwi")
+    role_en = models.CharField(max_length=200, blank=True, default="Team Member")
+    role_sw = models.CharField(max_length=200, blank=True, default="Mwanachama wa timu")
+    photo = models.ImageField(upload_to='team/', blank=True, null=True)
+    order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Membre de l'équipe"
+        verbose_name_plural = "Membres de l'équipe"
+        ordering = ['order', 'created_at']
+
+    def __str__(self):
+        return self.name
+
+
 class SiteSettings(models.Model):
     """Paramètres du site (singleton - une seule instance)"""
     
@@ -98,8 +118,10 @@ class SiteSettings(models.Model):
     
     # Contenu pages (par langue)
     # Français
+    hero_badge_fr = models.CharField(max_length=100, blank=True, default="✦ Shalom Ministry")
     hero_title_fr = models.CharField(max_length=200, blank=True, default="Grandissez dans la foi")
     hero_subtitle_fr = models.TextField(blank=True, default="Découvrez nos émissions, enseignements et temps de méditation pour approfondir votre relation avec Dieu.")
+    hero_description_fr = models.TextField(blank=True, default="Une plateforme dédiée à la croissance spirituelle et à l'édification du corps du Christ.")
     about_content_fr = models.TextField(blank=True, default="Bienvenue sur Shalom Ministry, une plateforme dédiée à la croissance spirituelle.")
     about_title_fr = models.CharField(max_length=200, blank=True, default="Notre Histoire")
     about_title_accent_fr = models.CharField(max_length=200, blank=True, default="& Vision")
@@ -147,8 +169,10 @@ class SiteSettings(models.Model):
     section_testimonials_desc_fr = models.TextField(blank=True, default="Découvrez comment Shalom Ministry transforme des vies")
     
     # Kirundi
+    hero_badge_rn = models.CharField(max_length=100, blank=True, default="✦ Shalom Ministry")
     hero_title_rn = models.CharField(max_length=200, blank=True, default="Kurira mu kwizera")
     hero_subtitle_rn = models.TextField(blank=True, default="")
+    hero_description_rn = models.TextField(blank=True, default="")
     about_content_rn = models.TextField(blank=True, default="")
     about_title_rn = models.CharField(max_length=200, blank=True, default="Amateka yacu")
     about_title_accent_rn = models.CharField(max_length=200, blank=True, default="& Vision")
@@ -187,8 +211,10 @@ class SiteSettings(models.Model):
     section_testimonials_desc_rn = models.TextField(blank=True, default="Andura intahe z'abafashijwe n'ijambo ry'Imana.")
     
     # English
+    hero_badge_en = models.CharField(max_length=100, blank=True, default="✦ Shalom Ministry")
     hero_title_en = models.CharField(max_length=200, blank=True, default="Grow in Faith")
     hero_subtitle_en = models.TextField(blank=True, default="")
+    hero_description_en = models.TextField(blank=True, default="")
     about_content_en = models.TextField(blank=True, default="")
     about_title_en = models.CharField(max_length=200, blank=True, default="Our Story")
     about_title_accent_en = models.CharField(max_length=200, blank=True, default="& Vision")
@@ -227,8 +253,10 @@ class SiteSettings(models.Model):
     section_testimonials_desc_en = models.TextField(blank=True, default="Discover how Shalom Ministry transforms lives")
     
     # Swahili
+    hero_badge_sw = models.CharField(max_length=100, blank=True, default="✦ Shalom Ministry")
     hero_title_sw = models.CharField(max_length=200, blank=True, default="Kua katika Imani")
     hero_subtitle_sw = models.TextField(blank=True, default="")
+    hero_description_sw = models.TextField(blank=True, default="")
     about_content_sw = models.TextField(blank=True, default="")
     about_title_sw = models.CharField(max_length=200, blank=True, default="Historia yetu")
     about_title_accent_sw = models.CharField(max_length=200, blank=True, default="& Maono")
@@ -361,6 +389,13 @@ class SiteSettings(models.Model):
     subheading_size = models.CharField(max_length=10, blank=True, default="1.5rem", help_text="Taille des sous-titres")
     body_size = models.CharField(max_length=10, blank=True, default="1rem", help_text="Taille du texte normal")
     small_size = models.CharField(max_length=10, blank=True, default="0.875rem", help_text="Taille du petit texte")
+    
+    # News Ticker (Défilement type France 24)
+    ticker_enabled = models.BooleanField(default=True, help_text="Activer le bandeau défilant type France 24")
+    ticker_speed = models.IntegerField(default=30, help_text="Vitesse de défilement (secondes pour un cycle complet)")
+    ticker_refresh_interval = models.IntegerField(default=3600, help_text="Fréquence de mise à jour des annonces (secondes, ex: 3600 pour 1h)")
+    ticker_bg_color = models.CharField(max_length=7, default="#e60000", help_text="Couleur de fond du bandeau (hex: #RRGGBB)")
+    ticker_opacity = models.IntegerField(default=100, help_text="Opacité du bandeau (0 à 100)")
     
     # Métadonnées
     created_at = models.DateTimeField(auto_now_add=True)

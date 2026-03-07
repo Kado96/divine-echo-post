@@ -43,7 +43,8 @@ const AdminAnnouncements = () => {
     };
 
     const filteredAnnouncements = announcements.filter(item => {
-        const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
+        const titleToSearch = (item.title_fr || item.title || "").toLowerCase();
+        const matchesSearch = titleToSearch.includes(searchTerm.toLowerCase());
         if (filter === "online") return item.is_active && matchesSearch;
         if (filter === "drafts") return !item.is_active && matchesSearch;
         return matchesSearch;
@@ -131,8 +132,17 @@ const AdminAnnouncements = () => {
                                                 className="font-bold text-[#1d2327] hover:text-[#2271b1] cursor-pointer"
                                                 onClick={() => navigate(`/admin/announcements/edit/${item.id}`)}
                                             >
-                                                {item.title}
+                                                {item.title_fr || item.title}
                                             </h3>
+                                            <div className="flex gap-1">
+                                                {['fr', 'rn', 'en', 'sw'].map(lang => (
+                                                    item[`title_${lang}`] && (
+                                                        <span key={lang} className="text-[8px] bg-gray-100 text-gray-500 px-1 rounded uppercase">
+                                                            {lang}
+                                                        </span>
+                                                    )
+                                                ))}
+                                            </div>
                                             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${item.priority === "haute" ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
                                                 {item.priority === "haute" ? t("admin.announcements_page.item.priority_high") : t("admin.announcements_page.item.priority_normal")}
                                             </span>

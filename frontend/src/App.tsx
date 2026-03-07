@@ -7,6 +7,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import PrivateRoute from "@/components/PrivateRoute";
 import { useEffect } from "react";
 import { apiService } from "@/lib/api";
+import { getFullImageUrl } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/Login";
@@ -31,6 +33,7 @@ import AdminEditAnnouncement from "./pages/admin/EditAnnouncement";
 import AdminCreateTestimonial from "./pages/admin/CreateTestimonial";
 import AdminEditTestimonial from "./pages/admin/EditTestimonial";
 import SermonDetail from "./pages/SermonDetail";
+import NewsTicker from "./components/NewsTicker";
 
 const queryClient = new QueryClient();
 
@@ -41,18 +44,21 @@ const App = () => {
         document.title = data.site_name;
       }
       if (data.logo) {
+        const fullLogoUrl = getFullImageUrl(data.logo);
         const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
         if (link) {
-          link.href = data.logo;
+          link.href = fullLogoUrl;
         } else {
           const newLink = document.createElement('link');
           newLink.rel = 'icon';
-          newLink.href = data.logo;
+          newLink.href = fullLogoUrl;
           document.head.appendChild(newLink);
         }
       }
     }).catch(console.error);
   }, []);
+
+  const isAdminPath = window.location.pathname.startsWith('/admin');
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -61,6 +67,7 @@ const App = () => {
         <Sonner />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <AuthProvider>
+            {!isAdminPath && <NewsTicker />}
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/sermon/:slug" element={<SermonDetail />} />

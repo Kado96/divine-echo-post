@@ -21,6 +21,17 @@
 
 <body>
   <div id="root"></div>
+  <!-- Onboarding crash prevention script -->
+  <script>
+    window.onerror = function (msg, url, lineNo, columnNo, error) {
+      if (msg && (msg.includes("onboarding.js") || msg.includes("Cannot set properties of null"))) {
+        return true;
+      }
+      return false;
+    };
+  </script>
+  <!-- Dummy container to prevent onboarding.js crash -->
+  <div id="lovable-onboarding-container" style="display:none"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

@@ -44,7 +44,8 @@ const AdminMedia = () => {
                     </div>
 
                     <div className="relative">
-                        <input id="media-input-3" name="media-input-3" type="text" placeholder={t("admin.media_page.search")} className="pl-8 pr-3 py-1 bg-white border border-border text-xs focus:ring-1 focus:ring-[#2271b1] outline-none w-48" />
+                        <label htmlFor="media-input-3" className="sr-only">{t("admin.media_page.search")}</label>
+                        <input id="media-input-3" name="media-input-3" type="text" autoComplete="off" placeholder={t("admin.media_page.search")} className="pl-8 pr-3 py-1 bg-white border border-border text-xs focus:ring-1 focus:ring-[#2271b1] outline-none w-48" />
                         <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
                     </div>
                 </div>

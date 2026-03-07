@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from api.accounts.models import Account, User
+from ..accounts.models import Account, User
 
 
 class Shop(models.Model):

@@ -287,15 +287,19 @@ SidebarInset.displayName = "SidebarInset";
 const SidebarInput = React.forwardRef<React.ElementRef<typeof Input>, React.ComponentProps<typeof Input>>(
   ({ className, ...props }, ref) => {
     return (
-      <Input id="sidebar-input-1" name="sidebar-input-1"
-        ref={ref}
-        data-sidebar="input"
-        className={cn(
-          "h-8 w-full bg-background shadow-none focus-visible:ring-2 focus-visible:ring-sidebar-ring",
-          className,
-        )}
-        {...props}
-      />
+      <>
+        <label htmlFor="sidebar-input-1" className="sr-only">Rechercher</label>
+        <Input id="sidebar-input-1" name="sidebar-input-1"
+          ref={ref}
+          data-sidebar="input"
+          autoComplete="off"
+          className={cn(
+            "h-8 w-full bg-background shadow-none focus-visible:ring-2 focus-visible:ring-sidebar-ring",
+            className,
+          )}
+          {...props}
+        />
+      </>
     );
   },
 );
@@ -496,7 +500,7 @@ const SidebarMenuAction = React.forwardRef<
         "peer-data-[size=lg]/menu-button:top-2.5",
         "group-data-[collapsible=icon]:hidden",
         showOnHover &&
-          "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
+        "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
         className,
       )}
       {...props}

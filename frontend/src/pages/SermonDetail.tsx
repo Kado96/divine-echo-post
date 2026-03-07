@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Calendar, Headphones, User, ArrowLeft, Play, Download, Share2, Facebook, MessageCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -152,17 +152,18 @@ const SermonDetail = () => {
                     <div className="flex flex-col lg:flex-row gap-12">
                         {/* Main Player Area */}
                         <div className="flex-1 space-y-8">
-                            <button
-                                onClick={() => navigate(-1)}
-                                className="flex items-center gap-2 text-muted-foreground hover:text-accent font-medium transition-colors mb-4"
+                            <Link
+                                to="/#emissions"
+                                className="inline-flex items-center gap-2 text-muted-foreground hover:text-accent font-medium transition-colors mb-4 group"
                             >
-                                <ArrowLeft className="w-4 h-4" /> {t("common.back")}
-                            </button>
+                                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> {t("common.back")}
+                            </Link>
 
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5 }}
+                                className="relative z-10"
                             >
                                 {renderPlayer()}
                             </motion.div>
@@ -175,7 +176,7 @@ const SermonDetail = () => {
                                     </div>
                                     <div className="flex items-center gap-2 text-muted-foreground">
                                         <Calendar className="w-5 h-5 text-accent" />
-                                        <span>{new Date(sermon.sermon_date || sermon.created_at).toLocaleDateString()}</span>
+                                        <span>{sermon.sermon_date ? new Date(sermon.sermon_date).toLocaleDateString() : new Date(sermon.created_at).toLocaleDateString()}</span>
                                     </div>
                                     <div className="flex items-center gap-2 text-muted-foreground">
                                         <Headphones className="w-5 h-5 text-accent" />
@@ -197,10 +198,25 @@ const SermonDetail = () => {
                             <div className="bg-card rounded-2xl p-6 border border-border shadow-sm sticky top-24">
                                 <h3 className="text-xl font-bold mb-6">{t("common.share_this")}</h3>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <Button variant="outline" className="gap-2 justify-center border-blue-100 hover:bg-blue-50 text-blue-600">
+                                    <Button
+                                        variant="outline"
+                                        className="gap-2 justify-center border-blue-100 hover:bg-blue-50 text-blue-600"
+                                        onClick={() => {
+                                            const shareUrl = window.location.href;
+                                            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=400');
+                                        }}
+                                    >
                                         <Facebook className="w-4 h-4" /> Facebook
                                     </Button>
-                                    <Button variant="outline" className="gap-2 justify-center border-green-100 hover:bg-green-50 text-green-600">
+                                    <Button
+                                        variant="outline"
+                                        className="gap-2 justify-center border-green-100 hover:bg-green-50 text-green-600"
+                                        onClick={() => {
+                                            const shareUrl = window.location.href;
+                                            const shareTitle = stripHtml(sermon.title);
+                                            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareTitle + " " + shareUrl)}`, '_blank');
+                                        }}
+                                    >
                                         <MessageCircle className="w-4 h-4" /> WhatsApp
                                     </Button>
                                 </div>

@@ -48,7 +48,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8 }}
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-sm font-medium mb-6 border border-accent/30">
-            ✦ {stripHtml(getSetting("hero_subtitle") || t("hero.subtitle"))}
+            {stripHtml(getSetting("hero_badge") || t("hero.subtitle"))}
           </span>
         </motion.div>
 

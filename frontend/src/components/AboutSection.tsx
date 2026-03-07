@@ -1,16 +1,45 @@
 import { motion } from "framer-motion";
-import { Heart, BookOpen, Users, Target, Quote } from "lucide-react";
+import { Heart, BookOpen, Users, Target, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import aboutTeam from "@/assets/about-team.jpg";
 import aboutChurch from "@/assets/about-church.jpg";
 import pastorPortrait from "@/assets/pastor-portrait.jpg";
+import team1 from "@/assets/team/team-1.png";
+import team2 from "@/assets/team/team-2.png";
+import team3 from "@/assets/team/team-3.png";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { apiService } from "@/lib/api";
-import { stripHtml } from "@/lib/utils";
+import { stripHtml, getFullImageUrl } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import useEmblaCarousel from "embla-carousel-react";
 
 const AboutSection = () => {
   const { t, i18n } = useTranslation();
   const [settings, setSettings] = useState<any>(null);
+  const [members, setMembers] = useState<any[]>([]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 40 });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+    emblaApi.on("select", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const autoplay = setInterval(() => {
+      if (emblaApi.canScrollNext()) {
+        emblaApi.scrollNext();
+      }
+    }, 5000);
+    return () => clearInterval(autoplay);
+  }, [emblaApi]);
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -21,7 +50,18 @@ const AboutSection = () => {
         console.error("Failed to fetch settings", err);
       }
     };
+
+    const fetchTeam = async () => {
+      try {
+        const data = await apiService.getTeamMembers();
+        setMembers(Array.isArray(data) ? data : (data?.results || []));
+      } catch (err) {
+        console.error("Failed to fetch team members", err);
+      }
+    };
+
     fetchSettings();
+    fetchTeam();
   }, []);
 
   const getSetting = (key: string) => {
@@ -32,12 +72,65 @@ const AboutSection = () => {
   };
 
 
-  const values = [
-    { icon: BookOpen, title: getSetting("about_feature1") || t("about.feature1"), desc: "" },
-    { icon: Heart, title: getSetting("about_feature2") || t("about.feature2"), desc: "" },
-    { icon: Users, title: getSetting("about_feature3") || t("about.feature3"), desc: "" },
-    { icon: Target, title: getSetting("about_feature4") || t("about.feature4"), desc: "" },
+  const teamCarousel = [
+    {
+      id: 'p1',
+      name: "Jean Emmanuel",
+      role_fr: "Dirigeant Pasteur",
+      role_en: "Lead Pastor",
+      photo: pastorPortrait,
+      desc: "Direction et vision spirituelle du ministère."
+    },
+    {
+      id: 'p2',
+      name: "Donald Nom",
+      role_fr: "Pasteur / Auteur",
+      role_en: "Pastor / Author",
+      photo: team1,
+      desc: "Enseignement et rédaction."
+    },
+    {
+      id: 'p3',
+      name: "kandeke Donald",
+      role_fr: "Pasteur / Auteur",
+      role_en: "Pastor / Author",
+      photo: team2,
+      desc: "Dévoué à la Parole."
+    },
+    {
+      id: 'p4',
+      name: "Patrick Kandeke",
+      role_fr: "Pasteur / Auteur",
+      role_en: "Pastor / Author",
+      photo: team3,
+      desc: "Soutien et leadership."
+    },
+    {
+      id: 't1',
+      name: "qa_agent",
+      role_fr: "Administrateur",
+      role_en: "Administrator",
+      photo: aboutTeam,
+      desc: "Gestion système."
+    },
+    {
+      id: 't2',
+      name: "Donale",
+      role_fr: "Administrateur",
+      role_en: "Administrator",
+      photo: aboutChurch,
+      desc: "Coordination et support."
+    },
   ];
+
+  const displayMembers = members.length > 0 ? members : teamCarousel;
+
+  const values = [
+    { icon: BookOpen, title: getSetting("about_feature1"), desc: "" },
+    { icon: Heart, title: getSetting("about_feature2"), desc: "" },
+    { icon: Users, title: getSetting("about_feature3"), desc: "" },
+    { icon: Target, title: getSetting("about_feature4"), desc: "" },
+  ].filter(v => v.title && v.title.trim() !== "");
   return (
     <section className="py-16 bg-background" id="about">
       <div className="container mx-auto px-4">
@@ -120,54 +213,125 @@ const AboutSection = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-2 bg-primary rounded-3xl p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden"
+            className="lg:col-span-2 bg-primary rounded-3xl p-8 lg:p-10 flex flex-col gap-4 relative overflow-hidden shadow-2xl"
           >
+            {/* Background design element */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div>
-              <Quote className="w-10 h-10 text-accent mb-6" />
-              <p className="text-primary-foreground text-lg md:text-xl leading-relaxed italic mb-8">
-                "{stripHtml(getSetting("quote_text")) || t("about.quote")}"
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
+
+            {/* 1. Author Info at Top */}
+            <div className="flex items-center gap-4 relative z-10">
               <img
                 src={settings?.quote_author_image_display || pastorPortrait}
                 alt="Pasteur"
-                className="w-14 h-14 rounded-full object-cover border-2 border-accent"
+                className="w-16 h-16 rounded-full object-cover border-2 border-accent shadow-lg"
               />
-              <div>
-                <p className="text-primary-foreground font-bold">
+              <div className="min-w-0">
+                <p className="text-primary-foreground font-black text-lg tracking-tight truncate">
                   {stripHtml(getSetting("quote_author_name")) || t("about.pastor_title")}
                 </p>
-                <p className="text-primary-foreground/50 text-sm">
-                  {stripHtml(getSetting("quote_author_subtitle")) || t("hero.subtitle")}
-                </p>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  <p className="text-accent text-[11px] font-black uppercase tracking-[0.2em] truncate">
+                    {stripHtml(getSetting("quote_author_subtitle")) || t("hero.subtitle")}
+                  </p>
+                </div>
               </div>
+            </div>
+
+            {/* 2. Verse/Quote at Bottom */}
+            <div className="relative z-10 flex flex-col">
+              <Quote className="w-8 h-8 text-accent mb-2 opacity-50" />
+              <p className="text-primary-foreground text-xl md:text-2xl font-medium leading-relaxed italic">
+                <span className="text-accent not-italic font-black block text-[10px] uppercase tracking-[0.3em] mb-2">
+                  {t("about.verse_of_day_label") || "Verset du jour :"}
+                </span>
+                "{stripHtml(getSetting("quote_text")) || t("about.quote")}"
+              </p>
             </div>
           </motion.div>
 
-          {/* Team image */}
+          {/* Team image / Carousel */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
-            className="lg:col-span-3 relative rounded-3xl overflow-hidden group"
+            className="lg:col-span-3 relative rounded-3xl overflow-hidden group shadow-2xl"
           >
-            <img
-              src={settings?.team_image_display || aboutTeam}
-              alt="Équipe Shalom"
-              className="w-full h-full min-h-[350px] object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8">
-              <h3 className="text-2xl font-bold text-primary-foreground mb-2">
-                {stripHtml(getSetting("team_title")) || t("about.team_title")}
-              </h3>
-              <p className="text-primary-foreground/70 max-w-md">
-                {stripHtml(getSetting("team_description")) || t("about.team_desc")}
-              </p>
+            <div className="overflow-hidden h-full rounded-3xl min-h-[450px]" ref={emblaRef}>
+              <div className="flex h-full">
+                {displayMembers.map(member => (
+                  <div key={member.id} className="flex-[0_0_100%] min-w-0 relative h-full">
+                    <img
+                      src={member.photo_display || (member.photo?.includes('/src/') || member.photo?.includes('/assets/') ? member.photo : getFullImageUrl(member.photo)) || member.photo}
+                      alt={member.name}
+                      className="w-full h-full min-h-[450px] object-cover transition-transform duration-1000 scale-100 group-hover:scale-110"
+                    />
+
+                    {/* Bottom Right Floating Info Overlay */}
+                    <div className="absolute bottom-12 right-6 md:bottom-16 md:right-10 text-right z-30 pointer-events-none">
+                      <motion.div
+                        initial={{ opacity: 0, x: 50, y: 20 }}
+                        whileInView={{ opacity: 1, x: 0, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 lg:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)] inline-block text-right"
+                      >
+                        <h3 className="text-3xl lg:text-5xl font-black text-white mb-2 leading-none tracking-tighter uppercase drop-shadow-2xl">
+                          {member.name}
+                        </h3>
+                        <div className="flex items-center justify-end gap-3 mt-4">
+                          <span className="w-3 h-3 rounded-full bg-accent shadow-[0_0_15px_rgba(234,179,8,1)] animate-pulse" />
+                          <p className="text-accent text-[12px] lg:text-[14px] font-black uppercase tracking-[0.3em] drop-shadow-md">
+                            {member[`role_${i18n.language}`] || member.role_fr || member.role || "Shalom Ministry"}
+                          </p>
+                        </div>
+                      </motion.div>
+                    </div>
+
+                    {/* Bottom Gradient for readability */}
+                    <div className="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-10" />
+
+                  </div>
+                ))}
+              </div>
             </div>
+
+            {/* Pagination Dots */}
+            {displayMembers.length > 1 && (
+              <div className="absolute top-10 right-10 flex gap-2 z-20">
+                {displayMembers.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => emblaApi?.scrollTo(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-500 border border-white/20 ${index === selectedIndex ? "bg-white w-6 border-white shadow-[0_0_10px_white]" : "bg-white/20 hover:bg-white/40"
+                      }`}
+                    aria-label={`Aller au membre ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Navigation Arrows */}
+            {displayMembers.length > 1 && (
+              <>
+                <button
+                  onClick={() => emblaApi?.scrollPrev()}
+                  className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 hover:bg-accent backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all duration-300 z-30 group/btn shadow-2xl hover:scale-110 active:scale-95"
+                  aria-label="Membre précédent"
+                >
+                  <ChevronLeft className="w-6 h-6 transition-transform group-hover/btn:-translate-x-0.5" />
+                </button>
+                <button
+                  onClick={() => emblaApi?.scrollNext()}
+                  className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 hover:bg-accent backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all duration-300 z-30 group/btn shadow-2xl hover:scale-110 active:scale-95"
+                  aria-label="Membre suivant"
+                >
+                  <ChevronRight className="w-6 h-6 transition-transform group-hover/btn:translate-x-0.5" />
+                </button>
+              </>
+            )}
+
+
           </motion.div>
         </div>
       </div>

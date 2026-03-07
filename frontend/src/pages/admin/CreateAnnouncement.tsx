@@ -13,33 +13,51 @@ const CreateAnnouncement = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
-        title: "",
+        title_fr: "",
+        title_en: "",
+        title_rn: "",
+        title_sw: "",
+        content_fr: "",
+        content_en: "",
+        content_rn: "",
+        content_sw: "",
         priority: "normale",
         event_date: "",
-        content: "",
         is_active: true
     });
 
+    const [activeTab, setActiveTab] = useState('fr');
+
     const handleSubmit = async (e: React.FormEvent, publish = true) => {
         e.preventDefault();
-        if (!formData.title) {
-            toast.error(t("common.title_required"));
+        if (!formData.title_fr) {
+            toast.error(t("admin.announcements_page.validation.title_fr_required"));
             return;
         }
-        if (!formData.content.trim()) {
-            toast.error(t("common.content_required"));
+        if (!formData.content_fr.trim()) {
+            toast.error(t("admin.announcements_page.validation.content_fr_required"));
             return;
         }
         try {
             setLoading(true);
-            const dataToSubmit = { ...formData, is_active: publish };
+            const dataToSubmit = {
+                ...formData,
+                is_active: publish,
+                event_date: formData.event_date || null
+            };
             // Using the new standardized admin announcements endpoint
             await apiService.post('/announcements/admin/', dataToSubmit);
             toast.success(t("common.saved_success"));
             navigate("/admin/announcements");
         } catch (error: any) {
             console.error("Error saving announcement:", error);
-            toast.error(error.message || t("common.error_saving"));
+            if (error.data && typeof error.data === 'object') {
+                const firstError = Object.values(error.data)[0];
+                const msg = Array.isArray(firstError) ? firstError[0] : String(firstError);
+                toast.error(`Erreur : ${msg}`);
+            } else {
+                toast.error(error.message || t("common.error_saving"));
+            }
         } finally {
             setLoading(false);
         }
@@ -57,35 +75,62 @@ const CreateAnnouncement = () => {
                 </header>
 
                 <div className="bg-white border border-border shadow-sm p-6 rounded-2xl">
+                    <div className="flex gap-2 mb-6 border-b border-gray-100 pb-4">
+                        {[
+                            { id: 'fr', label: 'Français' },
+                            { id: 'rn', label: 'Kirundi' },
+                            { id: 'en', label: 'English' },
+                            { id: 'sw', label: 'Kiswahili' }
+                        ].map((lang) => (
+                            <button
+                                key={lang.id}
+                                type="button"
+                                onClick={() => setActiveTab(lang.id)}
+                                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === lang.id ? 'bg-[#2271b1] text-white' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'}`}
+                            >
+                                {lang.label}
+                            </button>
+                        ))}
+                    </div>
+
                     <form className="space-y-6" onSubmit={(e) => handleSubmit(e, true)}>
+                        {/* Dynamic Title based on Active Tab */}
                         <div className="space-y-2">
-                            <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.announcements_page.form.title")}</label>
-                            <input id="createannouncement-input-1" name="createannouncement-input-1"
+                            <label htmlFor={`title-${activeTab}`} className="text-xs font-bold text-gray-700 uppercase cursor-pointer">
+                                {t("admin.announcements_page.form.title")} ({activeTab.toUpperCase()})
+                            </label>
+                            <input
+                                id={`title-${activeTab}`}
+                                name={`title_${activeTab}`}
                                 type="text"
-                                value={formData.title}
-                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                value={formData[`title_${activeTab}` as keyof typeof formData] as string}
+                                onChange={(e) => setFormData({ ...formData, [`title_${activeTab}`]: e.target.value })}
                                 className="w-full px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm"
                                 placeholder={t("admin.announcements_page.form.placeholder_title")}
-                                required
+                                required={activeTab === 'fr'}
                             />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.announcements_page.form.priority")}</label>
-                                <select id="createannouncement-select-2" name="createannouncement-select-2"
+                                <label htmlFor="priority" className="text-xs font-bold text-gray-700 uppercase cursor-pointer">{t("admin.announcements_page.form.priority")}</label>
+                                <select
+                                    id="priority"
+                                    name="priority"
                                     value={formData.priority}
                                     onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
                                     className="w-full px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm"
                                 >
                                     <option value="normale">{t("admin.announcements_page.item.priority_normal")}</option>
-                                    <option value="haute">{t("admin.announcements_page.form.priority_high_help")}</option>
-                                    <option value="basse">{t("admin.announcements_page.item.priority_low") || "Basse"}</option>
+                                    <option value="haute">{t("admin.announcements_page.item.priority_high")}</option>
+                                    <option value="basse">{t("admin.announcements_page.item.priority_low")}</option>
                                 </select>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.announcements_page.form.event_date")}</label>
-                                <input id="createannouncement-input-3" name="createannouncement-input-3"
+                                <label htmlFor="event_date" className="text-xs font-bold text-gray-700 uppercase cursor-pointer">{t("admin.announcements_page.form.event_date")}</label>
+                                <input
+                                    id="event_date"
+                                    name="event_date"
                                     type="date"
                                     value={formData.event_date}
                                     onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
@@ -94,14 +139,19 @@ const CreateAnnouncement = () => {
                             </div>
                         </div>
 
+                        {/* Dynamic Content based on Active Tab */}
                         <div className="space-y-2">
-                            <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.announcements_page.form.message")}</label>
-                            <textarea id="createannouncement-textarea-4" name="createannouncement-textarea-4"
-                                value={formData.content}
-                                onChange={(e) => setFormData({ ...formData, content: stripHtml(e.target.value) })}
+                            <label htmlFor={`content-${activeTab}`} className="text-xs font-bold text-gray-700 uppercase cursor-pointer">
+                                {t("admin.announcements_page.form.message")} ({activeTab.toUpperCase()})
+                            </label>
+                            <textarea
+                                id={`content-${activeTab}`}
+                                name={`content_${activeTab}`}
+                                value={formData[`content_${activeTab}` as keyof typeof formData] as string}
+                                onChange={(e) => setFormData({ ...formData, [`content_${activeTab}`]: e.target.value })}
                                 className="w-full h-40 px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm resize-none"
                                 placeholder="..."
-                                required
+                                required={activeTab === 'fr'}
                             />
                         </div>
 

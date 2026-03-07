@@ -40,7 +40,14 @@ const CreateTestimonial = () => {
             toast.success(t("common.saved_success"));
             navigate("/admin/testimonials");
         } catch (error: any) {
-            toast.error(error.message || t("common.error_saving"));
+            console.error("Save error:", error);
+            if (error.data && typeof error.data === 'object') {
+                const firstError = Object.values(error.data)[0];
+                const msg = Array.isArray(firstError) ? firstError[0] : String(firstError);
+                toast.error(`Erreur : ${msg}`);
+            } else {
+                toast.error(error.message || t("common.error_saving"));
+            }
         } finally {
             setLoading(false);
         }
@@ -61,8 +68,10 @@ const CreateTestimonial = () => {
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.testimonials_page.form.author")}</label>
-                                <input id="createtestimonial-input-1" name="createtestimonial-input-1"
+                                <label htmlFor="testimonial-author" className="text-xs font-bold text-gray-700 uppercase cursor-pointer">{t("admin.testimonials_page.form.author")}</label>
+                                <input
+                                    id="testimonial-author"
+                                    name="author"
                                     type="text"
                                     value={formData.author}
                                     onChange={(e) => setFormData({ ...formData, author: e.target.value })}
@@ -72,8 +81,10 @@ const CreateTestimonial = () => {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.testimonials_page.form.rating")}</label>
-                                <select id="createtestimonial-select-2" name="createtestimonial-select-2"
+                                <label htmlFor="testimonial-rating" className="text-xs font-bold text-gray-700 uppercase cursor-pointer">{t("admin.testimonials_page.form.rating")}</label>
+                                <select
+                                    id="testimonial-rating"
+                                    name="rating"
                                     value={formData.rating}
                                     onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
                                     className="w-full px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm"
@@ -85,8 +96,10 @@ const CreateTestimonial = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.sermons_page.form.language")}</label>
-                                <select id="createtestimonial-select-3" name="createtestimonial-select-3"
+                                <label htmlFor="testimonial-language" className="text-xs font-bold text-gray-700 uppercase cursor-pointer">{t("admin.sermons_page.form.language")}</label>
+                                <select
+                                    id="testimonial-language"
+                                    name="language"
                                     value={formData.language}
                                     onChange={(e) => setFormData({ ...formData, language: e.target.value })}
                                     className="w-full px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm"
@@ -100,9 +113,9 @@ const CreateTestimonial = () => {
                         </div>
 
                         <div className="space-y-2 relative">
-                            <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.testimonials_page.form.content")}</label>
+                            <label htmlFor="testimonial-content" className="text-xs font-bold text-gray-700 uppercase cursor-pointer">{t("admin.testimonials_page.form.content")}</label>
                             <div className="relative">
-                                <textarea id="createtestimonial-textarea-4" name="createtestimonial-textarea-4"
+                                <textarea id="testimonial-content" name="content"
                                     value={formData.content}
                                     onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                                     className="w-full h-40 pl-10 pr-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm resize-none italic"
