@@ -9,6 +9,6 @@ class ContactMessageAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at',)
     actions = ['mark_as_read']
 
+    @admin.action(description="Marquer comme lu")
     def mark_as_read(self, request, queryset):
         queryset.update(is_read=True)
-    mark_as_read.short_description = "Marquer comme lu"

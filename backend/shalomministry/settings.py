@@ -3,58 +3,57 @@
 # ==========================
 
 import os
-import socket
 from pathlib import Path
-from urllib.parse import unquote
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ==========================
-# SECURITY SETTINGS
+# LOAD ENV
 # ==========================
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-me-in-production')
+def load_env():
+    dotenv_path = os.path.join(BASE_DIR, '.env')
+    if os.path.exists(dotenv_path):
+        with open(dotenv_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                if '=' in line:
+                    key, value = line.split('=', 1)
+                    value = value.strip('"').strip("'")
+                    os.environ.setdefault(key.strip(), value.strip())
 
-# Détection automatique du mode DEBUG pour le développement local
-DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+load_env()
+
+# ==========================
+# SECURITY
+# ==========================
+
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-change-me"
+)
+
+DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
 
 # ==========================
 # ALLOWED HOSTS
 # ==========================
 
-ALLOWED_HOSTS_STR = os.environ.get('ALLOWED_HOSTS', '').strip()
-
-if ALLOWED_HOSTS_STR:
-    ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',') if host.strip()]
-else:
-    ALLOWED_HOSTS = []
-
-# Toujours ajouter localhost en développement (même si DEBUG est False)
-# Vérifier si on est en développement local (pas de DATABASE_URL ou SQLite)
-is_local_dev = not os.environ.get('DATABASE_URL') or os.environ.get('DATABASE_URL', '').startswith('sqlite')
-
-if not ALLOWED_HOSTS:
-    if DEBUG or is_local_dev:
-        # En développement, autoriser localhost avec ou sans port
-        ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'localhost:8000', 'localhost:8080', '*']
-    else:
-        # Production: autoriser les domaines spécifiques
-        ALLOWED_HOSTS = [
-            'shalom-ministry-backend-ipu3.onrender.com',
-            'shalom-ministry-backend.onrender.com',
-            'shalomministry.wuaze.com',
-            'www.shalomministry.wuaze.com',
-        ]
-elif is_local_dev:
-    # Si ALLOWED_HOSTS est défini mais qu'on est en développement local, ajouter localhost
-    if 'localhost' not in ALLOWED_HOSTS:
-        ALLOWED_HOSTS.append('localhost')
-    if '127.0.0.1' not in ALLOWED_HOSTS:
-        ALLOWED_HOSTS.append('127.0.0.1')
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "shalom-ministry-backend-ipu3.onrender.com",
+    "shalom-ministry-backend.onrender.com",
+    "shalomministry.wuaze.com",
+    "www.shalomministry.wuaze.com",
+    "*"
+]
 
 # ==========================
-# APPLICATION DEFINITION
+# APPLICATIONS
 # ==========================
 
 INSTALLED_APPS = [
@@ -80,6 +79,10 @@ INSTALLED_APPS = [
     'api.contacts',
 ]
 
+# ==========================
+# MIDDLEWARE
+# ==========================
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -99,17 +102,26 @@ ROOT_URLCONF = 'shalomministry.urls'
 WSGI_APPLICATION = 'shalomministry.wsgi.application'
 
 # ==========================
-# DATABASE CONFIG (Production: PostgreSQL / Local: SQLite)
+# DATABASE
 # ==========================
 
-# Utiliser DATABASE_URL si présent (Render/Production), sinon SQLite (Local)
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
-}
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # ==========================
 # PASSWORD VALIDATION
@@ -138,10 +150,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MEDIA_URL = '/api/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ==========================
 # DEFAULT PRIMARY KEY
@@ -171,30 +183,42 @@ REST_FRAMEWORK = {
 }
 
 # ==========================
-# CORS & CSRF CONFIGURATION
+# CORS CONFIGURATION
 # ==========================
 
 from corsheaders.defaults import default_headers
 
 # Autoriser les origines en production
-if not DEBUG or not is_local_dev:
+if not DEBUG:
     CORS_ALLOWED_ORIGINS = [
         "https://shalomministry.wuaze.com",
+        "http://shalomministry.wuaze.com",
         "https://www.shalomministry.wuaze.com",
+        "http://www.shalomministry.wuaze.com",
         "https://shalom-ministry-backend-ipu3.onrender.com",
     ]
+    # Domaines de confiance pour les requêtes CSRF (formulaires, API PATCH/POST)
     CSRF_TRUSTED_ORIGINS = [
         "https://shalomministry.wuaze.com",
+        "http://shalomministry.wuaze.com",
         "https://www.shalomministry.wuaze.com",
+        "http://www.shalomministry.wuaze.com",
         "https://shalom-ministry-backend-ipu3.onrender.com",
     ]
-    # Important pour Render/Proxies afin que Django sache qu'il est en HTTPS
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 else:
     # En développement, autoriser tout pour faciliter la connexion
     CORS_ALLOW_ALL_ORIGINS = True
     CORS_ALLOWED_ORIGINS = [
-        "http://localhost:5173", # Vite default
+        "http://localhost:5173", # Vite
+        "http://127.0.0.1:5173",
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
         "http://localhost:8080",
         "http://127.0.0.1:8080",
     ]
