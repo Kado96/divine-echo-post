@@ -1,9 +1,8 @@
-from .dependencies import *
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .AccountSerializer import BasicAccountSerializer
+from django.utils import timezone
 from random import randrange
 from datetime import timedelta
-import random
-from django.utils import timezone
 
 # Imports optionnels (si les modules existent)
 try:
@@ -41,7 +40,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         try:
-            data = super(CustomTokenObtainPairSerializer, self).validate(attrs)
+            data = super().validate(attrs)
         except Exception as e:
             # Si la validation de base échoue (mauvais username/password), propager l'erreur
             raise

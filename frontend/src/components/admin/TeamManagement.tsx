@@ -111,7 +111,7 @@ const TeamManagement = ({ activeLang }: { activeLang: string }) => {
                                 {member.photo || member.photo_display ? (
                                     <div className="relative w-full h-full">
                                         <img
-                                            src={member.photo instanceof File ? URL.createObjectURL(member.photo) : getFullImageUrl(member.photo_display || member.photo)}
+                                            src={member.photo && typeof member.photo !== 'string' ? URL.createObjectURL(member.photo as unknown as Blob) : getFullImageUrl(member.photo_display || (member.photo as string))}
                                             alt={member.name}
                                             className="w-full h-full object-cover"
                                         />

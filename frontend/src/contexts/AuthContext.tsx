@@ -12,6 +12,7 @@ interface User {
     is_staff: boolean;
     groups: string[];
     photo_display?: string;
+    photo?: string;
 }
 
 interface AuthContextType {
