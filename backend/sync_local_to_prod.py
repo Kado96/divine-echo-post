@@ -48,10 +48,27 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shalomministry.settings')
 
-# Sauvegarder DATABASE_URL si défini (pour ne pas interférer avec la config locale)
+# Charger manuellement le .env pour récupérer DATABASE_URL si nécessaire
+def load_env_for_sync():
+    env_path = Path(__file__).parent / '.env'
+    if env_path.exists():
+        with open(env_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith('#'): continue
+                if '=' in line:
+                    key, value = line.split('=', 1)
+                    key = key.strip()
+                    value = value.strip().strip('"').strip("'")
+                    if key == 'DATABASE_URL' and not os.environ.get(key):
+                        os.environ[key] = value
+
+load_env_for_sync()
+
+# Sauvegarder DATABASE_URL si défi (pour ne pas interférer avec la config locale)
 original_database_url = os.environ.get('DATABASE_URL')
 if original_database_url:
-    # Retirer temporairement pour que Django utilise SQLite
+    # Retirer temporairement de l'environnement pour que Django utilise SQLite par défaut (config settings.py)
     del os.environ['DATABASE_URL']
 
 django.setup()
@@ -343,7 +360,10 @@ class DatabaseSync:
         # Lire depuis la base locale (SQLite)
         local_queryset = model_class.objects.using('default')
         if order_by:
-            local_queryset = local_queryset.order_by(order_by)
+            if isinstance(order_by, list):
+                local_queryset = local_queryset.order_by(*order_by)
+            else:
+                local_queryset = local_queryset.order_by(order_by)
         local_items = list(local_queryset.all())
         
         # Lire depuis la base de production (PostgreSQL)
@@ -456,7 +476,7 @@ class DatabaseSync:
                 
                 # 7. Lesson, Product, ControlFrequency (dépendent de Course/Shop)
                 logger.info("\n📝 Synchronisation des leçons...")
-                self._sync_model(Lesson, "Lesson", order_by='course_id,order')
+                self._sync_model(Lesson, "Lesson", order_by=['course_id', 'order'])
                 
                 logger.info("\n🏪 Synchronisation des produits...")
                 self._sync_model(Product, "Product")

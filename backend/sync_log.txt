@@ -438,3 +438,1210 @@ Traceback (most recent call last):
 django.db.utils.OperationalError: connection to server at "aws-1-eu-central-1.pooler.supabase.com" (3.65.151.229), port 5432 failed: FATAL:  password authentication failed for user "postgres"
 
 
+2026-03-11 13:56:06,949 - ERROR - 
+❌ Erreur fatale: ❌ DATABASE_URL n'est pas défini.
+Définissez la variable d'environnement DATABASE_URL avec l'URL Supabase.
+Exemple PowerShell: $env:DATABASE_URL = 'postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+Exemple Bash: export DATABASE_URL='postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+2026-03-11 13:56:07,010 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 595, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 97, in __init__
+    raise ValueError(
+ValueError: ❌ DATABASE_URL n'est pas défini.
+Définissez la variable d'environnement DATABASE_URL avec l'URL Supabase.
+Exemple PowerShell: $env:DATABASE_URL = 'postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+Exemple Bash: export DATABASE_URL='postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+
+2026-03-11 13:56:29,900 - ERROR - 
+❌ Erreur fatale: ❌ DATABASE_URL n'est pas défini.
+Définissez la variable d'environnement DATABASE_URL avec l'URL Supabase.
+Exemple PowerShell: $env:DATABASE_URL = 'postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+Exemple Bash: export DATABASE_URL='postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+2026-03-11 13:56:29,903 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 595, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 97, in __init__
+    raise ValueError(
+ValueError: ❌ DATABASE_URL n'est pas défini.
+Définissez la variable d'environnement DATABASE_URL avec l'URL Supabase.
+Exemple PowerShell: $env:DATABASE_URL = 'postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+Exemple Bash: export DATABASE_URL='postgresql://postgres.eiokoxdmgxxyexmqfsua:VOTRE_MOT_DE_PASSE@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require'
+
+2026-03-11 14:00:33,340 - INFO - ✅ Connexion à la base de production réussie
+2026-03-11 14:00:33,343 - INFO - ================================================================================
+2026-03-11 14:00:33,345 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-11 14:00:33,346 - INFO - ================================================================================
+2026-03-11 14:00:33,364 - INFO - Mode: DRY-RUN (simulation)
+2026-03-11 14:00:33,366 - INFO - Base locale: SQLite (postgres)
+2026-03-11 14:00:33,369 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-11 14:00:33,401 - INFO - ================================================================================
+2026-03-11 14:00:33,446 - INFO - 
+================================================================================
+2026-03-11 14:00:33,463 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-11 14:00:33,471 - INFO - ================================================================================
+2026-03-11 14:00:33,474 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-11 14:00:33,475 - INFO - 
+📦 Synchronisation: User
+2026-03-11 14:00:34,644 - ERROR - 
+❌ ERREUR CRITIQUE: relation "auth_user" does not exist
+LINE 1: ...user"."is_active", "auth_user"."date_joined" FROM "auth_user...
+                                                             ^
+
+2026-03-11 14:00:35,033 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "auth_user" does not exist
+LINE 1: ...user"."is_active", "auth_user"."date_joined" FROM "auth_user...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 440, in sync_all
+    self._sync_model(User, "User")
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 364, in _sync_model
+    local_items = list(local_queryset.all())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "auth_user" does not exist
+LINE 1: ...user"."is_active", "auth_user"."date_joined" FROM "auth_user...
+                                                             ^
+
+
+2026-03-11 14:00:35,044 - INFO - 
+📊 STATISTIQUES:
+2026-03-11 14:00:35,046 - INFO -    ✅ Créés: 0
+2026-03-11 14:00:35,047 - INFO -    🔄 Mis à jour: 0
+2026-03-11 14:00:35,048 - INFO -    ⏭️  Ignorés (déjà à jour): 0
+2026-03-11 14:00:35,049 - INFO -    ❌ Erreurs: 0
+2026-03-11 14:00:35,049 - INFO - ================================================================================
+2026-03-11 14:00:35,053 - ERROR - 
+❌ Erreur fatale: relation "auth_user" does not exist
+LINE 1: ...user"."is_active", "auth_user"."date_joined" FROM "auth_user...
+                                                             ^
+
+2026-03-11 14:00:35,060 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "auth_user" does not exist
+LINE 1: ...user"."is_active", "auth_user"."date_joined" FROM "auth_user...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 613, in main
+    sync.sync_all()
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 440, in sync_all
+    self._sync_model(User, "User")
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 364, in _sync_model
+    local_items = list(local_queryset.all())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "auth_user" does not exist
+LINE 1: ...user"."is_active", "auth_user"."date_joined" FROM "auth_user...
+                                                             ^
+
+
+2026-03-11 14:06:28,449 - INFO - ✅ Connexion à la base de production réussie
+2026-03-11 14:06:28,450 - INFO - ================================================================================
+2026-03-11 14:06:28,450 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-11 14:06:28,451 - INFO - ================================================================================
+2026-03-11 14:06:28,451 - INFO - Mode: DRY-RUN (simulation)
+2026-03-11 14:06:28,452 - INFO - Base locale: SQLite (postgres)
+2026-03-11 14:06:28,452 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-11 14:06:28,453 - INFO - ================================================================================
+2026-03-11 14:06:28,454 - INFO - 
+================================================================================
+2026-03-11 14:06:28,454 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-11 14:06:28,457 - INFO - ================================================================================
+2026-03-11 14:06:28,470 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-11 14:06:28,472 - INFO - 
+📦 Synchronisation: User
+2026-03-11 14:06:30,183 - INFO -    Local: 0 éléments
+2026-03-11 14:06:30,183 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:30,184 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-11 14:06:30,185 - INFO - 
+📦 Synchronisation: Account
+2026-03-11 14:06:30,539 - INFO -    Local: 0 éléments
+2026-03-11 14:06:30,540 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:30,541 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-11 14:06:30,541 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-11 14:06:30,919 - INFO -    Local: 0 éléments
+2026-03-11 14:06:30,920 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:30,920 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-11 14:06:30,921 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-11 14:06:31,260 - INFO -    Local: 0 éléments
+2026-03-11 14:06:31,261 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:31,261 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-11 14:06:31,262 - INFO - 
+📦 Synchronisation: Category
+2026-03-11 14:06:31,617 - INFO -    Local: 0 éléments
+2026-03-11 14:06:31,619 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:31,620 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-11 14:06:31,621 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-11 14:06:31,975 - INFO -    Local: 0 éléments
+2026-03-11 14:06:31,975 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:31,976 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-11 14:06:31,976 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-11 14:06:32,332 - INFO -    Local: 0 éléments
+2026-03-11 14:06:32,333 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:32,333 - INFO - 
+📖 Synchronisation des cours...
+2026-03-11 14:06:32,334 - INFO - 
+📦 Synchronisation: Course
+2026-03-11 14:06:32,705 - INFO -    Local: 0 éléments
+2026-03-11 14:06:32,706 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:32,706 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-11 14:06:32,707 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-11 14:06:33,073 - INFO -    Local: 0 éléments
+2026-03-11 14:06:33,074 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:33,074 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-11 14:06:33,075 - INFO - 
+📦 Synchronisation: Shop
+2026-03-11 14:06:33,420 - INFO -    Local: 0 éléments
+2026-03-11 14:06:33,421 - INFO -    Production: 0 éléments existants
+2026-03-11 14:06:33,421 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-11 14:06:33,422 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-11 14:06:33,591 - ERROR - 
+❌ ERREUR CRITIQUE: Cannot resolve keyword 'course_id,order' into field. Choices are: content, course, course_id, created_at, duration_minutes, id, order, progress_entries, title, updated_at, video_file, video_url
+2026-03-11 14:06:33,711 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 476, in sync_all
+    self._sync_model(Lesson, "Lesson", order_by='course_id,order')
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 363, in _sync_model
+    local_queryset = local_queryset.order_by(order_by)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 1701, in order_by
+    obj.query.add_ordering(*field_names)
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\sql\query.py", line 2253, in add_ordering
+    self.names_to_path(item.split(LOOKUP_SEP), self.model._meta)
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\sql\query.py", line 1772, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'course_id,order' into field. Choices are: content, course, course_id, created_at, duration_minutes, id, order, progress_entries, title, updated_at, video_file, video_url
+
+2026-03-11 14:06:33,714 - INFO - 
+📊 STATISTIQUES:
+2026-03-11 14:06:33,715 - INFO -    ✅ Créés: 0
+2026-03-11 14:06:33,715 - INFO -    🔄 Mis à jour: 0
+2026-03-11 14:06:33,715 - INFO -    ⏭️  Ignorés (déjà à jour): 0
+2026-03-11 14:06:33,716 - INFO -    ❌ Erreurs: 0
+2026-03-11 14:06:33,716 - INFO - ================================================================================
+2026-03-11 14:06:33,716 - ERROR - 
+❌ Erreur fatale: Cannot resolve keyword 'course_id,order' into field. Choices are: content, course, course_id, created_at, duration_minutes, id, order, progress_entries, title, updated_at, video_file, video_url
+2026-03-11 14:06:33,720 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 613, in main
+    sync.sync_all()
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 476, in sync_all
+    self._sync_model(Lesson, "Lesson", order_by='course_id,order')
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 363, in _sync_model
+    local_queryset = local_queryset.order_by(order_by)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 1701, in order_by
+    obj.query.add_ordering(*field_names)
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\sql\query.py", line 2253, in add_ordering
+    self.names_to_path(item.split(LOOKUP_SEP), self.model._meta)
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\sql\query.py", line 1772, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'course_id,order' into field. Choices are: content, course, course_id, created_at, duration_minutes, id, order, progress_entries, title, updated_at, video_file, video_url
+
+2026-03-11 14:08:04,580 - INFO - ✅ Connexion à la base de production réussie
+2026-03-11 14:08:04,581 - INFO - ================================================================================
+2026-03-11 14:08:04,581 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-11 14:08:04,581 - INFO - ================================================================================
+2026-03-11 14:08:04,582 - INFO - Mode: DRY-RUN (simulation)
+2026-03-11 14:08:04,582 - INFO - Base locale: SQLite (postgres)
+2026-03-11 14:08:04,582 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-11 14:08:04,582 - INFO - ================================================================================
+2026-03-11 14:08:04,583 - INFO - 
+================================================================================
+2026-03-11 14:08:04,583 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-11 14:08:04,584 - INFO - ================================================================================
+2026-03-11 14:08:04,585 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-11 14:08:04,585 - INFO - 
+📦 Synchronisation: User
+2026-03-11 14:08:06,093 - INFO -    Local: 0 éléments
+2026-03-11 14:08:06,093 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:06,093 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-11 14:08:06,093 - INFO - 
+📦 Synchronisation: Account
+2026-03-11 14:08:06,420 - INFO -    Local: 0 éléments
+2026-03-11 14:08:06,421 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:06,421 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-11 14:08:06,422 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-11 14:08:06,736 - INFO -    Local: 0 éléments
+2026-03-11 14:08:06,736 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:06,737 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-11 14:08:06,737 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-11 14:08:07,056 - INFO -    Local: 0 éléments
+2026-03-11 14:08:07,057 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:07,057 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-11 14:08:07,058 - INFO - 
+📦 Synchronisation: Category
+2026-03-11 14:08:07,375 - INFO -    Local: 0 éléments
+2026-03-11 14:08:07,376 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:07,377 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-11 14:08:07,378 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-11 14:08:07,693 - INFO -    Local: 0 éléments
+2026-03-11 14:08:07,694 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:07,694 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-11 14:08:07,695 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-11 14:08:08,004 - INFO -    Local: 0 éléments
+2026-03-11 14:08:08,005 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:08,005 - INFO - 
+📖 Synchronisation des cours...
+2026-03-11 14:08:08,006 - INFO - 
+📦 Synchronisation: Course
+2026-03-11 14:08:08,344 - INFO -    Local: 0 éléments
+2026-03-11 14:08:08,345 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:08,345 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-11 14:08:08,347 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-11 14:08:08,680 - INFO -    Local: 0 éléments
+2026-03-11 14:08:08,681 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:08,681 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-11 14:08:08,682 - INFO - 
+📦 Synchronisation: Shop
+2026-03-11 14:08:08,992 - INFO -    Local: 0 éléments
+2026-03-11 14:08:08,993 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:08,993 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-11 14:08:08,994 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-11 14:08:09,325 - INFO -    Local: 0 éléments
+2026-03-11 14:08:09,325 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:09,326 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-11 14:08:09,327 - INFO - 
+📦 Synchronisation: Product
+2026-03-11 14:08:09,644 - INFO -    Local: 0 éléments
+2026-03-11 14:08:09,645 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:09,645 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-11 14:08:09,646 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-11 14:08:09,986 - INFO -    Local: 0 éléments
+2026-03-11 14:08:09,987 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:09,987 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-11 14:08:09,988 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-11 14:08:10,351 - INFO -    Local: 0 éléments
+2026-03-11 14:08:10,360 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:10,361 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-11 14:08:10,363 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-11 14:08:10,702 - INFO -    Local: 0 éléments
+2026-03-11 14:08:10,703 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:10,703 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-11 14:08:10,704 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-11 14:08:11,066 - INFO -    Local: 0 éléments
+2026-03-11 14:08:11,066 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:11,067 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-11 14:08:11,067 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-11 14:08:11,432 - INFO -    Local: 0 éléments
+2026-03-11 14:08:11,432 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:11,433 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-11 14:08:11,433 - INFO - 
+📦 Synchronisation: Supply
+2026-03-11 14:08:11,788 - INFO -    Local: 0 éléments
+2026-03-11 14:08:11,789 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:11,789 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-11 14:08:11,790 - INFO - 
+📦 Synchronisation: Sales
+2026-03-11 14:08:12,137 - INFO -    Local: 0 éléments
+2026-03-11 14:08:12,138 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:12,139 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-11 14:08:12,139 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-11 14:08:12,500 - INFO -    Local: 0 éléments
+2026-03-11 14:08:12,501 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:12,501 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-11 14:08:12,502 - INFO - 
+📦 Synchronisation: History
+2026-03-11 14:08:12,838 - INFO -    Local: 0 éléments
+2026-03-11 14:08:12,839 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:12,839 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-11 14:08:13,560 - INFO -    ⏭️  Paramètres du site déjà à jour
+2026-03-11 14:08:13,561 - INFO - 
+================================================================================
+2026-03-11 14:08:13,561 - INFO - ⚠️  MODE DRY-RUN - Aucune modification n'a été effectuée
+2026-03-11 14:08:13,563 - INFO - ================================================================================
+2026-03-11 14:08:13,729 - INFO - 
+📊 STATISTIQUES:
+2026-03-11 14:08:13,730 - INFO -    ✅ Créés: 0
+2026-03-11 14:08:13,731 - INFO -    🔄 Mis à jour: 0
+2026-03-11 14:08:13,731 - INFO -    ⏭️  Ignorés (déjà à jour): 1
+2026-03-11 14:08:13,732 - INFO -    ❌ Erreurs: 0
+2026-03-11 14:08:13,732 - INFO - ================================================================================
+2026-03-11 14:08:37,321 - INFO - ✅ Connexion à la base de production réussie
+2026-03-11 14:08:37,321 - INFO - ================================================================================
+2026-03-11 14:08:37,322 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-11 14:08:37,322 - INFO - ================================================================================
+2026-03-11 14:08:37,323 - INFO - Mode: SYNCHRONISATION RÉELLE
+2026-03-11 14:08:37,323 - INFO - Base locale: SQLite (postgres)
+2026-03-11 14:08:37,324 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-11 14:08:37,324 - INFO - ================================================================================
+2026-03-11 14:08:48,317 - INFO - 
+================================================================================
+2026-03-11 14:08:48,318 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-11 14:08:48,318 - INFO - ================================================================================
+2026-03-11 14:08:48,318 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-11 14:08:48,319 - INFO - 
+📦 Synchronisation: User
+2026-03-11 14:08:49,884 - INFO -    Local: 0 éléments
+2026-03-11 14:08:49,885 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:49,885 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-11 14:08:49,886 - INFO - 
+📦 Synchronisation: Account
+2026-03-11 14:08:50,203 - INFO -    Local: 0 éléments
+2026-03-11 14:08:50,204 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:50,204 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-11 14:08:50,205 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-11 14:08:50,527 - INFO -    Local: 0 éléments
+2026-03-11 14:08:50,528 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:50,528 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-11 14:08:50,529 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-11 14:08:50,851 - INFO -    Local: 0 éléments
+2026-03-11 14:08:50,852 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:50,852 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-11 14:08:50,853 - INFO - 
+📦 Synchronisation: Category
+2026-03-11 14:08:51,167 - INFO -    Local: 0 éléments
+2026-03-11 14:08:51,168 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:51,168 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-11 14:08:51,169 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-11 14:08:51,500 - INFO -    Local: 0 éléments
+2026-03-11 14:08:51,500 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:51,500 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-11 14:08:51,501 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-11 14:08:51,820 - INFO -    Local: 0 éléments
+2026-03-11 14:08:51,820 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:51,821 - INFO - 
+📖 Synchronisation des cours...
+2026-03-11 14:08:51,821 - INFO - 
+📦 Synchronisation: Course
+2026-03-11 14:08:52,148 - INFO -    Local: 0 éléments
+2026-03-11 14:08:52,149 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:52,149 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-11 14:08:52,150 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-11 14:08:52,492 - INFO -    Local: 0 éléments
+2026-03-11 14:08:52,492 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:52,493 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-11 14:08:52,493 - INFO - 
+📦 Synchronisation: Shop
+2026-03-11 14:08:52,823 - INFO -    Local: 0 éléments
+2026-03-11 14:08:52,824 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:52,824 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-11 14:08:52,825 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-11 14:08:53,147 - INFO -    Local: 0 éléments
+2026-03-11 14:08:53,148 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:53,148 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-11 14:08:53,149 - INFO - 
+📦 Synchronisation: Product
+2026-03-11 14:08:53,467 - INFO -    Local: 0 éléments
+2026-03-11 14:08:53,467 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:53,468 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-11 14:08:53,469 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-11 14:08:53,795 - INFO -    Local: 0 éléments
+2026-03-11 14:08:53,796 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:53,796 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-11 14:08:53,797 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-11 14:08:54,123 - INFO -    Local: 0 éléments
+2026-03-11 14:08:54,124 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:54,124 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-11 14:08:54,125 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-11 14:08:54,459 - INFO -    Local: 0 éléments
+2026-03-11 14:08:54,460 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:54,460 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-11 14:08:54,461 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-11 14:08:54,780 - INFO -    Local: 0 éléments
+2026-03-11 14:08:54,780 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:54,781 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-11 14:08:54,781 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-11 14:08:55,140 - INFO -    Local: 0 éléments
+2026-03-11 14:08:55,141 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:55,141 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-11 14:08:55,142 - INFO - 
+📦 Synchronisation: Supply
+2026-03-11 14:08:55,460 - INFO -    Local: 0 éléments
+2026-03-11 14:08:55,460 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:55,461 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-11 14:08:55,461 - INFO - 
+📦 Synchronisation: Sales
+2026-03-11 14:08:55,776 - INFO -    Local: 0 éléments
+2026-03-11 14:08:55,777 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:55,777 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-11 14:08:55,778 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-11 14:08:56,088 - INFO -    Local: 0 éléments
+2026-03-11 14:08:56,089 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:56,089 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-11 14:08:56,090 - INFO - 
+📦 Synchronisation: History
+2026-03-11 14:08:56,420 - INFO -    Local: 0 éléments
+2026-03-11 14:08:56,421 - INFO -    Production: 0 éléments existants
+2026-03-11 14:08:56,421 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-11 14:08:57,091 - INFO -    ⏭️  Paramètres du site déjà à jour
+2026-03-11 14:08:57,091 - INFO - 
+================================================================================
+2026-03-11 14:08:57,092 - INFO - ✅ SYNCHRONISATION TERMINÉE
+2026-03-11 14:08:57,093 - INFO - ================================================================================
+2026-03-11 14:08:57,256 - INFO - 
+📊 STATISTIQUES:
+2026-03-11 14:08:57,256 - INFO -    ✅ Créés: 0
+2026-03-11 14:08:57,256 - INFO -    🔄 Mis à jour: 0
+2026-03-11 14:08:57,257 - INFO -    ⏭️  Ignorés (déjà à jour): 1
+2026-03-11 14:08:57,257 - INFO -    ❌ Erreurs: 0
+2026-03-11 14:08:57,258 - INFO - ================================================================================
+2026-03-11 14:13:33,090 - ERROR - 
+❌ Erreur fatale: No support for ''. We support: cockroach, mssql, mssqlms, mysql, mysql-connector, mysql2, mysqlgis, oracle, oraclegis, pgsql, postgis, postgres, postgresql, redshift, spatialite, sqlite, timescale, timescalegis
+2026-03-11 14:13:33,161 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 615, in main
+    sync = DatabaseSync(dry_run=args.dry_run, confirm=args.confirm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 136, in __init__
+    self._setup_prod_database()
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 169, in _setup_prod_database
+    db_config = dj_database_url.parse(
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\dj_database_url\__init__.py", line 126, in parse
+    raise ValueError(
+ValueError: No support for ''. We support: cockroach, mssql, mssqlms, mysql, mysql-connector, mysql2, mysqlgis, oracle, oraclegis, pgsql, postgis, postgres, postgresql, redshift, spatialite, sqlite, timescale, timescalegis
+
+2026-03-11 14:18:16,746 - INFO - ✅ Connexion à la base de production réussie
+2026-03-11 14:18:16,746 - INFO - ================================================================================
+2026-03-11 14:18:16,747 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-11 14:18:16,748 - INFO - ================================================================================
+2026-03-11 14:18:16,748 - INFO - Mode: SYNCHRONISATION RÉELLE
+2026-03-11 14:18:16,748 - INFO - Base locale: SQLite (postgres)
+2026-03-11 14:18:16,748 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-11 14:18:16,749 - INFO - ================================================================================
+2026-03-11 14:18:21,460 - INFO - 
+================================================================================
+2026-03-11 14:18:21,461 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-11 14:18:21,461 - INFO - ================================================================================
+2026-03-11 14:18:21,462 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-11 14:18:21,462 - INFO - 
+📦 Synchronisation: User
+2026-03-11 14:18:23,369 - INFO -    Local: 0 éléments
+2026-03-11 14:18:23,370 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:23,371 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-11 14:18:23,371 - INFO - 
+📦 Synchronisation: Account
+2026-03-11 14:18:23,754 - INFO -    Local: 0 éléments
+2026-03-11 14:18:23,754 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:23,754 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-11 14:18:23,755 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-11 14:18:24,154 - INFO -    Local: 7 éléments
+2026-03-11 14:18:24,155 - INFO -    Production: 7 éléments existants
+2026-03-11 14:18:24,156 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-11 14:18:24,157 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-11 14:18:24,538 - INFO -    Local: 0 éléments
+2026-03-11 14:18:24,538 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:24,538 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-11 14:18:24,539 - INFO - 
+📦 Synchronisation: Category
+2026-03-11 14:18:24,927 - INFO -    Local: 0 éléments
+2026-03-11 14:18:24,927 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:24,928 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-11 14:18:24,928 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-11 14:18:25,269 - INFO -    Local: 0 éléments
+2026-03-11 14:18:25,297 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:25,298 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-11 14:18:25,299 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-11 14:18:25,642 - INFO -    Local: 0 éléments
+2026-03-11 14:18:25,642 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:25,643 - INFO - 
+📖 Synchronisation des cours...
+2026-03-11 14:18:25,643 - INFO - 
+📦 Synchronisation: Course
+2026-03-11 14:18:25,982 - INFO -    Local: 0 éléments
+2026-03-11 14:18:25,983 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:25,983 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-11 14:18:25,984 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-11 14:18:26,315 - INFO -    Local: 0 éléments
+2026-03-11 14:18:26,315 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:26,316 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-11 14:18:26,316 - INFO - 
+📦 Synchronisation: Shop
+2026-03-11 14:18:26,647 - INFO -    Local: 0 éléments
+2026-03-11 14:18:26,648 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:26,649 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-11 14:18:26,649 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-11 14:18:27,002 - INFO -    Local: 0 éléments
+2026-03-11 14:18:27,003 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:27,004 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-11 14:18:27,004 - INFO - 
+📦 Synchronisation: Product
+2026-03-11 14:18:27,342 - INFO -    Local: 0 éléments
+2026-03-11 14:18:27,343 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:27,344 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-11 14:18:27,344 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-11 14:18:27,682 - INFO -    Local: 0 éléments
+2026-03-11 14:18:27,682 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:27,683 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-11 14:18:27,684 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-11 14:18:28,026 - INFO -    Local: 0 éléments
+2026-03-11 14:18:28,026 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:28,027 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-11 14:18:28,028 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-11 14:18:28,370 - INFO -    Local: 0 éléments
+2026-03-11 14:18:28,371 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:28,371 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-11 14:18:28,372 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-11 14:18:28,721 - INFO -    Local: 0 éléments
+2026-03-11 14:18:28,721 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:28,722 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-11 14:18:28,723 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-11 14:18:29,069 - INFO -    Local: 0 éléments
+2026-03-11 14:18:29,070 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:29,070 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-11 14:18:29,071 - INFO - 
+📦 Synchronisation: Supply
+2026-03-11 14:18:29,402 - INFO -    Local: 0 éléments
+2026-03-11 14:18:29,403 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:29,404 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-11 14:18:29,404 - INFO - 
+📦 Synchronisation: Sales
+2026-03-11 14:18:29,745 - INFO -    Local: 0 éléments
+2026-03-11 14:18:29,746 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:29,746 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-11 14:18:29,747 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-11 14:18:30,078 - INFO -    Local: 0 éléments
+2026-03-11 14:18:30,079 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:30,079 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-11 14:18:30,080 - INFO - 
+📦 Synchronisation: History
+2026-03-11 14:18:30,434 - INFO -    Local: 0 éléments
+2026-03-11 14:18:30,435 - INFO -    Production: 0 éléments existants
+2026-03-11 14:18:30,435 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-11 14:18:31,208 - INFO -    ⏭️  Paramètres du site déjà à jour
+2026-03-11 14:18:31,208 - INFO - 
+================================================================================
+2026-03-11 14:18:31,209 - INFO - ✅ SYNCHRONISATION TERMINÉE
+2026-03-11 14:18:31,210 - INFO - ================================================================================
+2026-03-11 14:18:31,386 - INFO - 
+📊 STATISTIQUES:
+2026-03-11 14:18:31,387 - INFO -    ✅ Créés: 0
+2026-03-11 14:18:31,387 - INFO -    🔄 Mis à jour: 0
+2026-03-11 14:18:31,388 - INFO -    ⏭️  Ignorés (déjà à jour): 8
+2026-03-11 14:18:31,388 - INFO -    ❌ Erreurs: 0
+2026-03-11 14:18:31,389 - INFO - ================================================================================
+2026-03-11 14:32:16,788 - INFO - ✅ Connexion à la base de production réussie
+2026-03-11 14:32:16,789 - INFO - ================================================================================
+2026-03-11 14:32:16,790 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-11 14:32:16,790 - INFO - ================================================================================
+2026-03-11 14:32:16,790 - INFO - Mode: SYNCHRONISATION RÉELLE
+2026-03-11 14:32:16,790 - INFO - Base locale: SQLite (postgres)
+2026-03-11 14:32:16,791 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-11 14:32:16,791 - INFO - ================================================================================
+2026-03-11 14:32:21,113 - INFO - 
+================================================================================
+2026-03-11 14:32:21,113 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-11 14:32:21,114 - INFO - ================================================================================
+2026-03-11 14:32:21,115 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-11 14:32:21,115 - INFO - 
+📦 Synchronisation: User
+2026-03-11 14:32:22,836 - INFO -    Local: 0 éléments
+2026-03-11 14:32:22,837 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:22,837 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-11 14:32:22,838 - INFO - 
+📦 Synchronisation: Account
+2026-03-11 14:32:23,176 - INFO -    Local: 0 éléments
+2026-03-11 14:32:23,177 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:23,177 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-11 14:32:23,178 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-11 14:32:23,529 - INFO -    Local: 7 éléments
+2026-03-11 14:32:23,530 - INFO -    Production: 7 éléments existants
+2026-03-11 14:32:23,532 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-11 14:32:23,532 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-11 14:32:23,892 - INFO -    Local: 0 éléments
+2026-03-11 14:32:23,893 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:23,893 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-11 14:32:23,894 - INFO - 
+📦 Synchronisation: Category
+2026-03-11 14:32:24,244 - INFO -    Local: 0 éléments
+2026-03-11 14:32:24,245 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:24,245 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-11 14:32:24,246 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-11 14:32:24,597 - INFO -    Local: 0 éléments
+2026-03-11 14:32:24,597 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:24,597 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-11 14:32:24,598 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-11 14:32:24,935 - INFO -    Local: 0 éléments
+2026-03-11 14:32:24,936 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:24,936 - INFO - 
+📖 Synchronisation des cours...
+2026-03-11 14:32:24,936 - INFO - 
+📦 Synchronisation: Course
+2026-03-11 14:32:25,298 - INFO -    Local: 0 éléments
+2026-03-11 14:32:25,299 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:25,299 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-11 14:32:25,300 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-11 14:32:25,654 - INFO -    Local: 0 éléments
+2026-03-11 14:32:25,654 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:25,654 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-11 14:32:25,655 - INFO - 
+📦 Synchronisation: Shop
+2026-03-11 14:32:25,999 - INFO -    Local: 0 éléments
+2026-03-11 14:32:25,999 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:26,000 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-11 14:32:26,001 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-11 14:32:26,354 - INFO -    Local: 0 éléments
+2026-03-11 14:32:26,355 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:26,355 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-11 14:32:26,356 - INFO - 
+📦 Synchronisation: Product
+2026-03-11 14:32:26,702 - INFO -    Local: 0 éléments
+2026-03-11 14:32:26,703 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:26,704 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-11 14:32:26,704 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-11 14:32:27,045 - INFO -    Local: 0 éléments
+2026-03-11 14:32:27,046 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:27,047 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-11 14:32:27,047 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-11 14:32:27,402 - INFO -    Local: 0 éléments
+2026-03-11 14:32:27,403 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:27,403 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-11 14:32:27,404 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-11 14:32:27,745 - INFO -    Local: 0 éléments
+2026-03-11 14:32:27,746 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:27,746 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-11 14:32:27,748 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-11 14:32:28,090 - INFO -    Local: 0 éléments
+2026-03-11 14:32:28,090 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:28,090 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-11 14:32:28,091 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-11 14:32:28,439 - INFO -    Local: 0 éléments
+2026-03-11 14:32:28,440 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:28,461 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-11 14:32:28,464 - INFO - 
+📦 Synchronisation: Supply
+2026-03-11 14:32:28,797 - INFO -    Local: 0 éléments
+2026-03-11 14:32:28,798 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:28,799 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-11 14:32:28,799 - INFO - 
+📦 Synchronisation: Sales
+2026-03-11 14:32:29,134 - INFO -    Local: 0 éléments
+2026-03-11 14:32:29,135 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:29,135 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-11 14:32:29,136 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-11 14:32:29,478 - INFO -    Local: 0 éléments
+2026-03-11 14:32:29,478 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:29,478 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-11 14:32:29,479 - INFO - 
+📦 Synchronisation: History
+2026-03-11 14:32:29,826 - INFO -    Local: 0 éléments
+2026-03-11 14:32:29,826 - INFO -    Production: 0 éléments existants
+2026-03-11 14:32:29,826 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-11 14:32:30,544 - INFO -    ⏭️  Paramètres du site déjà à jour
+2026-03-11 14:32:30,545 - INFO - 
+================================================================================
+2026-03-11 14:32:30,545 - INFO - ✅ SYNCHRONISATION TERMINÉE
+2026-03-11 14:32:30,546 - INFO - ================================================================================
+2026-03-11 14:32:30,717 - INFO - 
+📊 STATISTIQUES:
+2026-03-11 14:32:30,720 - INFO -    ✅ Créés: 0
+2026-03-11 14:32:30,722 - INFO -    🔄 Mis à jour: 0
+2026-03-11 14:32:30,722 - INFO -    ⏭️  Ignorés (déjà à jour): 8
+2026-03-11 14:32:30,723 - INFO -    ❌ Erreurs: 0
+2026-03-11 14:32:30,723 - INFO - ================================================================================
+2026-03-11 16:22:36,979 - INFO - ✅ Connexion à la base de production réussie
+2026-03-11 16:22:37,019 - INFO - ================================================================================
+2026-03-11 16:22:37,023 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-11 16:22:37,024 - INFO - ================================================================================
+2026-03-11 16:22:37,025 - INFO - Mode: DRY-RUN (simulation)
+2026-03-11 16:22:37,027 - INFO - Base locale: SQLite (postgres)
+2026-03-11 16:22:37,028 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-11 16:22:37,029 - INFO - ================================================================================
+2026-03-11 16:22:37,030 - INFO - 
+================================================================================
+2026-03-11 16:22:37,031 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-11 16:22:37,032 - INFO - ================================================================================
+2026-03-11 16:22:37,032 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-11 16:22:37,032 - INFO - 
+📦 Synchronisation: User
+2026-03-11 16:22:38,700 - INFO -    Local: 2 éléments
+2026-03-11 16:22:38,701 - INFO -    Production: 2 éléments existants
+2026-03-11 16:22:39,424 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-11 16:22:39,425 - INFO - 
+📦 Synchronisation: Account
+2026-03-11 16:22:39,768 - INFO -    Local: 2 éléments
+2026-03-11 16:22:39,769 - INFO -    Production: 2 éléments existants
+2026-03-11 16:22:40,124 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-11 16:22:40,125 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-11 16:22:40,521 - INFO -    Local: 7 éléments
+2026-03-11 16:22:40,521 - INFO -    Production: 7 éléments existants
+2026-03-11 16:22:40,522 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-11 16:22:40,523 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-11 16:22:40,892 - INFO -    Local: 0 éléments
+2026-03-11 16:22:40,905 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:40,930 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-11 16:22:40,977 - INFO - 
+📦 Synchronisation: Category
+2026-03-11 16:22:41,323 - INFO -    Local: 0 éléments
+2026-03-11 16:22:41,324 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:41,324 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-11 16:22:41,325 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-11 16:22:41,672 - INFO -    Local: 0 éléments
+2026-03-11 16:22:41,673 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:41,674 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-11 16:22:41,674 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-11 16:22:42,021 - INFO -    Local: 0 éléments
+2026-03-11 16:22:42,039 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:42,041 - INFO - 
+📖 Synchronisation des cours...
+2026-03-11 16:22:42,043 - INFO - 
+📦 Synchronisation: Course
+2026-03-11 16:22:42,438 - INFO -    Local: 0 éléments
+2026-03-11 16:22:42,438 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:42,439 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-11 16:22:42,439 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-11 16:22:42,788 - INFO -    Local: 0 éléments
+2026-03-11 16:22:42,789 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:42,789 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-11 16:22:42,790 - INFO - 
+📦 Synchronisation: Shop
+2026-03-11 16:22:43,137 - INFO -    Local: 0 éléments
+2026-03-11 16:22:43,137 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:43,138 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-11 16:22:43,139 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-11 16:22:43,488 - INFO -    Local: 0 éléments
+2026-03-11 16:22:43,488 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:43,489 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-11 16:22:43,490 - INFO - 
+📦 Synchronisation: Product
+2026-03-11 16:22:43,835 - INFO -    Local: 0 éléments
+2026-03-11 16:22:43,836 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:43,836 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-11 16:22:43,837 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-11 16:22:44,165 - INFO -    Local: 0 éléments
+2026-03-11 16:22:44,165 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:44,166 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-11 16:22:44,166 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-11 16:22:44,512 - INFO -    Local: 0 éléments
+2026-03-11 16:22:44,512 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:44,514 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-11 16:22:44,515 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-11 16:22:44,848 - INFO -    Local: 0 éléments
+2026-03-11 16:22:44,848 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:44,849 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-11 16:22:44,849 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-11 16:22:45,185 - INFO -    Local: 0 éléments
+2026-03-11 16:22:45,185 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:45,186 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-11 16:22:45,188 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-11 16:22:45,552 - INFO -    Local: 0 éléments
+2026-03-11 16:22:45,553 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:45,553 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-11 16:22:45,554 - INFO - 
+📦 Synchronisation: Supply
+2026-03-11 16:22:45,882 - INFO -    Local: 0 éléments
+2026-03-11 16:22:45,883 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:45,884 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-11 16:22:45,884 - INFO - 
+📦 Synchronisation: Sales
+2026-03-11 16:22:46,202 - INFO -    Local: 0 éléments
+2026-03-11 16:22:46,203 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:46,203 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-11 16:22:46,204 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-11 16:22:46,522 - INFO -    Local: 0 éléments
+2026-03-11 16:22:46,523 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:46,524 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-11 16:22:46,524 - INFO - 
+📦 Synchronisation: History
+2026-03-11 16:22:46,842 - INFO -    Local: 0 éléments
+2026-03-11 16:22:46,843 - INFO -    Production: 0 éléments existants
+2026-03-11 16:22:46,844 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-11 16:22:47,574 - INFO -    ⏭️  Paramètres du site déjà à jour
+2026-03-11 16:22:47,575 - INFO - 
+================================================================================
+2026-03-11 16:22:47,576 - INFO - ⚠️  MODE DRY-RUN - Aucune modification n'a été effectuée
+2026-03-11 16:22:47,576 - INFO - ================================================================================
+2026-03-11 16:22:47,739 - INFO - 
+📊 STATISTIQUES:
+2026-03-11 16:22:47,740 - INFO -    ✅ Créés: 0
+2026-03-11 16:22:47,740 - INFO -    🔄 Mis à jour: 0
+2026-03-11 16:22:47,740 - INFO -    ⏭️  Ignorés (déjà à jour): 12
+2026-03-11 16:22:47,741 - INFO -    ❌ Erreurs: 0
+2026-03-11 16:22:47,741 - INFO - ================================================================================
+2026-03-11 17:01:42,350 - INFO - ✅ Connexion à la base de production réussie
+2026-03-11 17:01:42,374 - INFO - ================================================================================
+2026-03-11 17:01:42,376 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-11 17:01:42,378 - INFO - ================================================================================
+2026-03-11 17:01:42,381 - INFO - Mode: SYNCHRONISATION RÉELLE
+2026-03-11 17:01:42,384 - INFO - Base locale: SQLite (postgres)
+2026-03-11 17:01:42,385 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-11 17:01:42,387 - INFO - ================================================================================
+2026-03-11 17:01:49,468 - INFO - 
+================================================================================
+2026-03-11 17:01:49,469 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-11 17:01:49,469 - INFO - ================================================================================
+2026-03-11 17:01:49,470 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-11 17:01:49,471 - INFO - 
+📦 Synchronisation: User
+2026-03-11 17:01:51,268 - INFO -    Local: 2 éléments
+2026-03-11 17:01:51,269 - INFO -    Production: 2 éléments existants
+2026-03-11 17:01:51,910 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-11 17:01:51,910 - INFO - 
+📦 Synchronisation: Account
+2026-03-11 17:01:52,230 - INFO -    Local: 2 éléments
+2026-03-11 17:01:52,230 - INFO -    Production: 2 éléments existants
+2026-03-11 17:01:52,549 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-11 17:01:52,550 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-11 17:01:52,877 - INFO -    Local: 7 éléments
+2026-03-11 17:01:52,877 - INFO -    Production: 7 éléments existants
+2026-03-11 17:01:52,878 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-11 17:01:52,879 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-11 17:01:53,214 - INFO -    Local: 0 éléments
+2026-03-11 17:01:53,214 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:53,214 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-11 17:01:53,215 - INFO - 
+📦 Synchronisation: Category
+2026-03-11 17:01:53,541 - INFO -    Local: 0 éléments
+2026-03-11 17:01:53,541 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:53,541 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-11 17:01:53,542 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-11 17:01:53,865 - INFO -    Local: 0 éléments
+2026-03-11 17:01:53,866 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:53,867 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-11 17:01:53,867 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-11 17:01:54,197 - INFO -    Local: 0 éléments
+2026-03-11 17:01:54,197 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:54,198 - INFO - 
+📖 Synchronisation des cours...
+2026-03-11 17:01:54,199 - INFO - 
+📦 Synchronisation: Course
+2026-03-11 17:01:54,545 - INFO -    Local: 0 éléments
+2026-03-11 17:01:54,546 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:54,546 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-11 17:01:54,547 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-11 17:01:54,890 - INFO -    Local: 0 éléments
+2026-03-11 17:01:54,890 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:54,890 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-11 17:01:54,891 - INFO - 
+📦 Synchronisation: Shop
+2026-03-11 17:01:55,217 - INFO -    Local: 0 éléments
+2026-03-11 17:01:55,218 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:55,219 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-11 17:01:55,219 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-11 17:01:55,541 - INFO -    Local: 0 éléments
+2026-03-11 17:01:55,542 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:55,543 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-11 17:01:55,543 - INFO - 
+📦 Synchronisation: Product
+2026-03-11 17:01:55,877 - INFO -    Local: 0 éléments
+2026-03-11 17:01:55,878 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:55,878 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-11 17:01:55,879 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-11 17:01:56,201 - INFO -    Local: 0 éléments
+2026-03-11 17:01:56,202 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:56,203 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-11 17:01:56,203 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-11 17:01:56,533 - INFO -    Local: 0 éléments
+2026-03-11 17:01:56,534 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:56,535 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-11 17:01:56,535 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-11 17:01:56,956 - INFO -    Local: 0 éléments
+2026-03-11 17:01:56,957 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:56,957 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-11 17:01:56,958 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-11 17:01:57,313 - INFO -    Local: 0 éléments
+2026-03-11 17:01:57,313 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:57,314 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-11 17:01:57,315 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-11 17:01:57,676 - INFO -    Local: 0 éléments
+2026-03-11 17:01:57,676 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:57,677 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-11 17:01:57,677 - INFO - 
+📦 Synchronisation: Supply
+2026-03-11 17:01:58,023 - INFO -    Local: 0 éléments
+2026-03-11 17:01:58,024 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:58,024 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-11 17:01:58,025 - INFO - 
+📦 Synchronisation: Sales
+2026-03-11 17:01:58,401 - INFO -    Local: 0 éléments
+2026-03-11 17:01:58,402 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:58,403 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-11 17:01:58,404 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-11 17:01:58,764 - INFO -    Local: 0 éléments
+2026-03-11 17:01:58,765 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:58,765 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-11 17:01:58,766 - INFO - 
+📦 Synchronisation: History
+2026-03-11 17:01:59,122 - INFO -    Local: 0 éléments
+2026-03-11 17:01:59,122 - INFO -    Production: 0 éléments existants
+2026-03-11 17:01:59,122 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-11 17:01:59,918 - INFO -    ⏭️  Paramètres du site déjà à jour
+2026-03-11 17:01:59,918 - INFO - 
+================================================================================
+2026-03-11 17:01:59,919 - INFO - ✅ SYNCHRONISATION TERMINÉE
+2026-03-11 17:01:59,919 - INFO - ================================================================================
+2026-03-11 17:02:00,092 - INFO - 
+📊 STATISTIQUES:
+2026-03-11 17:02:00,093 - INFO -    ✅ Créés: 0
+2026-03-11 17:02:00,093 - INFO -    🔄 Mis à jour: 0
+2026-03-11 17:02:00,094 - INFO -    ⏭️  Ignorés (déjà à jour): 12
+2026-03-11 17:02:00,094 - INFO -    ❌ Erreurs: 0
+2026-03-11 17:02:00,095 - INFO - ================================================================================
