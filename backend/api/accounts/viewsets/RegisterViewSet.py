@@ -3,44 +3,54 @@ from api.shops.models import Shop
 from api.shops.serializers import ShopSerializer
 
 class RegisterViewSet(views.APIView):
-	serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
+    authentication_classes = []
+    serializer_class = RegisterSerializer
 
-	@transaction.atomic()
-	def post(self, request):
-		serializer = RegisterSerializer(data=request.data)
-		if serializer.is_valid():
-			user = User(
-				username=serializer.validated_data['username'],
-				email = serializer.validated_data['username']
-			)
-			user.save()
-			user.set_password(serializer.validated_data['password'])
-			user.save()
+    @transaction.atomic()
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            # Créer l'utilisateur Django
+            user = User(
+                username=serializer.validated_data['username'],
+                email=serializer.validated_data.get('email', serializer.validated_data['username'])
+            )
+            user.set_password(serializer.validated_data['password'])
+            user.save()
 
-			account = Account(
-				user=user,
-				phone_number=serializer.validated_data['phone_number']
-			)
-			account.save()
+            # Créer le compte Shalom (Account)
+            account = Account(
+                user=user,
+                phone_number=serializer.validated_data.get('phone_number')
+            )
+            account.save()
 
-			shop = Shop(
-				owner=account,
-				name=f"Boutique de {account.user.email}",
-				is_active=True
-			)
-			shop.save()
+            # Création automatique d'une boutique pour l'utilisateur
+            shop = Shop(
+                owner=account,
+                name=f"Boutique de {user.username}",
+                is_active=True
+            )
+            shop.save()
 
-			refresh = RefreshToken.for_user(request.user)
-			# session_data = {
-			# 	"refresh": str(refresh),
-			# 	"access": str(refresh.access_token),
-			# 	"complete": False,
-			# 	"groups": [],
-			# 	"id": request.user.id,
-			# 	"account": account.id,
-			# 	"first_name": account.user.first_name,
-			# 	"last_name": account.user.last_name,
-			# 	"shop":ShopSerializer(shop, many=False).data
-			# }
-			return Response({"status":"Ok"},status=status.HTTP_200_OK)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # Générer les tokens JWT pour connexion immédiate
+            refresh = RefreshToken.for_user(user)
+            
+            return Response({
+                "status": "Ok",
+                "message": "Utilisateur créé avec succès",
+                "tokens": {
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                },
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "account_id": account.id
+                },
+                "shop": ShopSerializer(shop, many=False, context={'request': request}).data
+            }, status=status.HTTP_201_CREATED)
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

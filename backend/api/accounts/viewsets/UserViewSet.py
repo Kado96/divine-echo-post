@@ -4,7 +4,7 @@ from ..serializers.AdminUserSerializer import AdminUserSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
-	authentication_classes = JWTAuthentication, SessionAuthentication
+	authentication_classes = [JWTAuthentication]
 	permission_classes = IsAuthenticated,
 	filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
 	filterset_fields = {

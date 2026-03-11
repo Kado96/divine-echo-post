@@ -1,73 +1,91 @@
-# Welcome to your Lovable project
+# Divine Echo - Shalom Ministry
 
-## Project info
+Application complète pour la gestion du ministère Shalom, comprenant un backend Django et un frontend React.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🚀 Structure du Projet
 
-## How can I edit this code?
+- **Backend** : Django REST Framework, PostgreSQL (Supabase) en production, SQLite en développement.
+- **Frontend** : React, Vite, Tailwind CSS, TypeScript.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 💾 Migration des données : SQLite vers Supabase (Le Guide Définitif)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Cette section explique comment transférer vos données locales (SQLite) vers votre instance de production Supabase (PostgreSQL), sans créer de doublons.
 
-Changes made via Lovable will be committed automatically to this repo.
+### 1. Pré-requis
+1. Votre base de données Supabase créée.
+2. Votre URL de connexion (Connection String) au format URI.
+   * Exemple : `postgresql://postgres.[ID_PROJET]:[MOT_DE_PASSE]@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require`
 
-**Use your preferred IDE**
+### 2. Configuration (Local & Render)
+* **En Local** : Dans le dossier `backend/`, créez ou modifiez votre fichier `.env` en y ajoutant :
+  ```env
+  DATABASE_URL=votre_url_supabase_complete
+  ```
+* **En Production (Render)** : Allez dans votre dashboard Render, onglet *Environment Variables*, et ajoutez cette même variable `DATABASE_URL`. Votre site en ligne utilisera ainsi Supabase !
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 3. Méthode A : Synchronisation Automatisée Intelligente (Recommandée)
+Un script Python personnalisé (`sync_local_to_prod.py`) a été créé pour gérer intelligemment la migration.
+Avantages : **Idempotent** (Il ne crée pas de doublons, il met à jour s'il trouve des données existantes avec le même ID).
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Allez dans le dossier backend et activez l'environnement virtuel :
+   ```powershell
+   cd backend
+   .\venv\Scripts\Activate.ps1
+   ```
+2. Lancez une simulation (Dry-Run) sans écrire de données pour vérifier :
+   ```powershell
+   python sync_local_to_prod.py --dry-run
+   ```
+3. Exécutez la synchronisation réelle :
+   ```powershell
+   python sync_local_to_prod.py --confirm
+   ```
 
-Follow these steps:
+### 4. Méthode B : Sauvegarde de sécurité UTF-8 (Export/Import)
+Si vous souhaitez exporter un fichier de sauvegarde manuel JSON, il faut faire attention à l'encodage sous Windows.
 
+1. **Exportation (Locale)** : Utilisez le script PowerShell fourni. Il gère l'encodage `UTF-8` et évite les erreurs de caractères corrompus :
+   ```powershell
+   .\dumpdata.ps1 data.json
+   ```
+2. **Importation (Sur Supabase)** : Si votre `DATABASE_URL` pointe bien vers Supabase dans votre `.env` :
+   ```powershell
+   python manage.py loaddata data.json
+   ```
+   *(⚠️ Attention : `loaddata` gère moins bien les conflits "Idempotents" que notre script A).*
+
+---
+
+## 🛠️ Installation Locale
+
+### Backend
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+cd backend
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Frontend
+```sh
+cd frontend
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🌐 Déploiement
 
-**Use GitHub Codespaces**
+- **Backend** : Déployé sur Render (configuré via le `Procfile` et `build.sh`).
+- **Frontend** : Peut être déployé via Lovable, Vercel ou Netlify.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 📝 Notes Importantes
+- Les fichiers médias (images, documents) se trouvent dans le dossier `backend/media`. La migration de la base de données ne transfère que les liens. Vous devez uploader les fichiers physiques séparément ou utiliser un stockage S3/Supabase Storage.
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)

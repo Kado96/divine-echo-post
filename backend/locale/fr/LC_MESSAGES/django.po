@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Shalom Ministry\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-11 19:00+0200\n"
+"PO-Revision-Date: 2024-03-11 19:00+0200\n"
+"Last-Translator: Antigravity\n"
+"Language-Team: FR\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Announcements"
+msgstr "Annonces"
+
+msgid "Testimonials"
+msgstr "Témoignages"
+
+msgid "Events"
+msgstr "Événements"
+
+msgid "Ministries"
+msgstr "Ministères"
+
+msgid "Sermons"
+msgstr "Prédications"
+
+msgid "Login"
+msgstr "Connexion"
+
+msgid "Register"
+msgstr "Inscription"
+
+msgid "Dashboard"
+msgstr "Tableau de bord"

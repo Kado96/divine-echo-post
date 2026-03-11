@@ -31,15 +31,15 @@ if parent_dir not in sys.path:
 
 # Debug : Afficher le PYTHONPATH pour diagnostic
 if os.getenv('DEBUG', '').lower() == 'true' or 'render' in os.getcwd().lower():
-    print(f"🔧 PYTHONPATH configuré:")
+    print(f"DEBUG: PYTHONPATH configuré:")
     print(f"   - backend_dir: {backend_dir}")
     print(f"   - sys.path (premiers 3): {sys.path[:3]}")
     # Tester l'import
     try:
         import api.settings
-        print(f"   ✅ api.settings importable")
+        print(f"   OK: api.settings importable")
     except ImportError as e:
-        print(f"   ❌ api.settings non importable: {e}")
+        print(f"   ERROR: api.settings non importable: {e}")
 
 def main():
     """Run administrative tasks."""

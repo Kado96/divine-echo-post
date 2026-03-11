@@ -29,6 +29,7 @@ class SermonViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SermonListSerializer
     lookup_field = "slug"
     permission_classes = [AllowAny]
+    authentication_classes = []
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ["category", "language", "featured"]
     search_fields = ["title", "description", "preacher_name"]

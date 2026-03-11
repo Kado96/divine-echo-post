@@ -8,6 +8,8 @@ logger = logging.getLogger(__name__)
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    permission_classes = [AllowAny]
+    authentication_classes = []
     # S'assurer que les parsers JSON sont disponibles
     parser_classes = [parsers.JSONParser, parsers.FormParser, parsers.MultiPartParser]
     

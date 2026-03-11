@@ -20,6 +20,7 @@ class SiteSettingsCurrentView(APIView):
     GET /api/settings/current/ - Retourne l'objet unique directement
     """
     permission_classes = [AllowAny]
+    authentication_classes = []
     # Forcer le renderer JSON et désactiver la pagination
     renderer_classes = [JSONRenderer]
     pagination_class = None

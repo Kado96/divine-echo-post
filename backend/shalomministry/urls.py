@@ -1,140 +1,77 @@
-
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
-from django.http import FileResponse, HttpResponse
-from django.conf import settings as django_settings
+from django.conf import settings
+from django.http import HttpResponse, FileResponse
 import os
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import routers
-from rest_framework_simplejwt.views import TokenRefreshView
+# Swagger
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
-from api.accounts.viewsets import CustomTokenObtainPairView, RegisterViewSet
-from api.sermons.urls import admin_urlpatterns as sermon_admin_urls
-from api.shops.urls import admin_urlpatterns as shop_admin_urls
-from api.test_cors import test_cors  # Test CORS
-
-# Import des handlers personnalisés pour les erreurs HTTP
+# Handlers
 from shalomministry.handlers import handler400, handler403, handler404, handler500
-from shalomministry.views import ShalomMinistryView, RootView, ImageProxyView
+from shalomministry.views import RootView, ImageProxyView
+
+# Configuration Swagger
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Shalom Ministry API",
+      default_version='v1',
+      description="Documentation de l'API Shalom Ministry",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@shalomministry.org"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
 
 admin.site.site_header = 'SHALOM MINISTRY ADMINISTRATION'
 admin.site.index_title = 'Shalom Ministry Admin'
 admin.site.site_title = 'Administration'
 
-
-# Vues importées depuis views.py
-
-
 def serve_media_with_cors(request, path):
-    """
-    Vue personnalisée pour servir les fichiers média avec les headers CORS
-    Résout les problèmes CORB (Cross-Origin Read Blocking)
-    """
-    # Obtenir l'origine de la requête
-    origin = request.META.get('HTTP_ORIGIN', '')
-    
-    # Vérifier si l'origine est autorisée
-    allowed_origins = getattr(django_settings, 'CORS_ALLOWED_ORIGINS', [])
-    
-    # Gérer les requêtes OPTIONS (preflight CORS)
-    if request.method == 'OPTIONS':
-        response = HttpResponse()
-        if origin in allowed_origins:
-            response['Access-Control-Allow-Origin'] = origin
-            response['Access-Control-Allow-Credentials'] = 'true'
-            response['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS'
-            response['Access-Control-Allow-Headers'] = 'accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-csrftoken, x-requested-with'
-            response['Access-Control-Max-Age'] = '86400'
+    """Vue pour servir les médias avec CORS"""
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        response = FileResponse(open(file_path, 'rb'))
+        response["Access-Control-Allow-Origin"] = "*"
         return response
-    
-    # Construire le chemin complet du fichier
-    file_path = os.path.join(django_settings.MEDIA_ROOT, path)
-    
-    # Vérifier que le fichier existe et est dans MEDIA_ROOT (sécurité)
-    if not os.path.exists(file_path) or not file_path.startswith(str(django_settings.MEDIA_ROOT)):
-        response = HttpResponse('File not found', status=404)
-        if origin in allowed_origins:
-            response['Access-Control-Allow-Origin'] = origin
-        return response
-    
-    # Servir le fichier avec les headers CORS
-    try:
-        file_handle = open(file_path, 'rb')
-        response = FileResponse(file_handle)
-        
-        # Ajouter les headers CORS si l'origine est autorisée
-        if origin in allowed_origins:
-            response['Access-Control-Allow-Origin'] = origin
-            response['Access-Control-Allow-Credentials'] = 'true'
-            response['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS'
-            response['Access-Control-Allow-Headers'] = 'accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-csrftoken, x-requested-with'
-            response['Access-Control-Expose-Headers'] = 'Content-Length, Content-Type'
-        
-        # Déterminer le Content-Type
-        import mimetypes
-        content_type, _ = mimetypes.guess_type(file_path)
-        if content_type:
-            response['Content-Type'] = content_type
-        
-        return response
-    except Exception as e:
-        response = HttpResponse(f'Error serving file: {str(e)}', status=500)
-        if origin in allowed_origins:
-            response['Access-Control-Allow-Origin'] = origin
-        return response
-
-router = routers.DefaultRouter()
+    return HttpResponse(status=404)
 
 urlpatterns = [
-    path('login/', CustomTokenObtainPairView.as_view(), name='login'),
-    path('register/', RegisterViewSet.as_view(), name='register'),
-    path('refresh/', TokenRefreshView.as_view(), name='refresh'),
+    # Admin
     path('admin/', admin.site.urls),
     
-    # Routes API spécifiques d'abord
-    path('api/test-cors/', test_cors, name="test-cors"),
-    path('api/announcements/', include("api.announcements.urls")),
-    path('api/testimonials/', include("api.testimonials.urls")),
-    path('api/contacts/', include("api.contacts.urls")),
-    path('api/settings/', include("api.settings.urls")),
-    path('api/accounts/', include("api.accounts.urls")),
-    path('api/shops/', include("api.shops.urls")),
-    path('api/courses/', include("api.courses.urls")),
-    path('api/sermons/', include("api.sermons.urls")),
-    path('api/admin/sermons/', include(sermon_admin_urls)),
-    path('api/admin/shops/', include(shop_admin_urls)),
+    # API Centralisée
+    path('api/', include('api.urls')),
     
-    # Racine de l'API ensuite
-    path('api/', ShalomMinistryView.as_view()),
+    # Documentation API
+    re_path(r'^api/docs(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     
-    path('api-auth/', include('rest_framework.urls')),
-    path('api/login/', CustomTokenObtainPairView.as_view(), name="login"),
-    path('api/register/', RegisterViewSet.as_view(), name="register"),
-    path('api/refresh/', TokenRefreshView.as_view()),
-    # Proxy pour les images Google Drive (résout CORB)
+    # Auth (Backward compatibility et simplicité)
+    path('api/auth/', include('rest_framework.urls')),
+    
+    # Utilitaires
     path('api/image-proxy/', ImageProxyView.as_view(), name='image_proxy'),
-    # Route pour le favicon (retourner 404 sans authentification)
+    re_path(r'^api/media/(?P<path>.*)$', serve_media_with_cors, name='media'),
     re_path(r'^favicon\.ico$', lambda request: HttpResponse(status=404)),
-    # Route personnalisée pour servir les fichiers média avec CORS
-    re_path(
-        r'^api/media/(?P<path>.*)$',
-        serve_media_with_cors,
-        name='media'
-    ),
-    # Route catch-all pour les routes non-API : retourner une réponse JSON au lieu d'un template
-    re_path(
-        "^(?!admin)(?!api)(?!ussd)(?!static)(?!silk)(?!favicon).*$",
-        RootView.as_view()
-    ),
+    
+    # Catch-all pour le frontend si nécessaire (à utiliser avec précaution)
+    re_path("^(?!admin)(?!api)(?!static).*$", RootView.as_view()),
 ]
 
-# Configuration des handlers d'erreur personnalisés
+# Servir les fichiers statiques et média en développement
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Handlers d'erreur
 handler400 = 'shalomministry.handlers.handler400'
 handler403 = 'shalomministry.handlers.handler403'
 handler404 = 'shalomministry.handlers.handler404'
 handler500 = 'shalomministry.handlers.handler500'
-
