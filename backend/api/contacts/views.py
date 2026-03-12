@@ -1,6 +1,7 @@
+import os
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.conf import settings
 from .models import ContactMessage
 from .serializers import ContactMessageSerializer
@@ -19,31 +20,42 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
         # Enregistrer le message dans la base de données
         instance = serializer.save()
 
-        # Récupérer l'email de contact depuis les paramètres du site
+        # Récupérer les paramètres du site
         try:
             site_settings = SiteSettings.get_settings()
-            recipient_list = [site_settings.contact_email] if site_settings.contact_email else ['contact@shalomministry.org']
             site_name = site_settings.site_name
+            db_email = site_settings.contact_email
         except Exception:
-            recipient_list = ['contact@shalomministry.org']
             site_name = "Shalom Ministry"
+            db_email = None
 
-        # Envoyer l'email
+        # Déterminer le destinataire (Priorité: Env CONTACT_EMAIL > Paramètres Site > Env DJANGO_SUPERUSER_EMAIL > Env EMAIL_HOST_USER > Défaut)
+        recipient_email = os.environ.get('CONTACT_EMAIL') or db_email or os.environ.get('DJANGO_SUPERUSER_EMAIL') or os.environ.get('EMAIL_HOST_USER') or 'contact@shalomministry.org'
+        recipient_list = [recipient_email]
+
+        # Préparer l'email
         email_subject = f"Nouveau message de contact - {site_name}: {instance.subject}"
-        email_message = f"Vous avez reçu un nouveau message depuis le formulaire de contact de {site_name}.\n\n"
-        email_message += f"Nom: {instance.name}\n"
-        email_message += f"Email: {instance.email}\n\n"
-        email_message += f"Sujet: {instance.subject}\n"
-        email_message += f"Message:\n{instance.message}\n"
+        email_body = (
+            f"Vous avez reçu un nouveau message depuis le formulaire de contact de {site_name}.\n\n"
+            f"Nom: {instance.name}\n"
+            f"Email: {instance.email}\n\n"
+            f"Sujet: {instance.subject}\n"
+            f"Message:\n{instance.message}\n"
+        )
 
+        # Utiliser EmailMessage pour une meilleure délivrabilité (Reply-To)
+        # Le "From" doit être l'email authentifié (DEFAULT_FROM_EMAIL) pour éviter le spam
+        # Le "Reply-To" permet de répondre directement à l'expéditeur
         try:
-            send_mail(
-                email_subject,
-                email_message,
-                settings.DEFAULT_FROM_EMAIL if hasattr(settings, 'DEFAULT_FROM_EMAIL') else instance.email,
-                recipient_list,
-                fail_silently=True,
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', os.environ.get('EMAIL_HOST_USER'))
+            
+            email = EmailMessage(
+                subject=email_subject,
+                body=email_body,
+                from_email=from_email,
+                to=recipient_list,
+                reply_to=[instance.email],
             )
+            email.send(fail_silently=True)
         except Exception as e:
-            # On log l'erreur mais on ne bloque pas la réponse API
             print(f"Erreur lors de l'envoi de l'email: {e}")

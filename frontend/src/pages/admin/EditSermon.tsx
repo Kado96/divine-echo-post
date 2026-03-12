@@ -18,7 +18,8 @@ import {
     Settings,
     Share2,
     Facebook,
-    MessageCircle
+    MessageCircle,
+    Users
 } from "lucide-react";
 import {
     DropdownMenu,
@@ -31,6 +32,7 @@ import { useState, useEffect } from "react";
 import { apiService } from "@/lib/api";
 import { stripHtml } from "@/lib/utils";
 import { toast } from "sonner";
+import MediaPickerModal from "@/components/admin/MediaPickerModal";
 
 const EditSermon = () => {
     const { t } = useTranslation();
@@ -40,11 +42,21 @@ const EditSermon = () => {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [categories, setCategories] = useState<any[]>([]);
+    const [teamMembers, setTeamMembers] = useState<any[]>([]);
     const [categoriesLoading, setCategoriesLoading] = useState(false);
+    const [teamLoading, setTeamLoading] = useState(false);
     const [formData, setFormData] = useState<any>({
+        title_fr: "",
+        title_en: "",
+        title_rn: "",
+        title_sw: "",
         title: "",
         content_type: "video",
         content_url: "",
+        description_fr: "",
+        description_en: "",
+        description_rn: "",
+        description_sw: "",
         description: "",
         preacher_name: "",
         sermon_date: "",
@@ -53,8 +65,36 @@ const EditSermon = () => {
         slug: ""
     });
 
+    const [activeTab, setActiveTab] = useState('fr');
+
     const [mediaFile, setMediaFile] = useState<File | null>(null);
+    const [mediaPreview, setMediaPreview] = useState<string | null>(null);
     const [coverImage, setCoverImage] = useState<File | null>(null);
+    const [coverPreview, setCoverPreview] = useState<string | null>(null);
+    const [pickerOpen, setPickerOpen] = useState(false);
+    const [pickerTarget, setPickerTarget] = useState<'cover' | 'media' | null>(null);
+
+    const fetchTeam = async () => {
+        try {
+            setTeamLoading(true);
+            const data = await apiService.getTeamMembers();
+            const results = Array.isArray(data) ? data : (data.results || []);
+            setTeamMembers(results);
+        } catch (err) {
+            console.error("Failed to fetch team members", err);
+        } finally {
+            setTeamLoading(false);
+        }
+    };
+
+    const teamFallback = [
+        { id: 'p1', name: "Jean Emmanuel" },
+        { id: 'p2', name: "Donald Nom" },
+        { id: 'p3', name: "kandeke Donald" },
+        { id: 'p4', name: "Patrick Kandeke" }
+    ];
+
+    const displayTeam = teamMembers.length > 0 ? teamMembers : teamFallback;
 
     const fetchCategories = async () => {
         try {
@@ -75,15 +115,24 @@ const EditSermon = () => {
         const fetchData = async () => {
             if (!id) return;
             try {
-                const [sermonData, categoriesData] = await Promise.all([
+                const [sermonData, categoriesData, teamData] = await Promise.all([
                     apiService.getSermonById(id),
-                    fetchCategories()
+                    fetchCategories(),
+                    fetchTeam()
                 ]);
 
                 setFormData({
+                    title_fr: sermonData.title_fr || sermonData.title || "",
+                    title_en: sermonData.title_en || "",
+                    title_rn: sermonData.title_rn || "",
+                    title_sw: sermonData.title_sw || "",
                     title: sermonData.title || "",
                     content_type: sermonData.content_type || "video",
                     content_url: sermonData.content_type === "youtube" ? sermonData.video_url : (sermonData.video_url || sermonData.audio_url || ""),
+                    description_fr: sermonData.description_fr || sermonData.description || "",
+                    description_en: sermonData.description_en || "",
+                    description_rn: sermonData.description_rn || "",
+                    description_sw: sermonData.description_sw || "",
                     description: stripHtml(sermonData.description || ""),
                     preacher_name: sermonData.preacher_name || "",
                     sermon_date: sermonData.sermon_date ? (sermonDateToISO(sermonData.sermon_date)) : "",
@@ -128,9 +177,20 @@ const EditSermon = () => {
             setSaving(true);
             const dataToUpdate = new FormData();
 
-            dataToUpdate.append('title', formData.title);
+            dataToUpdate.append('title', formData.title_fr);
+            dataToUpdate.append('title_fr', formData.title_fr);
+            dataToUpdate.append('title_en', formData.title_en);
+            dataToUpdate.append('title_rn', formData.title_rn);
+            dataToUpdate.append('title_sw', formData.title_sw);
+            
             dataToUpdate.append('content_type', formData.content_type);
-            dataToUpdate.append('description', formData.description);
+            
+            dataToUpdate.append('description', formData.description_fr);
+            dataToUpdate.append('description_fr', formData.description_fr);
+            dataToUpdate.append('description_en', formData.description_en);
+            dataToUpdate.append('description_rn', formData.description_rn);
+            dataToUpdate.append('description_sw', formData.description_sw);
+            
             dataToUpdate.append('preacher_name', formData.preacher_name);
             dataToUpdate.append('sermon_date', formData.sermon_date);
             dataToUpdate.append('is_active', String(publish ? true : formData.is_active));
@@ -183,6 +243,27 @@ const EditSermon = () => {
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400');
         } else if (platform === 'whatsapp') {
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(title + " " + url)}`, '_blank');
+        }
+    };
+
+    const handleMediaSelect = async (fileInfo: {url: string, id: number, type: string}) => {
+        try {
+            const res = await fetch(fileInfo.url);
+            const blob = await res.blob();
+            const filename = fileInfo.url.split('/').pop() || 'file_upload';
+            const file = new File([blob], filename, { type: blob.type });
+
+            if (pickerTarget === 'cover') {
+                setCoverImage(file);
+                setCoverPreview(fileInfo.url);
+                setFormData({ ...formData, existingImage: null }); // Remove existing image tracking
+            } else if (pickerTarget === 'media') {
+                setMediaFile(file);
+                setMediaPreview(fileInfo.url);
+                setFormData({ ...formData, existingVideo: null, existingAudio: null });
+            }
+        } catch (error) {
+            toast.error("Erreur lors de la récupération du fichier");
         }
     };
 
@@ -239,18 +320,40 @@ const EditSermon = () => {
                 <div className="flex flex-col lg:flex-row gap-6">
                     {/* Main Content Form */}
                     <div className="flex-1 space-y-6">
-                        {/* Title */}
-                        <div className="space-y-1.5">
-                            <label htmlFor="sermon-title" className="text-sm font-semibold text-gray-700 cursor-pointer">{t("admin.sermons_page.form.title")}</label>
-                            <input
-                                id="sermon-title"
-                                name="title"
-                                value={formData.title}
-                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                type="text"
-                                className="w-full px-3 py-2 text-xl font-medium bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all shadow-sm"
-                            />
-                        </div>
+                    {/* Language Tabs */}
+                    <div className="flex gap-2 mb-4 border-b border-gray-100 pb-2">
+                        {[
+                            { id: 'fr', label: 'Français' },
+                            { id: 'rn', label: 'Kirundi' },
+                            { id: 'en', label: 'English' },
+                            { id: 'sw', label: 'Kiswahili' }
+                        ].map((lang) => (
+                            <button
+                                key={lang.id}
+                                type="button"
+                                onClick={() => setActiveTab(lang.id)}
+                                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === lang.id ? 'bg-[#2271b1] text-white' : 'bg-white text-gray-400 border border-gray-100'}`}
+                            >
+                                {lang.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Title */}
+                    <div className="space-y-1.5">
+                        <label htmlFor={`sermon-title-${activeTab}`} className="text-sm font-semibold text-gray-700 cursor-pointer">
+                            {t("admin.sermons_page.form.title")} ({activeTab.toUpperCase()})
+                        </label>
+                        <input
+                            id={`sermon-title-${activeTab}`}
+                            name={`title_${activeTab}`}
+                            value={formData[`title_${activeTab}`] || ""}
+                            onChange={(e) => setFormData({ ...formData, [`title_${activeTab}`]: e.target.value })}
+                            type="text"
+                            className="w-full px-3 py-2 text-xl font-medium bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all shadow-sm"
+                            required={activeTab === 'fr'}
+                        />
+                    </div>
 
                         {/* Content Type Selector */}
                         <div className="bg-white border border-border p-4 shadow-sm">
@@ -374,15 +477,16 @@ const EditSermon = () => {
                                     {formData.content_type === "video" && (
                                         <div className="pt-2 border-t border-dashed border-border">
                                             <label htmlFor="sermon-video-file" className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 cursor-pointer block">{t("admin.sermons_page.form.local_file")}</label>
-                                            <input
-                                                id="sermon-video-file"
-                                                name="video_file"
-                                                type="file"
-                                                accept="video/*"
-                                                onChange={(e) => setMediaFile(e.target.files ? e.target.files[0] : null)}
-                                                className="text-xs"
-                                            />
-                                            {mediaFile && <p className="text-[10px] text-green-600 font-medium mt-1">{mediaFile.name}</p>}
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="sm"
+                                                className="text-xs w-full justify-start text-gray-500"
+                                                onClick={(e) => { e.preventDefault(); setPickerTarget('media'); setPickerOpen(true); }}
+                                            >
+                                                <Video className="w-4 h-4 mr-2" /> Choisir depuis la médiathèque
+                                            </Button>
+                                            {mediaFile && <p className="text-[10px] text-[#2271b1] font-medium mt-2 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500"></span> {mediaFile.name}</p>}
                                             {(!mediaFile && formData.existingVideo) && (
                                                 <p className="text-[10px] text-blue-600 truncate italic mt-1 bg-blue-50 p-1 rounded">
                                                     {t("common.current_file")}: {formData.existingVideo}
@@ -392,16 +496,18 @@ const EditSermon = () => {
                                     )}
                                 </div>
                             ) : (
-                                <div className="space-y-2">
-                                    <input
-                                        id="sermon-media-source"
-                                        name="audio_file"
-                                        type="file"
-                                        accept="audio/*"
-                                        onChange={(e) => setMediaFile(e.target.files ? e.target.files[0] : null)}
-                                        className="text-xs"
-                                    />
-                                    {mediaFile && <p className="text-[10px] text-green-600 font-medium">{mediaFile.name}</p>}
+                                <div className="space-y-4">
+                                    <label htmlFor="sermon-media-source" className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 cursor-pointer block">{t("admin.sermons_page.form.select_audio_file")}</label>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className="text-xs w-full justify-start text-gray-500 py-6"
+                                        onClick={(e) => { e.preventDefault(); setPickerTarget('media'); setPickerOpen(true); }}
+                                    >
+                                        <Mic className="w-6 h-6 mr-3 text-gray-400" /> Choisir un audio depuis la médiathèque
+                                    </Button>
+                                    {mediaFile && <p className="text-[10px] text-[#2271b1] font-medium mt-2 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500"></span> {mediaFile.name}</p>}
                                     {(!mediaFile && formData.existingAudio) && (
                                         <p className="text-[10px] text-blue-600 truncate italic bg-blue-50 p-1 rounded">
                                             {t("common.current_file")}: {formData.existingAudio}
@@ -434,24 +540,25 @@ const EditSermon = () => {
                                     className={`relative group border-2 border-dashed rounded-xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden min-h-[200px] ${(coverImage || formData.existingImage) ? "border-accent bg-accent/5" : "border-gray-200 hover:border-accent/40 hover:bg-gray-50 bg-gray-50/30"
                                         }`}
                                 >
-                                    {(coverImage || formData.existingImage) ? (
+                                    {(coverPreview || formData.existingImage) ? (
                                         <div className="relative w-full aspect-video">
                                             <img
-                                                src={coverImage ? URL.createObjectURL(coverImage) : formData.existingImage}
+                                                src={coverPreview ? coverPreview : formData.existingImage}
                                                 alt="Preview"
                                                 className="w-full h-full object-cover"
                                             />
                                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                                 <Button
+                                                    type="button"
                                                     variant="secondary"
                                                     size="sm"
-                                                    className="bg-white text-black hover:bg-gray-100"
-                                                    onClick={() => document.getElementById('cover-upload-edit')?.click()}
+                                                    className="bg-white text-black hover:bg-gray-100 cursor-pointer"
+                                                    onClick={(e) => { e.preventDefault(); setPickerTarget('cover'); setPickerOpen(true); }}
                                                 >
                                                     {t("admin.sermons_page.form.change_image")}
                                                 </Button>
                                             </div>
-                                            {coverImage && (
+                                            {coverPreview && (
                                                 <div className="absolute top-2 right-2 bg-green-600 text-white text-[9px] font-black px-2 py-0.5 rounded shadow-lg uppercase tracking-tight">
                                                     {t("common.new_selection")}
                                                 </div>
@@ -460,39 +567,34 @@ const EditSermon = () => {
                                     ) : (
                                         <button
                                             type="button"
-                                            onClick={() => document.getElementById('cover-upload-edit')?.click()}
+                                            onClick={(e) => { e.preventDefault(); setPickerTarget('cover'); setPickerOpen(true); }}
                                             className="flex flex-col items-center gap-3 p-8 text-center"
                                         >
                                             <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent">
-                                                <Plus className="w-6 h-6" />
+                                                <ImageIcon className="w-6 h-6" />
                                             </div>
                                             <div>
-                                                <p className="text-sm font-bold text-gray-700">{t("admin.sermons_page.form.click_to_add_image")}</p>
+                                                <p className="text-sm font-bold text-gray-700">Choisir depuis la médiathèque</p>
                                                 <p className="text-[10px] text-gray-400 mt-1">{t("admin.sermons_page.form.recommended_format")}</p>
                                             </div>
                                         </button>
                                     )}
-                                    <input
-                                        id="cover-upload-edit"
-                                        name="image"
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={(e) => setCoverImage(e.target.files ? e.target.files[0] : null)}
-                                        className="hidden"
-                                    />
                                 </div>
                             </div>
                         </div>
 
                         {/* Description */}
                         <div className="bg-white border border-border p-4 shadow-sm">
-                            <label htmlFor="sermon-description" className="block text-sm font-semibold text-gray-700 mb-2 cursor-pointer">{t("admin.sermons_page.form.content")}</label>
+                            <label htmlFor={`sermon-description-${activeTab}`} className="block text-sm font-semibold text-gray-700 mb-2 cursor-pointer">
+                                {t("admin.sermons_page.form.content")} ({activeTab.toUpperCase()})
+                            </label>
                             <textarea
-                                id="sermon-description"
-                                name="description"
-                                value={formData.description}
-                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                id={`sermon-description-${activeTab}`}
+                                name={`description_${activeTab}`}
+                                value={formData[`description_${activeTab}`] || ""}
+                                onChange={(e) => setFormData({ ...formData, [`description_${activeTab}`]: e.target.value })}
                                 className="w-full h-48 px-3 py-2 bg-white border border-border text-sm focus:ring-1 focus:ring-[#2271b1] outline-none resize-none"
+                                required={activeTab === 'fr'}
                             />
                         </div>
                     </div>
@@ -575,27 +677,55 @@ const EditSermon = () => {
                             </div>
                         </div>
 
-                        {/* Author/Speaker Box */}
                         <div className="bg-white border border-border shadow-sm">
-                            <div className="p-3 border-b border-border bg-gray-50/50">
+                            <div className="p-3 border-b border-border bg-gray-50/50 flex items-center justify-between">
                                 <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider">{t("admin.sermons_page.form.author")}</h3>
+                                {teamLoading && <Loader2 className="w-3 h-3 animate-spin text-gray-400" />}
                             </div>
-                            <div className="p-4">
-                                <label htmlFor="preacher_name" className="sr-only">{t("admin.sermons_page.form.author")}</label>
-                                <input
-                                    id="preacher_name"
-                                    name="preacher_name"
-                                    type="text"
-                                    value={formData.preacher_name}
-                                    onChange={(e) => setFormData({ ...formData, preacher_name: e.target.value })}
-                                    placeholder={t("admin.sermons_page.form.author_placeholder")}
-                                    className="w-full px-2 py-1 bg-white border border-border text-[11px] outline-none focus:border-[#2271b1]"
-                                />
+                            <div className="p-4 space-y-4">
+                                {/* Quick Select */}
+                                {displayTeam.length > 0 && (
+                                    <div className="space-y-2">
+                                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">Sélection rapide :</p>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {displayTeam.map((member) => (
+                                                <button
+                                                    key={member.id}
+                                                    type="button"
+                                                    onClick={() => setFormData({ ...formData, preacher_name: member.name })}
+                                                    className={`px-2 py-1 rounded text-[10px] bg-gray-50 border border-gray-100 hover:border-accent hover:text-accent transition-all ${formData.preacher_name === member.name ? 'bg-accent/10 border-accent text-accent' : ''}`}
+                                                >
+                                                    {member.name}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="space-y-1">
+                                    <label htmlFor="preacher_name" className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">{t("admin.sermons_page.form.author_placeholder")}</label>
+                                    <input
+                                        id="preacher_name"
+                                        name="preacher_name"
+                                        type="text"
+                                        value={formData.preacher_name}
+                                        onChange={(e) => setFormData({ ...formData, preacher_name: e.target.value })}
+                                        placeholder={t("admin.sermons_page.form.author_placeholder")}
+                                        className="w-full px-3 py-1.5 bg-white border border-border text-xs outline-none focus:border-[#2271b1]"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <MediaPickerModal 
+                isOpen={pickerOpen} 
+                onClose={() => setPickerOpen(false)} 
+                onSelect={handleMediaSelect} 
+                acceptedTypes={pickerTarget === 'cover' ? ['image'] : pickerTarget === 'media' ? (formData.content_type === 'video' ? ['video'] : ['audio']) : []} 
+            />
         </AdminLayout>
     );
 

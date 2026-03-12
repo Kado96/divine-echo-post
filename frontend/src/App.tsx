@@ -2,13 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PrivateRoute from "@/components/PrivateRoute";
 import { useEffect } from "react";
 import { apiService } from "@/lib/api";
 import { getFullImageUrl } from "@/lib/utils";
-import { useTranslation } from "react-i18next";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/Login";
@@ -37,6 +36,52 @@ import NewsTicker from "./components/NewsTicker";
 
 const queryClient = new QueryClient();
 
+const AppRoutes = () => {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/admin/login";
+  const isAdminPath = location.pathname.startsWith("/admin") && !isLoginPage;
+
+  return (
+    <>
+      <div className={!isAdminPath ? "pb-[60px] sm:pb-12" : ""}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/sermon/:slug" element={<SermonDetail />} />
+
+          {/* Admin Login (public) */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Admin Routes (protected) */}
+          <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
+          <Route path="/admin/sermons" element={<PrivateRoute><AdminSermons /></PrivateRoute>} />
+          <Route path="/admin/sermons/create" element={<PrivateRoute><AdminSermonsCreate /></PrivateRoute>} />
+          <Route path="/admin/sermons/edit/:id" element={<PrivateRoute><AdminSermonsEdit /></PrivateRoute>} />
+          <Route path="/admin/categories" element={<PrivateRoute><AdminCategories /></PrivateRoute>} />
+          <Route path="/admin/media" element={<PrivateRoute><AdminMedia /></PrivateRoute>} />
+          <Route path="/admin/users" element={<PrivateRoute><AdminUsers /></PrivateRoute>} />
+          <Route path="/admin/users/create" element={<PrivateRoute><AdminCreateUser /></PrivateRoute>} />
+          <Route path="/admin/users/edit/:id" element={<PrivateRoute><AdminEditUser /></PrivateRoute>} />
+          <Route path="/admin/pages" element={<PrivateRoute><AdminPages /></PrivateRoute>} />
+          <Route path="/admin/pages/edit/:id" element={<PrivateRoute><AdminEditPage /></PrivateRoute>} />
+          <Route path="/admin/announcements" element={<PrivateRoute><AdminAnnouncements /></PrivateRoute>} />
+          <Route path="/admin/announcements/create" element={<PrivateRoute><AdminCreateAnnouncement /></PrivateRoute>} />
+          <Route path="/admin/announcements/edit/:id" element={<PrivateRoute><AdminEditAnnouncement /></PrivateRoute>} />
+          <Route path="/admin/testimonials" element={<PrivateRoute><AdminTestimonials /></PrivateRoute>} />
+          <Route path="/admin/testimonials/create" element={<PrivateRoute><AdminCreateTestimonial /></PrivateRoute>} />
+          <Route path="/admin/testimonials/edit/:id" element={<PrivateRoute><AdminEditTestimonial /></PrivateRoute>} />
+          <Route path="/admin/stats" element={<PrivateRoute><AdminStats /></PrivateRoute>} />
+          <Route path="/admin/settings" element={<PrivateRoute><AdminSettings /></PrivateRoute>} />
+          <Route path="/admin/guide" element={<PrivateRoute><AdminGuide /></PrivateRoute>} />
+
+          {/* Catch-all route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+      {!isAdminPath && <NewsTicker />}
+    </>
+  );
+};
+
 const App = () => {
   useEffect(() => {
     apiService.getSettings().then(data => {
@@ -49,16 +94,14 @@ const App = () => {
         if (link) {
           link.href = fullLogoUrl;
         } else {
-          const newLink = document.createElement('link');
-          newLink.rel = 'icon';
+          const newLink = document.createElement("link");
+          newLink.rel = "icon";
           newLink.href = fullLogoUrl;
           document.head.appendChild(newLink);
         }
       }
     }).catch(console.error);
   }, []);
-
-  const isAdminPath = window.location.pathname.startsWith('/admin');
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -67,39 +110,7 @@ const App = () => {
         <Sonner />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <AuthProvider>
-            {!isAdminPath && <NewsTicker />}
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/sermon/:slug" element={<SermonDetail />} />
-
-              {/* Admin Login (public) */}
-              <Route path="/admin/login" element={<AdminLogin />} />
-
-              {/* Admin Routes (protected) */}
-              <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
-              <Route path="/admin/sermons" element={<PrivateRoute><AdminSermons /></PrivateRoute>} />
-              <Route path="/admin/sermons/create" element={<PrivateRoute><AdminSermonsCreate /></PrivateRoute>} />
-              <Route path="/admin/sermons/edit/:id" element={<PrivateRoute><AdminSermonsEdit /></PrivateRoute>} />
-              <Route path="/admin/categories" element={<PrivateRoute><AdminCategories /></PrivateRoute>} />
-              <Route path="/admin/media" element={<PrivateRoute><AdminMedia /></PrivateRoute>} />
-              <Route path="/admin/users" element={<PrivateRoute><AdminUsers /></PrivateRoute>} />
-              <Route path="/admin/users/create" element={<PrivateRoute><AdminCreateUser /></PrivateRoute>} />
-              <Route path="/admin/users/edit/:id" element={<PrivateRoute><AdminEditUser /></PrivateRoute>} />
-              <Route path="/admin/pages" element={<PrivateRoute><AdminPages /></PrivateRoute>} />
-              <Route path="/admin/pages/edit/:id" element={<PrivateRoute><AdminEditPage /></PrivateRoute>} />
-              <Route path="/admin/announcements" element={<PrivateRoute><AdminAnnouncements /></PrivateRoute>} />
-              <Route path="/admin/announcements/create" element={<PrivateRoute><AdminCreateAnnouncement /></PrivateRoute>} />
-              <Route path="/admin/announcements/edit/:id" element={<PrivateRoute><AdminEditAnnouncement /></PrivateRoute>} />
-              <Route path="/admin/testimonials" element={<PrivateRoute><AdminTestimonials /></PrivateRoute>} />
-              <Route path="/admin/testimonials/create" element={<PrivateRoute><AdminCreateTestimonial /></PrivateRoute>} />
-              <Route path="/admin/testimonials/edit/:id" element={<PrivateRoute><AdminEditTestimonial /></PrivateRoute>} />
-              <Route path="/admin/stats" element={<PrivateRoute><AdminStats /></PrivateRoute>} />
-              <Route path="/admin/settings" element={<PrivateRoute><AdminSettings /></PrivateRoute>} />
-              <Route path="/admin/guide" element={<PrivateRoute><AdminGuide /></PrivateRoute>} />
-
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AppRoutes />
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

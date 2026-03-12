@@ -115,6 +115,7 @@ class SiteSettings(models.Model):
     instagram_url = models.URLField(blank=True)
     twitter_url = models.URLField(blank=True)
     whatsapp_url = models.URLField(blank=True)
+    tiktok_url = models.URLField(blank=True)
     
     # Contenu pages (par langue)
     # Français
@@ -128,6 +129,8 @@ class SiteSettings(models.Model):
     about_badge_fr = models.CharField(max_length=100, blank=True, default="À Propos")
     contact_content_fr = models.TextField(blank=True, default="Contactez-nous pour toute question ou demande.")
     contact_badge_fr = models.CharField(max_length=100, blank=True, default="Contact")
+    contact_hours_fr = models.CharField(max_length=200, blank=True, default="Lun - Ven : 08:00 - 18:00")
+    contact_address_fr = models.TextField(blank=True, default="Bujumbura, Burundi")
     
     # Verset biblique - Français
     bible_verse_fr = models.TextField(blank=True, default="Que le Dieu de l'espérance vous remplisse de toute joie et de toute paix dans la foi, pour que vous abondiez en espérance par la puissance du Saint-Esprit !")
@@ -179,6 +182,8 @@ class SiteSettings(models.Model):
     about_badge_rn = models.CharField(max_length=100, blank=True, default="Ibitwerekeye")
     contact_content_rn = models.TextField(blank=True, default="")
     contact_badge_rn = models.CharField(max_length=100, blank=True, default="Twandikire")
+    contact_hours_rn = models.CharField(max_length=200, blank=True, default="Ku wa mbere - Ku wa gatanu : 08:00 - 18:00")
+    contact_address_rn = models.TextField(blank=True, default="Bujumbura, Burundi")
     
     bible_verse_rn = models.TextField(blank=True, default="Imana y'ihuze ikuzuze amarara yose n'amahoro mu kwizera, kugira ngo muhenuke mw'ihuze ku mbaraga z'Umupfumu Mutagatifu!")
     bible_verse_ref_rn = models.CharField(max_length=50, blank=True, default="Abaroma 15:13")
@@ -221,6 +226,8 @@ class SiteSettings(models.Model):
     about_badge_en = models.CharField(max_length=100, blank=True, default="About Us")
     contact_content_en = models.TextField(blank=True, default="")
     contact_badge_en = models.CharField(max_length=100, blank=True, default="Contact")
+    contact_hours_en = models.CharField(max_length=200, blank=True, default="Mon - Fri: 08:00 - 18:00")
+    contact_address_en = models.TextField(blank=True, default="Bujumbura, Burundi")
     
     bible_verse_en = models.TextField(blank=True, default="May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit!")
     bible_verse_ref_en = models.CharField(max_length=50, blank=True, default="Romans 15:13")
@@ -263,6 +270,8 @@ class SiteSettings(models.Model):
     about_badge_sw = models.CharField(max_length=100, blank=True, default="Kuhusu Sisi")
     contact_content_sw = models.TextField(blank=True, default="")
     contact_badge_sw = models.CharField(max_length=100, blank=True, default="Wasiliana Nasi")
+    contact_hours_sw = models.CharField(max_length=200, blank=True, default="Jumatatu - Ijumaa: 08:00 - 18:00")
+    contact_address_sw = models.TextField(blank=True, default="Bujumbura, Burundi")
     
     bible_verse_sw = models.TextField(blank=True, default="Mungu wa matumaini na akujaze furaha yote na amani katika kuamini, ili upate wingi wa matumaini kwa nguvu ya Roho Mtakatifu!")
     bible_verse_ref_sw = models.CharField(max_length=50, blank=True, default="Warumi 15:13")
@@ -443,6 +452,10 @@ class SiteSettings(models.Model):
                             hero_subtitle='Découvrez nos émissions, enseignements et temps de méditation pour approfondir votre relation avec Dieu.',
                             about_content='Bienvenue sur Shalom Ministry, une plateforme dédiée à la croissance spirituelle.',
                             contact_content='Contactez-nous pour toute question ou demande.',
+                            contact_hours_fr='Lun - Ven : 08:00 - 18:00',
+                            contact_hours_rn='Ku wa mbere - Ku wa gatanu : 08:00 - 18:00',
+                            contact_hours_en='Mon - Fri: 08:00 - 18:00',
+                            contact_hours_sw='Jumatatu - Ijumaa: 08:00 - 18:00',
                         )
                         cache.set('site_settings', settings, 3600)
             return settings

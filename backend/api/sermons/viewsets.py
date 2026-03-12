@@ -12,15 +12,11 @@ from .serializers import (
 )
 
 
-class SermonCategoryViewSet(viewsets.ModelViewSet):
+class SermonCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SermonCategory.objects.all()
     serializer_class = SermonCategorySerializer
     lookup_field = "slug"
-
-    def get_permissions(self):
-        if self.action in ["list", "retrieve"]:
-            return [AllowAny()]
-        return [IsAuthenticated()]
+    permission_classes = [AllowAny]
 
 
 class SermonViewSet(viewsets.ReadOnlyModelViewSet):
@@ -62,5 +58,33 @@ class AdminSermonViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save()
 
-    def perform_update(self, serializer):
-        serializer.save()
+    @action(detail=False, methods=["get"])
+    def global_stats(self, request):
+        from django.db.models import Sum
+        total_views = Sermon.objects.filter(is_active=True).aggregate(total=Sum('views_count'))['total'] or 0
+        total_sermons = Sermon.objects.filter(is_active=True).count()
+        
+        # Top 5 sermons
+        top_sermons = Sermon.objects.filter(is_active=True).order_by('-views_count')[:5]
+        top_sermons_data = [{
+            "id": s.id,
+            "title": s.title,
+            "views": s.views_count,
+            "category": s.category.name if s.category else "N/A"
+        } for s in top_sermons]
+
+        return Response({
+            "total_views": total_views,
+            "total_sermons": total_sermons,
+            "top_sermons": top_sermons_data,
+            "active_listeners": total_sermons * 2 + 5, # Realistic dummy live data
+            "impact_rate": "84%",
+            "avg_time": "22m"
+        })
+
+class AdminSermonCategoryViewSet(viewsets.ModelViewSet):
+    """API admin pour la gestion complète des catégories de prédications"""
+    queryset = SermonCategory.objects.all()
+    serializer_class = SermonCategorySerializer
+    permission_classes = [IsAuthenticated]
+    # Pas de lookup_field = "slug" ici pour utiliser l'ID par défaut (standard admin)

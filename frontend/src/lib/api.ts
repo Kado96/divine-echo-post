@@ -102,32 +102,32 @@ export const apiService = {
     },
 
     async createSermonCategory(data: any) {
-        return this.post('/sermons/categories/', data);
+        return this.post('/admin/sermons/categories/', data);
     },
 
-    async updateSermonCategory(slug: string, data: any) {
+    async updateSermonCategory(idOrSlug: string | number, data: any) {
         try {
-            const response = await fetch(`${API_URL}/sermons/categories/${slug}/`, {
+            const response = await fetch(`${API_URL}/admin/sermons/categories/${idOrSlug}/`, {
                 method: 'PATCH',
                 headers: this.getHeaders('application/json'),
                 body: JSON.stringify(data),
                 credentials: 'include'
             });
-            return await this.handleResponse(response, `category update ${slug}`);
+            return await this.handleResponse(response, `category update ${idOrSlug}`);
         } catch (error) {
             console.error("Category update error:", error);
             throw error;
         }
     },
-
-    async deleteSermonCategory(slug: string | number) {
+    
+    async deleteSermonCategory(idOrSlug: string | number) {
         try {
-            const response = await fetch(`${API_URL}/sermons/categories/${slug}/`, {
+            const response = await fetch(`${API_URL}/admin/sermons/categories/${idOrSlug}/`, {
                 method: 'DELETE',
                 headers: this.getHeaders(null),
                 credentials: 'include'
             });
-            if (response.status === 401) return this.handleResponse(response, `category delete ${slug}`);
+            if (response.status === 401) return this.handleResponse(response, `category delete ${idOrSlug}`);
             if (!response.ok) throw new Error('Delete failed');
             return true;
         } catch (error) {
@@ -394,5 +394,23 @@ export const apiService = {
 
     async sendContactMessage(data: any) {
         return this.post('/contacts/contacts/', data);
+    },
+
+    // Global Stats helper
+    async getGlobalStats() {
+        return this.get('/admin/sermons/sermons/global_stats/');
+    },
+
+    // Media helpers
+    async getMediaFiles(params = '') {
+        return this.get(`/admin/media/${params}`);
+    },
+
+    async uploadMediaFile(data: FormData) {
+        return this.post('/admin/media/', data);
+    },
+
+    async deleteMediaFile(id: number | string) {
+        return this.delete(`/admin/media/${id}/`);
     }
 };

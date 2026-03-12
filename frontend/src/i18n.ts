@@ -320,7 +320,8 @@ const resources = {
                         views: "Vues totales",
                         listeners: "+5% ce mois",
                         impact_label: "Taux d'impact",
-                        impact_sub: "Fidélité forte",
+                        impact_high: "Fidélité forte",
+                        impact_sub: "Engagement fort",
                         time_label: "Temps moyen",
                         time_sub: "Par auditeur",
                         listeners_count: "Auditeurs",
@@ -328,6 +329,8 @@ const resources = {
                     },
                     audience: {
                         title: "D'où vient votre audience ?",
+                        burundi: "Burundi 🇧🇮",
+                        rwanda: "Rwanda 🇷🇼",
                         rest_of_world: "Reste du monde"
                     },
                     favorites: {
@@ -378,6 +381,8 @@ const resources = {
                     slogan_val: "Une Parole qui transforme",
                     slogan_help: "Affiché après le titre dans le navigateur.",
                     save: "Enregistrer les modifications",
+                    verse_section: "Verset du Jour / Citation",
+                    verse_help: "Gérez la parole affichée sur la page d'accueil.",
                     logo_section: "Logo du Site",
                     logo_preview: "Aperçu du logo",
                     change_logo: "Changer le logo",
@@ -391,7 +396,9 @@ const resources = {
                         ticker_enabled: "Activer le bandeau",
                         ticker_desc: "Activer le bandeau type \"France 24\" en bas du site",
                         ticker_speed: "Vitesse (secondes)",
+                        ticker_speed_label: "Vitesse (secondes)",
                         ticker_refresh: "Mise à jour (sec)",
+                        ticker_refresh_label: "Fréquence (sec)",
                         ticker_color_label: "Couleur de fond",
                         ticker_opacity_label: "Opacité",
                         ticker_help: "Le bandeau affiche automatiquement les annonces actives. L'opacité permet de le rendre transparent."
@@ -829,14 +836,17 @@ const resources = {
                         views: "Total views",
                         listeners: "+5% this month",
                         impact_label: "Impact Rate",
+                        impact_high: "High Fidelity",
                         impact_sub: "Strong Engagement",
                         time_label: "Average time",
-                        time_sub: "Per listener",
+                        time_sub: "By listener",
                         listeners_count: "Listeners",
                         live: "Live Now"
                     },
                     audience: {
                         title: "Where is your audience from?",
+                        burundi: "Burundi 🇧🇮",
+                        rwanda: "Rwanda 🇷🇼",
                         rest_of_world: "Rest of the world"
                     },
                     favorites: {
@@ -887,6 +897,8 @@ const resources = {
                     slogan_val: "A Word that transforms",
                     slogan_help: "Displayed after the title in the browser.",
                     save: "Save changes",
+                    verse_section: "Verse of the Day / Quote",
+                    verse_help: "Manage the word displayed on the home page.",
                     logo_section: "Site Logo",
                     logo_preview: "Logo preview",
                     change_logo: "Change logo",
@@ -900,7 +912,9 @@ const resources = {
                         ticker_enabled: "Enable Ticker",
                         ticker_desc: "Enable 'France 24' style ticker at the bottom of the site",
                         ticker_speed: "Speed (seconds)",
+                        ticker_speed_label: "Speed (sec)",
                         ticker_refresh: "Update (sec)",
+                        ticker_refresh_label: "Refresh (sec)",
                         ticker_color_label: "Background color",
                         ticker_opacity_label: "Opacity",
                         ticker_help: "The ticker automatically displays active announcements. Opacity allows for transparency."
@@ -1323,6 +1337,7 @@ const resources = {
                         views: "Ibisubirwamwo",
                         listeners: "+5% uyu kwezi",
                         impact_label: "Ingaruka",
+                        impact_high: "Abanywanyi b'indahemuka",
                         impact_sub: "Ukwifatanya gukomeye",
                         time_label: "Igihe",
                         time_sub: "Mpuzandengo",
@@ -1331,6 +1346,8 @@ const resources = {
                     },
                     audience: {
                         title: "Abayumviriza bawe bava he?",
+                        burundi: "Uburundi 🇧🇮",
+                        rwanda: "Urwanda 🇷🇼",
                         rest_of_world: "Ibindi bihugu"
                     },
                     favorites: {
@@ -1380,6 +1397,8 @@ const resources = {
                     slogan_val: "Ijambo rihindura ubuzima",
                     slogan_help: "Byerekanwa inyuma y'umutwe w'urubuga.",
                     save: "Bika amahinduka",
+                    verse_section: "Ijambo ry'umunsi / Intahe",
+                    verse_help: "Genzura ijambo ryerekanwa ku rupapuro rw'itangiriro.",
                     form: {
                         emissions: "Izina ry'Inyigisho",
                         teachings: "Izina ry'Inyigisho",
@@ -1387,7 +1406,9 @@ const resources = {
                         ticker_section: "Bandeau défilant (France 24)",
                         ticker_enabled: "Kuvura bandeau",
                         ticker_speed: "Umuvuduko (sec)",
-                        ticker_refresh: "Refresh (sec)"
+                        ticker_speed_label: "Umuvuduko (sec)",
+                        ticker_refresh: "Refresh (sec)",
+                        ticker_refresh_label: "Kunonosora (sec)",
                     }
                 }
             },
@@ -1792,6 +1813,7 @@ const resources = {
                         views: "Jumla ya maoni",
                         listeners: "+5% mwezi huu",
                         impact_label: "Kiwango cha Impact",
+                        impact_high: "Uaminifu wa juu",
                         impact_sub: "Ushiriki Madhubuti",
                         time_label: "Wakati wa wastani",
                         time_sub: "Kwa msikilizaji",
@@ -1800,6 +1822,8 @@ const resources = {
                     },
                     audience: {
                         title: "Watazamaji wako wanatoka wapi?",
+                        burundi: "Burundi 🇧🇮",
+                        rwanda: "Rwanda 🇷🇼",
                         rest_of_world: "Ulimwengu mwingine"
                     },
                     favorites: {
@@ -1849,10 +1873,21 @@ const resources = {
                     slogan_val: "Neno linalobadilisha",
                     slogan_help: "Inaonyeshwa baada ya kichwa kwenye kivinjari.",
                     save: "Hifadhi mabadiliko",
+                    verse_section: "Aya ya Siku / Nukuu",
+                    verse_help: "Dhibiti neno linaloonyeshwa kwenye ukurasa wa nyumbani.",
                     form: {
                         emissions: "Jina la Tabo ya Mahubiri",
                         teachings: "Jina la Tabo ya Mafundisho",
-                        meditation: "Jina la Tabo ya Tahajudi"
+                        meditation: "Jina la Tabo ya Tahajudi",
+                        ticker_section: "Bandeau défilant (France 24)",
+                        ticker_enabled: "Washa bandeau",
+                        ticker_speed: "Kasi (sec)",
+                        ticker_speed_label: "Kasi (sec)",
+                        ticker_refresh: "Refresh (sec)",
+                        ticker_refresh_label: "Refresh (sec)",
+                        ticker_color_label: "Rangi ya asili",
+                        ticker_opacity_label: "Opacity",
+                        ticker_help: "Bandeau inaonyesha matangazo amilifu moja kwa moja."
                     }
                 }
             },

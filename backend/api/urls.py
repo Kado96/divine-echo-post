@@ -5,6 +5,7 @@ from api.accounts.viewsets import CustomTokenObtainPairView, RegisterViewSet
 # Import des URLs spécialisées
 from api.sermons.urls import admin_urlpatterns as sermon_admin_urls
 from api.shops.urls import admin_urlpatterns as shop_admin_urls
+from api.media.urls import admin_urlpatterns as media_admin_urls
 
 urlpatterns = [
     # Authentification (Directement sous /api/ selon API_ARCHITECTURE.md)
@@ -25,4 +26,5 @@ urlpatterns = [
     # Administration (Préfixe /api/admin/ selon API_ARCHITECTURE.md)
     path('admin/sermons/', include((sermon_admin_urls, 'sermons'), namespace='admin_sermons')),
     path('admin/shops/', include((shop_admin_urls, 'shops'), namespace='admin_shops')),
+    path('admin/media/', include((media_admin_urls, 'media'), namespace='admin_media')),
 ]

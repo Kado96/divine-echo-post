@@ -34,6 +34,45 @@ const SermonDetail = () => {
         fetchSermon();
     }, [slug, t]);
 
+    const handleDownload = () => {
+        if (!sermon) return;
+        const fileUrl = getFullImageUrl(sermon.audio_file || sermon.audio_url || sermon.video_file || sermon.video_url);
+        if (!fileUrl) return;
+
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.target = "_blank";
+        link.download = `${sermon.title}.mp3`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const handleShare = async () => {
+        if (!sermon) return;
+        const shareData = {
+            title: stripHtml(sermon.title),
+            text: stripHtml(sermon.description || sermon.title),
+            url: window.location.href,
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+                console.log("Error sharing:", err);
+            }
+        } else {
+            // Fallback: Copy to clipboard
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                alert("Lien copié dans le presse-papier !");
+            } catch (err) {
+                console.error("Failed to copy:", err);
+            }
+        }
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen bg-background">
@@ -111,10 +150,17 @@ const SermonDetail = () => {
                                 {t("common.browser_audio_error")}
                             </audio>
                             <div className="flex flex-wrap gap-4">
-                                <Button className="gap-2 bg-accent text-accent-foreground hover:bg-accent/90">
+                                <Button 
+                                    className="gap-2 bg-accent text-accent-foreground hover:bg-accent/90"
+                                    onClick={handleDownload}
+                                >
                                     <Download className="w-4 h-4" /> {t("common.download")}
                                 </Button>
-                                <Button variant="outline" className="gap-2">
+                                <Button 
+                                    variant="outline" 
+                                    className="gap-2"
+                                    onClick={handleShare}
+                                >
                                     <Share2 className="w-4 h-4" /> {t("common.share")}
                                 </Button>
                             </div>

@@ -14,7 +14,16 @@ class Testimonial(models.Model):
     )
 
     author = models.CharField(max_length=255)
-    content = models.TextField()
+    
+    # Multilingual content
+    content_fr = models.TextField(blank=True, null=True)
+    content_en = models.TextField(blank=True, null=True)
+    content_rn = models.TextField(blank=True, null=True)
+    content_sw = models.TextField(blank=True, null=True)
+    
+    # Generic fields (backward compatibility)
+    content = models.TextField(blank=True, null=True)
+    
     rating = models.IntegerField(default=5)
     language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, default="fr")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Nouveau')

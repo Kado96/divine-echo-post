@@ -59,23 +59,23 @@ const TestimonialsSection = () => {
                     className="text-center mb-12"
                 >
                     <span className="text-accent text-sm font-semibold uppercase tracking-widest mb-3 block">
-                        {getSetting("section_testimonials_badge") && getSetting("section_testimonials_badge") !== "Témoignages" && getSetting("section_testimonials_badge") !== "Ivyerekeye" ? getSetting("section_testimonials_badge") : t("home_testimonials.badge")}
+                        {getSetting("section_testimonials_badge") || t("home_testimonials.badge")}
                     </span>
                     <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-                        {getSetting("section_testimonials_title") && getSetting("section_testimonials_title") !== "Ce qu'ils disent" && getSetting("section_testimonials_title") !== "Ico bavuga" ? getSetting("section_testimonials_title") : t("home_testimonials.title")}{" "}
+                        {getSetting("section_testimonials_title") || t("home_testimonials.title")}{" "}
                         <span className="text-gradient-gold">
-                            {getSetting("section_testimonials_accent") && getSetting("section_testimonials_accent") !== "de nous" ? getSetting("section_testimonials_accent") : t("home_testimonials.title_accent")}
+                            {getSetting("section_testimonials_accent") || t("home_testimonials.title_accent")}
                         </span>
                     </h2>
                     <p className="text-muted-foreground/60 max-w-lg mx-auto">
-                        {getSetting("section_testimonials_desc") && getSetting("section_testimonials_desc") !== "Découvrez comment Shalom Ministry transforme des vies" ? getSetting("section_testimonials_desc") : t("home_testimonials.description")}
+                        {getSetting("section_testimonials_desc") || t("home_testimonials.description")}
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="flex flex-wrap justify-center gap-8">
                     {loading
                         ? [1, 2, 3].map((i) => (
-                            <div key={i} className="bg-card rounded-3xl p-8 border border-border animate-pulse h-64"></div>
+                            <div key={i} className="flex-[1_1_350px] max-w-[450px] bg-card rounded-3xl p-8 border border-border animate-pulse h-64"></div>
                         ))
                         : visibleTestimonials.map((item, i) => (
                             <motion.div
@@ -84,7 +84,7 @@ const TestimonialsSection = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
-                                className="bg-card rounded-3xl p-8 shadow-sm border border-border relative flex flex-col justify-between group hover:shadow-xl transition-all duration-500"
+                                className="flex-[1_1_350px] max-w-[450px] bg-card rounded-3xl p-8 shadow-sm border border-border relative flex flex-col justify-between group hover:shadow-xl transition-all duration-500"
                             >
                                 <Quote className="absolute top-6 right-8 w-10 h-10 text-accent/10 group-hover:text-accent/20 transition-colors" />
 

@@ -4,6 +4,7 @@ import { apiService } from "@/lib/api";
 import { stripHtml } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { Megaphone, X } from "lucide-react";
+import { createPortal } from "react-dom";
 
 const NewsTicker = () => {
     const { t, i18n } = useTranslation();
@@ -40,15 +41,25 @@ const NewsTicker = () => {
         return () => clearInterval(interval);
     }, [settings?.ticker_refresh_interval]);
 
-    if (!isVisible || loading || announcements.length === 0 || (settings && settings.ticker_enabled === false)) return null;
+    // If definitely disabled, show nothing
+    if (!isVisible || (settings && settings.ticker_enabled === false)) return null;
 
-    // Combine all announcement titles and contents into one scrolling line
+    // Content to display
     const currentLang = i18n.language || 'fr';
-    const tickerText = announcements.map(a => {
-        const title = a[`title_${currentLang}`] || a.title || "";
-        const content = a[`content_${currentLang}`] || a.content || "";
-        return `${stripHtml(title).toUpperCase()} : ${stripHtml(content)}`;
-    }).join(" • ");
+    let tickerText = "";
+    
+    if (loading) {
+        tickerText = "Chargement des actualités...";
+    } else if (announcements.length === 0) {
+        tickerText = settings?.site_name?.toUpperCase() || "SHALOM MINISTRY";
+    } else {
+        tickerText = announcements.map(a => {
+            const title = a[`title_${currentLang}`] || a.title || "";
+            const content = a[`content_${currentLang}`] || a.content || "";
+            return `${stripHtml(title).toUpperCase()} : ${stripHtml(content)}`;
+        }).join(" • ");
+    }
+
     const duration = settings?.ticker_speed || 30;
 
     const hexToRgba = (hex: string, opacity: number) => {
@@ -62,20 +73,34 @@ const NewsTicker = () => {
     const opacity = settings?.ticker_opacity ?? 100;
     const rgbaBg = hexToRgba(bgColor, opacity);
 
-    // France 24 style: Red background (or custom), white text
-    return (
+    return createPortal(
         <div
-            className="fixed bottom-0 left-0 right-0 z-[60] text-white h-10 flex items-center overflow-hidden border-t shadow-[0_-4px_10px_rgba(0,0,0,0.2)]"
+            id="global-news-ticker"
             style={{
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                width: '100%',
+                zIndex: 2147483647, // Max possible z-index
                 backgroundColor: rgbaBg,
-                borderColor: bgColor // Keep border solid
+                borderTop: `1px solid ${bgColor}`,
+                display: 'flex',
+                alignItems: 'center',
+                overflow: 'hidden',
+                color: 'white',
+                boxShadow: '0 -4px 15px rgba(0,0,0,0.5)',
+                paddingBottom: 'env(safe-area-inset-bottom)',
+                height: `calc(40px + env(safe-area-inset-bottom))`,
+                pointerEvents: 'auto',
+                WebkitTransform: 'translateZ(9999px)', // Force GPU acceleration and top layer
+                transform: 'translateZ(9999px)'
             }}
         >
-            {/* Label (Logo style) */}
-            <div className="bg-[#1d2327] h-full px-4 flex items-center gap-2 font-black italic tracking-tighter text-sm shrink-0 z-10">
-                <Megaphone className="w-4 h-4" style={{ color: bgColor }} />
-                <span className="hidden sm:inline uppercase">Info Shalom</span>
-                <span className="inline sm:hidden uppercase">INFO</span>
+            {/* Label */}
+            <div className="bg-[#1d2327] h-full px-3 flex items-center gap-2 font-black italic tracking-tighter text-[11px] sm:text-sm shrink-0 z-[100001]">
+                <Megaphone className="w-3.5 h-3.5" style={{ color: bgColor }} />
+                <span className="uppercase whitespace-nowrap">Info Shalom</span>
             </div>
 
             {/* Scrolling Content */}
@@ -85,31 +110,30 @@ const NewsTicker = () => {
                     animate={{ x: ["0%", "-50%"] }}
                     transition={{
                         repeat: Infinity,
-                        duration: duration,
+                        duration: tickerText.length > 50 ? duration : 15,
                         ease: "linear"
                     }}
                 >
-                    <span className="text-sm font-bold uppercase tracking-wide flex items-center gap-8">
+                    <span className="text-[12px] sm:text-sm font-bold uppercase tracking-wide flex items-center gap-8">
                         {tickerText}
                         <span className="w-2 h-2 rounded-full bg-white/50" />
                     </span>
-                    {/* Duplicate for seamless looping */}
-                    <span className="text-sm font-bold uppercase tracking-wide flex items-center gap-8">
+                    <span className="text-[12px] sm:text-sm font-bold uppercase tracking-wide flex items-center gap-8">
                         {tickerText}
                         <span className="w-2 h-2 rounded-full bg-white/50" />
                     </span>
                 </motion.div>
             </div>
 
-            {/* Close Button */}
+            {/* Close */}
             <button
                 onClick={() => setIsVisible(false)}
-                className="bg-[#1d2327] h-full px-3 flex items-center justify-center hover:bg-gray-800 transition-colors shrink-0 z-10"
-                aria-label="Fermer"
+                className="bg-[#1d2327] h-full px-4 flex items-center justify-center hover:bg-gray-800 transition-colors shrink-0 z-[100001]"
             >
                 <X className="w-4 h-4" />
             </button>
-        </div>
+        </div>,
+        document.body
     );
 };
 

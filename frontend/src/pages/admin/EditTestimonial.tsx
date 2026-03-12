@@ -15,9 +15,14 @@ const EditTestimonial = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
+    const [activeTab, setActiveTab] = useState('fr');
     const [formData, setFormData] = useState({
         author: "",
         rating: "5",
+        content_fr: "",
+        content_en: "",
+        content_rn: "",
+        content_sw: "",
         content: "",
         language: "fr",
         status: "Nouveau"
@@ -31,7 +36,11 @@ const EditTestimonial = () => {
                 setFormData({
                     author: data.author,
                     rating: data.rating.toString(),
-                    content: data.content,
+                    content_fr: data.content_fr || data.content || "",
+                    content_rn: data.content_rn || "",
+                    content_en: data.content_en || "",
+                    content_sw: data.content_sw || "",
+                    content: data.content || "",
                     language: data.language || "fr",
                     status: data.status
                 });
@@ -53,15 +62,16 @@ const EditTestimonial = () => {
             toast.error(t("common.author_required"));
             return;
         }
-        if (!formData.content.trim()) {
-            toast.error(t("common.content_required"));
+        if (!formData.content_fr.trim()) {
+            toast.error(t("admin.announcements_page.validation.content_fr_required") || "Contenu FR requis");
             return;
         }
         try {
             setLoading(true);
             await apiService.updateTestimonial(id, {
                 ...formData,
-                rating: parseInt(formData.rating)
+                rating: parseInt(formData.rating),
+                content: formData.content_fr
             });
             toast.success(t("common.saved_success"));
             navigate("/admin/testimonials");
@@ -101,6 +111,23 @@ const EditTestimonial = () => {
                 </header>
 
                 <div className="bg-white border border-border shadow-sm p-6 rounded-2xl">
+                    <div className="flex gap-2 mb-6 border-b border-gray-100 pb-4">
+                        {[
+                            { id: 'fr', label: 'Français' },
+                            { id: 'rn', label: 'Kirundi' },
+                            { id: 'en', label: 'English' },
+                            { id: 'sw', label: 'Kiswahili' }
+                        ].map((lang) => (
+                            <button
+                                key={lang.id}
+                                type="button"
+                                onClick={() => setActiveTab(lang.id)}
+                                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === lang.id ? 'bg-[#2271b1] text-white' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'}`}
+                            >
+                                {lang.label}
+                            </button>
+                        ))}
+                    </div>
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
@@ -131,32 +158,21 @@ const EditTestimonial = () => {
                                 </select>
                             </div>
 
-                            <div className="space-y-2">
-                                <label htmlFor="testimonial-language" className="text-xs font-bold text-gray-700 uppercase cursor-pointer">{t("admin.sermons_page.form.language")}</label>
-                                <select
-                                    id="testimonial-language"
-                                    name="language"
-                                    value={formData.language}
-                                    onChange={(e) => setFormData({ ...formData, language: e.target.value })}
-                                    className="w-full px-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm"
-                                >
-                                    <option value="fr">Français</option>
-                                    <option value="rn">Kirundi</option>
-                                    <option value="en">English</option>
-                                    <option value="sw">Kiswahili</option>
-                                </select>
-                            </div>
                         </div>
 
                         <div className="space-y-2 relative">
-                            <label htmlFor="testimonial-content" className="text-xs font-bold text-gray-700 uppercase cursor-pointer">{t("admin.testimonials_page.form.content")}</label>
+                            <label htmlFor={`content-${activeTab}`} className="text-xs font-bold text-gray-700 uppercase cursor-pointer">
+                                {t("admin.testimonials_page.form.content")} ({activeTab.toUpperCase()})
+                            </label>
                             <div className="relative">
-                                <textarea id="testimonial-content" name="content"
-                                    value={formData.content}
-                                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                                <textarea
+                                    id={`content-${activeTab}`}
+                                    name={`content_${activeTab}`}
+                                    value={formData[`content_${activeTab}` as keyof typeof formData] as string}
+                                    onChange={(e) => setFormData({ ...formData, [`content_${activeTab}`]: e.target.value })}
                                     className="w-full h-40 pl-10 pr-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm resize-none italic"
                                     placeholder={t("admin.testimonials_page.form.placeholder_content")}
-                                    required
+                                    required={activeTab === 'fr'}
                                 />
                                 <Quote className="w-5 h-5 absolute left-3 top-4 text-gray-300" />
                             </div>

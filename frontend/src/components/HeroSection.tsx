@@ -61,11 +61,22 @@ const HeroSection = () => {
           {stripHtml(getSetting("hero_title") || t("hero.title"))}
         </motion.h1>
 
+        {getSetting("hero_subtitle") && (
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.25 }}
+            className="text-accent text-lg md:text-xl font-medium mb-4 max-w-3xl mx-auto"
+          >
+            {stripHtml(getSetting("hero_subtitle"))}
+          </motion.p>
+        )}
+
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-primary-foreground/70 text-lg md:text-xl max-w-2xl mx-auto mb-10"
+          className="text-primary-foreground/70 text-base md:text-lg max-w-2xl mx-auto mb-10"
         >
           {stripHtml(getSetting("hero_description") || settings?.description || t("hero.description"))}
         </motion.p>

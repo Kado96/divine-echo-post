@@ -15,9 +15,19 @@ const AdminCategories = () => {
     const [saving, setSaving] = useState(false);
 
     // Form state
+    const [activeLang, setActiveLang] = useState<"fr" | "en" | "rn" | "sw">("fr");
     const [name, setName] = useState("");
+    const [name_fr, setNameFr] = useState("");
+    const [name_en, setNameEn] = useState("");
+    const [name_rn, setNameRn] = useState("");
+    const [name_sw, setNameSw] = useState("");
     const [slug, setSlug] = useState("");
     const [description, setDescription] = useState("");
+    const [description_fr, setDescriptionFr] = useState("");
+    const [description_en, setDescriptionEn] = useState("");
+    const [description_rn, setDescriptionRn] = useState("");
+    const [description_sw, setDescriptionSw] = useState("");
+    const [editingId, setEditingId] = useState<number | null>(null);
     const [editingSlug, setEditingSlug] = useState<string | null>(null);
 
     const fetchCategories = async () => {
@@ -39,7 +49,7 @@ const AdminCategories = () => {
 
     // Auto-generate slug from name (ONLY if NOT editing)
     useEffect(() => {
-        if (!editingSlug) {
+        if (!editingId) {
             const generatedSlug = name
                 .toLowerCase()
                 .trim()
@@ -48,21 +58,39 @@ const AdminCategories = () => {
                 .replace(/^-+|-+$/g, '');
             setSlug(generatedSlug);
         }
-    }, [name, editingSlug]);
+    }, [name, editingId]);
 
     const handleEditClick = (category: any) => {
+        setEditingId(category.id);
         setEditingSlug(category.slug);
-        setName(category.name);
+        setName(category.name || "");
+        setNameFr(category.name_fr || "");
+        setNameEn(category.name_en || "");
+        setNameRn(category.name_rn || "");
+        setNameSw(category.name_sw || "");
         setSlug(category.slug);
         setDescription(category.description || "");
+        setDescriptionFr(category.description_fr || "");
+        setDescriptionEn(category.description_en || "");
+        setDescriptionRn(category.description_rn || "");
+        setDescriptionSw(category.description_sw || "");
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const handleCancelEdit = () => {
+        setEditingId(null);
         setEditingSlug(null);
         setName("");
+        setNameFr("");
+        setNameEn("");
+        setNameRn("");
+        setNameSw("");
         setSlug("");
         setDescription("");
+        setDescriptionFr("");
+        setDescriptionEn("");
+        setDescriptionRn("");
+        setDescriptionSw("");
     };
 
     const handleSaveCategory = async () => {
@@ -74,12 +102,20 @@ const AdminCategories = () => {
             setSaving(true);
             const payload = {
                 name,
+                name_fr,
+                name_en,
+                name_rn,
+                name_sw,
                 slug: slug || name.toLowerCase().replace(/ /g, '-'),
-                description
+                description,
+                description_fr,
+                description_en,
+                description_rn,
+                description_sw,
             };
 
-            if (editingSlug) {
-                await apiService.updateSermonCategory(editingSlug, payload);
+            if (editingId) {
+                await apiService.updateSermonCategory(editingId, payload);
                 toast.success(t("common.saved_success"));
             } else {
                 await apiService.createSermonCategory(payload);
@@ -102,13 +138,23 @@ const AdminCategories = () => {
         }
     };
 
-    const handleDeleteCategory = async (slug: string, catName: string) => {
+    const handleDeleteCategory = async (id: number, catName: string) => {
         if (window.confirm(t("admin.categories_page.validation.confirm_delete", { name: catName }))) {
             try {
-                await apiService.deleteSermonCategory(slug);
+                await apiService.deleteSermonCategory(id);
                 toast.success(t("common.deleted_success"));
                 fetchCategories();
             } catch (error: any) {
+                // If ID fails, try slug as fallback
+                try {
+                   const cat = categories.find(c => c.id === id);
+                   if (cat && cat.slug) {
+                       await apiService.deleteSermonCategory(cat.slug);
+                       toast.success(t("common.deleted_success"));
+                       fetchCategories();
+                       return;
+                   }
+                } catch(e) {}
                 toast.error(error.message || t("common.error_deleting"));
             }
         }
@@ -128,18 +174,49 @@ const AdminCategories = () => {
                             {editingSlug ? `Modifier : ${name}` : t("admin.categories_page.add_new")}
                         </h2>
                         <div className="space-y-4 bg-white p-6 border border-border shadow-sm">
-                            <div>
-                                <label htmlFor="category-name" className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-tight">{t("admin.categories_page.name")}</label>
+                            {/* Language Switcher */}
+                            <div className="flex border-b border-border">
+                                {(["fr", "en", "rn", "sw"] as const).map((lang) => (
+                                    <button
+                                        key={lang}
+                                        onClick={() => setActiveLang(lang)}
+                                        className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeLang === lang
+                                                ? "border-b-2 border-[#2271b1] text-[#2271b1]"
+                                                : "text-gray-400 hover:text-gray-600"
+                                            }`}
+                                    >
+                                        {lang === "fr" ? "Français" : lang === "en" ? "English" : lang === "rn" ? "Kirundi" : "Swahili"}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="pt-2">
+                                <label htmlFor="category-name" className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-tight">
+                                    {t("admin.categories_page.name")} ({activeLang.toUpperCase()})
+                                </label>
                                 <input
                                     id="category-name"
                                     name="name"
                                     type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    value={activeLang === "fr" ? name_fr : activeLang === "en" ? name_en : activeLang === "rn" ? name_rn : name_sw}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        if (activeLang === "fr") {
+                                            setNameFr(val);
+                                            setName(val); // Sync main name with FR
+                                        } else if (activeLang === "en") {
+                                            setNameEn(val);
+                                        } else if (activeLang === "rn") {
+                                            setNameRn(val);
+                                        } else {
+                                            setNameSw(val);
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
                                 />
                                 <p className="text-[10px] text-gray-400 mt-1.5 italic font-medium">{t("admin.categories_page.name_help")}</p>
                             </div>
+
                             <div>
                                 <label htmlFor="category-slug" className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-tight">{t("admin.categories_page.slug")}</label>
                                 <input
@@ -152,14 +229,29 @@ const AdminCategories = () => {
                                 />
                                 <p className="text-[10px] text-gray-400 mt-1.5 italic font-medium">{t("admin.categories_page.slug_help")}</p>
                             </div>
+
                             <div>
-                                <label htmlFor="category-description" className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-tight">{t("admin.categories_page.description")}</label>
+                                <label htmlFor="category-description" className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-tight">
+                                    {t("admin.categories_page.description")} ({activeLang.toUpperCase()})
+                                </label>
                                 <textarea
                                     id="category-description"
                                     name="description"
                                     rows={4}
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
+                                    value={activeLang === "fr" ? description_fr : activeLang === "en" ? description_en : activeLang === "rn" ? description_rn : description_sw}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        if (activeLang === "fr") {
+                                            setDescriptionFr(val);
+                                            setDescription(val); // Sync main description with FR
+                                        } else if (activeLang === "en") {
+                                            setDescriptionEn(val);
+                                        } else if (activeLang === "rn") {
+                                            setDescriptionRn(val);
+                                        } else {
+                                            setDescriptionSw(val);
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none resize-none"
                                 ></textarea>
                                 <p className="text-[10px] text-gray-400 mt-1.5 italic font-medium">{t("admin.categories_page.desc_help")}</p>
@@ -236,19 +328,19 @@ const AdminCategories = () => {
                                                 >
                                                     {cat.name}
                                                 </span>
-                                                <div className="flex items-center gap-2 text-[9px] font-black uppercase text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity mt-1.5">
+                                                <div className="flex items-center gap-2 text-[10px] font-black uppercase text-gray-400 mt-1.5">
                                                     <button
                                                         className="text-[#2271b1] hover:text-[#135e96] tracking-tighter"
                                                         onClick={() => handleEditClick(cat)}
                                                     >
-                                                        {t("admin.categories_page.table.modify")}
+                                                        {t("admin.categories_page.table.modify") || "Modifier"}
                                                     </button>
-                                                    <span className="text-gray-200">|</span>
+                                                    <span className="text-gray-300">|</span>
                                                     <button
                                                         className="text-red-500 hover:text-red-700 tracking-tighter"
-                                                        onClick={() => handleDeleteCategory(cat.slug, cat.name)}
+                                                        onClick={() => handleDeleteCategory(cat.id, cat.name)}
                                                     >
-                                                        {t("admin.categories_page.table.delete")}
+                                                        {t("admin.categories_page.table.delete") || "Supprimer"}
                                                     </button>
                                                 </div>
                                             </td>

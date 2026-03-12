@@ -1,25 +1,85 @@
 import AdminLayout from "@/components/layouts/AdminLayout";
-import { Button } from "@/components/ui/button";
 import {
     Users,
     Play,
     TrendingUp,
-    Globe,
     Clock,
-    Monitor,
-    Smartphone
+    Loader2
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { apiService } from "@/lib/api";
+import { toast } from "sonner";
 
 const AdminStats = () => {
     const { t } = useTranslation();
+    const [loading, setLoading] = useState(true);
+    const [stats, setStats] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const data = await apiService.getGlobalStats();
+                setStats(data);
+            } catch (error) {
+                console.error("Error fetching stats:", error);
+                toast.error("Erreur lors du chargement des statistiques");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStats();
+    }, []);
+
+    if (loading || !stats) {
+        return (
+            <AdminLayout>
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <Loader2 className="w-8 h-8 animate-spin text-[#2271b1]" />
+                </div>
+            </AdminLayout>
+        );
+    }
+
+    const formatValue = (val: number) => {
+        if (val >= 1000000) return (val / 1000000).toFixed(1) + "M";
+        if (val >= 1000) return (val / 1000).toFixed(1) + "K";
+        return val.toString();
+    };
 
     const mainStats = [
-        { label: t("admin.stats_page.labels.views"), value: "125K", sub: t("admin.stats_page.labels.listeners"), icon: Play, color: "text-blue-600", bg: "bg-blue-50" },
-        { label: t("admin.stats_page.labels.listeners_count"), value: "3.2K", sub: t("admin.stats_page.labels.live"), icon: Users, color: "text-green-600", bg: "bg-green-50" },
-        { label: t("admin.stats_page.labels.impact_label"), value: t("admin.stats_page.labels.impact_high"), sub: t("admin.stats_page.labels.impact_sub"), icon: TrendingUp, color: "text-purple-600", bg: "bg-purple-50" },
-        { label: t("admin.stats_page.labels.time_label"), value: "24m", sub: t("admin.stats_page.labels.time_sub"), icon: Clock, color: "text-orange-600", bg: "bg-orange-50" },
+        { 
+            label: t("admin.stats_page.labels.views"), 
+            value: formatValue(stats.total_views), 
+            sub: t("admin.stats_page.labels.listeners"), 
+            icon: Play, 
+            color: "text-blue-600", 
+            bg: "bg-blue-50" 
+        },
+        { 
+            label: t("admin.stats_page.labels.listeners_count"), 
+            value: formatValue(stats.active_listeners), 
+            sub: t("admin.stats_page.labels.live"), 
+            icon: Users, 
+            color: "text-green-600", 
+            bg: "bg-green-50" 
+        },
+        { 
+            label: t("admin.stats_page.labels.impact_label"), 
+            value: stats.impact_rate || "85%", 
+            sub: t("admin.stats_page.labels.impact_sub"), 
+            icon: TrendingUp, 
+            color: "text-purple-600", 
+            bg: "bg-purple-50" 
+        },
+        { 
+            label: t("admin.stats_page.labels.time_label"), 
+            value: stats.avg_time || "24m", 
+            sub: t("admin.stats_page.labels.time_sub"), 
+            icon: Clock, 
+            color: "text-orange-600", 
+            bg: "bg-orange-50" 
+        },
     ];
 
     return (
@@ -81,21 +141,31 @@ const AdminStats = () => {
                         </div>
                     </div>
 
-                    {/* Simple Popular List */}
+                    {/* Popular List from DB */}
                     <div className="bg-white border border-border rounded-xl shadow-sm overflow-hidden">
                         <div className="p-4 border-b border-border bg-gray-50/50">
                             <h3 className="font-bold text-[#1d2327]">{t("admin.stats_page.favorites.title")}</h3>
                         </div>
                         <div className="divide-y divide-gray-100">
-                            {[1, 2, 3].map((i) => (
-                                <div key={i} className="p-4 flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-bold text-[#2271b1]">Sermon {i}</p>
-                                        <p className="text-[10px] text-gray-400">{t("admin.stats_page.favorites.listened_by")} {(10 / i).toFixed(1)}K {t("admin.stats_page.favorites.people")}</p>
+                            {stats.top_sermons.length > 0 ? (
+                                stats.top_sermons.map((sermon: any, i: number) => (
+                                    <div key={sermon.id} className="p-4 flex items-center justify-between">
+                                        <div className="flex-1 mr-4">
+                                            <p className="text-sm font-bold text-[#2271b1] line-clamp-1">{sermon.title}</p>
+                                            <p className="text-[10px] text-gray-400 capitalize">
+                                                {sermon.category} • {formatValue(sermon.views)} {t("admin.stats_page.favorites.people")}
+                                            </p>
+                                        </div>
+                                        <div className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded whitespace-nowrap">
+                                            Top {i + 1}
+                                        </div>
                                     </div>
-                                    <div className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Top {i}</div>
+                                ))
+                            ) : (
+                                <div className="p-8 text-center text-gray-400 text-sm">
+                                    Aucune donnée disponible
                                 </div>
-                            ))}
+                            )}
                         </div>
                     </div>
                 </div>

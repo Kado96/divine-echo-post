@@ -68,7 +68,7 @@ const CategoriesSection = () => {
   };
 
   return (
-    <section className="py-16 bg-white" id="emissions">
+    <section className="py-16 bg-white" id="categories">
       <div className="container mx-auto px-4">
         <header className="mb-12">
           <h1 className="text-5xl font-bold text-[#1d2327] mb-4 font-serif">
@@ -124,7 +124,7 @@ const CategoriesSection = () => {
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${activeCategory === cat.name ? "bg-accent text-accent-foreground" : "bg-gray-100 text-gray-400 group-hover:bg-accent/20 group-hover:text-accent"}`}>
                         {getCategoryIcon(cat.name)}
                       </div>
-                      <span className={`text-sm font-bold ${activeCategory === cat.name ? "text-accent" : "text-gray-600 group-hover:text-gray-900"}`}>{t(`categories.items.${cat.name}`) || cat.name}</span>
+                      <span className={`text-sm font-bold ${activeCategory === cat.name ? "text-accent" : "text-gray-600 group-hover:text-gray-900"}`}>{cat.name}</span>
                     </div>
                     <span className="text-xs font-bold text-gray-400">{getCategoryCount(cat.name)}</span>
                   </button>
@@ -183,7 +183,7 @@ const CategoriesSection = () => {
                           {/* Top: Category Badge */}
                           <div className="flex justify-between items-start">
                             <span className="bg-accent/90 backdrop-blur-md text-accent-foreground text-[10px] font-black uppercase tracking-wider px-4 py-1.5 rounded-full">
-                              {item.category_name || t("common.general")}
+                              {item.category_name || "Général"}
                             </span>
                           </div>
 

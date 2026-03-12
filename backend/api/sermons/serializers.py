@@ -5,7 +5,11 @@ from .models import SermonCategory, Sermon
 class SermonCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = SermonCategory
-        fields = ("id", "name", "slug", "description", "icon")
+        fields = (
+            "id", "name", "name_fr", "name_en", "name_rn", "name_sw",
+            "slug", "description", "description_fr", "description_en", 
+            "description_rn", "description_sw", "icon"
+        )
 
 
 class SermonListSerializer(serializers.ModelSerializer):
@@ -16,9 +20,9 @@ class SermonListSerializer(serializers.ModelSerializer):
         model = Sermon
         fields = (
             "id",
-            "title",
+            "title", "title_fr", "title_en", "title_rn", "title_sw",
             "slug",
-            "description",
+            "description", "description_fr", "description_en", "description_rn", "description_sw",
             "preacher_name",
             "category",
             "category_name",
@@ -51,9 +55,9 @@ class SermonDetailSerializer(serializers.ModelSerializer):
         model = Sermon
         fields = (
             "id",
-            "title",
+            "title", "title_fr", "title_en", "title_rn", "title_sw",
             "slug",
-            "description",
+            "description", "description_fr", "description_en", "description_rn", "description_sw",
             "preacher_name",
             "category",
             "category_name",
@@ -92,9 +96,9 @@ class AdminSermonSerializer(serializers.ModelSerializer):
         model = Sermon
         fields = (
             "id",
-            "title",
+            "title", "title_fr", "title_en", "title_rn", "title_sw",
             "slug",
-            "description",
+            "description", "description_fr", "description_en", "description_rn", "description_sw",
             "preacher_name",
             "category",
             "category_name",

@@ -32,7 +32,7 @@ const RecentEmissions = () => {
           slug: sermon.slug,
           title: stripHtml(sermon.title),
           author: stripHtml(sermon.preacher_name || t("common.default_preacher")),
-          category: t(`categories.items.${sermon.category_name}`) || sermon.category_name || t("common.general"),
+          category: sermon.category_name || t("common.general"),
           duration: sermon.duration_minutes ? `${sermon.duration_minutes} min` : "N/A",
           listeners: sermon.views_count || 0,
           isNew: true,
@@ -70,16 +70,16 @@ const RecentEmissions = () => {
           className="text-center mb-10"
         >
           <span className="text-accent text-sm font-semibold uppercase tracking-widest mb-2 block">
-            {stripHtml(getSetting("section_featured_badge")) && getSetting("section_featured_badge") !== "Nouveauté" && getSetting("section_featured_badge") !== "Gishasha" ? stripHtml(getSetting("section_featured_badge")) : t("recent.subtitle")}
+            {getSetting("section_featured_badge") ? stripHtml(getSetting("section_featured_badge")) : t("recent.subtitle")}
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            {stripHtml(getSetting("section_featured")) && getSetting("section_featured") !== "Émissions en vedette" && getSetting("section_featured") !== "Imitangire ikomeye" ? stripHtml(getSetting("section_featured")) : t("recent.title")}{" "}
+            {getSetting("section_featured") ? stripHtml(getSetting("section_featured")) : t("recent.title")}{" "}
             <span className="text-gradient-gold">
-              {stripHtml(getSetting("section_featured_accent")) && getSetting("section_featured_accent") !== "Vidéos" && getSetting("section_featured_accent") !== "Amavidewo" ? stripHtml(getSetting("section_featured_accent")) : t("recent.title_accent")}
+              {getSetting("section_featured_accent") ? stripHtml(getSetting("section_featured_accent")) : t("recent.title_accent")}
             </span>
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">
-            {stripHtml(getSetting("section_featured_desc")) && getSetting("section_featured_desc") !== "Découvrez nos dernières productions" ? stripHtml(getSetting("section_featured_desc")) : t("recent.description")}
+            {getSetting("section_featured_desc") ? stripHtml(getSetting("section_featured_desc")) : t("recent.description")}
           </p>
         </motion.div>
 
@@ -109,7 +109,7 @@ const RecentEmissions = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     {item.isNew && (
                       <span className="absolute top-3 left-3 flex items-center gap-1 bg-accent text-accent-foreground text-xs px-2.5 py-1 rounded-full font-semibold shadow-md">
-                        <Sparkles className="w-3 h-3" /> {stripHtml(getSetting("section_featured_badge")) || t("recent.new")}
+                        <Sparkles className="w-3 h-3" /> {t("recent.new")}
                       </span>
                     )}
                     {/* Play button */}
@@ -138,18 +138,7 @@ const RecentEmissions = () => {
           )}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-10"
-        >
-          <Link to="/emissions">
-            <Button variant="outline" size="lg" className="border-accent text-accent hover:bg-accent/10 gap-2">
-              {t("nav.emissions")}
-            </Button>
-          </Link>
-        </motion.div>
+        {/* Bouton de navigation supprimé à la demande de l'utilisateur */}
       </div>
     </section>
   );

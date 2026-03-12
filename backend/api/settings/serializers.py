@@ -74,6 +74,7 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'instagram_url',
             'twitter_url',
             'whatsapp_url',
+            'tiktok_url',
             # Contenu pages - Français
             'hero_badge_fr',
             'hero_title_fr',
@@ -113,6 +114,8 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'about_title_accent_fr',
             'about_badge_fr',
             'contact_badge_fr',
+            'contact_hours_fr',
+            'contact_address_fr',
             # Contenu pages - Kirundi
             'hero_badge_rn',
             'hero_title_rn',
@@ -148,6 +151,8 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'about_title_accent_rn',
             'about_badge_rn',
             'contact_badge_rn',
+            'contact_hours_rn',
+            'contact_address_rn',
             # Contenu pages - English
             'hero_badge_en',
             'hero_title_en',
@@ -183,6 +188,8 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'about_title_accent_en',
             'about_badge_en',
             'contact_badge_en',
+            'contact_hours_en',
+            'contact_address_en',
             # Contenu pages - Swahili
             'hero_badge_sw',
             'hero_title_sw',
@@ -218,6 +225,8 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             'about_title_accent_sw',
             'about_badge_sw',
             'contact_badge_sw',
+            'contact_hours_sw',
+            'contact_address_sw',
             # Header customization
             'header_admin_btn_fr', 'header_admin_btn_rn', 'header_admin_btn_en', 'header_admin_btn_sw',
             'header_slogan_fr', 'header_slogan_rn', 'header_slogan_en', 'header_slogan_sw',

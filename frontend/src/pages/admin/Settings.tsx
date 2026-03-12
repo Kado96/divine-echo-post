@@ -5,6 +5,7 @@ import { Globe, Upload, Image as ImageIcon, Save, Loader2, X } from "lucide-reac
 import { useState, useEffect, useRef } from "react";
 import { apiService } from "@/lib/api";
 import { toast } from "sonner";
+import MediaPickerModal from "@/components/admin/MediaPickerModal";
 
 const AdminSettings = () => {
     const { t, i18n } = useTranslation();
@@ -13,6 +14,10 @@ const AdminSettings = () => {
     const [settings, setSettings] = useState<any>(null);
     const [logoPreview, setLogoPreview] = useState<string | null>(null);
     const [quoteAuthorPreview, setQuoteAuthorPreview] = useState<string | null>(null);
+    const [logoFile, setLogoFile] = useState<File | null>(null);
+    const [quoteFile, setQuoteFile] = useState<File | null>(null);
+    const [pickerOpen, setPickerOpen] = useState(false);
+    const [pickerTarget, setPickerTarget] = useState<'logo' | 'quote' | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const quoteAuthorFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -54,11 +59,31 @@ const AdminSettings = () => {
     const handleQuoteAuthorPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            setQuoteFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setQuoteAuthorPreview(reader.result as string);
             };
             reader.readAsDataURL(file);
+        }
+    };
+
+    const handleMediaSelect = async (fileInfo: {url: string, id: number, type: string}) => {
+        try {
+            const res = await fetch(fileInfo.url);
+            const blob = await res.blob();
+            const filename = fileInfo.url.split('/').pop() || 'image.jpg';
+            const file = new File([blob], filename, { type: blob.type });
+
+            if (pickerTarget === 'logo') {
+                setLogoFile(file);
+                setLogoPreview(fileInfo.url);
+            } else if (pickerTarget === 'quote') {
+                setQuoteFile(file);
+                setQuoteAuthorPreview(fileInfo.url);
+            }
+        } catch (error) {
+            toast.error("Erreur lors de la récupération de l'image");
         }
     };
 
@@ -79,14 +104,14 @@ const AdminSettings = () => {
             formData.append('quote_author_name_fr', settings.quote_author_name_fr || '');
             formData.append('quote_author_subtitle_fr', settings.quote_author_subtitle_fr || '');
 
-            const file = fileInputRef.current?.files?.[0];
+            const file = logoFile || fileInputRef.current?.files?.[0];
             if (file) {
                 formData.append('logo', file);
             }
 
-            const quoteFile = quoteAuthorFileInputRef.current?.files?.[0];
-            if (quoteFile) {
-                formData.append('quote_author_image', quoteFile);
+            const authorFile = quoteFile || quoteAuthorFileInputRef.current?.files?.[0];
+            if (authorFile) {
+                formData.append('quote_author_image', authorFile);
             }
 
             await apiService.updateSettings(formData);
@@ -234,10 +259,10 @@ const AdminSettings = () => {
                                                 variant="outline"
                                                 size="sm"
                                                 className="h-8 text-[11px] border-gray-200 hover:border-[#2271b1] hover:text-[#2271b1] transition-all gap-2"
-                                                onClick={() => fileInputRef.current?.click()}
+                                                onClick={() => { setPickerTarget('logo'); setPickerOpen(true); }}
                                             >
-                                                <Upload className="w-3 h-3" />
-                                                {logoPreview ? t("admin.settings_page.change_logo") : t("admin.settings_page.choose_logo")}
+                                                <ImageIcon className="w-3 h-3" />
+                                                Choisir depuis la médiathèque
                                             </Button>
                                             <p className="text-[11px] text-gray-500 leading-relaxed max-w-xs">
                                                 {t("admin.settings_page.logo_help")}
@@ -338,9 +363,9 @@ const AdminSettings = () => {
                                                     variant="outline"
                                                     size="sm"
                                                     className="text-[10px] h-8 px-4 border-gray-200 hover:border-[#2271b1] transition-all"
-                                                    onClick={() => quoteAuthorFileInputRef.current?.click()}
+                                                    onClick={() => { setPickerTarget('quote'); setPickerOpen(true); }}
                                                 >
-                                                    Changer la photo
+                                                    <ImageIcon className="w-3 h-3 mr-2" /> Choisir depuis la médiathèque
                                                 </Button>
                                             </div>
                                         </div>
@@ -449,6 +474,13 @@ const AdminSettings = () => {
                     </div>
                 </div>
             </div>
+            
+            <MediaPickerModal 
+                isOpen={pickerOpen} 
+                onClose={() => setPickerOpen(false)} 
+                onSelect={handleMediaSelect} 
+                acceptedTypes={['image']} 
+            />
         </AdminLayout>
     );
 };
