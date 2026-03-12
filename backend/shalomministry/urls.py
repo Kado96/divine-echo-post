@@ -42,11 +42,11 @@ def serve_media_with_cors(request, path):
     return HttpResponse(status=404)
 
 urlpatterns = [
+    # Priorité absolue à l'API pour éviter les interceptions par les regex catch-all
+    path('api/', include('api.urls')),
+    
     # Admin
     path('admin/', admin.site.urls),
-    
-    # API Centralisée
-    path('api/', include('api.urls')),
     
     # Documentation API
     re_path(r'^api/docs(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
@@ -64,7 +64,7 @@ urlpatterns = [
     re_path(r'^api/media/(?P<path>.*)$', serve_media_with_cors, name='media'),
     re_path(r'^favicon\.ico$', lambda request: HttpResponse(status=404)),
     
-    # Catch-all pour le frontend si nécessaire (à utiliser avec précaution)
+    # Catch-all pour le frontend si nécessaire
     re_path("^(?!admin)(?!api)(?!static).*$", RootView.as_view()),
 ]
 
@@ -73,8 +73,8 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Handlers d'erreur
-handler400 = 'shalomministry.handlers.handler400'
-handler403 = 'shalomministry.handlers.handler403'
-handler404 = 'shalomministry.handlers.handler404'
-handler500 = 'shalomministry.handlers.handler500'
+# Handlers d'erreur (Commentés pour le débogage Render)
+# handler400 = 'shalomministry.handlers.handler400'
+# handler403 = 'shalomministry.handlers.handler403'
+# handler404 = 'shalomministry.handlers.handler404'
+# handler500 = 'shalomministry.handlers.handler500'
