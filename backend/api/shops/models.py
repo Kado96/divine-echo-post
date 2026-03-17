@@ -128,16 +128,16 @@ class Sales(models.Model):
 
 class History(models.Model):
     id = models.BigAutoField(primary_key=True)
-    shop_name = models.CharField(max_length=30)
-    shop_owner = models.CharField(max_length=30)
+    shop_name = models.CharField(max_length=100)
+    shop_owner = models.CharField(max_length=100)
     shop_id = models.IntegerField()
 
     province = models.CharField(max_length=50, null=True ,blank=True)
     commune = models.CharField(max_length=50, null=True ,blank=True)
     quarter = models.CharField(max_length=50, null=True ,blank=True)
     address = models.CharField(max_length=50, null=True ,blank=True)
-    longitude = models.CharField(max_length=30, null=True, blank=True)
-    latitude = models.CharField(max_length=30, null=True, blank=True)
+    longitude = models.CharField(max_length=100, null=True, blank=True)
+    latitude = models.CharField(max_length=100, null=True, blank=True)
 
     action = models.CharField(max_length=50)
     category = models.CharField(max_length=50, null=True, blank=True)

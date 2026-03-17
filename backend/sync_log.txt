@@ -5154,3 +5154,1572 @@ Traceback (most recent call last):
     raise TransactionManagementError(
 django.db.transaction.TransactionManagementError: An error occurred in the current transaction. You can't execute queries until the end of the 'atomic' block.
 
+2026-03-17 13:06:17,416 - INFO - ✅ Connexion à la base de production réussie
+2026-03-17 13:06:17,430 - INFO - ================================================================================
+2026-03-17 13:06:17,431 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-17 13:06:17,431 - INFO - ================================================================================
+2026-03-17 13:06:17,432 - INFO - Mode: DRY-RUN (simulation)
+2026-03-17 13:06:17,432 - INFO - Base locale: SQLite (E:\Application\Eglise\Shalom\divine-echo-post\backend\db.sqlite3)
+2026-03-17 13:06:17,432 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-17 13:06:17,432 - INFO - ================================================================================
+2026-03-17 13:06:17,432 - INFO - 
+================================================================================
+2026-03-17 13:06:17,433 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-17 13:06:17,433 - INFO - ================================================================================
+2026-03-17 13:06:17,433 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-17 13:06:17,434 - INFO - 
+📦 Synchronisation: User
+2026-03-17 13:06:17,654 - INFO -    Local: 4 éléments
+2026-03-17 13:06:17,654 - INFO -    Production: 2 éléments existants
+2026-03-17 13:06:17,766 - INFO -    [DRY-RUN] Création: User ID 75
+2026-03-17 13:06:17,768 - INFO -    [DRY-RUN] Création: User ID 87
+2026-03-17 13:06:17,771 - INFO -    [DRY-RUN] Création: User ID 90
+2026-03-17 13:06:17,774 - INFO -    [DRY-RUN] Création: User ID 92
+2026-03-17 13:06:17,774 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-17 13:06:17,775 - INFO - 
+📦 Synchronisation: Account
+2026-03-17 13:06:17,963 - INFO -    Local: 4 éléments
+2026-03-17 13:06:17,964 - INFO -    Production: 2 éléments existants
+2026-03-17 13:06:17,966 - INFO -    [DRY-RUN] Création: Account ID 69
+2026-03-17 13:06:17,969 - INFO -    [DRY-RUN] Création: Account ID 72
+2026-03-17 13:06:17,971 - INFO -    [DRY-RUN] Création: Account ID 74
+2026-03-17 13:06:17,973 - INFO -    [DRY-RUN] Création: Account ID 75
+2026-03-17 13:06:17,973 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-17 13:06:17,974 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-17 13:06:18,209 - INFO -    Local: 6 éléments
+2026-03-17 13:06:18,209 - INFO -    Production: 7 éléments existants
+2026-03-17 13:06:18,209 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 7
+2026-03-17 13:06:18,210 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 4
+2026-03-17 13:06:18,210 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 3
+2026-03-17 13:06:18,210 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 5
+2026-03-17 13:06:18,211 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 6
+2026-03-17 13:06:18,211 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 2
+2026-03-17 13:06:18,211 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-17 13:06:18,211 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-17 13:06:18,392 - INFO -    Local: 5 éléments
+2026-03-17 13:06:18,393 - INFO -    Production: 2 éléments existants
+2026-03-17 13:06:18,393 - INFO -    [DRY-RUN] Création: SermonCategory ID 3
+2026-03-17 13:06:18,393 - INFO -    [DRY-RUN] Mise à jour: SermonCategory ID 2
+2026-03-17 13:06:18,394 - INFO -    [DRY-RUN] Mise à jour: SermonCategory ID 1
+2026-03-17 13:06:18,394 - INFO -    [DRY-RUN] Création: SermonCategory ID 4
+2026-03-17 13:06:18,394 - INFO -    [DRY-RUN] Création: SermonCategory ID 5
+2026-03-17 13:06:18,395 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-17 13:06:18,395 - INFO - 
+📦 Synchronisation: Category
+2026-03-17 13:06:18,573 - INFO -    Local: 2 éléments
+2026-03-17 13:06:18,573 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:18,573 - INFO -    [DRY-RUN] Création: Category ID 23
+2026-03-17 13:06:18,573 - INFO -    [DRY-RUN] Création: Category ID 24
+2026-03-17 13:06:18,574 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-17 13:06:18,574 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-17 13:06:18,752 - INFO -    Local: 47 éléments
+2026-03-17 13:06:18,753 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:18,755 - INFO -    [DRY-RUN] Création: SubCategory ID 631
+2026-03-17 13:06:18,756 - INFO -    [DRY-RUN] Création: SubCategory ID 632
+2026-03-17 13:06:18,758 - INFO -    [DRY-RUN] Création: SubCategory ID 633
+2026-03-17 13:06:18,760 - INFO -    [DRY-RUN] Création: SubCategory ID 634
+2026-03-17 13:06:18,761 - INFO -    [DRY-RUN] Création: SubCategory ID 635
+2026-03-17 13:06:18,764 - INFO -    [DRY-RUN] Création: SubCategory ID 636
+2026-03-17 13:06:18,765 - INFO -    [DRY-RUN] Création: SubCategory ID 637
+2026-03-17 13:06:18,767 - INFO -    [DRY-RUN] Création: SubCategory ID 638
+2026-03-17 13:06:18,768 - INFO -    [DRY-RUN] Création: SubCategory ID 639
+2026-03-17 13:06:18,770 - INFO -    [DRY-RUN] Création: SubCategory ID 640
+2026-03-17 13:06:18,772 - INFO -    [DRY-RUN] Création: SubCategory ID 641
+2026-03-17 13:06:18,773 - INFO -    [DRY-RUN] Création: SubCategory ID 642
+2026-03-17 13:06:18,775 - INFO -    [DRY-RUN] Création: SubCategory ID 643
+2026-03-17 13:06:18,777 - INFO -    [DRY-RUN] Création: SubCategory ID 644
+2026-03-17 13:06:18,779 - INFO -    [DRY-RUN] Création: SubCategory ID 645
+2026-03-17 13:06:18,781 - INFO -    [DRY-RUN] Création: SubCategory ID 646
+2026-03-17 13:06:18,783 - INFO -    [DRY-RUN] Création: SubCategory ID 647
+2026-03-17 13:06:18,784 - INFO -    [DRY-RUN] Création: SubCategory ID 648
+2026-03-17 13:06:18,786 - INFO -    [DRY-RUN] Création: SubCategory ID 649
+2026-03-17 13:06:18,788 - INFO -    [DRY-RUN] Création: SubCategory ID 650
+2026-03-17 13:06:18,791 - INFO -    [DRY-RUN] Création: SubCategory ID 651
+2026-03-17 13:06:18,793 - INFO -    [DRY-RUN] Création: SubCategory ID 652
+2026-03-17 13:06:18,795 - INFO -    [DRY-RUN] Création: SubCategory ID 653
+2026-03-17 13:06:18,797 - INFO -    [DRY-RUN] Création: SubCategory ID 654
+2026-03-17 13:06:18,799 - INFO -    [DRY-RUN] Création: SubCategory ID 655
+2026-03-17 13:06:18,802 - INFO -    [DRY-RUN] Création: SubCategory ID 656
+2026-03-17 13:06:18,803 - INFO -    [DRY-RUN] Création: SubCategory ID 657
+2026-03-17 13:06:18,805 - INFO -    [DRY-RUN] Création: SubCategory ID 658
+2026-03-17 13:06:18,807 - INFO -    [DRY-RUN] Création: SubCategory ID 659
+2026-03-17 13:06:18,809 - INFO -    [DRY-RUN] Création: SubCategory ID 660
+2026-03-17 13:06:18,811 - INFO -    [DRY-RUN] Création: SubCategory ID 661
+2026-03-17 13:06:18,814 - INFO -    [DRY-RUN] Création: SubCategory ID 662
+2026-03-17 13:06:18,815 - INFO -    [DRY-RUN] Création: SubCategory ID 663
+2026-03-17 13:06:18,818 - INFO -    [DRY-RUN] Création: SubCategory ID 664
+2026-03-17 13:06:18,819 - INFO -    [DRY-RUN] Création: SubCategory ID 665
+2026-03-17 13:06:18,821 - INFO -    [DRY-RUN] Création: SubCategory ID 666
+2026-03-17 13:06:18,823 - INFO -    [DRY-RUN] Création: SubCategory ID 667
+2026-03-17 13:06:18,826 - INFO -    [DRY-RUN] Création: SubCategory ID 668
+2026-03-17 13:06:18,829 - INFO -    [DRY-RUN] Création: SubCategory ID 669
+2026-03-17 13:06:18,832 - INFO -    [DRY-RUN] Création: SubCategory ID 670
+2026-03-17 13:06:18,835 - INFO -    [DRY-RUN] Création: SubCategory ID 671
+2026-03-17 13:06:18,837 - INFO -    [DRY-RUN] Création: SubCategory ID 672
+2026-03-17 13:06:18,839 - INFO -    [DRY-RUN] Création: SubCategory ID 673
+2026-03-17 13:06:18,841 - INFO -    [DRY-RUN] Création: SubCategory ID 674
+2026-03-17 13:06:18,845 - INFO -    [DRY-RUN] Création: SubCategory ID 675
+2026-03-17 13:06:18,847 - INFO -    [DRY-RUN] Création: SubCategory ID 676
+2026-03-17 13:06:18,850 - INFO -    [DRY-RUN] Création: SubCategory ID 677
+2026-03-17 13:06:18,850 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-17 13:06:18,851 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-17 13:06:19,099 - INFO -    Local: 337 éléments
+2026-03-17 13:06:19,099 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:19,101 - INFO -    [DRY-RUN] Création: BasicProduct ID 802
+2026-03-17 13:06:19,103 - INFO -    [DRY-RUN] Création: BasicProduct ID 803
+2026-03-17 13:06:19,105 - INFO -    [DRY-RUN] Création: BasicProduct ID 804
+2026-03-17 13:06:19,108 - INFO -    [DRY-RUN] Création: BasicProduct ID 805
+2026-03-17 13:06:19,109 - INFO -    [DRY-RUN] Création: BasicProduct ID 806
+2026-03-17 13:06:19,112 - INFO -    [DRY-RUN] Création: BasicProduct ID 807
+2026-03-17 13:06:19,114 - INFO -    [DRY-RUN] Création: BasicProduct ID 808
+2026-03-17 13:06:19,116 - INFO -    [DRY-RUN] Création: BasicProduct ID 809
+2026-03-17 13:06:19,118 - INFO -    [DRY-RUN] Création: BasicProduct ID 810
+2026-03-17 13:06:19,121 - INFO -    [DRY-RUN] Création: BasicProduct ID 811
+2026-03-17 13:06:19,122 - INFO -    [DRY-RUN] Création: BasicProduct ID 812
+2026-03-17 13:06:19,125 - INFO -    [DRY-RUN] Création: BasicProduct ID 813
+2026-03-17 13:06:19,126 - INFO -    [DRY-RUN] Création: BasicProduct ID 814
+2026-03-17 13:06:19,128 - INFO -    [DRY-RUN] Création: BasicProduct ID 815
+2026-03-17 13:06:19,131 - INFO -    [DRY-RUN] Création: BasicProduct ID 816
+2026-03-17 13:06:19,133 - INFO -    [DRY-RUN] Création: BasicProduct ID 817
+2026-03-17 13:06:19,136 - INFO -    [DRY-RUN] Création: BasicProduct ID 818
+2026-03-17 13:06:19,137 - INFO -    [DRY-RUN] Création: BasicProduct ID 819
+2026-03-17 13:06:19,139 - INFO -    [DRY-RUN] Création: BasicProduct ID 820
+2026-03-17 13:06:19,141 - INFO -    [DRY-RUN] Création: BasicProduct ID 821
+2026-03-17 13:06:19,145 - INFO -    [DRY-RUN] Création: BasicProduct ID 822
+2026-03-17 13:06:19,148 - INFO -    [DRY-RUN] Création: BasicProduct ID 823
+2026-03-17 13:06:19,150 - INFO -    [DRY-RUN] Création: BasicProduct ID 824
+2026-03-17 13:06:19,153 - INFO -    [DRY-RUN] Création: BasicProduct ID 825
+2026-03-17 13:06:19,155 - INFO -    [DRY-RUN] Création: BasicProduct ID 826
+2026-03-17 13:06:19,157 - INFO -    [DRY-RUN] Création: BasicProduct ID 827
+2026-03-17 13:06:19,159 - INFO -    [DRY-RUN] Création: BasicProduct ID 828
+2026-03-17 13:06:19,162 - INFO -    [DRY-RUN] Création: BasicProduct ID 829
+2026-03-17 13:06:19,164 - INFO -    [DRY-RUN] Création: BasicProduct ID 830
+2026-03-17 13:06:19,188 - INFO -    [DRY-RUN] Création: BasicProduct ID 831
+2026-03-17 13:06:19,190 - INFO -    [DRY-RUN] Création: BasicProduct ID 832
+2026-03-17 13:06:19,193 - INFO -    [DRY-RUN] Création: BasicProduct ID 833
+2026-03-17 13:06:19,195 - INFO -    [DRY-RUN] Création: BasicProduct ID 834
+2026-03-17 13:06:19,197 - INFO -    [DRY-RUN] Création: BasicProduct ID 835
+2026-03-17 13:06:19,199 - INFO -    [DRY-RUN] Création: BasicProduct ID 836
+2026-03-17 13:06:19,201 - INFO -    [DRY-RUN] Création: BasicProduct ID 837
+2026-03-17 13:06:19,203 - INFO -    [DRY-RUN] Création: BasicProduct ID 838
+2026-03-17 13:06:19,205 - INFO -    [DRY-RUN] Création: BasicProduct ID 839
+2026-03-17 13:06:19,207 - INFO -    [DRY-RUN] Création: BasicProduct ID 840
+2026-03-17 13:06:19,209 - INFO -    [DRY-RUN] Création: BasicProduct ID 841
+2026-03-17 13:06:19,214 - INFO -    [DRY-RUN] Création: BasicProduct ID 842
+2026-03-17 13:06:19,216 - INFO -    [DRY-RUN] Création: BasicProduct ID 843
+2026-03-17 13:06:19,218 - INFO -    [DRY-RUN] Création: BasicProduct ID 844
+2026-03-17 13:06:19,220 - INFO -    [DRY-RUN] Création: BasicProduct ID 845
+2026-03-17 13:06:19,222 - INFO -    [DRY-RUN] Création: BasicProduct ID 846
+2026-03-17 13:06:19,225 - INFO -    [DRY-RUN] Création: BasicProduct ID 847
+2026-03-17 13:06:19,227 - INFO -    [DRY-RUN] Création: BasicProduct ID 848
+2026-03-17 13:06:19,232 - INFO -    [DRY-RUN] Création: BasicProduct ID 849
+2026-03-17 13:06:19,233 - INFO -    [DRY-RUN] Création: BasicProduct ID 850
+2026-03-17 13:06:19,236 - INFO -    [DRY-RUN] Création: BasicProduct ID 851
+2026-03-17 13:06:19,238 - INFO -    [DRY-RUN] Création: BasicProduct ID 852
+2026-03-17 13:06:19,240 - INFO -    [DRY-RUN] Création: BasicProduct ID 853
+2026-03-17 13:06:19,246 - INFO -    [DRY-RUN] Création: BasicProduct ID 854
+2026-03-17 13:06:19,249 - INFO -    [DRY-RUN] Création: BasicProduct ID 855
+2026-03-17 13:06:19,251 - INFO -    [DRY-RUN] Création: BasicProduct ID 856
+2026-03-17 13:06:19,255 - INFO -    [DRY-RUN] Création: BasicProduct ID 857
+2026-03-17 13:06:19,257 - INFO -    [DRY-RUN] Création: BasicProduct ID 858
+2026-03-17 13:06:19,262 - INFO -    [DRY-RUN] Création: BasicProduct ID 859
+2026-03-17 13:06:19,266 - INFO -    [DRY-RUN] Création: BasicProduct ID 860
+2026-03-17 13:06:19,269 - INFO -    [DRY-RUN] Création: BasicProduct ID 861
+2026-03-17 13:06:19,272 - INFO -    [DRY-RUN] Création: BasicProduct ID 862
+2026-03-17 13:06:19,274 - INFO -    [DRY-RUN] Création: BasicProduct ID 863
+2026-03-17 13:06:19,277 - INFO -    [DRY-RUN] Création: BasicProduct ID 864
+2026-03-17 13:06:19,279 - INFO -    [DRY-RUN] Création: BasicProduct ID 865
+2026-03-17 13:06:19,282 - INFO -    [DRY-RUN] Création: BasicProduct ID 866
+2026-03-17 13:06:19,284 - INFO -    [DRY-RUN] Création: BasicProduct ID 867
+2026-03-17 13:06:19,287 - INFO -    [DRY-RUN] Création: BasicProduct ID 868
+2026-03-17 13:06:19,290 - INFO -    [DRY-RUN] Création: BasicProduct ID 869
+2026-03-17 13:06:19,292 - INFO -    [DRY-RUN] Création: BasicProduct ID 870
+2026-03-17 13:06:19,295 - INFO -    [DRY-RUN] Création: BasicProduct ID 871
+2026-03-17 13:06:19,298 - INFO -    [DRY-RUN] Création: BasicProduct ID 872
+2026-03-17 13:06:19,300 - INFO -    [DRY-RUN] Création: BasicProduct ID 873
+2026-03-17 13:06:19,303 - INFO -    [DRY-RUN] Création: BasicProduct ID 874
+2026-03-17 13:06:19,305 - INFO -    [DRY-RUN] Création: BasicProduct ID 875
+2026-03-17 13:06:19,307 - INFO -    [DRY-RUN] Création: BasicProduct ID 876
+2026-03-17 13:06:19,311 - INFO -    [DRY-RUN] Création: BasicProduct ID 877
+2026-03-17 13:06:19,316 - INFO -    [DRY-RUN] Création: BasicProduct ID 878
+2026-03-17 13:06:19,319 - INFO -    [DRY-RUN] Création: BasicProduct ID 879
+2026-03-17 13:06:19,322 - INFO -    [DRY-RUN] Création: BasicProduct ID 880
+2026-03-17 13:06:19,329 - INFO -    [DRY-RUN] Création: BasicProduct ID 881
+2026-03-17 13:06:19,331 - INFO -    [DRY-RUN] Création: BasicProduct ID 882
+2026-03-17 13:06:19,333 - INFO -    [DRY-RUN] Création: BasicProduct ID 883
+2026-03-17 13:06:19,335 - INFO -    [DRY-RUN] Création: BasicProduct ID 884
+2026-03-17 13:06:19,337 - INFO -    [DRY-RUN] Création: BasicProduct ID 885
+2026-03-17 13:06:19,343 - INFO -    [DRY-RUN] Création: BasicProduct ID 886
+2026-03-17 13:06:19,354 - INFO -    [DRY-RUN] Création: BasicProduct ID 887
+2026-03-17 13:06:19,367 - INFO -    [DRY-RUN] Création: BasicProduct ID 888
+2026-03-17 13:06:19,370 - INFO -    [DRY-RUN] Création: BasicProduct ID 889
+2026-03-17 13:06:19,372 - INFO -    [DRY-RUN] Création: BasicProduct ID 890
+2026-03-17 13:06:19,375 - INFO -    [DRY-RUN] Création: BasicProduct ID 891
+2026-03-17 13:06:19,379 - INFO -    [DRY-RUN] Création: BasicProduct ID 892
+2026-03-17 13:06:19,382 - INFO -    [DRY-RUN] Création: BasicProduct ID 893
+2026-03-17 13:06:19,384 - INFO -    [DRY-RUN] Création: BasicProduct ID 894
+2026-03-17 13:06:19,386 - INFO -    [DRY-RUN] Création: BasicProduct ID 895
+2026-03-17 13:06:19,392 - INFO -    [DRY-RUN] Création: BasicProduct ID 896
+2026-03-17 13:06:19,400 - INFO -    [DRY-RUN] Création: BasicProduct ID 897
+2026-03-17 13:06:19,402 - INFO -    [DRY-RUN] Création: BasicProduct ID 898
+2026-03-17 13:06:19,404 - INFO -    [DRY-RUN] Création: BasicProduct ID 899
+2026-03-17 13:06:19,406 - INFO -    [DRY-RUN] Création: BasicProduct ID 900
+2026-03-17 13:06:19,410 - INFO -    [DRY-RUN] Création: BasicProduct ID 901
+2026-03-17 13:06:19,413 - INFO -    [DRY-RUN] Création: BasicProduct ID 902
+2026-03-17 13:06:19,422 - INFO -    [DRY-RUN] Création: BasicProduct ID 903
+2026-03-17 13:06:19,424 - INFO -    [DRY-RUN] Création: BasicProduct ID 904
+2026-03-17 13:06:19,428 - INFO -    [DRY-RUN] Création: BasicProduct ID 905
+2026-03-17 13:06:19,430 - INFO -    [DRY-RUN] Création: BasicProduct ID 906
+2026-03-17 13:06:19,432 - INFO -    [DRY-RUN] Création: BasicProduct ID 907
+2026-03-17 13:06:19,435 - INFO -    [DRY-RUN] Création: BasicProduct ID 908
+2026-03-17 13:06:19,438 - INFO -    [DRY-RUN] Création: BasicProduct ID 909
+2026-03-17 13:06:19,440 - INFO -    [DRY-RUN] Création: BasicProduct ID 910
+2026-03-17 13:06:19,446 - INFO -    [DRY-RUN] Création: BasicProduct ID 911
+2026-03-17 13:06:19,450 - INFO -    [DRY-RUN] Création: BasicProduct ID 912
+2026-03-17 13:06:19,452 - INFO -    [DRY-RUN] Création: BasicProduct ID 913
+2026-03-17 13:06:19,456 - INFO -    [DRY-RUN] Création: BasicProduct ID 914
+2026-03-17 13:06:19,463 - INFO -    [DRY-RUN] Création: BasicProduct ID 915
+2026-03-17 13:06:19,465 - INFO -    [DRY-RUN] Création: BasicProduct ID 916
+2026-03-17 13:06:19,471 - INFO -    [DRY-RUN] Création: BasicProduct ID 917
+2026-03-17 13:06:19,474 - INFO -    [DRY-RUN] Création: BasicProduct ID 918
+2026-03-17 13:06:19,489 - INFO -    [DRY-RUN] Création: BasicProduct ID 919
+2026-03-17 13:06:19,492 - INFO -    [DRY-RUN] Création: BasicProduct ID 920
+2026-03-17 13:06:19,497 - INFO -    [DRY-RUN] Création: BasicProduct ID 921
+2026-03-17 13:06:19,498 - INFO -    [DRY-RUN] Création: BasicProduct ID 922
+2026-03-17 13:06:19,500 - INFO -    [DRY-RUN] Création: BasicProduct ID 923
+2026-03-17 13:06:19,502 - INFO -    [DRY-RUN] Création: BasicProduct ID 924
+2026-03-17 13:06:19,504 - INFO -    [DRY-RUN] Création: BasicProduct ID 925
+2026-03-17 13:06:19,507 - INFO -    [DRY-RUN] Création: BasicProduct ID 926
+2026-03-17 13:06:19,513 - INFO -    [DRY-RUN] Création: BasicProduct ID 927
+2026-03-17 13:06:19,515 - INFO -    [DRY-RUN] Création: BasicProduct ID 928
+2026-03-17 13:06:19,517 - INFO -    [DRY-RUN] Création: BasicProduct ID 929
+2026-03-17 13:06:19,519 - INFO -    [DRY-RUN] Création: BasicProduct ID 930
+2026-03-17 13:06:19,521 - INFO -    [DRY-RUN] Création: BasicProduct ID 931
+2026-03-17 13:06:19,527 - INFO -    [DRY-RUN] Création: BasicProduct ID 932
+2026-03-17 13:06:19,533 - INFO -    [DRY-RUN] Création: BasicProduct ID 933
+2026-03-17 13:06:19,535 - INFO -    [DRY-RUN] Création: BasicProduct ID 934
+2026-03-17 13:06:19,537 - INFO -    [DRY-RUN] Création: BasicProduct ID 935
+2026-03-17 13:06:19,539 - INFO -    [DRY-RUN] Création: BasicProduct ID 936
+2026-03-17 13:06:19,540 - INFO -    [DRY-RUN] Création: BasicProduct ID 937
+2026-03-17 13:06:19,545 - INFO -    [DRY-RUN] Création: BasicProduct ID 938
+2026-03-17 13:06:19,553 - INFO -    [DRY-RUN] Création: BasicProduct ID 939
+2026-03-17 13:06:19,555 - INFO -    [DRY-RUN] Création: BasicProduct ID 940
+2026-03-17 13:06:19,557 - INFO -    [DRY-RUN] Création: BasicProduct ID 941
+2026-03-17 13:06:19,572 - INFO -    [DRY-RUN] Création: BasicProduct ID 942
+2026-03-17 13:06:19,574 - INFO -    [DRY-RUN] Création: BasicProduct ID 943
+2026-03-17 13:06:19,579 - INFO -    [DRY-RUN] Création: BasicProduct ID 944
+2026-03-17 13:06:19,582 - INFO -    [DRY-RUN] Création: BasicProduct ID 945
+2026-03-17 13:06:19,584 - INFO -    [DRY-RUN] Création: BasicProduct ID 946
+2026-03-17 13:06:19,592 - INFO -    [DRY-RUN] Création: BasicProduct ID 947
+2026-03-17 13:06:19,597 - INFO -    [DRY-RUN] Création: BasicProduct ID 948
+2026-03-17 13:06:19,599 - INFO -    [DRY-RUN] Création: BasicProduct ID 949
+2026-03-17 13:06:19,602 - INFO -    [DRY-RUN] Création: BasicProduct ID 950
+2026-03-17 13:06:19,603 - INFO -    [DRY-RUN] Création: BasicProduct ID 951
+2026-03-17 13:06:19,606 - INFO -    [DRY-RUN] Création: BasicProduct ID 952
+2026-03-17 13:06:19,608 - INFO -    [DRY-RUN] Création: BasicProduct ID 953
+2026-03-17 13:06:19,614 - INFO -    [DRY-RUN] Création: BasicProduct ID 954
+2026-03-17 13:06:19,616 - INFO -    [DRY-RUN] Création: BasicProduct ID 955
+2026-03-17 13:06:19,618 - INFO -    [DRY-RUN] Création: BasicProduct ID 956
+2026-03-17 13:06:19,632 - INFO -    [DRY-RUN] Création: BasicProduct ID 957
+2026-03-17 13:06:19,635 - INFO -    [DRY-RUN] Création: BasicProduct ID 958
+2026-03-17 13:06:19,637 - INFO -    [DRY-RUN] Création: BasicProduct ID 959
+2026-03-17 13:06:19,639 - INFO -    [DRY-RUN] Création: BasicProduct ID 960
+2026-03-17 13:06:19,641 - INFO -    [DRY-RUN] Création: BasicProduct ID 961
+2026-03-17 13:06:19,652 - INFO -    [DRY-RUN] Création: BasicProduct ID 962
+2026-03-17 13:06:19,654 - INFO -    [DRY-RUN] Création: BasicProduct ID 963
+2026-03-17 13:06:19,657 - INFO -    [DRY-RUN] Création: BasicProduct ID 964
+2026-03-17 13:06:19,659 - INFO -    [DRY-RUN] Création: BasicProduct ID 965
+2026-03-17 13:06:19,662 - INFO -    [DRY-RUN] Création: BasicProduct ID 966
+2026-03-17 13:06:19,664 - INFO -    [DRY-RUN] Création: BasicProduct ID 967
+2026-03-17 13:06:19,666 - INFO -    [DRY-RUN] Création: BasicProduct ID 968
+2026-03-17 13:06:19,668 - INFO -    [DRY-RUN] Création: BasicProduct ID 969
+2026-03-17 13:06:19,670 - INFO -    [DRY-RUN] Création: BasicProduct ID 970
+2026-03-17 13:06:19,672 - INFO -    [DRY-RUN] Création: BasicProduct ID 971
+2026-03-17 13:06:19,674 - INFO -    [DRY-RUN] Création: BasicProduct ID 972
+2026-03-17 13:06:19,679 - INFO -    [DRY-RUN] Création: BasicProduct ID 973
+2026-03-17 13:06:19,681 - INFO -    [DRY-RUN] Création: BasicProduct ID 974
+2026-03-17 13:06:19,683 - INFO -    [DRY-RUN] Création: BasicProduct ID 975
+2026-03-17 13:06:19,685 - INFO -    [DRY-RUN] Création: BasicProduct ID 976
+2026-03-17 13:06:19,702 - INFO -    [DRY-RUN] Création: BasicProduct ID 977
+2026-03-17 13:06:19,704 - INFO -    [DRY-RUN] Création: BasicProduct ID 978
+2026-03-17 13:06:19,706 - INFO -    [DRY-RUN] Création: BasicProduct ID 979
+2026-03-17 13:06:19,711 - INFO -    [DRY-RUN] Création: BasicProduct ID 980
+2026-03-17 13:06:19,713 - INFO -    [DRY-RUN] Création: BasicProduct ID 981
+2026-03-17 13:06:19,715 - INFO -    [DRY-RUN] Création: BasicProduct ID 982
+2026-03-17 13:06:19,717 - INFO -    [DRY-RUN] Création: BasicProduct ID 983
+2026-03-17 13:06:19,719 - INFO -    [DRY-RUN] Création: BasicProduct ID 984
+2026-03-17 13:06:19,722 - INFO -    [DRY-RUN] Création: BasicProduct ID 985
+2026-03-17 13:06:19,724 - INFO -    [DRY-RUN] Création: BasicProduct ID 986
+2026-03-17 13:06:19,728 - INFO -    [DRY-RUN] Création: BasicProduct ID 987
+2026-03-17 13:06:19,730 - INFO -    [DRY-RUN] Création: BasicProduct ID 988
+2026-03-17 13:06:19,732 - INFO -    [DRY-RUN] Création: BasicProduct ID 989
+2026-03-17 13:06:19,734 - INFO -    [DRY-RUN] Création: BasicProduct ID 990
+2026-03-17 13:06:19,736 - INFO -    [DRY-RUN] Création: BasicProduct ID 991
+2026-03-17 13:06:19,738 - INFO -    [DRY-RUN] Création: BasicProduct ID 992
+2026-03-17 13:06:19,746 - INFO -    [DRY-RUN] Création: BasicProduct ID 993
+2026-03-17 13:06:19,748 - INFO -    [DRY-RUN] Création: BasicProduct ID 994
+2026-03-17 13:06:19,750 - INFO -    [DRY-RUN] Création: BasicProduct ID 995
+2026-03-17 13:06:19,754 - INFO -    [DRY-RUN] Création: BasicProduct ID 996
+2026-03-17 13:06:19,756 - INFO -    [DRY-RUN] Création: BasicProduct ID 997
+2026-03-17 13:06:19,758 - INFO -    [DRY-RUN] Création: BasicProduct ID 998
+2026-03-17 13:06:19,760 - INFO -    [DRY-RUN] Création: BasicProduct ID 999
+2026-03-17 13:06:19,763 - INFO -    [DRY-RUN] Création: BasicProduct ID 1000
+2026-03-17 13:06:19,765 - INFO -    [DRY-RUN] Création: BasicProduct ID 1001
+2026-03-17 13:06:19,767 - INFO -    [DRY-RUN] Création: BasicProduct ID 1002
+2026-03-17 13:06:19,769 - INFO -    [DRY-RUN] Création: BasicProduct ID 1003
+2026-03-17 13:06:19,771 - INFO -    [DRY-RUN] Création: BasicProduct ID 1004
+2026-03-17 13:06:19,772 - INFO -    [DRY-RUN] Création: BasicProduct ID 1005
+2026-03-17 13:06:19,774 - INFO -    [DRY-RUN] Création: BasicProduct ID 1006
+2026-03-17 13:06:19,776 - INFO -    [DRY-RUN] Création: BasicProduct ID 1007
+2026-03-17 13:06:19,779 - INFO -    [DRY-RUN] Création: BasicProduct ID 1008
+2026-03-17 13:06:19,788 - INFO -    [DRY-RUN] Création: BasicProduct ID 1009
+2026-03-17 13:06:19,790 - INFO -    [DRY-RUN] Création: BasicProduct ID 1010
+2026-03-17 13:06:19,795 - INFO -    [DRY-RUN] Création: BasicProduct ID 1011
+2026-03-17 13:06:19,797 - INFO -    [DRY-RUN] Création: BasicProduct ID 1012
+2026-03-17 13:06:19,799 - INFO -    [DRY-RUN] Création: BasicProduct ID 1013
+2026-03-17 13:06:19,801 - INFO -    [DRY-RUN] Création: BasicProduct ID 1014
+2026-03-17 13:06:19,804 - INFO -    [DRY-RUN] Création: BasicProduct ID 1015
+2026-03-17 13:06:19,806 - INFO -    [DRY-RUN] Création: BasicProduct ID 1016
+2026-03-17 13:06:19,807 - INFO -    [DRY-RUN] Création: BasicProduct ID 1017
+2026-03-17 13:06:19,810 - INFO -    [DRY-RUN] Création: BasicProduct ID 1018
+2026-03-17 13:06:19,813 - INFO -    [DRY-RUN] Création: BasicProduct ID 1019
+2026-03-17 13:06:19,815 - INFO -    [DRY-RUN] Création: BasicProduct ID 1020
+2026-03-17 13:06:19,817 - INFO -    [DRY-RUN] Création: BasicProduct ID 1021
+2026-03-17 13:06:19,819 - INFO -    [DRY-RUN] Création: BasicProduct ID 1022
+2026-03-17 13:06:19,820 - INFO -    [DRY-RUN] Création: BasicProduct ID 1023
+2026-03-17 13:06:19,824 - INFO -    [DRY-RUN] Création: BasicProduct ID 1024
+2026-03-17 13:06:19,830 - INFO -    [DRY-RUN] Création: BasicProduct ID 1025
+2026-03-17 13:06:19,832 - INFO -    [DRY-RUN] Création: BasicProduct ID 1026
+2026-03-17 13:06:19,834 - INFO -    [DRY-RUN] Création: BasicProduct ID 1027
+2026-03-17 13:06:19,837 - INFO -    [DRY-RUN] Création: BasicProduct ID 1028
+2026-03-17 13:06:19,839 - INFO -    [DRY-RUN] Création: BasicProduct ID 1029
+2026-03-17 13:06:19,841 - INFO -    [DRY-RUN] Création: BasicProduct ID 1030
+2026-03-17 13:06:19,845 - INFO -    [DRY-RUN] Création: BasicProduct ID 1031
+2026-03-17 13:06:19,847 - INFO -    [DRY-RUN] Création: BasicProduct ID 1032
+2026-03-17 13:06:19,849 - INFO -    [DRY-RUN] Création: BasicProduct ID 1033
+2026-03-17 13:06:19,851 - INFO -    [DRY-RUN] Création: BasicProduct ID 1034
+2026-03-17 13:06:19,853 - INFO -    [DRY-RUN] Création: BasicProduct ID 1035
+2026-03-17 13:06:19,855 - INFO -    [DRY-RUN] Création: BasicProduct ID 1036
+2026-03-17 13:06:19,857 - INFO -    [DRY-RUN] Création: BasicProduct ID 1037
+2026-03-17 13:06:19,863 - INFO -    [DRY-RUN] Création: BasicProduct ID 1038
+2026-03-17 13:06:19,884 - INFO -    [DRY-RUN] Création: BasicProduct ID 1039
+2026-03-17 13:06:19,886 - INFO -    [DRY-RUN] Création: BasicProduct ID 1040
+2026-03-17 13:06:19,888 - INFO -    [DRY-RUN] Création: BasicProduct ID 1041
+2026-03-17 13:06:19,890 - INFO -    [DRY-RUN] Création: BasicProduct ID 1042
+2026-03-17 13:06:19,893 - INFO -    [DRY-RUN] Création: BasicProduct ID 1043
+2026-03-17 13:06:19,896 - INFO -    [DRY-RUN] Création: BasicProduct ID 1044
+2026-03-17 13:06:19,898 - INFO -    [DRY-RUN] Création: BasicProduct ID 1045
+2026-03-17 13:06:19,900 - INFO -    [DRY-RUN] Création: BasicProduct ID 1046
+2026-03-17 13:06:19,902 - INFO -    [DRY-RUN] Création: BasicProduct ID 1047
+2026-03-17 13:06:19,904 - INFO -    [DRY-RUN] Création: BasicProduct ID 1048
+2026-03-17 13:06:19,906 - INFO -    [DRY-RUN] Création: BasicProduct ID 1049
+2026-03-17 13:06:19,908 - INFO -    [DRY-RUN] Création: BasicProduct ID 1050
+2026-03-17 13:06:19,911 - INFO -    [DRY-RUN] Création: BasicProduct ID 1051
+2026-03-17 13:06:19,913 - INFO -    [DRY-RUN] Création: BasicProduct ID 1052
+2026-03-17 13:06:19,915 - INFO -    [DRY-RUN] Création: BasicProduct ID 1053
+2026-03-17 13:06:19,918 - INFO -    [DRY-RUN] Création: BasicProduct ID 1054
+2026-03-17 13:06:19,922 - INFO -    [DRY-RUN] Création: BasicProduct ID 1055
+2026-03-17 13:06:19,924 - INFO -    [DRY-RUN] Création: BasicProduct ID 1056
+2026-03-17 13:06:19,928 - INFO -    [DRY-RUN] Création: BasicProduct ID 1057
+2026-03-17 13:06:19,930 - INFO -    [DRY-RUN] Création: BasicProduct ID 1058
+2026-03-17 13:06:19,933 - INFO -    [DRY-RUN] Création: BasicProduct ID 1059
+2026-03-17 13:06:19,936 - INFO -    [DRY-RUN] Création: BasicProduct ID 1060
+2026-03-17 13:06:19,938 - INFO -    [DRY-RUN] Création: BasicProduct ID 1061
+2026-03-17 13:06:19,940 - INFO -    [DRY-RUN] Création: BasicProduct ID 1062
+2026-03-17 13:06:19,943 - INFO -    [DRY-RUN] Création: BasicProduct ID 1063
+2026-03-17 13:06:19,946 - INFO -    [DRY-RUN] Création: BasicProduct ID 1064
+2026-03-17 13:06:19,948 - INFO -    [DRY-RUN] Création: BasicProduct ID 1065
+2026-03-17 13:06:19,951 - INFO -    [DRY-RUN] Création: BasicProduct ID 1066
+2026-03-17 13:06:19,953 - INFO -    [DRY-RUN] Création: BasicProduct ID 1067
+2026-03-17 13:06:19,956 - INFO -    [DRY-RUN] Création: BasicProduct ID 1068
+2026-03-17 13:06:19,958 - INFO -    [DRY-RUN] Création: BasicProduct ID 1069
+2026-03-17 13:06:19,966 - INFO -    [DRY-RUN] Création: BasicProduct ID 1070
+2026-03-17 13:06:19,972 - INFO -    [DRY-RUN] Création: BasicProduct ID 1071
+2026-03-17 13:06:19,975 - INFO -    [DRY-RUN] Création: BasicProduct ID 1072
+2026-03-17 13:06:19,980 - INFO -    [DRY-RUN] Création: BasicProduct ID 1073
+2026-03-17 13:06:19,982 - INFO -    [DRY-RUN] Création: BasicProduct ID 1074
+2026-03-17 13:06:19,984 - INFO -    [DRY-RUN] Création: BasicProduct ID 1075
+2026-03-17 13:06:19,986 - INFO -    [DRY-RUN] Création: BasicProduct ID 1076
+2026-03-17 13:06:19,988 - INFO -    [DRY-RUN] Création: BasicProduct ID 1077
+2026-03-17 13:06:19,990 - INFO -    [DRY-RUN] Création: BasicProduct ID 1078
+2026-03-17 13:06:19,992 - INFO -    [DRY-RUN] Création: BasicProduct ID 1079
+2026-03-17 13:06:19,998 - INFO -    [DRY-RUN] Création: BasicProduct ID 1080
+2026-03-17 13:06:20,000 - INFO -    [DRY-RUN] Création: BasicProduct ID 1081
+2026-03-17 13:06:20,003 - INFO -    [DRY-RUN] Création: BasicProduct ID 1082
+2026-03-17 13:06:20,005 - INFO -    [DRY-RUN] Création: BasicProduct ID 1083
+2026-03-17 13:06:20,008 - INFO -    [DRY-RUN] Création: BasicProduct ID 1084
+2026-03-17 13:06:20,013 - INFO -    [DRY-RUN] Création: BasicProduct ID 1085
+2026-03-17 13:06:20,015 - INFO -    [DRY-RUN] Création: BasicProduct ID 1086
+2026-03-17 13:06:20,017 - INFO -    [DRY-RUN] Création: BasicProduct ID 1087
+2026-03-17 13:06:20,019 - INFO -    [DRY-RUN] Création: BasicProduct ID 1088
+2026-03-17 13:06:20,021 - INFO -    [DRY-RUN] Création: BasicProduct ID 1089
+2026-03-17 13:06:20,023 - INFO -    [DRY-RUN] Création: BasicProduct ID 1090
+2026-03-17 13:06:20,025 - INFO -    [DRY-RUN] Création: BasicProduct ID 1091
+2026-03-17 13:06:20,029 - INFO -    [DRY-RUN] Création: BasicProduct ID 1092
+2026-03-17 13:06:20,031 - INFO -    [DRY-RUN] Création: BasicProduct ID 1093
+2026-03-17 13:06:20,033 - INFO -    [DRY-RUN] Création: BasicProduct ID 1094
+2026-03-17 13:06:20,035 - INFO -    [DRY-RUN] Création: BasicProduct ID 1095
+2026-03-17 13:06:20,038 - INFO -    [DRY-RUN] Création: BasicProduct ID 1096
+2026-03-17 13:06:20,040 - INFO -    [DRY-RUN] Création: BasicProduct ID 1097
+2026-03-17 13:06:20,044 - INFO -    [DRY-RUN] Création: BasicProduct ID 1098
+2026-03-17 13:06:20,048 - INFO -    [DRY-RUN] Création: BasicProduct ID 1099
+2026-03-17 13:06:20,051 - INFO -    [DRY-RUN] Création: BasicProduct ID 1100
+2026-03-17 13:06:20,053 - INFO -    [DRY-RUN] Création: BasicProduct ID 1101
+2026-03-17 13:06:20,055 - INFO -    [DRY-RUN] Création: BasicProduct ID 1102
+2026-03-17 13:06:20,057 - INFO -    [DRY-RUN] Création: BasicProduct ID 1103
+2026-03-17 13:06:20,059 - INFO -    [DRY-RUN] Création: BasicProduct ID 1104
+2026-03-17 13:06:20,062 - INFO -    [DRY-RUN] Création: BasicProduct ID 1105
+2026-03-17 13:06:20,065 - INFO -    [DRY-RUN] Création: BasicProduct ID 1106
+2026-03-17 13:06:20,067 - INFO -    [DRY-RUN] Création: BasicProduct ID 1107
+2026-03-17 13:06:20,069 - INFO -    [DRY-RUN] Création: BasicProduct ID 1108
+2026-03-17 13:06:20,071 - INFO -    [DRY-RUN] Création: BasicProduct ID 1109
+2026-03-17 13:06:20,073 - INFO -    [DRY-RUN] Création: BasicProduct ID 1110
+2026-03-17 13:06:20,075 - INFO -    [DRY-RUN] Création: BasicProduct ID 1111
+2026-03-17 13:06:20,078 - INFO -    [DRY-RUN] Création: BasicProduct ID 1112
+2026-03-17 13:06:20,080 - INFO -    [DRY-RUN] Création: BasicProduct ID 1113
+2026-03-17 13:06:20,082 - INFO -    [DRY-RUN] Création: BasicProduct ID 1114
+2026-03-17 13:06:20,085 - INFO -    [DRY-RUN] Création: BasicProduct ID 1115
+2026-03-17 13:06:20,087 - INFO -    [DRY-RUN] Création: BasicProduct ID 1116
+2026-03-17 13:06:20,089 - INFO -    [DRY-RUN] Création: BasicProduct ID 1117
+2026-03-17 13:06:20,091 - INFO -    [DRY-RUN] Création: BasicProduct ID 1118
+2026-03-17 13:06:20,094 - INFO -    [DRY-RUN] Création: BasicProduct ID 1119
+2026-03-17 13:06:20,097 - INFO -    [DRY-RUN] Création: BasicProduct ID 1120
+2026-03-17 13:06:20,099 - INFO -    [DRY-RUN] Création: BasicProduct ID 1121
+2026-03-17 13:06:20,101 - INFO -    [DRY-RUN] Création: BasicProduct ID 1122
+2026-03-17 13:06:20,103 - INFO -    [DRY-RUN] Création: BasicProduct ID 1123
+2026-03-17 13:06:20,105 - INFO -    [DRY-RUN] Création: BasicProduct ID 1124
+2026-03-17 13:06:20,107 - INFO -    [DRY-RUN] Création: BasicProduct ID 1125
+2026-03-17 13:06:20,110 - INFO -    [DRY-RUN] Création: BasicProduct ID 1126
+2026-03-17 13:06:20,112 - INFO -    [DRY-RUN] Création: BasicProduct ID 1127
+2026-03-17 13:06:20,114 - INFO -    [DRY-RUN] Création: BasicProduct ID 1128
+2026-03-17 13:06:20,116 - INFO -    [DRY-RUN] Création: BasicProduct ID 1129
+2026-03-17 13:06:20,118 - INFO -    [DRY-RUN] Création: BasicProduct ID 1130
+2026-03-17 13:06:20,120 - INFO -    [DRY-RUN] Création: BasicProduct ID 1131
+2026-03-17 13:06:20,121 - INFO -    [DRY-RUN] Création: BasicProduct ID 1132
+2026-03-17 13:06:20,123 - INFO -    [DRY-RUN] Création: BasicProduct ID 1133
+2026-03-17 13:06:20,125 - INFO -    [DRY-RUN] Création: BasicProduct ID 1134
+2026-03-17 13:06:20,127 - INFO -    [DRY-RUN] Création: BasicProduct ID 1135
+2026-03-17 13:06:20,129 - INFO -    [DRY-RUN] Création: BasicProduct ID 1136
+2026-03-17 13:06:20,132 - INFO -    [DRY-RUN] Création: BasicProduct ID 1137
+2026-03-17 13:06:20,134 - INFO -    [DRY-RUN] Création: BasicProduct ID 1138
+2026-03-17 13:06:20,135 - INFO - 
+📖 Synchronisation des cours...
+2026-03-17 13:06:20,135 - INFO - 
+📦 Synchronisation: Course
+2026-03-17 13:06:20,360 - INFO -    Local: 4 éléments
+2026-03-17 13:06:20,361 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:20,361 - INFO -    [DRY-RUN] Création: Course ID 5
+2026-03-17 13:06:20,364 - INFO -    [DRY-RUN] Création: Course ID 4
+2026-03-17 13:06:20,366 - INFO -    [DRY-RUN] Création: Course ID 3
+2026-03-17 13:06:20,368 - INFO -    [DRY-RUN] Création: Course ID 2
+2026-03-17 13:06:20,368 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-17 13:06:20,369 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-17 13:06:20,562 - INFO -    Local: 3 éléments
+2026-03-17 13:06:20,563 - INFO -    Production: 1 éléments existants
+2026-03-17 13:06:20,563 - INFO -    [DRY-RUN] Création: Sermon ID 3
+2026-03-17 13:06:20,563 - INFO -    [DRY-RUN] Création: Sermon ID 2
+2026-03-17 13:06:20,566 - INFO -    [DRY-RUN] Mise à jour: Sermon ID 1
+2026-03-17 13:06:20,566 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-17 13:06:20,566 - INFO - 
+📦 Synchronisation: Shop
+2026-03-17 13:06:20,788 - INFO -    Local: 0 éléments
+2026-03-17 13:06:20,789 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:20,789 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-17 13:06:20,789 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-17 13:06:20,989 - INFO -    Local: 0 éléments
+2026-03-17 13:06:20,989 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:20,989 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-17 13:06:20,990 - INFO - 
+📦 Synchronisation: Product
+2026-03-17 13:06:21,173 - INFO -    Local: 0 éléments
+2026-03-17 13:06:21,173 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:21,173 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-17 13:06:21,174 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-17 13:06:21,403 - INFO -    Local: 0 éléments
+2026-03-17 13:06:21,404 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:21,404 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-17 13:06:21,404 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-17 13:06:21,668 - INFO -    Local: 0 éléments
+2026-03-17 13:06:21,668 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:21,668 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-17 13:06:21,668 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-17 13:06:21,884 - INFO -    Local: 0 éléments
+2026-03-17 13:06:21,885 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:21,885 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-17 13:06:21,885 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-17 13:06:22,070 - INFO -    Local: 0 éléments
+2026-03-17 13:06:22,070 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:22,070 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-17 13:06:22,071 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-17 13:06:22,260 - INFO -    Local: 0 éléments
+2026-03-17 13:06:22,261 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:22,261 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-17 13:06:22,262 - INFO - 
+📦 Synchronisation: Supply
+2026-03-17 13:06:22,456 - INFO -    Local: 0 éléments
+2026-03-17 13:06:22,457 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:22,457 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-17 13:06:22,457 - INFO - 
+📦 Synchronisation: Sales
+2026-03-17 13:06:22,645 - INFO -    Local: 0 éléments
+2026-03-17 13:06:22,645 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:22,645 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-17 13:06:22,645 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-17 13:06:22,843 - INFO -    Local: 1 éléments
+2026-03-17 13:06:22,844 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:22,846 - INFO -    [DRY-RUN] Création: Favorite ID 1
+2026-03-17 13:06:22,846 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-17 13:06:22,847 - INFO - 
+📦 Synchronisation: History
+2026-03-17 13:06:23,076 - INFO -    Local: 147 éléments
+2026-03-17 13:06:23,076 - INFO -    Production: 0 éléments existants
+2026-03-17 13:06:23,077 - INFO -    [DRY-RUN] Création: History ID 1
+2026-03-17 13:06:23,077 - INFO -    [DRY-RUN] Création: History ID 2
+2026-03-17 13:06:23,078 - INFO -    [DRY-RUN] Création: History ID 3
+2026-03-17 13:06:23,078 - INFO -    [DRY-RUN] Création: History ID 4
+2026-03-17 13:06:23,078 - INFO -    [DRY-RUN] Création: History ID 5
+2026-03-17 13:06:23,079 - INFO -    [DRY-RUN] Création: History ID 6
+2026-03-17 13:06:23,079 - INFO -    [DRY-RUN] Création: History ID 7
+2026-03-17 13:06:23,079 - INFO -    [DRY-RUN] Création: History ID 8
+2026-03-17 13:06:23,080 - INFO -    [DRY-RUN] Création: History ID 9
+2026-03-17 13:06:23,080 - INFO -    [DRY-RUN] Création: History ID 10
+2026-03-17 13:06:23,080 - INFO -    [DRY-RUN] Création: History ID 11
+2026-03-17 13:06:23,081 - INFO -    [DRY-RUN] Création: History ID 12
+2026-03-17 13:06:23,081 - INFO -    [DRY-RUN] Création: History ID 13
+2026-03-17 13:06:23,081 - INFO -    [DRY-RUN] Création: History ID 14
+2026-03-17 13:06:23,082 - INFO -    [DRY-RUN] Création: History ID 15
+2026-03-17 13:06:23,082 - INFO -    [DRY-RUN] Création: History ID 16
+2026-03-17 13:06:23,082 - INFO -    [DRY-RUN] Création: History ID 17
+2026-03-17 13:06:23,083 - INFO -    [DRY-RUN] Création: History ID 18
+2026-03-17 13:06:23,083 - INFO -    [DRY-RUN] Création: History ID 19
+2026-03-17 13:06:23,083 - INFO -    [DRY-RUN] Création: History ID 20
+2026-03-17 13:06:23,084 - INFO -    [DRY-RUN] Création: History ID 21
+2026-03-17 13:06:23,084 - INFO -    [DRY-RUN] Création: History ID 22
+2026-03-17 13:06:23,084 - INFO -    [DRY-RUN] Création: History ID 23
+2026-03-17 13:06:23,084 - INFO -    [DRY-RUN] Création: History ID 24
+2026-03-17 13:06:23,085 - INFO -    [DRY-RUN] Création: History ID 25
+2026-03-17 13:06:23,085 - INFO -    [DRY-RUN] Création: History ID 26
+2026-03-17 13:06:23,085 - INFO -    [DRY-RUN] Création: History ID 27
+2026-03-17 13:06:23,086 - INFO -    [DRY-RUN] Création: History ID 28
+2026-03-17 13:06:23,086 - INFO -    [DRY-RUN] Création: History ID 29
+2026-03-17 13:06:23,086 - INFO -    [DRY-RUN] Création: History ID 30
+2026-03-17 13:06:23,087 - INFO -    [DRY-RUN] Création: History ID 31
+2026-03-17 13:06:23,087 - INFO -    [DRY-RUN] Création: History ID 32
+2026-03-17 13:06:23,087 - INFO -    [DRY-RUN] Création: History ID 33
+2026-03-17 13:06:23,088 - INFO -    [DRY-RUN] Création: History ID 34
+2026-03-17 13:06:23,088 - INFO -    [DRY-RUN] Création: History ID 35
+2026-03-17 13:06:23,088 - INFO -    [DRY-RUN] Création: History ID 36
+2026-03-17 13:06:23,089 - INFO -    [DRY-RUN] Création: History ID 37
+2026-03-17 13:06:23,089 - INFO -    [DRY-RUN] Création: History ID 38
+2026-03-17 13:06:23,089 - INFO -    [DRY-RUN] Création: History ID 39
+2026-03-17 13:06:23,090 - INFO -    [DRY-RUN] Création: History ID 40
+2026-03-17 13:06:23,090 - INFO -    [DRY-RUN] Création: History ID 41
+2026-03-17 13:06:23,090 - INFO -    [DRY-RUN] Création: History ID 42
+2026-03-17 13:06:23,091 - INFO -    [DRY-RUN] Création: History ID 43
+2026-03-17 13:06:23,092 - INFO -    [DRY-RUN] Création: History ID 44
+2026-03-17 13:06:23,092 - INFO -    [DRY-RUN] Création: History ID 45
+2026-03-17 13:06:23,092 - INFO -    [DRY-RUN] Création: History ID 46
+2026-03-17 13:06:23,093 - INFO -    [DRY-RUN] Création: History ID 47
+2026-03-17 13:06:23,093 - INFO -    [DRY-RUN] Création: History ID 48
+2026-03-17 13:06:23,093 - INFO -    [DRY-RUN] Création: History ID 49
+2026-03-17 13:06:23,093 - INFO -    [DRY-RUN] Création: History ID 50
+2026-03-17 13:06:23,094 - INFO -    [DRY-RUN] Création: History ID 51
+2026-03-17 13:06:23,094 - INFO -    [DRY-RUN] Création: History ID 52
+2026-03-17 13:06:23,094 - INFO -    [DRY-RUN] Création: History ID 53
+2026-03-17 13:06:23,094 - INFO -    [DRY-RUN] Création: History ID 54
+2026-03-17 13:06:23,094 - INFO -    [DRY-RUN] Création: History ID 55
+2026-03-17 13:06:23,095 - INFO -    [DRY-RUN] Création: History ID 56
+2026-03-17 13:06:23,096 - INFO -    [DRY-RUN] Création: History ID 57
+2026-03-17 13:06:23,096 - INFO -    [DRY-RUN] Création: History ID 58
+2026-03-17 13:06:23,096 - INFO -    [DRY-RUN] Création: History ID 59
+2026-03-17 13:06:23,096 - INFO -    [DRY-RUN] Création: History ID 60
+2026-03-17 13:06:23,097 - INFO -    [DRY-RUN] Création: History ID 61
+2026-03-17 13:06:23,097 - INFO -    [DRY-RUN] Création: History ID 62
+2026-03-17 13:06:23,097 - INFO -    [DRY-RUN] Création: History ID 63
+2026-03-17 13:06:23,098 - INFO -    [DRY-RUN] Création: History ID 64
+2026-03-17 13:06:23,098 - INFO -    [DRY-RUN] Création: History ID 65
+2026-03-17 13:06:23,098 - INFO -    [DRY-RUN] Création: History ID 66
+2026-03-17 13:06:23,099 - INFO -    [DRY-RUN] Création: History ID 67
+2026-03-17 13:06:23,099 - INFO -    [DRY-RUN] Création: History ID 68
+2026-03-17 13:06:23,100 - INFO -    [DRY-RUN] Création: History ID 69
+2026-03-17 13:06:23,100 - INFO -    [DRY-RUN] Création: History ID 70
+2026-03-17 13:06:23,100 - INFO -    [DRY-RUN] Création: History ID 71
+2026-03-17 13:06:23,101 - INFO -    [DRY-RUN] Création: History ID 72
+2026-03-17 13:06:23,101 - INFO -    [DRY-RUN] Création: History ID 73
+2026-03-17 13:06:23,101 - INFO -    [DRY-RUN] Création: History ID 74
+2026-03-17 13:06:23,101 - INFO -    [DRY-RUN] Création: History ID 75
+2026-03-17 13:06:23,102 - INFO -    [DRY-RUN] Création: History ID 76
+2026-03-17 13:06:23,102 - INFO -    [DRY-RUN] Création: History ID 77
+2026-03-17 13:06:23,102 - INFO -    [DRY-RUN] Création: History ID 78
+2026-03-17 13:06:23,103 - INFO -    [DRY-RUN] Création: History ID 79
+2026-03-17 13:06:23,103 - INFO -    [DRY-RUN] Création: History ID 80
+2026-03-17 13:06:23,103 - INFO -    [DRY-RUN] Création: History ID 81
+2026-03-17 13:06:23,103 - INFO -    [DRY-RUN] Création: History ID 82
+2026-03-17 13:06:23,103 - INFO -    [DRY-RUN] Création: History ID 83
+2026-03-17 13:06:23,104 - INFO -    [DRY-RUN] Création: History ID 84
+2026-03-17 13:06:23,104 - INFO -    [DRY-RUN] Création: History ID 85
+2026-03-17 13:06:23,104 - INFO -    [DRY-RUN] Création: History ID 86
+2026-03-17 13:06:23,105 - INFO -    [DRY-RUN] Création: History ID 87
+2026-03-17 13:06:23,105 - INFO -    [DRY-RUN] Création: History ID 88
+2026-03-17 13:06:23,106 - INFO -    [DRY-RUN] Création: History ID 89
+2026-03-17 13:06:23,106 - INFO -    [DRY-RUN] Création: History ID 90
+2026-03-17 13:06:23,106 - INFO -    [DRY-RUN] Création: History ID 91
+2026-03-17 13:06:23,107 - INFO -    [DRY-RUN] Création: History ID 92
+2026-03-17 13:06:23,107 - INFO -    [DRY-RUN] Création: History ID 93
+2026-03-17 13:06:23,108 - INFO -    [DRY-RUN] Création: History ID 94
+2026-03-17 13:06:23,109 - INFO -    [DRY-RUN] Création: History ID 95
+2026-03-17 13:06:23,109 - INFO -    [DRY-RUN] Création: History ID 96
+2026-03-17 13:06:23,109 - INFO -    [DRY-RUN] Création: History ID 97
+2026-03-17 13:06:23,110 - INFO -    [DRY-RUN] Création: History ID 98
+2026-03-17 13:06:23,110 - INFO -    [DRY-RUN] Création: History ID 99
+2026-03-17 13:06:23,110 - INFO -    [DRY-RUN] Création: History ID 100
+2026-03-17 13:06:23,111 - INFO -    [DRY-RUN] Création: History ID 101
+2026-03-17 13:06:23,111 - INFO -    [DRY-RUN] Création: History ID 102
+2026-03-17 13:06:23,111 - INFO -    [DRY-RUN] Création: History ID 103
+2026-03-17 13:06:23,111 - INFO -    [DRY-RUN] Création: History ID 104
+2026-03-17 13:06:23,112 - INFO -    [DRY-RUN] Création: History ID 105
+2026-03-17 13:06:23,112 - INFO -    [DRY-RUN] Création: History ID 106
+2026-03-17 13:06:23,112 - INFO -    [DRY-RUN] Création: History ID 107
+2026-03-17 13:06:23,113 - INFO -    [DRY-RUN] Création: History ID 108
+2026-03-17 13:06:23,113 - INFO -    [DRY-RUN] Création: History ID 109
+2026-03-17 13:06:23,113 - INFO -    [DRY-RUN] Création: History ID 110
+2026-03-17 13:06:23,114 - INFO -    [DRY-RUN] Création: History ID 111
+2026-03-17 13:06:23,114 - INFO -    [DRY-RUN] Création: History ID 112
+2026-03-17 13:06:23,114 - INFO -    [DRY-RUN] Création: History ID 113
+2026-03-17 13:06:23,114 - INFO -    [DRY-RUN] Création: History ID 114
+2026-03-17 13:06:23,115 - INFO -    [DRY-RUN] Création: History ID 115
+2026-03-17 13:06:23,115 - INFO -    [DRY-RUN] Création: History ID 116
+2026-03-17 13:06:23,115 - INFO -    [DRY-RUN] Création: History ID 117
+2026-03-17 13:06:23,116 - INFO -    [DRY-RUN] Création: History ID 118
+2026-03-17 13:06:23,116 - INFO -    [DRY-RUN] Création: History ID 119
+2026-03-17 13:06:23,116 - INFO -    [DRY-RUN] Création: History ID 120
+2026-03-17 13:06:23,116 - INFO -    [DRY-RUN] Création: History ID 121
+2026-03-17 13:06:23,117 - INFO -    [DRY-RUN] Création: History ID 122
+2026-03-17 13:06:23,117 - INFO -    [DRY-RUN] Création: History ID 123
+2026-03-17 13:06:23,117 - INFO -    [DRY-RUN] Création: History ID 124
+2026-03-17 13:06:23,118 - INFO -    [DRY-RUN] Création: History ID 125
+2026-03-17 13:06:23,118 - INFO -    [DRY-RUN] Création: History ID 126
+2026-03-17 13:06:23,118 - INFO -    [DRY-RUN] Création: History ID 127
+2026-03-17 13:06:23,118 - INFO -    [DRY-RUN] Création: History ID 128
+2026-03-17 13:06:23,119 - INFO -    [DRY-RUN] Création: History ID 129
+2026-03-17 13:06:23,119 - INFO -    [DRY-RUN] Création: History ID 130
+2026-03-17 13:06:23,119 - INFO -    [DRY-RUN] Création: History ID 131
+2026-03-17 13:06:23,120 - INFO -    [DRY-RUN] Création: History ID 132
+2026-03-17 13:06:23,120 - INFO -    [DRY-RUN] Création: History ID 133
+2026-03-17 13:06:23,121 - INFO -    [DRY-RUN] Création: History ID 134
+2026-03-17 13:06:23,121 - INFO -    [DRY-RUN] Création: History ID 135
+2026-03-17 13:06:23,121 - INFO -    [DRY-RUN] Création: History ID 136
+2026-03-17 13:06:23,122 - INFO -    [DRY-RUN] Création: History ID 137
+2026-03-17 13:06:23,122 - INFO -    [DRY-RUN] Création: History ID 138
+2026-03-17 13:06:23,122 - INFO -    [DRY-RUN] Création: History ID 139
+2026-03-17 13:06:23,123 - INFO -    [DRY-RUN] Création: History ID 140
+2026-03-17 13:06:23,123 - INFO -    [DRY-RUN] Création: History ID 141
+2026-03-17 13:06:23,123 - INFO -    [DRY-RUN] Création: History ID 142
+2026-03-17 13:06:23,123 - INFO -    [DRY-RUN] Création: History ID 143
+2026-03-17 13:06:23,124 - INFO -    [DRY-RUN] Création: History ID 144
+2026-03-17 13:06:23,124 - INFO -    [DRY-RUN] Création: History ID 145
+2026-03-17 13:06:23,125 - INFO -    [DRY-RUN] Création: History ID 146
+2026-03-17 13:06:23,125 - INFO -    [DRY-RUN] Création: History ID 147
+2026-03-17 13:06:23,125 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-17 13:06:23,522 - INFO -    [DRY-RUN] Mise à jour des paramètres du site
+2026-03-17 13:06:23,522 - INFO - 
+================================================================================
+2026-03-17 13:06:23,522 - INFO - ⚠️  MODE DRY-RUN - Aucune modification n'a été effectuée
+2026-03-17 13:06:23,523 - INFO - ================================================================================
+2026-03-17 13:06:23,523 - INFO - 
+📊 STATISTIQUES:
+2026-03-17 13:06:23,524 - INFO -    ✅ Créés: 551
+2026-03-17 13:06:23,524 - INFO -    🔄 Mis à jour: 10
+2026-03-17 13:06:23,524 - INFO -    ⏭️  Ignorés (déjà à jour): 0
+2026-03-17 13:06:23,524 - INFO -    ❌ Erreurs: 0
+2026-03-17 13:06:23,525 - INFO - ================================================================================
+2026-03-17 13:07:40,014 - INFO - ✅ Connexion à la base de production réussie
+2026-03-17 13:07:40,015 - INFO - ================================================================================
+2026-03-17 13:07:40,016 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-17 13:07:40,016 - INFO - ================================================================================
+2026-03-17 13:07:40,017 - INFO - Mode: SYNCHRONISATION RÉELLE
+2026-03-17 13:07:40,017 - INFO - Base locale: SQLite (E:\Application\Eglise\Shalom\divine-echo-post\backend\db.sqlite3)
+2026-03-17 13:07:40,018 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-17 13:07:40,018 - INFO - ================================================================================
+2026-03-17 13:07:40,019 - INFO - 
+================================================================================
+2026-03-17 13:07:40,019 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-17 13:07:40,020 - INFO - ================================================================================
+2026-03-17 13:07:40,021 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-17 13:07:40,021 - INFO - 
+📦 Synchronisation: User
+2026-03-17 13:07:40,205 - INFO -    Local: 4 éléments
+2026-03-17 13:07:40,206 - INFO -    Production: 2 éléments existants
+2026-03-17 13:07:40,212 - ERROR -    ❌ Erreur pour User ID 75: The following fields do not exist in this model: account
+2026-03-17 13:07:40,255 - ERROR -    ❌ Erreur pour User ID 87: The following fields do not exist in this model: account
+2026-03-17 13:07:40,258 - ERROR -    ❌ Erreur pour User ID 90: The following fields do not exist in this model: account
+2026-03-17 13:07:40,263 - ERROR -    ❌ Erreur pour User ID 92: The following fields do not exist in this model: account
+2026-03-17 13:07:40,271 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-17 13:07:40,275 - INFO - 
+📦 Synchronisation: Account
+2026-03-17 13:07:40,779 - INFO -    Local: 4 éléments
+2026-03-17 13:07:40,780 - INFO -    Production: 2 éléments existants
+2026-03-17 13:07:41,172 - ERROR -    ❌ Erreur pour Account ID 69: insert or update on table "accounts_account" violates foreign key constraint "accounts_account_user_id_d61b40c6_fk_auth_user_id"
+DETAIL:  Key (user_id)=(75) is not present in table "auth_user".
+
+2026-03-17 13:07:42,956 - ERROR -    ❌ Erreur pour Account ID 72: insert or update on table "accounts_account" violates foreign key constraint "accounts_account_user_id_d61b40c6_fk_auth_user_id"
+DETAIL:  Key (user_id)=(90) is not present in table "auth_user".
+
+2026-03-17 13:07:43,260 - ERROR -    ❌ Erreur pour Account ID 74: insert or update on table "accounts_account" violates foreign key constraint "accounts_account_user_id_d61b40c6_fk_auth_user_id"
+DETAIL:  Key (user_id)=(87) is not present in table "auth_user".
+
+2026-03-17 13:07:43,438 - ERROR -    ❌ Erreur pour Account ID 75: insert or update on table "accounts_account" violates foreign key constraint "accounts_account_user_id_d61b40c6_fk_auth_user_id"
+DETAIL:  Key (user_id)=(92) is not present in table "auth_user".
+
+2026-03-17 13:07:43,442 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-17 13:07:43,442 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-17 13:07:43,616 - INFO -    Local: 6 éléments
+2026-03-17 13:07:43,616 - INFO -    Production: 7 éléments existants
+2026-03-17 13:07:43,794 - ERROR -    ❌ Erreur pour CourseCategory ID 7: duplicate key value violates unique constraint "courses_coursecategory_slug_key"
+DETAIL:  Key (slug)=(leadership) already exists.
+
+2026-03-17 13:07:43,970 - ERROR -    ❌ Erreur pour CourseCategory ID 4: duplicate key value violates unique constraint "courses_coursecategory_slug_key"
+DETAIL:  Key (slug)=(musique-adoration) already exists.
+
+2026-03-17 13:07:44,134 - ERROR -    ❌ Erreur pour CourseCategory ID 3: duplicate key value violates unique constraint "courses_coursecategory_slug_key"
+DETAIL:  Key (slug)=(priere-meditation) already exists.
+
+2026-03-17 13:07:44,313 - ERROR -    ❌ Erreur pour CourseCategory ID 5: duplicate key value violates unique constraint "courses_coursecategory_slug_key"
+DETAIL:  Key (slug)=(theologie) already exists.
+
+2026-03-17 13:07:44,494 - ERROR -    ❌ Erreur pour CourseCategory ID 6: duplicate key value violates unique constraint "courses_coursecategory_slug_key"
+DETAIL:  Key (slug)=(vie-famille) already exists.
+
+2026-03-17 13:07:44,674 - ERROR -    ❌ Erreur pour CourseCategory ID 2: duplicate key value violates unique constraint "courses_coursecategory_slug_key"
+DETAIL:  Key (slug)=(etude-biblique) already exists.
+
+2026-03-17 13:07:44,678 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-17 13:07:44,678 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-17 13:07:44,859 - INFO -    Local: 5 éléments
+2026-03-17 13:07:44,859 - INFO -    Production: 2 éléments existants
+2026-03-17 13:07:45,025 - INFO -    ✅ Créé: SermonCategory ID 3
+2026-03-17 13:07:45,534 - INFO -    ✅ Mis à jour: SermonCategory ID 2
+2026-03-17 13:07:45,710 - INFO -    ✅ Mis à jour: SermonCategory ID 1
+2026-03-17 13:07:45,893 - INFO -    ✅ Créé: SermonCategory ID 4
+2026-03-17 13:07:46,057 - INFO -    ✅ Créé: SermonCategory ID 5
+2026-03-17 13:07:46,058 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-17 13:07:46,058 - INFO - 
+📦 Synchronisation: Category
+2026-03-17 13:07:46,227 - INFO -    Local: 2 éléments
+2026-03-17 13:07:46,228 - INFO -    Production: 0 éléments existants
+2026-03-17 13:07:46,394 - INFO -    ✅ Créé: Category ID 23
+2026-03-17 13:07:46,554 - INFO -    ✅ Créé: Category ID 24
+2026-03-17 13:07:46,554 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-17 13:07:46,555 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-17 13:07:46,725 - INFO -    Local: 47 éléments
+2026-03-17 13:07:46,726 - INFO -    Production: 0 éléments existants
+2026-03-17 13:07:46,897 - INFO -    ✅ Créé: SubCategory ID 631
+2026-03-17 13:07:47,078 - INFO -    ✅ Créé: SubCategory ID 632
+2026-03-17 13:07:47,246 - INFO -    ✅ Créé: SubCategory ID 633
+2026-03-17 13:07:47,412 - INFO -    ✅ Créé: SubCategory ID 634
+2026-03-17 13:07:47,577 - INFO -    ✅ Créé: SubCategory ID 635
+2026-03-17 13:07:47,746 - INFO -    ✅ Créé: SubCategory ID 636
+2026-03-17 13:07:47,912 - INFO -    ✅ Créé: SubCategory ID 637
+2026-03-17 13:07:48,096 - INFO -    ✅ Créé: SubCategory ID 638
+2026-03-17 13:07:48,257 - INFO -    ✅ Créé: SubCategory ID 639
+2026-03-17 13:07:48,422 - INFO -    ✅ Créé: SubCategory ID 640
+2026-03-17 13:07:48,590 - INFO -    ✅ Créé: SubCategory ID 641
+2026-03-17 13:07:48,758 - INFO -    ✅ Créé: SubCategory ID 642
+2026-03-17 13:07:48,926 - INFO -    ✅ Créé: SubCategory ID 643
+2026-03-17 13:07:49,093 - INFO -    ✅ Créé: SubCategory ID 644
+2026-03-17 13:07:49,266 - INFO -    ✅ Créé: SubCategory ID 645
+2026-03-17 13:07:49,434 - INFO -    ✅ Créé: SubCategory ID 646
+2026-03-17 13:07:49,602 - INFO -    ✅ Créé: SubCategory ID 647
+2026-03-17 13:07:49,764 - INFO -    ✅ Créé: SubCategory ID 648
+2026-03-17 13:07:49,935 - INFO -    ✅ Créé: SubCategory ID 649
+2026-03-17 13:07:50,101 - INFO -    ✅ Créé: SubCategory ID 650
+2026-03-17 13:07:50,261 - INFO -    ✅ Créé: SubCategory ID 651
+2026-03-17 13:07:50,433 - INFO -    ✅ Créé: SubCategory ID 652
+2026-03-17 13:07:50,594 - INFO -    ✅ Créé: SubCategory ID 653
+2026-03-17 13:07:50,770 - INFO -    ✅ Créé: SubCategory ID 654
+2026-03-17 13:07:50,941 - INFO -    ✅ Créé: SubCategory ID 655
+2026-03-17 13:07:51,105 - INFO -    ✅ Créé: SubCategory ID 656
+2026-03-17 13:07:51,270 - INFO -    ✅ Créé: SubCategory ID 657
+2026-03-17 13:07:51,440 - INFO -    ✅ Créé: SubCategory ID 658
+2026-03-17 13:07:51,605 - INFO -    ✅ Créé: SubCategory ID 659
+2026-03-17 13:07:51,775 - INFO -    ✅ Créé: SubCategory ID 660
+2026-03-17 13:07:51,953 - INFO -    ✅ Créé: SubCategory ID 661
+2026-03-17 13:07:52,133 - INFO -    ✅ Créé: SubCategory ID 662
+2026-03-17 13:07:52,293 - INFO -    ✅ Créé: SubCategory ID 663
+2026-03-17 13:07:52,466 - INFO -    ✅ Créé: SubCategory ID 664
+2026-03-17 13:07:52,658 - INFO -    ✅ Créé: SubCategory ID 665
+2026-03-17 13:07:52,831 - INFO -    ✅ Créé: SubCategory ID 666
+2026-03-17 13:07:52,994 - INFO -    ✅ Créé: SubCategory ID 667
+2026-03-17 13:07:53,158 - INFO -    ✅ Créé: SubCategory ID 668
+2026-03-17 13:07:53,326 - INFO -    ✅ Créé: SubCategory ID 669
+2026-03-17 13:07:53,490 - INFO -    ✅ Créé: SubCategory ID 670
+2026-03-17 13:07:53,654 - INFO -    ✅ Créé: SubCategory ID 671
+2026-03-17 13:07:53,817 - INFO -    ✅ Créé: SubCategory ID 672
+2026-03-17 13:07:53,985 - INFO -    ✅ Créé: SubCategory ID 673
+2026-03-17 13:07:54,149 - INFO -    ✅ Créé: SubCategory ID 674
+2026-03-17 13:07:54,314 - INFO -    ✅ Créé: SubCategory ID 675
+2026-03-17 13:07:54,531 - INFO -    ✅ Créé: SubCategory ID 676
+2026-03-17 13:07:54,705 - INFO -    ✅ Créé: SubCategory ID 677
+2026-03-17 13:07:54,706 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-17 13:07:54,707 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-17 13:07:54,941 - INFO -    Local: 337 éléments
+2026-03-17 13:07:54,941 - INFO -    Production: 0 éléments existants
+2026-03-17 13:07:55,176 - INFO -    ✅ Créé: BasicProduct ID 802
+2026-03-17 13:07:55,453 - INFO -    ✅ Créé: BasicProduct ID 803
+2026-03-17 13:07:55,627 - INFO -    ✅ Créé: BasicProduct ID 804
+2026-03-17 13:07:55,802 - INFO -    ✅ Créé: BasicProduct ID 805
+2026-03-17 13:07:56,075 - INFO -    ✅ Créé: BasicProduct ID 806
+2026-03-17 13:07:56,256 - INFO -    ✅ Créé: BasicProduct ID 807
+2026-03-17 13:07:56,419 - INFO -    ✅ Créé: BasicProduct ID 808
+2026-03-17 13:07:56,692 - INFO -    ✅ Créé: BasicProduct ID 809
+2026-03-17 13:07:56,871 - INFO -    ✅ Créé: BasicProduct ID 810
+2026-03-17 13:07:57,035 - INFO -    ✅ Créé: BasicProduct ID 811
+2026-03-17 13:07:57,303 - INFO -    ✅ Créé: BasicProduct ID 812
+2026-03-17 13:07:57,488 - INFO -    ✅ Créé: BasicProduct ID 813
+2026-03-17 13:07:57,651 - INFO -    ✅ Créé: BasicProduct ID 814
+2026-03-17 13:07:57,919 - INFO -    ✅ Créé: BasicProduct ID 815
+2026-03-17 13:07:58,090 - INFO -    ✅ Créé: BasicProduct ID 816
+2026-03-17 13:07:58,255 - INFO -    ✅ Créé: BasicProduct ID 817
+2026-03-17 13:07:58,532 - INFO -    ✅ Créé: BasicProduct ID 818
+2026-03-17 13:07:58,707 - INFO -    ✅ Créé: BasicProduct ID 819
+2026-03-17 13:07:58,874 - INFO -    ✅ Créé: BasicProduct ID 820
+2026-03-17 13:07:59,147 - INFO -    ✅ Créé: BasicProduct ID 821
+2026-03-17 13:07:59,318 - INFO -    ✅ Créé: BasicProduct ID 822
+2026-03-17 13:07:59,505 - INFO -    ✅ Créé: BasicProduct ID 823
+2026-03-17 13:07:59,762 - INFO -    ✅ Créé: BasicProduct ID 824
+2026-03-17 13:07:59,942 - INFO -    ✅ Créé: BasicProduct ID 825
+2026-03-17 13:08:00,126 - INFO -    ✅ Créé: BasicProduct ID 826
+2026-03-17 13:08:00,376 - INFO -    ✅ Créé: BasicProduct ID 827
+2026-03-17 13:08:00,564 - INFO -    ✅ Créé: BasicProduct ID 828
+2026-03-17 13:08:00,854 - INFO -    ✅ Créé: BasicProduct ID 829
+2026-03-17 13:08:01,022 - INFO -    ✅ Créé: BasicProduct ID 830
+2026-03-17 13:08:01,298 - INFO -    ✅ Créé: BasicProduct ID 831
+2026-03-17 13:08:01,486 - INFO -    ✅ Créé: BasicProduct ID 832
+2026-03-17 13:08:01,783 - INFO -    ✅ Créé: BasicProduct ID 833
+2026-03-17 13:08:01,958 - INFO -    ✅ Créé: BasicProduct ID 834
+2026-03-17 13:08:02,221 - INFO -    ✅ Créé: BasicProduct ID 835
+2026-03-17 13:08:02,398 - INFO -    ✅ Créé: BasicProduct ID 836
+2026-03-17 13:08:02,566 - INFO -    ✅ Créé: BasicProduct ID 837
+2026-03-17 13:08:02,833 - INFO -    ✅ Créé: BasicProduct ID 838
+2026-03-17 13:08:03,005 - INFO -    ✅ Créé: BasicProduct ID 839
+2026-03-17 13:08:03,175 - INFO -    ✅ Créé: BasicProduct ID 840
+2026-03-17 13:08:03,342 - INFO -    ✅ Créé: BasicProduct ID 841
+2026-03-17 13:08:03,526 - INFO -    ✅ Créé: BasicProduct ID 842
+2026-03-17 13:08:03,698 - INFO -    ✅ Créé: BasicProduct ID 843
+2026-03-17 13:08:03,866 - INFO -    ✅ Créé: BasicProduct ID 844
+2026-03-17 13:08:04,094 - INFO -    ✅ Créé: BasicProduct ID 845
+2026-03-17 13:08:04,271 - INFO -    ✅ Créé: BasicProduct ID 846
+2026-03-17 13:08:04,446 - INFO -    ✅ Créé: BasicProduct ID 847
+2026-03-17 13:08:04,610 - INFO -    ✅ Créé: BasicProduct ID 848
+2026-03-17 13:08:04,778 - INFO -    ✅ Créé: BasicProduct ID 849
+2026-03-17 13:08:04,942 - INFO -    ✅ Créé: BasicProduct ID 850
+2026-03-17 13:08:05,110 - INFO -    ✅ Créé: BasicProduct ID 851
+2026-03-17 13:08:05,288 - INFO -    ✅ Créé: BasicProduct ID 852
+2026-03-17 13:08:05,454 - INFO -    ✅ Créé: BasicProduct ID 853
+2026-03-17 13:08:05,626 - INFO -    ✅ Créé: BasicProduct ID 854
+2026-03-17 13:08:05,794 - INFO -    ✅ Créé: BasicProduct ID 855
+2026-03-17 13:08:05,958 - INFO -    ✅ Créé: BasicProduct ID 856
+2026-03-17 13:08:06,158 - INFO -    ✅ Créé: BasicProduct ID 857
+2026-03-17 13:08:06,473 - INFO -    ✅ Créé: BasicProduct ID 858
+2026-03-17 13:08:06,656 - INFO -    ✅ Créé: BasicProduct ID 859
+2026-03-17 13:08:06,859 - INFO -    ✅ Créé: BasicProduct ID 860
+2026-03-17 13:08:07,041 - INFO -    ✅ Créé: BasicProduct ID 861
+2026-03-17 13:08:07,215 - INFO -    ✅ Créé: BasicProduct ID 862
+2026-03-17 13:08:07,406 - INFO -    ✅ Créé: BasicProduct ID 863
+2026-03-17 13:08:07,576 - INFO -    ✅ Créé: BasicProduct ID 864
+2026-03-17 13:08:07,757 - INFO -    ✅ Créé: BasicProduct ID 865
+2026-03-17 13:08:07,927 - INFO -    ✅ Créé: BasicProduct ID 866
+2026-03-17 13:08:08,090 - INFO -    ✅ Créé: BasicProduct ID 867
+2026-03-17 13:08:08,266 - INFO -    ✅ Créé: BasicProduct ID 868
+2026-03-17 13:08:08,436 - INFO -    ✅ Créé: BasicProduct ID 869
+2026-03-17 13:08:08,610 - INFO -    ✅ Créé: BasicProduct ID 870
+2026-03-17 13:08:09,046 - INFO -    ✅ Créé: BasicProduct ID 871
+2026-03-17 13:08:09,233 - INFO -    ✅ Créé: BasicProduct ID 872
+2026-03-17 13:08:09,398 - INFO -    ✅ Créé: BasicProduct ID 873
+2026-03-17 13:08:09,581 - INFO -    ✅ Créé: BasicProduct ID 874
+2026-03-17 13:08:09,762 - INFO -    ✅ Créé: BasicProduct ID 875
+2026-03-17 13:08:09,972 - INFO -    ✅ Créé: BasicProduct ID 876
+2026-03-17 13:08:10,172 - INFO -    ✅ Créé: BasicProduct ID 877
+2026-03-17 13:08:10,349 - INFO -    ✅ Créé: BasicProduct ID 878
+2026-03-17 13:08:10,520 - INFO -    ✅ Créé: BasicProduct ID 879
+2026-03-17 13:08:10,693 - INFO -    ✅ Créé: BasicProduct ID 880
+2026-03-17 13:08:10,882 - INFO -    ✅ Créé: BasicProduct ID 881
+2026-03-17 13:08:11,045 - INFO -    ✅ Créé: BasicProduct ID 882
+2026-03-17 13:08:11,213 - INFO -    ✅ Créé: BasicProduct ID 883
+2026-03-17 13:08:11,380 - INFO -    ✅ Créé: BasicProduct ID 884
+2026-03-17 13:08:11,552 - INFO -    ✅ Créé: BasicProduct ID 885
+2026-03-17 13:08:11,729 - INFO -    ✅ Créé: BasicProduct ID 886
+2026-03-17 13:08:11,900 - INFO -    ✅ Créé: BasicProduct ID 887
+2026-03-17 13:08:12,086 - INFO -    ✅ Créé: BasicProduct ID 888
+2026-03-17 13:08:12,250 - INFO -    ✅ Créé: BasicProduct ID 889
+2026-03-17 13:08:12,418 - INFO -    ✅ Créé: BasicProduct ID 890
+2026-03-17 13:08:12,585 - INFO -    ✅ Créé: BasicProduct ID 891
+2026-03-17 13:08:12,753 - INFO -    ✅ Créé: BasicProduct ID 892
+2026-03-17 13:08:12,923 - INFO -    ✅ Créé: BasicProduct ID 893
+2026-03-17 13:08:13,097 - INFO -    ✅ Créé: BasicProduct ID 894
+2026-03-17 13:08:13,261 - INFO -    ✅ Créé: BasicProduct ID 895
+2026-03-17 13:08:13,433 - INFO -    ✅ Créé: BasicProduct ID 896
+2026-03-17 13:08:13,617 - INFO -    ✅ Créé: BasicProduct ID 897
+2026-03-17 13:08:13,781 - INFO -    ✅ Créé: BasicProduct ID 898
+2026-03-17 13:08:13,959 - INFO -    ✅ Créé: BasicProduct ID 899
+2026-03-17 13:08:14,149 - INFO -    ✅ Créé: BasicProduct ID 900
+2026-03-17 13:08:14,317 - INFO -    ✅ Créé: BasicProduct ID 901
+2026-03-17 13:08:14,484 - INFO -    ✅ Créé: BasicProduct ID 902
+2026-03-17 13:08:14,653 - INFO -    ✅ Créé: BasicProduct ID 903
+2026-03-17 13:08:14,893 - INFO -    ✅ Créé: BasicProduct ID 904
+2026-03-17 13:08:15,059 - INFO -    ✅ Créé: BasicProduct ID 905
+2026-03-17 13:08:15,231 - INFO -    ✅ Créé: BasicProduct ID 906
+2026-03-17 13:08:15,448 - INFO -    ✅ Créé: BasicProduct ID 907
+2026-03-17 13:08:15,827 - INFO -    ✅ Créé: BasicProduct ID 908
+2026-03-17 13:08:16,064 - INFO -    ✅ Créé: BasicProduct ID 909
+2026-03-17 13:08:16,225 - INFO -    ✅ Créé: BasicProduct ID 910
+2026-03-17 13:08:16,407 - INFO -    ✅ Créé: BasicProduct ID 911
+2026-03-17 13:08:16,597 - INFO -    ✅ Créé: BasicProduct ID 912
+2026-03-17 13:08:16,784 - INFO -    ✅ Créé: BasicProduct ID 913
+2026-03-17 13:08:16,953 - INFO -    ✅ Créé: BasicProduct ID 914
+2026-03-17 13:08:17,121 - INFO -    ✅ Créé: BasicProduct ID 915
+2026-03-17 13:08:17,293 - INFO -    ✅ Créé: BasicProduct ID 916
+2026-03-17 13:08:17,469 - INFO -    ✅ Créé: BasicProduct ID 917
+2026-03-17 13:08:17,662 - INFO -    ✅ Créé: BasicProduct ID 918
+2026-03-17 13:08:17,837 - INFO -    ✅ Créé: BasicProduct ID 919
+2026-03-17 13:08:18,005 - INFO -    ✅ Créé: BasicProduct ID 920
+2026-03-17 13:08:18,186 - INFO -    ✅ Créé: BasicProduct ID 921
+2026-03-17 13:08:18,358 - INFO -    ✅ Créé: BasicProduct ID 922
+2026-03-17 13:08:18,543 - INFO -    ✅ Créé: BasicProduct ID 923
+2026-03-17 13:08:18,895 - INFO -    ✅ Créé: BasicProduct ID 924
+2026-03-17 13:08:19,081 - INFO -    ✅ Créé: BasicProduct ID 925
+2026-03-17 13:08:19,249 - INFO -    ✅ Créé: BasicProduct ID 926
+2026-03-17 13:08:19,412 - INFO -    ✅ Créé: BasicProduct ID 927
+2026-03-17 13:08:19,577 - INFO -    ✅ Créé: BasicProduct ID 928
+2026-03-17 13:08:19,745 - INFO -    ✅ Créé: BasicProduct ID 929
+2026-03-17 13:08:19,913 - INFO -    ✅ Créé: BasicProduct ID 930
+2026-03-17 13:08:20,481 - INFO -    ✅ Créé: BasicProduct ID 931
+2026-03-17 13:08:20,657 - INFO -    ✅ Créé: BasicProduct ID 932
+2026-03-17 13:08:20,821 - INFO -    ✅ Créé: BasicProduct ID 933
+2026-03-17 13:08:20,997 - INFO -    ✅ Créé: BasicProduct ID 934
+2026-03-17 13:08:21,168 - INFO -    ✅ Créé: BasicProduct ID 935
+2026-03-17 13:08:21,353 - INFO -    ✅ Créé: BasicProduct ID 936
+2026-03-17 13:08:21,520 - INFO -    ✅ Créé: BasicProduct ID 937
+2026-03-17 13:08:21,689 - INFO -    ✅ Créé: BasicProduct ID 938
+2026-03-17 13:08:21,861 - INFO -    ✅ Créé: BasicProduct ID 939
+2026-03-17 13:08:22,033 - INFO -    ✅ Créé: BasicProduct ID 940
+2026-03-17 13:08:22,201 - INFO -    ✅ Créé: BasicProduct ID 941
+2026-03-17 13:08:22,378 - INFO -    ✅ Créé: BasicProduct ID 942
+2026-03-17 13:08:22,540 - INFO -    ✅ Créé: BasicProduct ID 943
+2026-03-17 13:08:22,705 - INFO -    ✅ Créé: BasicProduct ID 944
+2026-03-17 13:08:22,868 - INFO -    ✅ Créé: BasicProduct ID 945
+2026-03-17 13:08:23,030 - INFO -    ✅ Créé: BasicProduct ID 946
+2026-03-17 13:08:23,196 - INFO -    ✅ Créé: BasicProduct ID 947
+2026-03-17 13:08:23,471 - INFO -    ✅ Créé: BasicProduct ID 948
+2026-03-17 13:08:23,649 - INFO -    ✅ Créé: BasicProduct ID 949
+2026-03-17 13:08:23,832 - INFO -    ✅ Créé: BasicProduct ID 950
+2026-03-17 13:08:24,079 - INFO -    ✅ Créé: BasicProduct ID 951
+2026-03-17 13:08:24,246 - INFO -    ✅ Créé: BasicProduct ID 952
+2026-03-17 13:08:24,409 - INFO -    ✅ Créé: BasicProduct ID 953
+2026-03-17 13:08:24,577 - INFO -    ✅ Créé: BasicProduct ID 954
+2026-03-17 13:08:24,744 - INFO -    ✅ Créé: BasicProduct ID 955
+2026-03-17 13:08:24,920 - INFO -    ✅ Créé: BasicProduct ID 956
+2026-03-17 13:08:25,106 - INFO -    ✅ Créé: BasicProduct ID 957
+2026-03-17 13:08:25,282 - INFO -    ✅ Créé: BasicProduct ID 958
+2026-03-17 13:08:25,446 - INFO -    ✅ Créé: BasicProduct ID 959
+2026-03-17 13:08:25,619 - INFO -    ✅ Créé: BasicProduct ID 960
+2026-03-17 13:08:25,798 - INFO -    ✅ Créé: BasicProduct ID 961
+2026-03-17 13:08:25,969 - INFO -    ✅ Créé: BasicProduct ID 962
+2026-03-17 13:08:26,134 - INFO -    ✅ Créé: BasicProduct ID 963
+2026-03-17 13:08:26,302 - INFO -    ✅ Créé: BasicProduct ID 964
+2026-03-17 13:08:26,473 - INFO -    ✅ Créé: BasicProduct ID 965
+2026-03-17 13:08:26,641 - INFO -    ✅ Créé: BasicProduct ID 966
+2026-03-17 13:08:26,813 - INFO -    ✅ Créé: BasicProduct ID 967
+2026-03-17 13:08:26,985 - INFO -    ✅ Créé: BasicProduct ID 968
+2026-03-17 13:08:27,149 - INFO -    ✅ Créé: BasicProduct ID 969
+2026-03-17 13:08:27,313 - INFO -    ✅ Créé: BasicProduct ID 970
+2026-03-17 13:08:27,485 - INFO -    ✅ Créé: BasicProduct ID 971
+2026-03-17 13:08:27,661 - INFO -    ✅ Créé: BasicProduct ID 972
+2026-03-17 13:08:27,826 - INFO -    ✅ Créé: BasicProduct ID 973
+2026-03-17 13:08:27,999 - INFO -    ✅ Créé: BasicProduct ID 974
+2026-03-17 13:08:28,169 - INFO -    ✅ Créé: BasicProduct ID 975
+2026-03-17 13:08:28,641 - INFO -    ✅ Créé: BasicProduct ID 976
+2026-03-17 13:08:29,020 - INFO -    ✅ Créé: BasicProduct ID 977
+2026-03-17 13:08:29,343 - INFO -    ✅ Créé: BasicProduct ID 978
+2026-03-17 13:08:30,810 - INFO -    ✅ Créé: BasicProduct ID 979
+2026-03-17 13:08:31,032 - INFO -    ✅ Créé: BasicProduct ID 980
+2026-03-17 13:08:31,395 - INFO -    ✅ Créé: BasicProduct ID 981
+2026-03-17 13:08:32,217 - INFO -    ✅ Créé: BasicProduct ID 982
+2026-03-17 13:08:32,417 - INFO -    ✅ Créé: BasicProduct ID 983
+2026-03-17 13:08:32,595 - INFO -    ✅ Créé: BasicProduct ID 984
+2026-03-17 13:08:32,773 - INFO -    ✅ Créé: BasicProduct ID 985
+2026-03-17 13:08:32,937 - INFO -    ✅ Créé: BasicProduct ID 986
+2026-03-17 13:08:33,106 - INFO -    ✅ Créé: BasicProduct ID 987
+2026-03-17 13:08:33,285 - INFO -    ✅ Créé: BasicProduct ID 988
+2026-03-17 13:08:33,481 - INFO -    ✅ Créé: BasicProduct ID 989
+2026-03-17 13:08:33,646 - INFO -    ✅ Créé: BasicProduct ID 990
+2026-03-17 13:08:33,811 - INFO -    ✅ Créé: BasicProduct ID 991
+2026-03-17 13:08:33,977 - INFO -    ✅ Créé: BasicProduct ID 992
+2026-03-17 13:08:34,141 - INFO -    ✅ Créé: BasicProduct ID 993
+2026-03-17 13:08:34,309 - INFO -    ✅ Créé: BasicProduct ID 994
+2026-03-17 13:08:34,481 - INFO -    ✅ Créé: BasicProduct ID 995
+2026-03-17 13:08:34,649 - INFO -    ✅ Créé: BasicProduct ID 996
+2026-03-17 13:08:34,813 - INFO -    ✅ Créé: BasicProduct ID 997
+2026-03-17 13:08:34,980 - INFO -    ✅ Créé: BasicProduct ID 998
+2026-03-17 13:08:35,148 - INFO -    ✅ Créé: BasicProduct ID 999
+2026-03-17 13:08:35,312 - INFO -    ✅ Créé: BasicProduct ID 1000
+2026-03-17 13:08:35,483 - INFO -    ✅ Créé: BasicProduct ID 1001
+2026-03-17 13:08:35,649 - INFO -    ✅ Créé: BasicProduct ID 1002
+2026-03-17 13:08:35,821 - INFO -    ✅ Créé: BasicProduct ID 1003
+2026-03-17 13:08:35,993 - INFO -    ✅ Créé: BasicProduct ID 1004
+2026-03-17 13:08:36,165 - INFO -    ✅ Créé: BasicProduct ID 1005
+2026-03-17 13:08:36,333 - INFO -    ✅ Créé: BasicProduct ID 1006
+2026-03-17 13:08:36,501 - INFO -    ✅ Créé: BasicProduct ID 1007
+2026-03-17 13:08:36,674 - INFO -    ✅ Créé: BasicProduct ID 1008
+2026-03-17 13:08:36,840 - INFO -    ✅ Créé: BasicProduct ID 1009
+2026-03-17 13:08:37,009 - INFO -    ✅ Créé: BasicProduct ID 1010
+2026-03-17 13:08:37,177 - INFO -    ✅ Créé: BasicProduct ID 1011
+2026-03-17 13:08:37,342 - INFO -    ✅ Créé: BasicProduct ID 1012
+2026-03-17 13:08:37,517 - INFO -    ✅ Créé: BasicProduct ID 1013
+2026-03-17 13:08:37,686 - INFO -    ✅ Créé: BasicProduct ID 1014
+2026-03-17 13:08:37,852 - INFO -    ✅ Créé: BasicProduct ID 1015
+2026-03-17 13:08:38,017 - INFO -    ✅ Créé: BasicProduct ID 1016
+2026-03-17 13:08:38,181 - INFO -    ✅ Créé: BasicProduct ID 1017
+2026-03-17 13:08:38,366 - INFO -    ✅ Créé: BasicProduct ID 1018
+2026-03-17 13:08:38,560 - INFO -    ✅ Créé: BasicProduct ID 1019
+2026-03-17 13:08:38,721 - INFO -    ✅ Créé: BasicProduct ID 1020
+2026-03-17 13:08:38,885 - INFO -    ✅ Créé: BasicProduct ID 1021
+2026-03-17 13:08:39,053 - INFO -    ✅ Créé: BasicProduct ID 1022
+2026-03-17 13:08:39,217 - INFO -    ✅ Créé: BasicProduct ID 1023
+2026-03-17 13:08:39,380 - INFO -    ✅ Créé: BasicProduct ID 1024
+2026-03-17 13:08:39,557 - INFO -    ✅ Créé: BasicProduct ID 1025
+2026-03-17 13:08:39,729 - INFO -    ✅ Créé: BasicProduct ID 1026
+2026-03-17 13:08:39,910 - INFO -    ✅ Créé: BasicProduct ID 1027
+2026-03-17 13:08:40,079 - INFO -    ✅ Créé: BasicProduct ID 1028
+2026-03-17 13:08:40,242 - INFO -    ✅ Créé: BasicProduct ID 1029
+2026-03-17 13:08:40,418 - INFO -    ✅ Créé: BasicProduct ID 1030
+2026-03-17 13:08:40,604 - INFO -    ✅ Créé: BasicProduct ID 1031
+2026-03-17 13:08:40,797 - INFO -    ✅ Créé: BasicProduct ID 1032
+2026-03-17 13:08:40,985 - INFO -    ✅ Créé: BasicProduct ID 1033
+2026-03-17 13:08:41,175 - INFO -    ✅ Créé: BasicProduct ID 1034
+2026-03-17 13:08:41,353 - INFO -    ✅ Créé: BasicProduct ID 1035
+2026-03-17 13:08:41,519 - INFO -    ✅ Créé: BasicProduct ID 1036
+2026-03-17 13:08:41,698 - INFO -    ✅ Créé: BasicProduct ID 1037
+2026-03-17 13:08:41,873 - INFO -    ✅ Créé: BasicProduct ID 1038
+2026-03-17 13:08:42,038 - INFO -    ✅ Créé: BasicProduct ID 1039
+2026-03-17 13:08:42,713 - INFO -    ✅ Créé: BasicProduct ID 1040
+2026-03-17 13:08:42,939 - INFO -    ✅ Créé: BasicProduct ID 1041
+2026-03-17 13:08:43,328 - INFO -    ✅ Créé: BasicProduct ID 1042
+2026-03-17 13:08:43,546 - INFO -    ✅ Créé: BasicProduct ID 1043
+2026-03-17 13:08:43,754 - INFO -    ✅ Créé: BasicProduct ID 1044
+2026-03-17 13:08:44,040 - INFO -    ✅ Créé: BasicProduct ID 1045
+2026-03-17 13:08:44,208 - INFO -    ✅ Créé: BasicProduct ID 1046
+2026-03-17 13:08:44,384 - INFO -    ✅ Créé: BasicProduct ID 1047
+2026-03-17 13:08:44,771 - INFO -    ✅ Créé: BasicProduct ID 1048
+2026-03-17 13:08:45,158 - INFO -    ✅ Créé: BasicProduct ID 1049
+2026-03-17 13:08:45,338 - INFO -    ✅ Créé: BasicProduct ID 1050
+2026-03-17 13:08:45,527 - INFO -    ✅ Créé: BasicProduct ID 1051
+2026-03-17 13:08:45,691 - INFO -    ✅ Créé: BasicProduct ID 1052
+2026-03-17 13:08:45,918 - INFO -    ✅ Créé: BasicProduct ID 1053
+2026-03-17 13:08:46,094 - INFO -    ✅ Créé: BasicProduct ID 1054
+2026-03-17 13:08:46,271 - INFO -    ✅ Créé: BasicProduct ID 1055
+2026-03-17 13:08:46,443 - INFO -    ✅ Créé: BasicProduct ID 1056
+2026-03-17 13:08:46,616 - INFO -    ✅ Créé: BasicProduct ID 1057
+2026-03-17 13:08:46,797 - INFO -    ✅ Créé: BasicProduct ID 1058
+2026-03-17 13:08:46,967 - INFO -    ✅ Créé: BasicProduct ID 1059
+2026-03-17 13:08:47,125 - INFO -    ✅ Créé: BasicProduct ID 1060
+2026-03-17 13:08:47,299 - INFO -    ✅ Créé: BasicProduct ID 1061
+2026-03-17 13:08:47,480 - INFO -    ✅ Créé: BasicProduct ID 1062
+2026-03-17 13:08:47,654 - INFO -    ✅ Créé: BasicProduct ID 1063
+2026-03-17 13:08:47,841 - INFO -    ✅ Créé: BasicProduct ID 1064
+2026-03-17 13:08:48,030 - INFO -    ✅ Créé: BasicProduct ID 1065
+2026-03-17 13:08:48,208 - INFO -    ✅ Créé: BasicProduct ID 1066
+2026-03-17 13:08:48,397 - INFO -    ✅ Créé: BasicProduct ID 1067
+2026-03-17 13:08:48,582 - INFO -    ✅ Créé: BasicProduct ID 1068
+2026-03-17 13:08:48,758 - INFO -    ✅ Créé: BasicProduct ID 1069
+2026-03-17 13:08:48,931 - INFO -    ✅ Créé: BasicProduct ID 1070
+2026-03-17 13:08:49,113 - INFO -    ✅ Créé: BasicProduct ID 1071
+2026-03-17 13:08:49,283 - INFO -    ✅ Créé: BasicProduct ID 1072
+2026-03-17 13:08:49,454 - INFO -    ✅ Créé: BasicProduct ID 1073
+2026-03-17 13:08:49,617 - INFO -    ✅ Créé: BasicProduct ID 1074
+2026-03-17 13:08:49,793 - INFO -    ✅ Créé: BasicProduct ID 1075
+2026-03-17 13:08:49,968 - INFO -    ✅ Créé: BasicProduct ID 1076
+2026-03-17 13:08:50,141 - INFO -    ✅ Créé: BasicProduct ID 1077
+2026-03-17 13:08:50,309 - INFO -    ✅ Créé: BasicProduct ID 1078
+2026-03-17 13:08:50,483 - INFO -    ✅ Créé: BasicProduct ID 1079
+2026-03-17 13:08:50,654 - INFO -    ✅ Créé: BasicProduct ID 1080
+2026-03-17 13:08:50,822 - INFO -    ✅ Créé: BasicProduct ID 1081
+2026-03-17 13:08:51,011 - INFO -    ✅ Créé: BasicProduct ID 1082
+2026-03-17 13:08:51,178 - INFO -    ✅ Créé: BasicProduct ID 1083
+2026-03-17 13:08:51,344 - INFO -    ✅ Créé: BasicProduct ID 1084
+2026-03-17 13:08:51,504 - INFO -    ✅ Créé: BasicProduct ID 1085
+2026-03-17 13:08:51,673 - INFO -    ✅ Créé: BasicProduct ID 1086
+2026-03-17 13:08:51,863 - INFO -    ✅ Créé: BasicProduct ID 1087
+2026-03-17 13:08:52,038 - INFO -    ✅ Créé: BasicProduct ID 1088
+2026-03-17 13:08:52,212 - INFO -    ✅ Créé: BasicProduct ID 1089
+2026-03-17 13:08:52,376 - INFO -    ✅ Créé: BasicProduct ID 1090
+2026-03-17 13:08:52,541 - INFO -    ✅ Créé: BasicProduct ID 1091
+2026-03-17 13:08:52,709 - INFO -    ✅ Créé: BasicProduct ID 1092
+2026-03-17 13:08:52,884 - INFO -    ✅ Créé: BasicProduct ID 1093
+2026-03-17 13:08:53,048 - INFO -    ✅ Créé: BasicProduct ID 1094
+2026-03-17 13:08:53,250 - INFO -    ✅ Créé: BasicProduct ID 1095
+2026-03-17 13:08:53,414 - INFO -    ✅ Créé: BasicProduct ID 1096
+2026-03-17 13:08:53,584 - INFO -    ✅ Créé: BasicProduct ID 1097
+2026-03-17 13:08:53,763 - INFO -    ✅ Créé: BasicProduct ID 1098
+2026-03-17 13:08:53,928 - INFO -    ✅ Créé: BasicProduct ID 1099
+2026-03-17 13:08:54,096 - INFO -    ✅ Créé: BasicProduct ID 1100
+2026-03-17 13:08:54,276 - INFO -    ✅ Créé: BasicProduct ID 1101
+2026-03-17 13:08:54,453 - INFO -    ✅ Créé: BasicProduct ID 1102
+2026-03-17 13:08:54,626 - INFO -    ✅ Créé: BasicProduct ID 1103
+2026-03-17 13:08:54,790 - INFO -    ✅ Créé: BasicProduct ID 1104
+2026-03-17 13:08:55,016 - INFO -    ✅ Créé: BasicProduct ID 1105
+2026-03-17 13:08:55,236 - INFO -    ✅ Créé: BasicProduct ID 1106
+2026-03-17 13:08:55,414 - INFO -    ✅ Créé: BasicProduct ID 1107
+2026-03-17 13:08:55,594 - INFO -    ✅ Créé: BasicProduct ID 1108
+2026-03-17 13:08:55,786 - INFO -    ✅ Créé: BasicProduct ID 1109
+2026-03-17 13:08:55,963 - INFO -    ✅ Créé: BasicProduct ID 1110
+2026-03-17 13:08:56,144 - INFO -    ✅ Créé: BasicProduct ID 1111
+2026-03-17 13:08:56,319 - INFO -    ✅ Créé: BasicProduct ID 1112
+2026-03-17 13:08:56,495 - INFO -    ✅ Créé: BasicProduct ID 1113
+2026-03-17 13:08:56,671 - INFO -    ✅ Créé: BasicProduct ID 1114
+2026-03-17 13:08:56,842 - INFO -    ✅ Créé: BasicProduct ID 1115
+2026-03-17 13:08:57,022 - INFO -    ✅ Créé: BasicProduct ID 1116
+2026-03-17 13:08:57,193 - INFO -    ✅ Créé: BasicProduct ID 1117
+2026-03-17 13:08:57,384 - INFO -    ✅ Créé: BasicProduct ID 1118
+2026-03-17 13:08:57,601 - INFO -    ✅ Créé: BasicProduct ID 1119
+2026-03-17 13:08:57,781 - INFO -    ✅ Créé: BasicProduct ID 1120
+2026-03-17 13:08:57,956 - INFO -    ✅ Créé: BasicProduct ID 1121
+2026-03-17 13:08:58,138 - INFO -    ✅ Créé: BasicProduct ID 1122
+2026-03-17 13:08:58,335 - INFO -    ✅ Créé: BasicProduct ID 1123
+2026-03-17 13:08:58,534 - INFO -    ✅ Créé: BasicProduct ID 1124
+2026-03-17 13:08:58,719 - INFO -    ✅ Créé: BasicProduct ID 1125
+2026-03-17 13:08:58,906 - INFO -    ✅ Créé: BasicProduct ID 1126
+2026-03-17 13:08:59,096 - INFO -    ✅ Créé: BasicProduct ID 1127
+2026-03-17 13:08:59,268 - INFO -    ✅ Créé: BasicProduct ID 1128
+2026-03-17 13:08:59,449 - INFO -    ✅ Créé: BasicProduct ID 1129
+2026-03-17 13:08:59,641 - INFO -    ✅ Créé: BasicProduct ID 1130
+2026-03-17 13:08:59,828 - INFO -    ✅ Créé: BasicProduct ID 1131
+2026-03-17 13:09:00,009 - INFO -    ✅ Créé: BasicProduct ID 1132
+2026-03-17 13:09:00,218 - INFO -    ✅ Créé: BasicProduct ID 1133
+2026-03-17 13:09:00,399 - INFO -    ✅ Créé: BasicProduct ID 1134
+2026-03-17 13:09:00,585 - INFO -    ✅ Créé: BasicProduct ID 1135
+2026-03-17 13:09:00,788 - INFO -    ✅ Créé: BasicProduct ID 1136
+2026-03-17 13:09:00,960 - INFO -    ✅ Créé: BasicProduct ID 1137
+2026-03-17 13:09:01,141 - INFO -    ✅ Créé: BasicProduct ID 1138
+2026-03-17 13:09:01,141 - INFO - 
+📖 Synchronisation des cours...
+2026-03-17 13:09:01,142 - INFO - 
+📦 Synchronisation: Course
+2026-03-17 13:09:01,347 - INFO -    Local: 4 éléments
+2026-03-17 13:09:01,348 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:01,748 - INFO -    ✅ Créé: Course ID 5
+2026-03-17 13:09:01,935 - INFO -    ✅ Créé: Course ID 4
+2026-03-17 13:09:02,122 - INFO -    ✅ Créé: Course ID 3
+2026-03-17 13:09:02,412 - INFO -    ✅ Créé: Course ID 2
+2026-03-17 13:09:02,413 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-17 13:09:02,414 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-17 13:09:02,619 - INFO -    Local: 3 éléments
+2026-03-17 13:09:02,628 - INFO -    Production: 1 éléments existants
+2026-03-17 13:09:02,852 - INFO -    ✅ Créé: Sermon ID 3
+2026-03-17 13:09:03,121 - INFO -    ✅ Créé: Sermon ID 2
+2026-03-17 13:09:03,397 - INFO -    ✅ Mis à jour: Sermon ID 1
+2026-03-17 13:09:03,398 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-17 13:09:03,399 - INFO - 
+📦 Synchronisation: Shop
+2026-03-17 13:09:03,578 - INFO -    Local: 0 éléments
+2026-03-17 13:09:03,579 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:03,579 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-17 13:09:03,580 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-17 13:09:03,755 - INFO -    Local: 0 éléments
+2026-03-17 13:09:03,756 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:03,758 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-17 13:09:03,760 - INFO - 
+📦 Synchronisation: Product
+2026-03-17 13:09:03,951 - INFO -    Local: 0 éléments
+2026-03-17 13:09:03,952 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:03,952 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-17 13:09:03,953 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-17 13:09:04,149 - INFO -    Local: 0 éléments
+2026-03-17 13:09:04,150 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:04,150 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-17 13:09:04,151 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-17 13:09:04,352 - INFO -    Local: 0 éléments
+2026-03-17 13:09:04,353 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:04,353 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-17 13:09:04,354 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-17 13:09:04,533 - INFO -    Local: 0 éléments
+2026-03-17 13:09:04,534 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:04,534 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-17 13:09:04,535 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-17 13:09:04,732 - INFO -    Local: 0 éléments
+2026-03-17 13:09:04,735 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:04,737 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-17 13:09:04,743 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-17 13:09:04,922 - INFO -    Local: 0 éléments
+2026-03-17 13:09:04,923 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:04,924 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-17 13:09:04,925 - INFO - 
+📦 Synchronisation: Supply
+2026-03-17 13:09:05,113 - INFO -    Local: 0 éléments
+2026-03-17 13:09:05,114 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:05,114 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-17 13:09:05,115 - INFO - 
+📦 Synchronisation: Sales
+2026-03-17 13:09:05,295 - INFO -    Local: 0 éléments
+2026-03-17 13:09:05,296 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:05,297 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-17 13:09:05,297 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-17 13:09:05,476 - INFO -    Local: 1 éléments
+2026-03-17 13:09:05,476 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:05,663 - ERROR -    ❌ Erreur pour Favorite ID 1: insert or update on table "courses_favorite" violates foreign key constraint "courses_favorite_user_id_44e02002_fk_auth_user_id"
+DETAIL:  Key (user_id)=(75) is not present in table "auth_user".
+
+2026-03-17 13:09:05,667 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-17 13:09:05,667 - INFO - 
+📦 Synchronisation: History
+2026-03-17 13:09:05,860 - INFO -    Local: 147 éléments
+2026-03-17 13:09:05,860 - INFO -    Production: 0 éléments existants
+2026-03-17 13:09:06,039 - ERROR -    ❌ Erreur pour History ID 1: value too long for type character varying(30)
+
+2026-03-17 13:09:06,218 - ERROR -    ❌ Erreur pour History ID 2: value too long for type character varying(30)
+
+2026-03-17 13:09:06,420 - INFO -    ✅ Créé: History ID 3
+2026-03-17 13:09:06,590 - INFO -    ✅ Créé: History ID 4
+2026-03-17 13:09:06,762 - INFO -    ✅ Créé: History ID 5
+2026-03-17 13:09:06,961 - INFO -    ✅ Créé: History ID 6
+2026-03-17 13:09:07,140 - INFO -    ✅ Créé: History ID 7
+2026-03-17 13:09:07,321 - INFO -    ✅ Créé: History ID 8
+2026-03-17 13:09:07,497 - INFO -    ✅ Créé: History ID 9
+2026-03-17 13:09:07,678 - INFO -    ✅ Créé: History ID 10
+2026-03-17 13:09:07,972 - INFO -    ✅ Créé: History ID 11
+2026-03-17 13:09:08,159 - ERROR -    ❌ Erreur pour History ID 12: value too long for type character varying(30)
+
+2026-03-17 13:09:08,334 - ERROR -    ❌ Erreur pour History ID 13: value too long for type character varying(30)
+
+2026-03-17 13:09:08,550 - ERROR -    ❌ Erreur pour History ID 14: value too long for type character varying(30)
+
+2026-03-17 13:09:08,740 - ERROR -    ❌ Erreur pour History ID 15: value too long for type character varying(30)
+
+2026-03-17 13:09:08,935 - ERROR -    ❌ Erreur pour History ID 16: value too long for type character varying(30)
+
+2026-03-17 13:09:09,145 - ERROR -    ❌ Erreur pour History ID 17: value too long for type character varying(30)
+
+2026-03-17 13:09:09,337 - ERROR -    ❌ Erreur pour History ID 18: value too long for type character varying(30)
+
+2026-03-17 13:09:09,526 - ERROR -    ❌ Erreur pour History ID 19: value too long for type character varying(30)
+
+2026-03-17 13:09:09,710 - ERROR -    ❌ Erreur pour History ID 20: value too long for type character varying(30)
+
+2026-03-17 13:09:09,891 - ERROR -    ❌ Erreur pour History ID 21: value too long for type character varying(30)
+
+2026-03-17 13:09:10,060 - ERROR -    ❌ Erreur pour History ID 22: value too long for type character varying(30)
+
+2026-03-17 13:09:10,229 - ERROR -    ❌ Erreur pour History ID 23: value too long for type character varying(30)
+
+2026-03-17 13:09:10,396 - ERROR -    ❌ Erreur pour History ID 24: value too long for type character varying(30)
+
+2026-03-17 13:09:10,568 - ERROR -    ❌ Erreur pour History ID 25: value too long for type character varying(30)
+
+2026-03-17 13:09:10,731 - ERROR -    ❌ Erreur pour History ID 26: value too long for type character varying(30)
+
+2026-03-17 13:09:10,897 - ERROR -    ❌ Erreur pour History ID 27: value too long for type character varying(30)
+
+2026-03-17 13:09:11,080 - ERROR -    ❌ Erreur pour History ID 28: value too long for type character varying(30)
+
+2026-03-17 13:09:11,268 - ERROR -    ❌ Erreur pour History ID 29: value too long for type character varying(30)
+
+2026-03-17 13:09:11,428 - ERROR -    ❌ Erreur pour History ID 30: value too long for type character varying(30)
+
+2026-03-17 13:09:11,595 - ERROR -    ❌ Erreur pour History ID 31: value too long for type character varying(30)
+
+2026-03-17 13:09:11,760 - ERROR -    ❌ Erreur pour History ID 32: value too long for type character varying(30)
+
+2026-03-17 13:09:11,932 - ERROR -    ❌ Erreur pour History ID 33: value too long for type character varying(30)
+
+2026-03-17 13:09:12,100 - ERROR -    ❌ Erreur pour History ID 34: value too long for type character varying(30)
+
+2026-03-17 13:09:12,268 - ERROR -    ❌ Erreur pour History ID 35: value too long for type character varying(30)
+
+2026-03-17 13:09:12,443 - ERROR -    ❌ Erreur pour History ID 36: value too long for type character varying(30)
+
+2026-03-17 13:09:12,608 - ERROR -    ❌ Erreur pour History ID 37: value too long for type character varying(30)
+
+2026-03-17 13:09:12,783 - ERROR -    ❌ Erreur pour History ID 38: value too long for type character varying(30)
+
+2026-03-17 13:09:12,971 - ERROR -    ❌ Erreur pour History ID 39: value too long for type character varying(30)
+
+2026-03-17 13:09:13,168 - ERROR -    ❌ Erreur pour History ID 40: value too long for type character varying(30)
+
+2026-03-17 13:09:13,365 - ERROR -    ❌ Erreur pour History ID 41: value too long for type character varying(30)
+
+2026-03-17 13:09:13,540 - ERROR -    ❌ Erreur pour History ID 42: value too long for type character varying(30)
+
+2026-03-17 13:09:13,708 - ERROR -    ❌ Erreur pour History ID 43: value too long for type character varying(30)
+
+2026-03-17 13:09:13,883 - ERROR -    ❌ Erreur pour History ID 44: value too long for type character varying(30)
+
+2026-03-17 13:09:14,043 - ERROR -    ❌ Erreur pour History ID 45: value too long for type character varying(30)
+
+2026-03-17 13:09:14,225 - ERROR -    ❌ Erreur pour History ID 46: value too long for type character varying(30)
+
+2026-03-17 13:09:14,384 - ERROR -    ❌ Erreur pour History ID 47: value too long for type character varying(30)
+
+2026-03-17 13:09:14,555 - ERROR -    ❌ Erreur pour History ID 48: value too long for type character varying(30)
+
+2026-03-17 13:09:14,716 - ERROR -    ❌ Erreur pour History ID 49: value too long for type character varying(30)
+
+2026-03-17 13:09:14,891 - ERROR -    ❌ Erreur pour History ID 50: value too long for type character varying(30)
+
+2026-03-17 13:09:15,063 - ERROR -    ❌ Erreur pour History ID 51: value too long for type character varying(30)
+
+2026-03-17 13:09:15,235 - ERROR -    ❌ Erreur pour History ID 52: value too long for type character varying(30)
+
+2026-03-17 13:09:15,408 - ERROR -    ❌ Erreur pour History ID 53: value too long for type character varying(30)
+
+2026-03-17 13:09:15,584 - ERROR -    ❌ Erreur pour History ID 54: value too long for type character varying(30)
+
+2026-03-17 13:09:15,756 - ERROR -    ❌ Erreur pour History ID 55: value too long for type character varying(30)
+
+2026-03-17 13:09:15,932 - ERROR -    ❌ Erreur pour History ID 56: value too long for type character varying(30)
+
+2026-03-17 13:09:16,124 - ERROR -    ❌ Erreur pour History ID 57: value too long for type character varying(30)
+
+2026-03-17 13:09:16,288 - ERROR -    ❌ Erreur pour History ID 58: value too long for type character varying(30)
+
+2026-03-17 13:09:16,455 - ERROR -    ❌ Erreur pour History ID 59: value too long for type character varying(30)
+
+2026-03-17 13:09:16,623 - ERROR -    ❌ Erreur pour History ID 60: value too long for type character varying(30)
+
+2026-03-17 13:09:16,796 - ERROR -    ❌ Erreur pour History ID 61: value too long for type character varying(30)
+
+2026-03-17 13:09:16,984 - ERROR -    ❌ Erreur pour History ID 62: value too long for type character varying(30)
+
+2026-03-17 13:09:17,155 - ERROR -    ❌ Erreur pour History ID 63: value too long for type character varying(30)
+
+2026-03-17 13:09:17,328 - ERROR -    ❌ Erreur pour History ID 64: value too long for type character varying(30)
+
+2026-03-17 13:09:17,503 - ERROR -    ❌ Erreur pour History ID 65: value too long for type character varying(30)
+
+2026-03-17 13:09:17,664 - ERROR -    ❌ Erreur pour History ID 66: value too long for type character varying(30)
+
+2026-03-17 13:09:17,835 - ERROR -    ❌ Erreur pour History ID 67: value too long for type character varying(30)
+
+2026-03-17 13:09:17,996 - ERROR -    ❌ Erreur pour History ID 68: value too long for type character varying(30)
+
+2026-03-17 13:09:18,172 - ERROR -    ❌ Erreur pour History ID 69: value too long for type character varying(30)
+
+2026-03-17 13:09:18,344 - ERROR -    ❌ Erreur pour History ID 70: value too long for type character varying(30)
+
+2026-03-17 13:09:18,508 - ERROR -    ❌ Erreur pour History ID 71: value too long for type character varying(30)
+
+2026-03-17 13:09:18,678 - ERROR -    ❌ Erreur pour History ID 72: value too long for type character varying(30)
+
+2026-03-17 13:09:18,844 - ERROR -    ❌ Erreur pour History ID 73: value too long for type character varying(30)
+
+2026-03-17 13:09:19,009 - ERROR -    ❌ Erreur pour History ID 74: value too long for type character varying(30)
+
+2026-03-17 13:09:19,188 - ERROR -    ❌ Erreur pour History ID 75: value too long for type character varying(30)
+
+2026-03-17 13:09:19,359 - ERROR -    ❌ Erreur pour History ID 76: value too long for type character varying(30)
+
+2026-03-17 13:09:19,535 - ERROR -    ❌ Erreur pour History ID 77: value too long for type character varying(30)
+
+2026-03-17 13:09:19,708 - ERROR -    ❌ Erreur pour History ID 78: value too long for type character varying(30)
+
+2026-03-17 13:09:19,868 - ERROR -    ❌ Erreur pour History ID 79: value too long for type character varying(30)
+
+2026-03-17 13:09:20,039 - ERROR -    ❌ Erreur pour History ID 80: value too long for type character varying(30)
+
+2026-03-17 13:09:20,203 - ERROR -    ❌ Erreur pour History ID 81: value too long for type character varying(30)
+
+2026-03-17 13:09:20,392 - ERROR -    ❌ Erreur pour History ID 82: value too long for type character varying(30)
+
+2026-03-17 13:09:20,567 - ERROR -    ❌ Erreur pour History ID 83: value too long for type character varying(30)
+
+2026-03-17 13:09:20,739 - ERROR -    ❌ Erreur pour History ID 84: value too long for type character varying(30)
+
+2026-03-17 13:09:20,903 - ERROR -    ❌ Erreur pour History ID 85: value too long for type character varying(30)
+
+2026-03-17 13:09:21,084 - ERROR -    ❌ Erreur pour History ID 86: value too long for type character varying(30)
+
+2026-03-17 13:09:21,274 - ERROR -    ❌ Erreur pour History ID 87: value too long for type character varying(30)
+
+2026-03-17 13:09:21,462 - ERROR -    ❌ Erreur pour History ID 88: value too long for type character varying(30)
+
+2026-03-17 13:09:21,636 - ERROR -    ❌ Erreur pour History ID 89: value too long for type character varying(30)
+
+2026-03-17 13:09:21,832 - ERROR -    ❌ Erreur pour History ID 90: value too long for type character varying(30)
+
+2026-03-17 13:09:22,014 - ERROR -    ❌ Erreur pour History ID 91: value too long for type character varying(30)
+
+2026-03-17 13:09:22,193 - ERROR -    ❌ Erreur pour History ID 92: value too long for type character varying(30)
+
+2026-03-17 13:09:22,379 - ERROR -    ❌ Erreur pour History ID 93: value too long for type character varying(30)
+
+2026-03-17 13:09:22,591 - ERROR -    ❌ Erreur pour History ID 94: value too long for type character varying(30)
+
+2026-03-17 13:09:22,762 - ERROR -    ❌ Erreur pour History ID 95: value too long for type character varying(30)
+
+2026-03-17 13:09:22,927 - ERROR -    ❌ Erreur pour History ID 96: value too long for type character varying(30)
+
+2026-03-17 13:09:23,096 - ERROR -    ❌ Erreur pour History ID 97: value too long for type character varying(30)
+
+2026-03-17 13:09:23,281 - ERROR -    ❌ Erreur pour History ID 98: value too long for type character varying(30)
+
+2026-03-17 13:09:23,464 - INFO -    ✅ Créé: History ID 99
+2026-03-17 13:09:23,623 - INFO -    ✅ Créé: History ID 100
+2026-03-17 13:09:23,792 - INFO -    ✅ Créé: History ID 101
+2026-03-17 13:09:23,964 - INFO -    ✅ Créé: History ID 102
+2026-03-17 13:09:24,122 - INFO -    ✅ Créé: History ID 103
+2026-03-17 13:09:24,299 - INFO -    ✅ Créé: History ID 104
+2026-03-17 13:09:24,455 - ERROR -    ❌ Erreur pour History ID 105: value too long for type character varying(30)
+
+2026-03-17 13:09:24,635 - ERROR -    ❌ Erreur pour History ID 106: value too long for type character varying(30)
+
+2026-03-17 13:09:24,795 - ERROR -    ❌ Erreur pour History ID 107: value too long for type character varying(30)
+
+2026-03-17 13:09:24,992 - ERROR -    ❌ Erreur pour History ID 108: value too long for type character varying(30)
+
+2026-03-17 13:09:25,158 - ERROR -    ❌ Erreur pour History ID 109: value too long for type character varying(30)
+
+2026-03-17 13:09:25,334 - ERROR -    ❌ Erreur pour History ID 110: value too long for type character varying(30)
+
+2026-03-17 13:09:25,499 - ERROR -    ❌ Erreur pour History ID 111: value too long for type character varying(30)
+
+2026-03-17 13:09:25,688 - ERROR -    ❌ Erreur pour History ID 112: value too long for type character varying(30)
+
+2026-03-17 13:09:25,867 - ERROR -    ❌ Erreur pour History ID 113: value too long for type character varying(30)
+
+2026-03-17 13:09:26,035 - ERROR -    ❌ Erreur pour History ID 114: value too long for type character varying(30)
+
+2026-03-17 13:09:26,212 - ERROR -    ❌ Erreur pour History ID 115: value too long for type character varying(30)
+
+2026-03-17 13:09:26,383 - ERROR -    ❌ Erreur pour History ID 116: value too long for type character varying(30)
+
+2026-03-17 13:09:26,547 - INFO -    ✅ Créé: History ID 117
+2026-03-17 13:09:26,715 - INFO -    ✅ Créé: History ID 118
+2026-03-17 13:09:26,875 - INFO -    ✅ Créé: History ID 119
+2026-03-17 13:09:27,047 - INFO -    ✅ Créé: History ID 120
+2026-03-17 13:09:27,210 - INFO -    ✅ Créé: History ID 121
+2026-03-17 13:09:27,383 - INFO -    ✅ Créé: History ID 122
+2026-03-17 13:09:27,554 - INFO -    ✅ Créé: History ID 123
+2026-03-17 13:09:27,721 - ERROR -    ❌ Erreur pour History ID 124: value too long for type character varying(30)
+
+2026-03-17 13:09:27,886 - ERROR -    ❌ Erreur pour History ID 125: value too long for type character varying(30)
+
+2026-03-17 13:09:28,054 - ERROR -    ❌ Erreur pour History ID 126: value too long for type character varying(30)
+
+2026-03-17 13:09:28,247 - ERROR -    ❌ Erreur pour History ID 127: value too long for type character varying(30)
+
+2026-03-17 13:09:28,411 - ERROR -    ❌ Erreur pour History ID 128: value too long for type character varying(30)
+
+2026-03-17 13:09:28,587 - ERROR -    ❌ Erreur pour History ID 129: value too long for type character varying(30)
+
+2026-03-17 13:09:28,751 - ERROR -    ❌ Erreur pour History ID 130: value too long for type character varying(30)
+
+2026-03-17 13:09:28,934 - ERROR -    ❌ Erreur pour History ID 131: value too long for type character varying(30)
+
+2026-03-17 13:09:29,098 - ERROR -    ❌ Erreur pour History ID 132: value too long for type character varying(30)
+
+2026-03-17 13:09:29,271 - ERROR -    ❌ Erreur pour History ID 133: value too long for type character varying(30)
+
+2026-03-17 13:09:29,451 - ERROR -    ❌ Erreur pour History ID 134: value too long for type character varying(30)
+
+2026-03-17 13:09:29,627 - ERROR -    ❌ Erreur pour History ID 135: value too long for type character varying(30)
+
+2026-03-17 13:09:29,791 - ERROR -    ❌ Erreur pour History ID 136: value too long for type character varying(30)
+
+2026-03-17 13:09:29,963 - ERROR -    ❌ Erreur pour History ID 137: value too long for type character varying(30)
+
+2026-03-17 13:09:30,143 - ERROR -    ❌ Erreur pour History ID 138: value too long for type character varying(30)
+
+2026-03-17 13:09:30,312 - ERROR -    ❌ Erreur pour History ID 139: value too long for type character varying(30)
+
+2026-03-17 13:09:30,486 - ERROR -    ❌ Erreur pour History ID 140: value too long for type character varying(30)
+
+2026-03-17 13:09:30,663 - ERROR -    ❌ Erreur pour History ID 141: value too long for type character varying(30)
+
+2026-03-17 13:09:30,838 - ERROR -    ❌ Erreur pour History ID 142: value too long for type character varying(30)
+
+2026-03-17 13:09:31,011 - ERROR -    ❌ Erreur pour History ID 143: value too long for type character varying(30)
+
+2026-03-17 13:09:31,183 - ERROR -    ❌ Erreur pour History ID 144: value too long for type character varying(30)
+
+2026-03-17 13:09:31,351 - INFO -    ✅ Créé: History ID 145
+2026-03-17 13:09:31,523 - INFO -    ✅ Créé: History ID 146
+2026-03-17 13:09:31,696 - ERROR -    ❌ Erreur pour History ID 147: value too long for type character varying(30)
+
+2026-03-17 13:09:31,699 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-17 13:09:32,431 - INFO -    ✅ Paramètres du site mis à jour
+2026-03-17 13:09:32,432 - INFO - 
+================================================================================
+2026-03-17 13:09:32,433 - INFO - ✅ SYNCHRONISATION TERMINÉE
+2026-03-17 13:09:32,433 - INFO - ================================================================================
+2026-03-17 13:09:32,434 - INFO - 
+📊 STATISTIQUES:
+2026-03-17 13:09:32,434 - INFO -    ✅ Créés: 419
+2026-03-17 13:09:32,435 - INFO -    🔄 Mis à jour: 4
+2026-03-17 13:09:32,435 - INFO -    ⏭️  Ignorés (déjà à jour): 0
+2026-03-17 13:09:32,436 - INFO -    ❌ Erreurs: 138
+2026-03-17 13:09:32,436 - INFO - ================================================================================

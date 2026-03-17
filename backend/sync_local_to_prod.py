@@ -447,130 +447,130 @@ class DatabaseSync:
             logger.info("🔄 DÉBUT DE LA SYNCHRONISATION")
             logger.info("=" * 80)
                 
-                # 1. User (Django built-in) - doit être en premier
-                logger.info("\n👤 Synchronisation des utilisateurs...")
-                self._sync_model(User, "User")
-                
-                # 2. Account (dépend de User)
-                logger.info("\n👤 Synchronisation des comptes...")
-                self._sync_model(Account, "Account")
-                
-                # 3. Catégories indépendantes
-                logger.info("\n📚 Synchronisation des catégories de cours...")
-                self._sync_model(CourseCategory, "CourseCategory")
-                
-                logger.info("\n📚 Synchronisation des catégories de sermons...")
-                self._sync_model(SermonCategory, "SermonCategory")
-                
-                logger.info("\n🏪 Synchronisation des catégories de boutiques...")
-                self._sync_model(Category, "Category")
-                
-                # 4. SubCategory (dépend de Category)
-                logger.info("\n🏪 Synchronisation des sous-catégories...")
-                self._sync_model(SubCategory, "SubCategory")
-                
-                # 5. BasicProduct (dépend de SubCategory)
-                logger.info("\n🏪 Synchronisation des produits de base...")
-                self._sync_model(BasicProduct, "BasicProduct")
-                
-                # 6. Course, Sermon, Shop (dépendent des catégories et Account)
-                logger.info("\n📖 Synchronisation des cours...")
-                self._sync_model(Course, "Course")
-                
-                logger.info("\n📖 Synchronisation des sermons...")
-                self._sync_model(Sermon, "Sermon")
-                
-                logger.info("\n🏪 Synchronisation des boutiques...")
-                self._sync_model(Shop, "Shop")
-                
-                # 7. Lesson, Product, ControlFrequency (dépendent de Course/Shop)
-                logger.info("\n📝 Synchronisation des leçons...")
-                self._sync_model(Lesson, "Lesson", order_by=['course_id', 'order'])
-                
-                logger.info("\n🏪 Synchronisation des produits...")
-                self._sync_model(Product, "Product")
-                
-                logger.info("\n🏪 Synchronisation des fréquences de contrôle...")
-                self._sync_model(ControlFrequency, "ControlFrequency")
-                
-                # 8. Enrollment, PublicProduct (dépendent de Course/User/Category)
-                logger.info("\n📚 Synchronisation des inscriptions...")
-                self._sync_model(Enrollment, "Enrollment")
-                
-                logger.info("\n🏪 Synchronisation des produits publics...")
-                self._sync_model(PublicProduct, "PublicProduct")
-                
-                # 9. LessonProgress, SalePriceHistory, Supply, Sales (dépendent de Enrollment/Product)
-                logger.info("\n📊 Synchronisation de la progression des leçons...")
-                self._sync_model(LessonProgress, "LessonProgress")
-                
-                logger.info("\n🏪 Synchronisation de l'historique des prix...")
-                self._sync_model(SalePriceHistory, "SalePriceHistory")
-                
-                logger.info("\n🏪 Synchronisation des approvisionnements...")
-                self._sync_model(Supply, "Supply")
-                
-                logger.info("\n🏪 Synchronisation des ventes...")
-                self._sync_model(Sales, "Sales")
-                
-                # 10. Favorite (dépend de User)
-                logger.info("\n⭐ Synchronisation des favoris...")
-                self._sync_model(Favorite, "Favorite")
-                
-                # 11. History (indépendant, pas de FK)
-                logger.info("\n📜 Synchronisation de l'historique...")
-                self._sync_model(History, "History")
-                
-                # 12. SiteSettings (singleton, pk=1)
-                logger.info("\n⚙️  Synchronisation des paramètres du site...")
+            # 1. User (Django built-in) - doit être en premier
+            logger.info("\n👤 Synchronisation des utilisateurs...")
+            self._sync_model(User, "User")
+            
+            # 2. Account (dépend de User)
+            logger.info("\n👤 Synchronisation des comptes...")
+            self._sync_model(Account, "Account")
+            
+            # 3. Catégories indépendantes
+            logger.info("\n📚 Synchronisation des catégories de cours...")
+            self._sync_model(CourseCategory, "CourseCategory")
+            
+            logger.info("\n📚 Synchronisation des catégories de sermons...")
+            self._sync_model(SermonCategory, "SermonCategory")
+            
+            logger.info("\n🏪 Synchronisation des catégories de boutiques...")
+            self._sync_model(Category, "Category")
+            
+            # 4. SubCategory (dépend de Category)
+            logger.info("\n🏪 Synchronisation des sous-catégories...")
+            self._sync_model(SubCategory, "SubCategory")
+            
+            # 5. BasicProduct (dépend de SubCategory)
+            logger.info("\n🏪 Synchronisation des produits de base...")
+            self._sync_model(BasicProduct, "BasicProduct")
+            
+            # 6. Course, Sermon, Shop (dépendent des catégories et Account)
+            logger.info("\n📖 Synchronisation des cours...")
+            self._sync_model(Course, "Course")
+            
+            logger.info("\n📖 Synchronisation des sermons...")
+            self._sync_model(Sermon, "Sermon")
+            
+            logger.info("\n🏪 Synchronisation des boutiques...")
+            self._sync_model(Shop, "Shop")
+            
+            # 7. Lesson, Product, ControlFrequency (dépendent de Course/Shop)
+            logger.info("\n📝 Synchronisation des leçons...")
+            self._sync_model(Lesson, "Lesson", order_by=['course_id', 'order'])
+            
+            logger.info("\n🏪 Synchronisation des produits...")
+            self._sync_model(Product, "Product")
+            
+            logger.info("\n🏪 Synchronisation des fréquences de contrôle...")
+            self._sync_model(ControlFrequency, "ControlFrequency")
+            
+            # 8. Enrollment, PublicProduct (dépendent de Course/User/Category)
+            logger.info("\n📚 Synchronisation des inscriptions...")
+            self._sync_model(Enrollment, "Enrollment")
+            
+            logger.info("\n🏪 Synchronisation des produits publics...")
+            self._sync_model(PublicProduct, "PublicProduct")
+            
+            # 9. LessonProgress, SalePriceHistory, Supply, Sales (dépendent de Enrollment/Product)
+            logger.info("\n📊 Synchronisation de la progression des leçons...")
+            self._sync_model(LessonProgress, "LessonProgress")
+            
+            logger.info("\n🏪 Synchronisation de l'historique des prix...")
+            self._sync_model(SalePriceHistory, "SalePriceHistory")
+            
+            logger.info("\n🏪 Synchronisation des approvisionnements...")
+            self._sync_model(Supply, "Supply")
+            
+            logger.info("\n🏪 Synchronisation des ventes...")
+            self._sync_model(Sales, "Sales")
+            
+            # 10. Favorite (dépend de User)
+            logger.info("\n⭐ Synchronisation des favoris...")
+            self._sync_model(Favorite, "Favorite")
+            
+            # 11. History (indépendant, pas de FK)
+            logger.info("\n📜 Synchronisation de l'historique...")
+            self._sync_model(History, "History")
+            
+            # 12. SiteSettings (singleton, pk=1)
+            logger.info("\n⚙️  Synchronisation des paramètres du site...")
+            try:
+                local_settings = SiteSettings.objects.using('default').get(pk=1)
                 try:
-                    local_settings = SiteSettings.objects.using('default').get(pk=1)
-                    try:
-                        prod_settings = SiteSettings.objects.using('prod').get(pk=1)
-                        # UPDATE
-                        data = self._prepare_model_data(local_settings)
-                        needs_update = False
-                        for key, value in data.items():
-                            if getattr(prod_settings, key, None) != value:
-                                needs_update = True
-                                break
-                        
-                        if needs_update:
-                            if not self.dry_run:
-                                for key, value in data.items():
-                                    setattr(prod_settings, key, value)
-                                prod_settings.save(using='prod')
-                                self.stats['updated'] += 1
-                                logger.info("   ✅ Paramètres du site mis à jour")
-                            else:
-                                self.stats['updated'] += 1
-                                logger.info("   [DRY-RUN] Mise à jour des paramètres du site")
-                        else:
-                            self.stats['skipped'] += 1
-                            logger.info("   ⏭️  Paramètres du site déjà à jour")
-                    except SiteSettings.DoesNotExist:
-                        # CREATE
+                    prod_settings = SiteSettings.objects.using('prod').get(pk=1)
+                    # UPDATE
+                    data = self._prepare_model_data(local_settings)
+                    needs_update = False
+                    for key, value in data.items():
+                        if getattr(prod_settings, key, None) != value:
+                            needs_update = True
+                            break
+                    
+                    if needs_update:
                         if not self.dry_run:
-                            data = self._prepare_model_data(local_settings)
-                            data['id'] = 1
-                            SiteSettings.objects.using('prod').create(**data)
-                            self.stats['created'] += 1
-                            logger.info("   ✅ Paramètres du site créés")
+                            for key, value in data.items():
+                                setattr(prod_settings, key, value)
+                            prod_settings.save(using='prod')
+                            self.stats['updated'] += 1
+                            logger.info("   ✅ Paramètres du site mis à jour")
                         else:
-                            self.stats['created'] += 1
-                            logger.info("   [DRY-RUN] Création des paramètres du site")
+                            self.stats['updated'] += 1
+                            logger.info("   [DRY-RUN] Mise à jour des paramètres du site")
+                    else:
+                        self.stats['skipped'] += 1
+                        logger.info("   ⏭️  Paramètres du site déjà à jour")
                 except SiteSettings.DoesNotExist:
-                    logger.warning("   ⚠️  Aucun paramètre du site en local")
-                    self.stats['skipped'] += 1
-                
-                if self.dry_run:
-                    logger.info("\n" + "=" * 80)
-                    logger.info("⚠️  MODE DRY-RUN - Aucune modification n'a été effectuée")
-                    logger.info("=" * 80)
-                else:
-                    logger.info("\n" + "=" * 80)
-                    logger.info("✅ SYNCHRONISATION TERMINÉE")
-                    logger.info("=" * 80)
+                    # CREATE
+                    if not self.dry_run:
+                        data = self._prepare_model_data(local_settings)
+                        data['id'] = 1
+                        SiteSettings.objects.using('prod').create(**data)
+                        self.stats['created'] += 1
+                        logger.info("   ✅ Paramètres du site créés")
+                    else:
+                        self.stats['created'] += 1
+                        logger.info("   [DRY-RUN] Création des paramètres du site")
+            except SiteSettings.DoesNotExist:
+                logger.warning("   ⚠️  Aucun paramètre du site en local")
+                self.stats['skipped'] += 1
+            
+            if self.dry_run:
+                logger.info("\n" + "=" * 80)
+                logger.info("⚠️  MODE DRY-RUN - Aucune modification n'a été effectuée")
+                logger.info("=" * 80)
+            else:
+                logger.info("\n" + "=" * 80)
+                logger.info("✅ SYNCHRONISATION TERMINÉE")
+                logger.info("=" * 80)
         
         except Exception as e:
             logger.error(f"\n❌ ERREUR CRITIQUE: {e}")
