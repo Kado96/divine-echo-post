@@ -10,13 +10,6 @@ try:
 except ImportError:
     send_custom_email = None
 
-try:
-    from api.shops.serializers import ShopSerializer
-    from api.shops.models import Shop
-except ImportError:
-    ShopSerializer = None
-    Shop = None
-
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @staticmethod
     def generateOTP(account):
@@ -106,21 +99,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
                     logger = logging.getLogger(__name__)
                     logger.warning(f"Erreur lors de la sérialisation de l'account: {account_error}")
                     pass
-                
-                # Essayer d'ajouter shop si disponible
-                if Shop and ShopSerializer:
-                    try:
-                        shop = Shop.objects.filter(owner=account)
-                        if shop.exists():
-                            shop_data = ShopSerializer(shop[0], many=False).data
-                            if shop_data:
-                                data["shop"] = shop_data
-                    except Exception as shop_error:
-                        # Logger l'erreur mais continuer sans shop
-                        import logging
-                        logger = logging.getLogger(__name__)
-                        logger.warning(f"Erreur lors de la sérialisation du shop: {shop_error}")
-                        pass
                         
             except Account.DoesNotExist:
                 # Créer l'Account s'il n'existe pas (optionnel, non bloquant)

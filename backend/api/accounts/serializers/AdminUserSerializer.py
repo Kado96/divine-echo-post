@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from api.accounts.models import Account
 
 class AdminUserSerializer(serializers.ModelSerializer):
-    enrollments_count = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True, required=False, allow_blank=True)
     photo = serializers.ImageField(required=False, allow_null=True, write_only=True)
     photo_display = serializers.SerializerMethodField()
@@ -22,7 +21,6 @@ class AdminUserSerializer(serializers.ModelSerializer):
             "is_staff",
             "is_active",
             "date_joined",
-            "enrollments_count",
             "photo",
             "photo_display",
             "remove_photo"
@@ -33,13 +31,6 @@ class AdminUserSerializer(serializers.ModelSerializer):
             'username': {'required': True},
             'email': {'required': True},
         }
-    
-    def get_enrollments_count(self, obj):
-        try:
-            from api.courses.models import Enrollment
-            return Enrollment.objects.filter(user=obj).count()
-        except Exception:
-            return 0
 
     def get_photo_display(self, obj):
         request = self.context.get('request')

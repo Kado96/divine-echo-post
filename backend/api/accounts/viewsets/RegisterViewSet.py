@@ -1,6 +1,4 @@
 from .dependencies import *
-from api.shops.models import Shop
-from api.shops.serializers import ShopSerializer
 
 class RegisterViewSet(views.APIView):
     permission_classes = [AllowAny]
@@ -26,14 +24,6 @@ class RegisterViewSet(views.APIView):
             )
             account.save()
 
-            # Création automatique d'une boutique pour l'utilisateur
-            shop = Shop(
-                owner=account,
-                name=f"Boutique de {user.username}",
-                is_active=True
-            )
-            shop.save()
-
             # Générer les tokens JWT pour connexion immédiate
             refresh = RefreshToken.for_user(user)
             
@@ -49,8 +39,7 @@ class RegisterViewSet(views.APIView):
                     "username": user.username,
                     "email": user.email,
                     "account_id": account.id
-                },
-                "shop": ShopSerializer(shop, many=False, context={'request': request}).data
+                }
             }, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

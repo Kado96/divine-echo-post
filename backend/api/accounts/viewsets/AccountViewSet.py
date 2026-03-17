@@ -1,8 +1,6 @@
 from .dependencies import *
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.views.decorators.csrf import csrf_exempt
-from api.shops.models import Shop
-from api.shops.serializers import ShopSerializer
 from api.tools import send_custom_email
 
 import random
@@ -56,13 +54,6 @@ class AccountViewSet(viewsets.ModelViewSet):
 		if(account.otp_expire_at < timezone.now()):
 			return Response({"status":"code OTP expiré"},status=status.HTTP_403_FORBIDDEN)
 		if(account.otp_code == otp_code):
-			shop = Shop(
-				owner=account,
-				name=f"Boutique de {account.user.email}",
-				is_active=True
-			)
-			shop.save()
-
 			account.otp_code = ""
 			account.otp_expire_at = None
 			account.email_validated = True
@@ -77,7 +68,6 @@ class AccountViewSet(viewsets.ModelViewSet):
 				"account": account.id,
 				"first_name": account.user.first_name,
 				"last_name": account.user.last_name,
-				"shop":ShopSerializer(shop, many=False).data
 			}
 			return Response(session_data, status=status.HTTP_200_OK)
 		return Response({"status":"code OTP incorrect"}, status=status.HTTP_403_FORBIDDEN)

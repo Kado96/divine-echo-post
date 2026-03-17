@@ -4,7 +4,6 @@ from api.accounts.viewsets import CustomTokenObtainPairView, RegisterViewSet
 
 # Import direct pour éviter les erreurs d'include imbriqués
 from api.sermons.urls import admin_router as sermon_admin_router
-from api.shops.urls import admin_router as shop_admin_router
 from api.media.urls import router as media_router
 
 urlpatterns = [
@@ -19,12 +18,9 @@ urlpatterns = [
     path('testimonials/', include('api.testimonials.urls')),
     path('contacts/', include('api.contacts.urls')),
     path('settings/', include('api.settings.urls')),
-    path('shops/', include('api.shops.urls')),
-    path('courses/', include('api.courses.urls')),
     path('sermons/', include('api.sermons.urls')),
     
     # Administration (Points d'entrée directs au lieu d'includes complexes)
     path('admin/sermons/', include(sermon_admin_router.urls)),
-    path('admin/shops/', include(shop_admin_router.urls)),
     path('admin/media/', include(media_router.urls)),
 ]

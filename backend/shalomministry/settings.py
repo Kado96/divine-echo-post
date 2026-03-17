@@ -71,8 +71,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'api.accounts',
-    'api.shops',
-    'api.courses',
+    # 'api.shops',      <-- Supprimé pour plateforme d'émissions
+    # 'api.courses',    <-- Supprimé pour plateforme d'émissions
     'api.sermons',
     'api.settings',
     'api.testimonials',
