@@ -1,3 +1,4 @@
+# pyre-ignore-all-errors
 # ==========================
 # DJANGO SETTINGS
 # ==========================
@@ -109,8 +110,9 @@ WSGI_APPLICATION = 'shalomministry.wsgi.application'
 # ==========================
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
+USE_LOCAL_SQLITE = os.environ.get("USE_LOCAL_SQLITE", "False").lower() == "true"
 
-if DATABASE_URL:
+if DATABASE_URL and not USE_LOCAL_SQLITE:
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,

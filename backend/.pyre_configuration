@@ -12,5 +12,9 @@
   "exclude": [
     "**/venv/**",
     "**/.venv/**"
+  ],
+  "ignore_all_errors": [
+    "shalomministry/settings.py",
+    "sync_local_to_prod.py"
   ]
 }

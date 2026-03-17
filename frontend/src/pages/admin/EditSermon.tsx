@@ -476,7 +476,7 @@ const EditSermon = () => {
 
                                     {formData.content_type === "video" && (
                                         <div className="pt-2 border-t border-dashed border-border">
-                                            <label htmlFor="sermon-video-file" className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 cursor-pointer block">{t("admin.sermons_page.form.local_file")}</label>
+                                            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 block">{t("admin.sermons_page.form.local_file")}</span>
                                             <Button
                                                 type="button"
                                                 variant="outline"
@@ -497,7 +497,7 @@ const EditSermon = () => {
                                 </div>
                             ) : (
                                 <div className="space-y-4">
-                                    <label htmlFor="sermon-media-source" className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 cursor-pointer block">{t("admin.sermons_page.form.select_audio_file")}</label>
+                                    <span className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 block">{t("admin.sermons_page.form.select_audio_file")}</span>
                                     <Button
                                         type="button"
                                         variant="outline"
@@ -520,9 +520,9 @@ const EditSermon = () => {
                         {/* Cover Image */}
                         <div className="bg-white border border-border shadow-sm overflow-hidden">
                             <div className="p-3 border-b border-border bg-gray-50/50 flex items-center justify-between">
-                                <label htmlFor="cover-upload-edit" className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2 cursor-pointer">
+                                <span className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
                                     <ImageIcon className="w-3.5 h-3.5" /> {t("admin.sermons_page.form.image")}
-                                </label>
+                                </span>
                                 {(coverImage || formData.existingImage) && (
                                     <button
                                         onClick={() => {

@@ -9,69 +9,67 @@ Application complète pour la gestion du ministère Shalom, comprenant un backen
 
 ---
 
-## 💾 Migration des données : SQLite vers Supabase (Le Guide Définitif)
+## 🛠️ Workflow de Développement : Local vers Production
 
-Cette section explique comment transférer vos données locales (SQLite) vers votre instance de production Supabase (PostgreSQL), sans créer de doublons.
+Ce projet est configuré pour utiliser une base de données **SQLite en local** pour les tests et le développement, et **Supabase (PostgreSQL) en production** (sur Render).
 
-### 1. Pré-requis
-1. Votre base de données Supabase créée.
-2. Votre URL de connexion (Connection String) au format URI.
-   * Exemple : `postgresql://postgres.[ID_PROJET]:[MOT_DE_PASSE]@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require`
+Pour transférer facilement vos modifications (code et données) de votre ordinateur vers le site en ligne, voici la procédure.
 
-### 2. Configuration (Local & Render)
-* **En Local** : Dans le dossier `backend/`, créez ou modifiez votre fichier `.env` en y ajoutant :
-  ```env
-  DATABASE_URL=votre_url_supabase_complete
-  ```
-* **En Production (Render)** : Allez dans votre dashboard Render, onglet *Environment Variables*, et ajoutez cette même variable `DATABASE_URL`. Votre site en ligne utilisera ainsi Supabase !
+### Étape 1 : Développement Local (SQLite)
+Développez, testez, et ajoutez des données (articles, utilisateurs, etc.) sur votre machine sans toucher au site en production.
 
-### 3. Méthode A : Synchronisation Automatisée Intelligente (Recommandée)
-Un script Python personnalisé (`sync_local_to_prod.py`) a été créé pour gérer intelligemment la migration.
-Avantages : **Idempotent** (Il ne crée pas de doublons, il met à jour s'il trouve des données existantes avec le même ID).
-
-1. Allez dans le dossier backend et activez l'environnement virtuel :
-   ```powershell
-   cd backend
-   .\venv\Scripts\Activate.ps1
+1. Vérifiez que votre fichier `backend/.env` contient bien :
+   ```env
+   DATABASE_URL=votre_url_supabase_complete
+   USE_LOCAL_SQLITE=True
    ```
-2. Lancez une simulation (Dry-Run) sans écrire de données pour vérifier :
+   *La ligne `USE_LOCAL_SQLITE=True` force votre ordinateur à utiliser la base locale (db.sqlite3) au lieu de Supabase.*
+
+2. **CRITIQUE** : Si vous modifiez la structure de la base (fichiers `models.py`), faites toujours vos migrations en local :
    ```powershell
-   python sync_local_to_prod.py --dry-run
-   ```
-3. Exécutez la synchronisation réelle :
-   ```powershell
-   python sync_local_to_prod.py --confirm
+cd e:\Application\Eglise\Shalom\divine-echo-post\backend
+.\venv\Scripts\activate
+python manage.py makemigrations
+python manage.py migrate
+
    ```
 
-### 4. Méthode B : Sauvegarde de sécurité UTF-8 (Export/Import)
-Si vous souhaitez exporter un fichier de sauvegarde manuel JSON, il faut faire attention à l'encodage sous Windows.
+### Étape 2 : Déploiement et Synchronisation
 
-1. **Exportation (Locale)** : Utilisez le script PowerShell fourni. Il gère l'encodage `UTF-8` et évite les erreurs de caractères corrompus :
-   ```powershell
-   .\dumpdata.ps1 data.json
-   ```
-2. **Importation (Sur Supabase)** : Si votre `DATABASE_URL` pointe bien vers Supabase dans votre `.env` :
-   ```powershell
-   python manage.py loaddata data.json
-   ```
-   *(⚠️ Attention : `loaddata` gère moins bien les conflits "Idempotents" que notre script A).*
+Quand vos données locales sont prêtes à être publiées en ligne pour vos utilisateurs :
+
+**A. Envoyer le Code (déploie sur Render)** :
+Envoyez vos modifications sur Github. Render mettra à jour l'application automatiquement.
+```powershell
+git add .
+git commit -m "Mise à jour"
+git push
+```
+
+**B. Envoyer les Données (remplit Supabase)** :
+Copiez vos données ajoutées ou modifiées en local vers la base de production (Supabase). Depuis le dossier `backend/` :
+```powershell
+.\venv\Scripts\activate
+.\sync_local_to_prod.ps1
+```
+*(Ce script est intelligent : il lit votre SQLite et le pousse vers Supabase. Il met à jour ce qui a changé sans créer de doublons).*
 
 ---
 
-## 🛠️ Installation Locale
+## 💻 Installation Rapide
 
-### Backend
-```sh
+### Backend (Python)
+```powershell
 cd backend
 python -m venv venv
-.\venv\Scripts\Activate.ps1
+.\venv\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```
 
-### Frontend
-```sh
+### Frontend (React/Vite)
+```powershell
 cd frontend
 npm install
 npm run dev
@@ -79,13 +77,8 @@ npm run dev
 
 ---
 
-## 🌐 Déploiement
-
-- **Backend** : Déployé sur Render (configuré via le `Procfile` et `build.sh`).
-- **Frontend** : Peut être déployé via Lovable, Vercel ou Netlify.
-
----
-
-## 📝 Notes Importantes
-- Les fichiers médias (images, documents) se trouvent dans le dossier `backend/media`. La migration de la base de données ne transfère que les liens. Vous devez uploader les fichiers physiques séparément ou utiliser un stockage S3/Supabase Storage.
+## 📝 Notes et Sécurité
+- Le fichier local `backend/db.sqlite3` ne sera **jamais** envoyé sur Github (il est protégé par `.gitignore`). La base de données en production n'est donc jamais écrasée.
+- Les fichiers médias (images importées) ne sont pas synchronisés par le script de base de données.
+- Render applique automatiquement les structures de base de données à Supabase lors du déploiement via la commande `migrate`.
 

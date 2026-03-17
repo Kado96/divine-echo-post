@@ -387,7 +387,7 @@ const CreateSermon = () => {
 
                                     {formData.content_type === "video" && (
                                         <div className="pt-2 border-t border-dashed border-border">
-                                            <label htmlFor="sermon-video-file" className="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-tight cursor-pointer block">Ou charger un fichier local</label>
+                                            <span className="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-tight block">Ou charger un fichier local</span>
                                             <Button
                                                 type="button"
                                                 variant="outline"
@@ -402,16 +402,18 @@ const CreateSermon = () => {
                                     )}
                                 </div>
                             ) : (
-                                <div className="space-y-2">
-                                    <input
-                                        id="sermon-media-source"
-                                        name="audio_file"
-                                        type="file"
-                                        accept="audio/*"
-                                        onChange={(e) => setMediaFile(e.target.files ? e.target.files[0] : null)}
-                                        className="text-xs"
-                                    />
-                                    {mediaFile && <p className="text-[10px] text-green-600 font-medium">{mediaFile.name}</p>}
+                                <div className="space-y-4">
+                                    <span className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 block">Sélectionner un fichier audio</span>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className="text-xs w-full justify-start text-gray-500 py-6"
+                                        onClick={(e) => { e.preventDefault(); setPickerTarget('media'); setPickerOpen(true); }}
+                                    >
+                                        <Mic className="w-6 h-6 mr-3 text-gray-400" /> Choisir un audio depuis la médiathèque
+                                    </Button>
+                                    {mediaFile && <p className="text-[10px] text-[#2271b1] font-medium mt-2 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500"></span> {mediaFile.name}</p>}
                                 </div>
                             )}
                         </div>
@@ -419,9 +421,10 @@ const CreateSermon = () => {
                         {/* Cover Image */}
                         <div className="bg-white border border-border shadow-sm overflow-hidden">
                             <div className="p-3 border-b border-border bg-gray-50/50 flex items-center justify-between">
-                                <label htmlFor="cover-upload" className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2 cursor-pointer">
+                                <span className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
                                     <ImageIcon className="w-3.5 h-3.5" /> {t("admin.sermons_page.form.image")}
-                                </label>
+                                </span>
+
                                 {coverImage && (
                                     <button
                                         onClick={() => setCoverImage(null)}

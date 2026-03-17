@@ -1949,3 +1949,1590 @@ ValueError: No support for ''. We support: cockroach, mssql, mssqlms, mysql, mys
 2026-03-12 03:24:21,262 - INFO -    ⏭️  Ignorés (déjà à jour): 15
 2026-03-12 03:24:21,263 - INFO -    ❌ Erreurs: 0
 2026-03-12 03:24:21,263 - INFO - ================================================================================
+2026-03-17 05:13:26,349 - INFO - ✅ Connexion à la base de production réussie
+2026-03-17 05:13:26,550 - INFO - ================================================================================
+2026-03-17 05:13:26,551 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-17 05:13:26,569 - INFO - ================================================================================
+2026-03-17 05:13:26,569 - INFO - Mode: DRY-RUN (simulation)
+2026-03-17 05:13:26,570 - INFO - Base locale: SQLite (E:\Application\Eglise\Shalom\divine-echo-post\backend\db.sqlite3)
+2026-03-17 05:13:26,570 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-17 05:13:26,570 - INFO - ================================================================================
+2026-03-17 05:13:26,571 - INFO - 
+================================================================================
+2026-03-17 05:13:26,571 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-17 05:13:26,573 - INFO - ================================================================================
+2026-03-17 05:13:26,573 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-17 05:13:26,575 - INFO - 
+📦 Synchronisation: User
+2026-03-17 05:13:29,734 - INFO -    Local: 5 éléments
+2026-03-17 05:13:29,734 - INFO -    Production: 2 éléments existants
+2026-03-17 05:13:29,738 - INFO -    [DRY-RUN] Création: User ID 75
+2026-03-17 05:13:29,740 - INFO -    [DRY-RUN] Création: User ID 87
+2026-03-17 05:13:29,742 - INFO -    [DRY-RUN] Création: User ID 90
+2026-03-17 05:13:29,745 - INFO -    [DRY-RUN] Création: User ID 91
+2026-03-17 05:13:29,747 - INFO -    [DRY-RUN] Création: User ID 92
+2026-03-17 05:13:29,747 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-17 05:13:29,749 - INFO - 
+📦 Synchronisation: Account
+2026-03-17 05:13:33,443 - INFO -    Local: 5 éléments
+2026-03-17 05:13:33,443 - INFO -    Production: 2 éléments existants
+2026-03-17 05:13:33,445 - INFO -    [DRY-RUN] Création: Account ID 69
+2026-03-17 05:13:33,447 - INFO -    [DRY-RUN] Création: Account ID 71
+2026-03-17 05:13:33,449 - INFO -    [DRY-RUN] Création: Account ID 72
+2026-03-17 05:13:33,452 - INFO -    [DRY-RUN] Création: Account ID 74
+2026-03-17 05:13:33,454 - INFO -    [DRY-RUN] Création: Account ID 75
+2026-03-17 05:13:33,454 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-17 05:13:33,456 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-17 05:13:36,669 - INFO -    Local: 6 éléments
+2026-03-17 05:13:36,669 - INFO -    Production: 7 éléments existants
+2026-03-17 05:13:36,669 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 7
+2026-03-17 05:13:36,670 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 4
+2026-03-17 05:13:36,670 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 3
+2026-03-17 05:13:36,671 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 5
+2026-03-17 05:13:36,671 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 6
+2026-03-17 05:13:36,671 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 2
+2026-03-17 05:13:36,672 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-17 05:13:36,673 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-17 05:13:42,342 - ERROR - 
+❌ ERREUR CRITIQUE: no such column: sermons_sermoncategory.name_fr
+2026-03-17 05:13:42,528 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: sermons_sermoncategory.name_fr
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 454, in sync_all
+    self._sync_model(SermonCategory, "SermonCategory")
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 367, in _sync_model
+    local_items = list(local_queryset.all())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: sermons_sermoncategory.name_fr
+
+2026-03-17 05:13:42,553 - INFO - 
+📊 STATISTIQUES:
+2026-03-17 05:13:42,559 - INFO -    ✅ Créés: 10
+2026-03-17 05:13:42,564 - INFO -    🔄 Mis à jour: 6
+2026-03-17 05:13:42,570 - INFO -    ⏭️  Ignorés (déjà à jour): 0
+2026-03-17 05:13:42,587 - INFO -    ❌ Erreurs: 0
+2026-03-17 05:13:42,593 - INFO - ================================================================================
+2026-03-17 05:13:42,593 - ERROR - 
+❌ Erreur fatale: no such column: sermons_sermoncategory.name_fr
+2026-03-17 05:13:42,604 - ERROR - Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: sermons_sermoncategory.name_fr
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 616, in main
+    sync.sync_all()
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 454, in sync_all
+    self._sync_model(SermonCategory, "SermonCategory")
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\sync_local_to_prod.py", line 367, in _sync_model
+    local_items = list(local_queryset.all())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Application\Eglise\Shalom\divine-echo-post\backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: sermons_sermoncategory.name_fr
+
+2026-03-17 10:24:52,434 - INFO - ✅ Connexion à la base de production réussie
+2026-03-17 10:24:52,440 - INFO - ================================================================================
+2026-03-17 10:24:52,440 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-17 10:24:52,441 - INFO - ================================================================================
+2026-03-17 10:24:52,442 - INFO - Mode: DRY-RUN (simulation)
+2026-03-17 10:24:52,442 - INFO - Base locale: SQLite (E:\Application\Eglise\Shalom\divine-echo-post\backend\db.sqlite3)
+2026-03-17 10:24:52,442 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-17 10:24:52,442 - INFO - ================================================================================
+2026-03-17 10:24:52,443 - INFO - 
+================================================================================
+2026-03-17 10:24:52,444 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-17 10:24:52,445 - INFO - ================================================================================
+2026-03-17 10:24:52,445 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-17 10:24:52,447 - INFO - 
+📦 Synchronisation: User
+2026-03-17 10:24:52,953 - INFO -    Local: 5 éléments
+2026-03-17 10:24:52,953 - INFO -    Production: 2 éléments existants
+2026-03-17 10:24:52,957 - INFO -    [DRY-RUN] Création: User ID 75
+2026-03-17 10:24:52,959 - INFO -    [DRY-RUN] Création: User ID 87
+2026-03-17 10:24:52,962 - INFO -    [DRY-RUN] Création: User ID 90
+2026-03-17 10:24:52,965 - INFO -    [DRY-RUN] Création: User ID 91
+2026-03-17 10:24:52,967 - INFO -    [DRY-RUN] Création: User ID 92
+2026-03-17 10:24:52,967 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-17 10:24:52,969 - INFO - 
+📦 Synchronisation: Account
+2026-03-17 10:24:53,176 - INFO -    Local: 5 éléments
+2026-03-17 10:24:53,177 - INFO -    Production: 2 éléments existants
+2026-03-17 10:24:53,180 - INFO -    [DRY-RUN] Création: Account ID 69
+2026-03-17 10:24:53,182 - INFO -    [DRY-RUN] Création: Account ID 71
+2026-03-17 10:24:53,184 - INFO -    [DRY-RUN] Création: Account ID 72
+2026-03-17 10:24:53,187 - INFO -    [DRY-RUN] Création: Account ID 74
+2026-03-17 10:24:53,189 - INFO -    [DRY-RUN] Création: Account ID 75
+2026-03-17 10:24:53,190 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-17 10:24:53,192 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-17 10:24:53,424 - INFO -    Local: 6 éléments
+2026-03-17 10:24:53,424 - INFO -    Production: 7 éléments existants
+2026-03-17 10:24:53,424 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 7
+2026-03-17 10:24:53,425 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 4
+2026-03-17 10:24:53,425 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 3
+2026-03-17 10:24:53,425 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 5
+2026-03-17 10:24:53,425 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 6
+2026-03-17 10:24:53,425 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 2
+2026-03-17 10:24:53,425 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-17 10:24:53,428 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-17 10:24:53,655 - INFO -    Local: 5 éléments
+2026-03-17 10:24:53,656 - INFO -    Production: 2 éléments existants
+2026-03-17 10:24:53,656 - INFO -    [DRY-RUN] Création: SermonCategory ID 3
+2026-03-17 10:24:53,657 - INFO -    [DRY-RUN] Mise à jour: SermonCategory ID 2
+2026-03-17 10:24:53,657 - INFO -    [DRY-RUN] Mise à jour: SermonCategory ID 1
+2026-03-17 10:24:53,657 - INFO -    [DRY-RUN] Création: SermonCategory ID 4
+2026-03-17 10:24:53,658 - INFO -    [DRY-RUN] Création: SermonCategory ID 5
+2026-03-17 10:24:53,658 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-17 10:24:53,672 - INFO - 
+📦 Synchronisation: Category
+2026-03-17 10:24:53,880 - INFO -    Local: 2 éléments
+2026-03-17 10:24:53,881 - INFO -    Production: 0 éléments existants
+2026-03-17 10:24:53,881 - INFO -    [DRY-RUN] Création: Category ID 23
+2026-03-17 10:24:53,881 - INFO -    [DRY-RUN] Création: Category ID 24
+2026-03-17 10:24:53,882 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-17 10:24:53,884 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-17 10:24:54,097 - INFO -    Local: 47 éléments
+2026-03-17 10:24:54,098 - INFO -    Production: 0 éléments existants
+2026-03-17 10:24:54,100 - INFO -    [DRY-RUN] Création: SubCategory ID 631
+2026-03-17 10:24:54,103 - INFO -    [DRY-RUN] Création: SubCategory ID 632
+2026-03-17 10:24:54,104 - INFO -    [DRY-RUN] Création: SubCategory ID 633
+2026-03-17 10:24:54,106 - INFO -    [DRY-RUN] Création: SubCategory ID 634
+2026-03-17 10:24:54,108 - INFO -    [DRY-RUN] Création: SubCategory ID 635
+2026-03-17 10:24:54,110 - INFO -    [DRY-RUN] Création: SubCategory ID 636
+2026-03-17 10:24:54,112 - INFO -    [DRY-RUN] Création: SubCategory ID 637
+2026-03-17 10:24:54,114 - INFO -    [DRY-RUN] Création: SubCategory ID 638
+2026-03-17 10:24:54,115 - INFO -    [DRY-RUN] Création: SubCategory ID 639
+2026-03-17 10:24:54,117 - INFO -    [DRY-RUN] Création: SubCategory ID 640
+2026-03-17 10:24:54,119 - INFO -    [DRY-RUN] Création: SubCategory ID 641
+2026-03-17 10:24:54,120 - INFO -    [DRY-RUN] Création: SubCategory ID 642
+2026-03-17 10:24:54,122 - INFO -    [DRY-RUN] Création: SubCategory ID 643
+2026-03-17 10:24:54,123 - INFO -    [DRY-RUN] Création: SubCategory ID 644
+2026-03-17 10:24:54,125 - INFO -    [DRY-RUN] Création: SubCategory ID 645
+2026-03-17 10:24:54,126 - INFO -    [DRY-RUN] Création: SubCategory ID 646
+2026-03-17 10:24:54,128 - INFO -    [DRY-RUN] Création: SubCategory ID 647
+2026-03-17 10:24:54,129 - INFO -    [DRY-RUN] Création: SubCategory ID 648
+2026-03-17 10:24:54,130 - INFO -    [DRY-RUN] Création: SubCategory ID 649
+2026-03-17 10:24:54,132 - INFO -    [DRY-RUN] Création: SubCategory ID 650
+2026-03-17 10:24:54,134 - INFO -    [DRY-RUN] Création: SubCategory ID 651
+2026-03-17 10:24:54,136 - INFO -    [DRY-RUN] Création: SubCategory ID 652
+2026-03-17 10:24:54,138 - INFO -    [DRY-RUN] Création: SubCategory ID 653
+2026-03-17 10:24:54,139 - INFO -    [DRY-RUN] Création: SubCategory ID 654
+2026-03-17 10:24:54,141 - INFO -    [DRY-RUN] Création: SubCategory ID 655
+2026-03-17 10:24:54,143 - INFO -    [DRY-RUN] Création: SubCategory ID 656
+2026-03-17 10:24:54,145 - INFO -    [DRY-RUN] Création: SubCategory ID 657
+2026-03-17 10:24:54,147 - INFO -    [DRY-RUN] Création: SubCategory ID 658
+2026-03-17 10:24:54,149 - INFO -    [DRY-RUN] Création: SubCategory ID 659
+2026-03-17 10:24:54,151 - INFO -    [DRY-RUN] Création: SubCategory ID 660
+2026-03-17 10:24:54,153 - INFO -    [DRY-RUN] Création: SubCategory ID 661
+2026-03-17 10:24:54,155 - INFO -    [DRY-RUN] Création: SubCategory ID 662
+2026-03-17 10:24:54,157 - INFO -    [DRY-RUN] Création: SubCategory ID 663
+2026-03-17 10:24:54,159 - INFO -    [DRY-RUN] Création: SubCategory ID 664
+2026-03-17 10:24:54,160 - INFO -    [DRY-RUN] Création: SubCategory ID 665
+2026-03-17 10:24:54,163 - INFO -    [DRY-RUN] Création: SubCategory ID 666
+2026-03-17 10:24:54,165 - INFO -    [DRY-RUN] Création: SubCategory ID 667
+2026-03-17 10:24:54,167 - INFO -    [DRY-RUN] Création: SubCategory ID 668
+2026-03-17 10:24:54,170 - INFO -    [DRY-RUN] Création: SubCategory ID 669
+2026-03-17 10:24:54,172 - INFO -    [DRY-RUN] Création: SubCategory ID 670
+2026-03-17 10:24:54,174 - INFO -    [DRY-RUN] Création: SubCategory ID 671
+2026-03-17 10:24:54,176 - INFO -    [DRY-RUN] Création: SubCategory ID 672
+2026-03-17 10:24:54,180 - INFO -    [DRY-RUN] Création: SubCategory ID 673
+2026-03-17 10:24:54,182 - INFO -    [DRY-RUN] Création: SubCategory ID 674
+2026-03-17 10:24:54,185 - INFO -    [DRY-RUN] Création: SubCategory ID 675
+2026-03-17 10:24:54,187 - INFO -    [DRY-RUN] Création: SubCategory ID 676
+2026-03-17 10:24:54,189 - INFO -    [DRY-RUN] Création: SubCategory ID 677
+2026-03-17 10:24:54,189 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-17 10:24:54,192 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-17 10:24:56,163 - INFO -    Local: 337 éléments
+2026-03-17 10:24:56,164 - INFO -    Production: 0 éléments existants
+2026-03-17 10:24:56,165 - INFO -    [DRY-RUN] Création: BasicProduct ID 802
+2026-03-17 10:24:56,166 - INFO -    [DRY-RUN] Création: BasicProduct ID 803
+2026-03-17 10:24:56,168 - INFO -    [DRY-RUN] Création: BasicProduct ID 804
+2026-03-17 10:24:56,169 - INFO -    [DRY-RUN] Création: BasicProduct ID 805
+2026-03-17 10:24:56,170 - INFO -    [DRY-RUN] Création: BasicProduct ID 806
+2026-03-17 10:24:56,171 - INFO -    [DRY-RUN] Création: BasicProduct ID 807
+2026-03-17 10:24:56,172 - INFO -    [DRY-RUN] Création: BasicProduct ID 808
+2026-03-17 10:24:56,174 - INFO -    [DRY-RUN] Création: BasicProduct ID 809
+2026-03-17 10:24:56,175 - INFO -    [DRY-RUN] Création: BasicProduct ID 810
+2026-03-17 10:24:56,176 - INFO -    [DRY-RUN] Création: BasicProduct ID 811
+2026-03-17 10:24:56,177 - INFO -    [DRY-RUN] Création: BasicProduct ID 812
+2026-03-17 10:24:56,178 - INFO -    [DRY-RUN] Création: BasicProduct ID 813
+2026-03-17 10:24:56,180 - INFO -    [DRY-RUN] Création: BasicProduct ID 814
+2026-03-17 10:24:56,181 - INFO -    [DRY-RUN] Création: BasicProduct ID 815
+2026-03-17 10:24:56,182 - INFO -    [DRY-RUN] Création: BasicProduct ID 816
+2026-03-17 10:24:56,184 - INFO -    [DRY-RUN] Création: BasicProduct ID 817
+2026-03-17 10:24:56,185 - INFO -    [DRY-RUN] Création: BasicProduct ID 818
+2026-03-17 10:24:56,186 - INFO -    [DRY-RUN] Création: BasicProduct ID 819
+2026-03-17 10:24:56,187 - INFO -    [DRY-RUN] Création: BasicProduct ID 820
+2026-03-17 10:24:56,188 - INFO -    [DRY-RUN] Création: BasicProduct ID 821
+2026-03-17 10:24:56,189 - INFO -    [DRY-RUN] Création: BasicProduct ID 822
+2026-03-17 10:24:56,191 - INFO -    [DRY-RUN] Création: BasicProduct ID 823
+2026-03-17 10:24:56,193 - INFO -    [DRY-RUN] Création: BasicProduct ID 824
+2026-03-17 10:24:56,194 - INFO -    [DRY-RUN] Création: BasicProduct ID 825
+2026-03-17 10:24:56,195 - INFO -    [DRY-RUN] Création: BasicProduct ID 826
+2026-03-17 10:24:56,197 - INFO -    [DRY-RUN] Création: BasicProduct ID 827
+2026-03-17 10:24:56,198 - INFO -    [DRY-RUN] Création: BasicProduct ID 828
+2026-03-17 10:24:56,200 - INFO -    [DRY-RUN] Création: BasicProduct ID 829
+2026-03-17 10:24:56,201 - INFO -    [DRY-RUN] Création: BasicProduct ID 830
+2026-03-17 10:24:56,203 - INFO -    [DRY-RUN] Création: BasicProduct ID 831
+2026-03-17 10:24:56,204 - INFO -    [DRY-RUN] Création: BasicProduct ID 832
+2026-03-17 10:24:56,205 - INFO -    [DRY-RUN] Création: BasicProduct ID 833
+2026-03-17 10:24:56,208 - INFO -    [DRY-RUN] Création: BasicProduct ID 834
+2026-03-17 10:24:56,210 - INFO -    [DRY-RUN] Création: BasicProduct ID 835
+2026-03-17 10:24:56,212 - INFO -    [DRY-RUN] Création: BasicProduct ID 836
+2026-03-17 10:24:56,213 - INFO -    [DRY-RUN] Création: BasicProduct ID 837
+2026-03-17 10:24:56,215 - INFO -    [DRY-RUN] Création: BasicProduct ID 838
+2026-03-17 10:24:56,216 - INFO -    [DRY-RUN] Création: BasicProduct ID 839
+2026-03-17 10:24:56,218 - INFO -    [DRY-RUN] Création: BasicProduct ID 840
+2026-03-17 10:24:56,219 - INFO -    [DRY-RUN] Création: BasicProduct ID 841
+2026-03-17 10:24:56,221 - INFO -    [DRY-RUN] Création: BasicProduct ID 842
+2026-03-17 10:24:56,222 - INFO -    [DRY-RUN] Création: BasicProduct ID 843
+2026-03-17 10:24:56,224 - INFO -    [DRY-RUN] Création: BasicProduct ID 844
+2026-03-17 10:24:56,225 - INFO -    [DRY-RUN] Création: BasicProduct ID 845
+2026-03-17 10:24:56,227 - INFO -    [DRY-RUN] Création: BasicProduct ID 846
+2026-03-17 10:24:56,229 - INFO -    [DRY-RUN] Création: BasicProduct ID 847
+2026-03-17 10:24:56,230 - INFO -    [DRY-RUN] Création: BasicProduct ID 848
+2026-03-17 10:24:56,232 - INFO -    [DRY-RUN] Création: BasicProduct ID 849
+2026-03-17 10:24:56,234 - INFO -    [DRY-RUN] Création: BasicProduct ID 850
+2026-03-17 10:24:56,235 - INFO -    [DRY-RUN] Création: BasicProduct ID 851
+2026-03-17 10:24:56,237 - INFO -    [DRY-RUN] Création: BasicProduct ID 852
+2026-03-17 10:24:56,239 - INFO -    [DRY-RUN] Création: BasicProduct ID 853
+2026-03-17 10:24:56,241 - INFO -    [DRY-RUN] Création: BasicProduct ID 854
+2026-03-17 10:24:56,242 - INFO -    [DRY-RUN] Création: BasicProduct ID 855
+2026-03-17 10:24:56,244 - INFO -    [DRY-RUN] Création: BasicProduct ID 856
+2026-03-17 10:24:56,245 - INFO -    [DRY-RUN] Création: BasicProduct ID 857
+2026-03-17 10:24:56,246 - INFO -    [DRY-RUN] Création: BasicProduct ID 858
+2026-03-17 10:24:56,248 - INFO -    [DRY-RUN] Création: BasicProduct ID 859
+2026-03-17 10:24:56,250 - INFO -    [DRY-RUN] Création: BasicProduct ID 860
+2026-03-17 10:24:56,252 - INFO -    [DRY-RUN] Création: BasicProduct ID 861
+2026-03-17 10:24:56,253 - INFO -    [DRY-RUN] Création: BasicProduct ID 862
+2026-03-17 10:24:56,255 - INFO -    [DRY-RUN] Création: BasicProduct ID 863
+2026-03-17 10:24:56,256 - INFO -    [DRY-RUN] Création: BasicProduct ID 864
+2026-03-17 10:24:56,258 - INFO -    [DRY-RUN] Création: BasicProduct ID 865
+2026-03-17 10:24:56,260 - INFO -    [DRY-RUN] Création: BasicProduct ID 866
+2026-03-17 10:24:56,261 - INFO -    [DRY-RUN] Création: BasicProduct ID 867
+2026-03-17 10:24:56,265 - INFO -    [DRY-RUN] Création: BasicProduct ID 868
+2026-03-17 10:24:56,266 - INFO -    [DRY-RUN] Création: BasicProduct ID 869
+2026-03-17 10:24:56,268 - INFO -    [DRY-RUN] Création: BasicProduct ID 870
+2026-03-17 10:24:56,270 - INFO -    [DRY-RUN] Création: BasicProduct ID 871
+2026-03-17 10:24:56,272 - INFO -    [DRY-RUN] Création: BasicProduct ID 872
+2026-03-17 10:24:56,273 - INFO -    [DRY-RUN] Création: BasicProduct ID 873
+2026-03-17 10:24:56,275 - INFO -    [DRY-RUN] Création: BasicProduct ID 874
+2026-03-17 10:24:56,277 - INFO -    [DRY-RUN] Création: BasicProduct ID 875
+2026-03-17 10:24:56,278 - INFO -    [DRY-RUN] Création: BasicProduct ID 876
+2026-03-17 10:24:56,280 - INFO -    [DRY-RUN] Création: BasicProduct ID 877
+2026-03-17 10:24:56,281 - INFO -    [DRY-RUN] Création: BasicProduct ID 878
+2026-03-17 10:24:56,283 - INFO -    [DRY-RUN] Création: BasicProduct ID 879
+2026-03-17 10:24:56,285 - INFO -    [DRY-RUN] Création: BasicProduct ID 880
+2026-03-17 10:24:56,286 - INFO -    [DRY-RUN] Création: BasicProduct ID 881
+2026-03-17 10:24:56,288 - INFO -    [DRY-RUN] Création: BasicProduct ID 882
+2026-03-17 10:24:56,289 - INFO -    [DRY-RUN] Création: BasicProduct ID 883
+2026-03-17 10:24:56,291 - INFO -    [DRY-RUN] Création: BasicProduct ID 884
+2026-03-17 10:24:56,292 - INFO -    [DRY-RUN] Création: BasicProduct ID 885
+2026-03-17 10:24:56,296 - INFO -    [DRY-RUN] Création: BasicProduct ID 886
+2026-03-17 10:24:56,297 - INFO -    [DRY-RUN] Création: BasicProduct ID 887
+2026-03-17 10:24:56,299 - INFO -    [DRY-RUN] Création: BasicProduct ID 888
+2026-03-17 10:24:56,302 - INFO -    [DRY-RUN] Création: BasicProduct ID 889
+2026-03-17 10:24:56,303 - INFO -    [DRY-RUN] Création: BasicProduct ID 890
+2026-03-17 10:24:56,306 - INFO -    [DRY-RUN] Création: BasicProduct ID 891
+2026-03-17 10:24:56,307 - INFO -    [DRY-RUN] Création: BasicProduct ID 892
+2026-03-17 10:24:56,309 - INFO -    [DRY-RUN] Création: BasicProduct ID 893
+2026-03-17 10:24:56,311 - INFO -    [DRY-RUN] Création: BasicProduct ID 894
+2026-03-17 10:24:56,313 - INFO -    [DRY-RUN] Création: BasicProduct ID 895
+2026-03-17 10:24:56,315 - INFO -    [DRY-RUN] Création: BasicProduct ID 896
+2026-03-17 10:24:56,317 - INFO -    [DRY-RUN] Création: BasicProduct ID 897
+2026-03-17 10:24:56,319 - INFO -    [DRY-RUN] Création: BasicProduct ID 898
+2026-03-17 10:24:56,321 - INFO -    [DRY-RUN] Création: BasicProduct ID 899
+2026-03-17 10:24:56,323 - INFO -    [DRY-RUN] Création: BasicProduct ID 900
+2026-03-17 10:24:56,325 - INFO -    [DRY-RUN] Création: BasicProduct ID 901
+2026-03-17 10:24:56,327 - INFO -    [DRY-RUN] Création: BasicProduct ID 902
+2026-03-17 10:24:56,329 - INFO -    [DRY-RUN] Création: BasicProduct ID 903
+2026-03-17 10:24:56,331 - INFO -    [DRY-RUN] Création: BasicProduct ID 904
+2026-03-17 10:24:56,333 - INFO -    [DRY-RUN] Création: BasicProduct ID 905
+2026-03-17 10:24:56,335 - INFO -    [DRY-RUN] Création: BasicProduct ID 906
+2026-03-17 10:24:56,336 - INFO -    [DRY-RUN] Création: BasicProduct ID 907
+2026-03-17 10:24:56,338 - INFO -    [DRY-RUN] Création: BasicProduct ID 908
+2026-03-17 10:24:56,340 - INFO -    [DRY-RUN] Création: BasicProduct ID 909
+2026-03-17 10:24:56,342 - INFO -    [DRY-RUN] Création: BasicProduct ID 910
+2026-03-17 10:24:56,344 - INFO -    [DRY-RUN] Création: BasicProduct ID 911
+2026-03-17 10:24:56,346 - INFO -    [DRY-RUN] Création: BasicProduct ID 912
+2026-03-17 10:24:56,348 - INFO -    [DRY-RUN] Création: BasicProduct ID 913
+2026-03-17 10:24:56,350 - INFO -    [DRY-RUN] Création: BasicProduct ID 914
+2026-03-17 10:24:56,352 - INFO -    [DRY-RUN] Création: BasicProduct ID 915
+2026-03-17 10:24:56,354 - INFO -    [DRY-RUN] Création: BasicProduct ID 916
+2026-03-17 10:24:56,355 - INFO -    [DRY-RUN] Création: BasicProduct ID 917
+2026-03-17 10:24:56,356 - INFO -    [DRY-RUN] Création: BasicProduct ID 918
+2026-03-17 10:24:56,358 - INFO -    [DRY-RUN] Création: BasicProduct ID 919
+2026-03-17 10:24:56,362 - INFO -    [DRY-RUN] Création: BasicProduct ID 920
+2026-03-17 10:24:56,364 - INFO -    [DRY-RUN] Création: BasicProduct ID 921
+2026-03-17 10:24:56,365 - INFO -    [DRY-RUN] Création: BasicProduct ID 922
+2026-03-17 10:24:56,367 - INFO -    [DRY-RUN] Création: BasicProduct ID 923
+2026-03-17 10:24:56,369 - INFO -    [DRY-RUN] Création: BasicProduct ID 924
+2026-03-17 10:24:56,370 - INFO -    [DRY-RUN] Création: BasicProduct ID 925
+2026-03-17 10:24:56,372 - INFO -    [DRY-RUN] Création: BasicProduct ID 926
+2026-03-17 10:24:56,374 - INFO -    [DRY-RUN] Création: BasicProduct ID 927
+2026-03-17 10:24:56,375 - INFO -    [DRY-RUN] Création: BasicProduct ID 928
+2026-03-17 10:24:56,377 - INFO -    [DRY-RUN] Création: BasicProduct ID 929
+2026-03-17 10:24:56,378 - INFO -    [DRY-RUN] Création: BasicProduct ID 930
+2026-03-17 10:24:56,380 - INFO -    [DRY-RUN] Création: BasicProduct ID 931
+2026-03-17 10:24:56,382 - INFO -    [DRY-RUN] Création: BasicProduct ID 932
+2026-03-17 10:24:56,383 - INFO -    [DRY-RUN] Création: BasicProduct ID 933
+2026-03-17 10:24:56,386 - INFO -    [DRY-RUN] Création: BasicProduct ID 934
+2026-03-17 10:24:56,387 - INFO -    [DRY-RUN] Création: BasicProduct ID 935
+2026-03-17 10:24:56,389 - INFO -    [DRY-RUN] Création: BasicProduct ID 936
+2026-03-17 10:24:56,391 - INFO -    [DRY-RUN] Création: BasicProduct ID 937
+2026-03-17 10:24:56,392 - INFO -    [DRY-RUN] Création: BasicProduct ID 938
+2026-03-17 10:24:56,394 - INFO -    [DRY-RUN] Création: BasicProduct ID 939
+2026-03-17 10:24:56,396 - INFO -    [DRY-RUN] Création: BasicProduct ID 940
+2026-03-17 10:24:56,398 - INFO -    [DRY-RUN] Création: BasicProduct ID 941
+2026-03-17 10:24:56,399 - INFO -    [DRY-RUN] Création: BasicProduct ID 942
+2026-03-17 10:24:56,401 - INFO -    [DRY-RUN] Création: BasicProduct ID 943
+2026-03-17 10:24:56,402 - INFO -    [DRY-RUN] Création: BasicProduct ID 944
+2026-03-17 10:24:56,404 - INFO -    [DRY-RUN] Création: BasicProduct ID 945
+2026-03-17 10:24:56,406 - INFO -    [DRY-RUN] Création: BasicProduct ID 946
+2026-03-17 10:24:56,407 - INFO -    [DRY-RUN] Création: BasicProduct ID 947
+2026-03-17 10:24:56,409 - INFO -    [DRY-RUN] Création: BasicProduct ID 948
+2026-03-17 10:24:56,411 - INFO -    [DRY-RUN] Création: BasicProduct ID 949
+2026-03-17 10:24:56,412 - INFO -    [DRY-RUN] Création: BasicProduct ID 950
+2026-03-17 10:24:56,414 - INFO -    [DRY-RUN] Création: BasicProduct ID 951
+2026-03-17 10:24:56,416 - INFO -    [DRY-RUN] Création: BasicProduct ID 952
+2026-03-17 10:24:56,417 - INFO -    [DRY-RUN] Création: BasicProduct ID 953
+2026-03-17 10:24:56,418 - INFO -    [DRY-RUN] Création: BasicProduct ID 954
+2026-03-17 10:24:56,420 - INFO -    [DRY-RUN] Création: BasicProduct ID 955
+2026-03-17 10:24:56,422 - INFO -    [DRY-RUN] Création: BasicProduct ID 956
+2026-03-17 10:24:56,423 - INFO -    [DRY-RUN] Création: BasicProduct ID 957
+2026-03-17 10:24:56,425 - INFO -    [DRY-RUN] Création: BasicProduct ID 958
+2026-03-17 10:24:56,426 - INFO -    [DRY-RUN] Création: BasicProduct ID 959
+2026-03-17 10:24:56,428 - INFO -    [DRY-RUN] Création: BasicProduct ID 960
+2026-03-17 10:24:56,430 - INFO -    [DRY-RUN] Création: BasicProduct ID 961
+2026-03-17 10:24:56,431 - INFO -    [DRY-RUN] Création: BasicProduct ID 962
+2026-03-17 10:24:56,433 - INFO -    [DRY-RUN] Création: BasicProduct ID 963
+2026-03-17 10:24:56,435 - INFO -    [DRY-RUN] Création: BasicProduct ID 964
+2026-03-17 10:24:56,437 - INFO -    [DRY-RUN] Création: BasicProduct ID 965
+2026-03-17 10:24:56,439 - INFO -    [DRY-RUN] Création: BasicProduct ID 966
+2026-03-17 10:24:56,441 - INFO -    [DRY-RUN] Création: BasicProduct ID 967
+2026-03-17 10:24:56,443 - INFO -    [DRY-RUN] Création: BasicProduct ID 968
+2026-03-17 10:24:56,445 - INFO -    [DRY-RUN] Création: BasicProduct ID 969
+2026-03-17 10:24:56,447 - INFO -    [DRY-RUN] Création: BasicProduct ID 970
+2026-03-17 10:24:56,449 - INFO -    [DRY-RUN] Création: BasicProduct ID 971
+2026-03-17 10:24:56,451 - INFO -    [DRY-RUN] Création: BasicProduct ID 972
+2026-03-17 10:24:56,453 - INFO -    [DRY-RUN] Création: BasicProduct ID 973
+2026-03-17 10:24:56,455 - INFO -    [DRY-RUN] Création: BasicProduct ID 974
+2026-03-17 10:24:56,457 - INFO -    [DRY-RUN] Création: BasicProduct ID 975
+2026-03-17 10:24:56,458 - INFO -    [DRY-RUN] Création: BasicProduct ID 976
+2026-03-17 10:24:56,459 - INFO -    [DRY-RUN] Création: BasicProduct ID 977
+2026-03-17 10:24:56,461 - INFO -    [DRY-RUN] Création: BasicProduct ID 978
+2026-03-17 10:24:56,462 - INFO -    [DRY-RUN] Création: BasicProduct ID 979
+2026-03-17 10:24:56,465 - INFO -    [DRY-RUN] Création: BasicProduct ID 980
+2026-03-17 10:24:56,466 - INFO -    [DRY-RUN] Création: BasicProduct ID 981
+2026-03-17 10:24:56,468 - INFO -    [DRY-RUN] Création: BasicProduct ID 982
+2026-03-17 10:24:56,469 - INFO -    [DRY-RUN] Création: BasicProduct ID 983
+2026-03-17 10:24:56,471 - INFO -    [DRY-RUN] Création: BasicProduct ID 984
+2026-03-17 10:24:56,473 - INFO -    [DRY-RUN] Création: BasicProduct ID 985
+2026-03-17 10:24:56,474 - INFO -    [DRY-RUN] Création: BasicProduct ID 986
+2026-03-17 10:24:56,476 - INFO -    [DRY-RUN] Création: BasicProduct ID 987
+2026-03-17 10:24:56,478 - INFO -    [DRY-RUN] Création: BasicProduct ID 988
+2026-03-17 10:24:56,479 - INFO -    [DRY-RUN] Création: BasicProduct ID 989
+2026-03-17 10:24:56,481 - INFO -    [DRY-RUN] Création: BasicProduct ID 990
+2026-03-17 10:24:56,482 - INFO -    [DRY-RUN] Création: BasicProduct ID 991
+2026-03-17 10:24:56,484 - INFO -    [DRY-RUN] Création: BasicProduct ID 992
+2026-03-17 10:24:56,487 - INFO -    [DRY-RUN] Création: BasicProduct ID 993
+2026-03-17 10:24:56,488 - INFO -    [DRY-RUN] Création: BasicProduct ID 994
+2026-03-17 10:24:56,490 - INFO -    [DRY-RUN] Création: BasicProduct ID 995
+2026-03-17 10:24:56,491 - INFO -    [DRY-RUN] Création: BasicProduct ID 996
+2026-03-17 10:24:56,493 - INFO -    [DRY-RUN] Création: BasicProduct ID 997
+2026-03-17 10:24:56,495 - INFO -    [DRY-RUN] Création: BasicProduct ID 998
+2026-03-17 10:24:56,497 - INFO -    [DRY-RUN] Création: BasicProduct ID 999
+2026-03-17 10:24:56,498 - INFO -    [DRY-RUN] Création: BasicProduct ID 1000
+2026-03-17 10:24:56,501 - INFO -    [DRY-RUN] Création: BasicProduct ID 1001
+2026-03-17 10:24:56,503 - INFO -    [DRY-RUN] Création: BasicProduct ID 1002
+2026-03-17 10:24:56,504 - INFO -    [DRY-RUN] Création: BasicProduct ID 1003
+2026-03-17 10:24:56,506 - INFO -    [DRY-RUN] Création: BasicProduct ID 1004
+2026-03-17 10:24:56,508 - INFO -    [DRY-RUN] Création: BasicProduct ID 1005
+2026-03-17 10:24:56,509 - INFO -    [DRY-RUN] Création: BasicProduct ID 1006
+2026-03-17 10:24:56,510 - INFO -    [DRY-RUN] Création: BasicProduct ID 1007
+2026-03-17 10:24:56,511 - INFO -    [DRY-RUN] Création: BasicProduct ID 1008
+2026-03-17 10:24:56,513 - INFO -    [DRY-RUN] Création: BasicProduct ID 1009
+2026-03-17 10:24:56,515 - INFO -    [DRY-RUN] Création: BasicProduct ID 1010
+2026-03-17 10:24:56,516 - INFO -    [DRY-RUN] Création: BasicProduct ID 1011
+2026-03-17 10:24:56,518 - INFO -    [DRY-RUN] Création: BasicProduct ID 1012
+2026-03-17 10:24:56,520 - INFO -    [DRY-RUN] Création: BasicProduct ID 1013
+2026-03-17 10:24:56,521 - INFO -    [DRY-RUN] Création: BasicProduct ID 1014
+2026-03-17 10:24:56,523 - INFO -    [DRY-RUN] Création: BasicProduct ID 1015
+2026-03-17 10:24:56,524 - INFO -    [DRY-RUN] Création: BasicProduct ID 1016
+2026-03-17 10:24:56,526 - INFO -    [DRY-RUN] Création: BasicProduct ID 1017
+2026-03-17 10:24:56,527 - INFO -    [DRY-RUN] Création: BasicProduct ID 1018
+2026-03-17 10:24:56,529 - INFO -    [DRY-RUN] Création: BasicProduct ID 1019
+2026-03-17 10:24:56,530 - INFO -    [DRY-RUN] Création: BasicProduct ID 1020
+2026-03-17 10:24:56,532 - INFO -    [DRY-RUN] Création: BasicProduct ID 1021
+2026-03-17 10:24:56,534 - INFO -    [DRY-RUN] Création: BasicProduct ID 1022
+2026-03-17 10:24:56,535 - INFO -    [DRY-RUN] Création: BasicProduct ID 1023
+2026-03-17 10:24:56,537 - INFO -    [DRY-RUN] Création: BasicProduct ID 1024
+2026-03-17 10:24:56,539 - INFO -    [DRY-RUN] Création: BasicProduct ID 1025
+2026-03-17 10:24:56,540 - INFO -    [DRY-RUN] Création: BasicProduct ID 1026
+2026-03-17 10:24:56,542 - INFO -    [DRY-RUN] Création: BasicProduct ID 1027
+2026-03-17 10:24:56,544 - INFO -    [DRY-RUN] Création: BasicProduct ID 1028
+2026-03-17 10:24:56,545 - INFO -    [DRY-RUN] Création: BasicProduct ID 1029
+2026-03-17 10:24:56,547 - INFO -    [DRY-RUN] Création: BasicProduct ID 1030
+2026-03-17 10:24:56,548 - INFO -    [DRY-RUN] Création: BasicProduct ID 1031
+2026-03-17 10:24:56,550 - INFO -    [DRY-RUN] Création: BasicProduct ID 1032
+2026-03-17 10:24:56,552 - INFO -    [DRY-RUN] Création: BasicProduct ID 1033
+2026-03-17 10:24:56,554 - INFO -    [DRY-RUN] Création: BasicProduct ID 1034
+2026-03-17 10:24:56,556 - INFO -    [DRY-RUN] Création: BasicProduct ID 1035
+2026-03-17 10:24:56,558 - INFO -    [DRY-RUN] Création: BasicProduct ID 1036
+2026-03-17 10:24:56,559 - INFO -    [DRY-RUN] Création: BasicProduct ID 1037
+2026-03-17 10:24:56,561 - INFO -    [DRY-RUN] Création: BasicProduct ID 1038
+2026-03-17 10:24:56,562 - INFO -    [DRY-RUN] Création: BasicProduct ID 1039
+2026-03-17 10:24:56,564 - INFO -    [DRY-RUN] Création: BasicProduct ID 1040
+2026-03-17 10:24:56,566 - INFO -    [DRY-RUN] Création: BasicProduct ID 1041
+2026-03-17 10:24:56,568 - INFO -    [DRY-RUN] Création: BasicProduct ID 1042
+2026-03-17 10:24:56,569 - INFO -    [DRY-RUN] Création: BasicProduct ID 1043
+2026-03-17 10:24:56,571 - INFO -    [DRY-RUN] Création: BasicProduct ID 1044
+2026-03-17 10:24:56,572 - INFO -    [DRY-RUN] Création: BasicProduct ID 1045
+2026-03-17 10:24:56,573 - INFO -    [DRY-RUN] Création: BasicProduct ID 1046
+2026-03-17 10:24:56,575 - INFO -    [DRY-RUN] Création: BasicProduct ID 1047
+2026-03-17 10:24:56,577 - INFO -    [DRY-RUN] Création: BasicProduct ID 1048
+2026-03-17 10:24:56,578 - INFO -    [DRY-RUN] Création: BasicProduct ID 1049
+2026-03-17 10:24:56,580 - INFO -    [DRY-RUN] Création: BasicProduct ID 1050
+2026-03-17 10:24:56,581 - INFO -    [DRY-RUN] Création: BasicProduct ID 1051
+2026-03-17 10:24:56,583 - INFO -    [DRY-RUN] Création: BasicProduct ID 1052
+2026-03-17 10:24:56,584 - INFO -    [DRY-RUN] Création: BasicProduct ID 1053
+2026-03-17 10:24:56,585 - INFO -    [DRY-RUN] Création: BasicProduct ID 1054
+2026-03-17 10:24:56,588 - INFO -    [DRY-RUN] Création: BasicProduct ID 1055
+2026-03-17 10:24:56,591 - INFO -    [DRY-RUN] Création: BasicProduct ID 1056
+2026-03-17 10:24:56,594 - INFO -    [DRY-RUN] Création: BasicProduct ID 1057
+2026-03-17 10:24:56,595 - INFO -    [DRY-RUN] Création: BasicProduct ID 1058
+2026-03-17 10:24:56,598 - INFO -    [DRY-RUN] Création: BasicProduct ID 1059
+2026-03-17 10:24:56,600 - INFO -    [DRY-RUN] Création: BasicProduct ID 1060
+2026-03-17 10:24:56,602 - INFO -    [DRY-RUN] Création: BasicProduct ID 1061
+2026-03-17 10:24:56,604 - INFO -    [DRY-RUN] Création: BasicProduct ID 1062
+2026-03-17 10:24:56,606 - INFO -    [DRY-RUN] Création: BasicProduct ID 1063
+2026-03-17 10:24:56,608 - INFO -    [DRY-RUN] Création: BasicProduct ID 1064
+2026-03-17 10:24:56,610 - INFO -    [DRY-RUN] Création: BasicProduct ID 1065
+2026-03-17 10:24:56,612 - INFO -    [DRY-RUN] Création: BasicProduct ID 1066
+2026-03-17 10:24:56,614 - INFO -    [DRY-RUN] Création: BasicProduct ID 1067
+2026-03-17 10:24:56,617 - INFO -    [DRY-RUN] Création: BasicProduct ID 1068
+2026-03-17 10:24:56,619 - INFO -    [DRY-RUN] Création: BasicProduct ID 1069
+2026-03-17 10:24:56,622 - INFO -    [DRY-RUN] Création: BasicProduct ID 1070
+2026-03-17 10:24:56,623 - INFO -    [DRY-RUN] Création: BasicProduct ID 1071
+2026-03-17 10:24:56,626 - INFO -    [DRY-RUN] Création: BasicProduct ID 1072
+2026-03-17 10:24:56,628 - INFO -    [DRY-RUN] Création: BasicProduct ID 1073
+2026-03-17 10:24:56,630 - INFO -    [DRY-RUN] Création: BasicProduct ID 1074
+2026-03-17 10:24:56,632 - INFO -    [DRY-RUN] Création: BasicProduct ID 1075
+2026-03-17 10:24:56,635 - INFO -    [DRY-RUN] Création: BasicProduct ID 1076
+2026-03-17 10:24:56,636 - INFO -    [DRY-RUN] Création: BasicProduct ID 1077
+2026-03-17 10:24:56,639 - INFO -    [DRY-RUN] Création: BasicProduct ID 1078
+2026-03-17 10:24:56,641 - INFO -    [DRY-RUN] Création: BasicProduct ID 1079
+2026-03-17 10:24:56,643 - INFO -    [DRY-RUN] Création: BasicProduct ID 1080
+2026-03-17 10:24:56,645 - INFO -    [DRY-RUN] Création: BasicProduct ID 1081
+2026-03-17 10:24:56,647 - INFO -    [DRY-RUN] Création: BasicProduct ID 1082
+2026-03-17 10:24:56,648 - INFO -    [DRY-RUN] Création: BasicProduct ID 1083
+2026-03-17 10:24:56,650 - INFO -    [DRY-RUN] Création: BasicProduct ID 1084
+2026-03-17 10:24:56,652 - INFO -    [DRY-RUN] Création: BasicProduct ID 1085
+2026-03-17 10:24:56,654 - INFO -    [DRY-RUN] Création: BasicProduct ID 1086
+2026-03-17 10:24:56,656 - INFO -    [DRY-RUN] Création: BasicProduct ID 1087
+2026-03-17 10:24:56,658 - INFO -    [DRY-RUN] Création: BasicProduct ID 1088
+2026-03-17 10:24:56,659 - INFO -    [DRY-RUN] Création: BasicProduct ID 1089
+2026-03-17 10:24:56,661 - INFO -    [DRY-RUN] Création: BasicProduct ID 1090
+2026-03-17 10:24:56,662 - INFO -    [DRY-RUN] Création: BasicProduct ID 1091
+2026-03-17 10:24:56,664 - INFO -    [DRY-RUN] Création: BasicProduct ID 1092
+2026-03-17 10:24:56,666 - INFO -    [DRY-RUN] Création: BasicProduct ID 1093
+2026-03-17 10:24:56,668 - INFO -    [DRY-RUN] Création: BasicProduct ID 1094
+2026-03-17 10:24:56,670 - INFO -    [DRY-RUN] Création: BasicProduct ID 1095
+2026-03-17 10:24:56,671 - INFO -    [DRY-RUN] Création: BasicProduct ID 1096
+2026-03-17 10:24:56,673 - INFO -    [DRY-RUN] Création: BasicProduct ID 1097
+2026-03-17 10:24:56,674 - INFO -    [DRY-RUN] Création: BasicProduct ID 1098
+2026-03-17 10:24:56,676 - INFO -    [DRY-RUN] Création: BasicProduct ID 1099
+2026-03-17 10:24:56,677 - INFO -    [DRY-RUN] Création: BasicProduct ID 1100
+2026-03-17 10:24:56,679 - INFO -    [DRY-RUN] Création: BasicProduct ID 1101
+2026-03-17 10:24:56,680 - INFO -    [DRY-RUN] Création: BasicProduct ID 1102
+2026-03-17 10:24:56,682 - INFO -    [DRY-RUN] Création: BasicProduct ID 1103
+2026-03-17 10:24:56,684 - INFO -    [DRY-RUN] Création: BasicProduct ID 1104
+2026-03-17 10:24:56,686 - INFO -    [DRY-RUN] Création: BasicProduct ID 1105
+2026-03-17 10:24:56,687 - INFO -    [DRY-RUN] Création: BasicProduct ID 1106
+2026-03-17 10:24:56,689 - INFO -    [DRY-RUN] Création: BasicProduct ID 1107
+2026-03-17 10:24:56,691 - INFO -    [DRY-RUN] Création: BasicProduct ID 1108
+2026-03-17 10:24:56,692 - INFO -    [DRY-RUN] Création: BasicProduct ID 1109
+2026-03-17 10:24:56,694 - INFO -    [DRY-RUN] Création: BasicProduct ID 1110
+2026-03-17 10:24:56,696 - INFO -    [DRY-RUN] Création: BasicProduct ID 1111
+2026-03-17 10:24:56,698 - INFO -    [DRY-RUN] Création: BasicProduct ID 1112
+2026-03-17 10:24:56,700 - INFO -    [DRY-RUN] Création: BasicProduct ID 1113
+2026-03-17 10:24:56,701 - INFO -    [DRY-RUN] Création: BasicProduct ID 1114
+2026-03-17 10:24:56,703 - INFO -    [DRY-RUN] Création: BasicProduct ID 1115
+2026-03-17 10:24:56,706 - INFO -    [DRY-RUN] Création: BasicProduct ID 1116
+2026-03-17 10:24:56,708 - INFO -    [DRY-RUN] Création: BasicProduct ID 1117
+2026-03-17 10:24:56,709 - INFO -    [DRY-RUN] Création: BasicProduct ID 1118
+2026-03-17 10:24:56,711 - INFO -    [DRY-RUN] Création: BasicProduct ID 1119
+2026-03-17 10:24:56,713 - INFO -    [DRY-RUN] Création: BasicProduct ID 1120
+2026-03-17 10:24:56,715 - INFO -    [DRY-RUN] Création: BasicProduct ID 1121
+2026-03-17 10:24:56,717 - INFO -    [DRY-RUN] Création: BasicProduct ID 1122
+2026-03-17 10:24:56,718 - INFO -    [DRY-RUN] Création: BasicProduct ID 1123
+2026-03-17 10:24:56,720 - INFO -    [DRY-RUN] Création: BasicProduct ID 1124
+2026-03-17 10:24:56,721 - INFO -    [DRY-RUN] Création: BasicProduct ID 1125
+2026-03-17 10:24:56,723 - INFO -    [DRY-RUN] Création: BasicProduct ID 1126
+2026-03-17 10:24:56,725 - INFO -    [DRY-RUN] Création: BasicProduct ID 1127
+2026-03-17 10:24:56,727 - INFO -    [DRY-RUN] Création: BasicProduct ID 1128
+2026-03-17 10:24:56,729 - INFO -    [DRY-RUN] Création: BasicProduct ID 1129
+2026-03-17 10:24:56,730 - INFO -    [DRY-RUN] Création: BasicProduct ID 1130
+2026-03-17 10:24:56,732 - INFO -    [DRY-RUN] Création: BasicProduct ID 1131
+2026-03-17 10:24:56,734 - INFO -    [DRY-RUN] Création: BasicProduct ID 1132
+2026-03-17 10:24:56,739 - INFO -    [DRY-RUN] Création: BasicProduct ID 1133
+2026-03-17 10:24:56,741 - INFO -    [DRY-RUN] Création: BasicProduct ID 1134
+2026-03-17 10:24:56,742 - INFO -    [DRY-RUN] Création: BasicProduct ID 1135
+2026-03-17 10:24:56,744 - INFO -    [DRY-RUN] Création: BasicProduct ID 1136
+2026-03-17 10:24:56,746 - INFO -    [DRY-RUN] Création: BasicProduct ID 1137
+2026-03-17 10:24:56,747 - INFO -    [DRY-RUN] Création: BasicProduct ID 1138
+2026-03-17 10:24:56,747 - INFO - 
+📖 Synchronisation des cours...
+2026-03-17 10:24:56,749 - INFO - 
+📦 Synchronisation: Course
+2026-03-17 10:24:57,005 - INFO -    Local: 4 éléments
+2026-03-17 10:24:57,005 - INFO -    Production: 0 éléments existants
+2026-03-17 10:24:57,006 - INFO -    [DRY-RUN] Création: Course ID 5
+2026-03-17 10:24:57,008 - INFO -    [DRY-RUN] Création: Course ID 4
+2026-03-17 10:24:57,010 - INFO -    [DRY-RUN] Création: Course ID 3
+2026-03-17 10:24:57,012 - INFO -    [DRY-RUN] Création: Course ID 2
+2026-03-17 10:24:57,012 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-17 10:24:57,014 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-17 10:24:57,256 - INFO -    Local: 3 éléments
+2026-03-17 10:24:57,256 - INFO -    Production: 1 éléments existants
+2026-03-17 10:24:57,257 - INFO -    [DRY-RUN] Création: Sermon ID 3
+2026-03-17 10:24:57,257 - INFO -    [DRY-RUN] Création: Sermon ID 2
+2026-03-17 10:24:57,259 - INFO -    [DRY-RUN] Mise à jour: Sermon ID 1
+2026-03-17 10:24:57,260 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-17 10:24:57,262 - INFO - 
+📦 Synchronisation: Shop
+2026-03-17 10:24:57,481 - INFO -    Local: 0 éléments
+2026-03-17 10:24:57,482 - INFO -    Production: 0 éléments existants
+2026-03-17 10:24:57,482 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-17 10:24:57,484 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-17 10:24:57,715 - INFO -    Local: 0 éléments
+2026-03-17 10:24:57,716 - INFO -    Production: 0 éléments existants
+2026-03-17 10:24:57,716 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-17 10:24:57,718 - INFO - 
+📦 Synchronisation: Product
+2026-03-17 10:24:57,932 - INFO -    Local: 0 éléments
+2026-03-17 10:24:57,932 - INFO -    Production: 0 éléments existants
+2026-03-17 10:24:57,933 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-17 10:24:57,935 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-17 10:24:58,154 - INFO -    Local: 0 éléments
+2026-03-17 10:24:58,154 - INFO -    Production: 0 éléments existants
+2026-03-17 10:24:58,155 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-17 10:24:58,156 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-17 10:25:00,180 - INFO -    Local: 0 éléments
+2026-03-17 10:25:00,180 - INFO -    Production: 0 éléments existants
+2026-03-17 10:25:00,180 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-17 10:25:00,182 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-17 10:25:00,406 - INFO -    Local: 0 éléments
+2026-03-17 10:25:00,406 - INFO -    Production: 0 éléments existants
+2026-03-17 10:25:00,406 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-17 10:25:00,408 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-17 10:25:00,615 - INFO -    Local: 0 éléments
+2026-03-17 10:25:00,616 - INFO -    Production: 0 éléments existants
+2026-03-17 10:25:00,616 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-17 10:25:00,617 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-17 10:25:00,834 - INFO -    Local: 0 éléments
+2026-03-17 10:25:00,834 - INFO -    Production: 0 éléments existants
+2026-03-17 10:25:00,834 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-17 10:25:00,836 - INFO - 
+📦 Synchronisation: Supply
+2026-03-17 10:25:01,043 - INFO -    Local: 0 éléments
+2026-03-17 10:25:01,044 - INFO -    Production: 0 éléments existants
+2026-03-17 10:25:01,044 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-17 10:25:01,046 - INFO - 
+📦 Synchronisation: Sales
+2026-03-17 10:25:01,252 - INFO -    Local: 0 éléments
+2026-03-17 10:25:01,252 - INFO -    Production: 0 éléments existants
+2026-03-17 10:25:01,252 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-17 10:25:01,254 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-17 10:25:01,482 - INFO -    Local: 1 éléments
+2026-03-17 10:25:01,483 - INFO -    Production: 0 éléments existants
+2026-03-17 10:25:01,484 - INFO -    [DRY-RUN] Création: Favorite ID 1
+2026-03-17 10:25:01,484 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-17 10:25:01,486 - INFO - 
+📦 Synchronisation: History
+2026-03-17 10:25:01,793 - INFO -    Local: 147 éléments
+2026-03-17 10:25:01,793 - INFO -    Production: 0 éléments existants
+2026-03-17 10:25:01,793 - INFO -    [DRY-RUN] Création: History ID 1
+2026-03-17 10:25:01,794 - INFO -    [DRY-RUN] Création: History ID 2
+2026-03-17 10:25:01,794 - INFO -    [DRY-RUN] Création: History ID 3
+2026-03-17 10:25:01,794 - INFO -    [DRY-RUN] Création: History ID 4
+2026-03-17 10:25:01,795 - INFO -    [DRY-RUN] Création: History ID 5
+2026-03-17 10:25:01,795 - INFO -    [DRY-RUN] Création: History ID 6
+2026-03-17 10:25:01,795 - INFO -    [DRY-RUN] Création: History ID 7
+2026-03-17 10:25:01,796 - INFO -    [DRY-RUN] Création: History ID 8
+2026-03-17 10:25:01,796 - INFO -    [DRY-RUN] Création: History ID 9
+2026-03-17 10:25:01,796 - INFO -    [DRY-RUN] Création: History ID 10
+2026-03-17 10:25:01,797 - INFO -    [DRY-RUN] Création: History ID 11
+2026-03-17 10:25:01,797 - INFO -    [DRY-RUN] Création: History ID 12
+2026-03-17 10:25:01,797 - INFO -    [DRY-RUN] Création: History ID 13
+2026-03-17 10:25:01,798 - INFO -    [DRY-RUN] Création: History ID 14
+2026-03-17 10:25:01,798 - INFO -    [DRY-RUN] Création: History ID 15
+2026-03-17 10:25:01,798 - INFO -    [DRY-RUN] Création: History ID 16
+2026-03-17 10:25:01,799 - INFO -    [DRY-RUN] Création: History ID 17
+2026-03-17 10:25:01,799 - INFO -    [DRY-RUN] Création: History ID 18
+2026-03-17 10:25:01,799 - INFO -    [DRY-RUN] Création: History ID 19
+2026-03-17 10:25:01,800 - INFO -    [DRY-RUN] Création: History ID 20
+2026-03-17 10:25:01,800 - INFO -    [DRY-RUN] Création: History ID 21
+2026-03-17 10:25:01,800 - INFO -    [DRY-RUN] Création: History ID 22
+2026-03-17 10:25:01,801 - INFO -    [DRY-RUN] Création: History ID 23
+2026-03-17 10:25:01,801 - INFO -    [DRY-RUN] Création: History ID 24
+2026-03-17 10:25:01,801 - INFO -    [DRY-RUN] Création: History ID 25
+2026-03-17 10:25:01,802 - INFO -    [DRY-RUN] Création: History ID 26
+2026-03-17 10:25:01,802 - INFO -    [DRY-RUN] Création: History ID 27
+2026-03-17 10:25:01,802 - INFO -    [DRY-RUN] Création: History ID 28
+2026-03-17 10:25:01,802 - INFO -    [DRY-RUN] Création: History ID 29
+2026-03-17 10:25:01,803 - INFO -    [DRY-RUN] Création: History ID 30
+2026-03-17 10:25:01,803 - INFO -    [DRY-RUN] Création: History ID 31
+2026-03-17 10:25:01,803 - INFO -    [DRY-RUN] Création: History ID 32
+2026-03-17 10:25:01,804 - INFO -    [DRY-RUN] Création: History ID 33
+2026-03-17 10:25:01,804 - INFO -    [DRY-RUN] Création: History ID 34
+2026-03-17 10:25:01,804 - INFO -    [DRY-RUN] Création: History ID 35
+2026-03-17 10:25:01,805 - INFO -    [DRY-RUN] Création: History ID 36
+2026-03-17 10:25:01,805 - INFO -    [DRY-RUN] Création: History ID 37
+2026-03-17 10:25:01,805 - INFO -    [DRY-RUN] Création: History ID 38
+2026-03-17 10:25:01,806 - INFO -    [DRY-RUN] Création: History ID 39
+2026-03-17 10:25:01,806 - INFO -    [DRY-RUN] Création: History ID 40
+2026-03-17 10:25:01,806 - INFO -    [DRY-RUN] Création: History ID 41
+2026-03-17 10:25:01,807 - INFO -    [DRY-RUN] Création: History ID 42
+2026-03-17 10:25:01,807 - INFO -    [DRY-RUN] Création: History ID 43
+2026-03-17 10:25:01,808 - INFO -    [DRY-RUN] Création: History ID 44
+2026-03-17 10:25:01,808 - INFO -    [DRY-RUN] Création: History ID 45
+2026-03-17 10:25:01,808 - INFO -    [DRY-RUN] Création: History ID 46
+2026-03-17 10:25:01,809 - INFO -    [DRY-RUN] Création: History ID 47
+2026-03-17 10:25:01,809 - INFO -    [DRY-RUN] Création: History ID 48
+2026-03-17 10:25:01,809 - INFO -    [DRY-RUN] Création: History ID 49
+2026-03-17 10:25:01,810 - INFO -    [DRY-RUN] Création: History ID 50
+2026-03-17 10:25:01,810 - INFO -    [DRY-RUN] Création: History ID 51
+2026-03-17 10:25:01,811 - INFO -    [DRY-RUN] Création: History ID 52
+2026-03-17 10:25:01,811 - INFO -    [DRY-RUN] Création: History ID 53
+2026-03-17 10:25:01,811 - INFO -    [DRY-RUN] Création: History ID 54
+2026-03-17 10:25:01,812 - INFO -    [DRY-RUN] Création: History ID 55
+2026-03-17 10:25:01,812 - INFO -    [DRY-RUN] Création: History ID 56
+2026-03-17 10:25:01,812 - INFO -    [DRY-RUN] Création: History ID 57
+2026-03-17 10:25:01,813 - INFO -    [DRY-RUN] Création: History ID 58
+2026-03-17 10:25:01,813 - INFO -    [DRY-RUN] Création: History ID 59
+2026-03-17 10:25:01,813 - INFO -    [DRY-RUN] Création: History ID 60
+2026-03-17 10:25:01,813 - INFO -    [DRY-RUN] Création: History ID 61
+2026-03-17 10:25:01,814 - INFO -    [DRY-RUN] Création: History ID 62
+2026-03-17 10:25:01,814 - INFO -    [DRY-RUN] Création: History ID 63
+2026-03-17 10:25:01,814 - INFO -    [DRY-RUN] Création: History ID 64
+2026-03-17 10:25:01,815 - INFO -    [DRY-RUN] Création: History ID 65
+2026-03-17 10:25:01,815 - INFO -    [DRY-RUN] Création: History ID 66
+2026-03-17 10:25:01,815 - INFO -    [DRY-RUN] Création: History ID 67
+2026-03-17 10:25:01,816 - INFO -    [DRY-RUN] Création: History ID 68
+2026-03-17 10:25:01,816 - INFO -    [DRY-RUN] Création: History ID 69
+2026-03-17 10:25:01,816 - INFO -    [DRY-RUN] Création: History ID 70
+2026-03-17 10:25:01,816 - INFO -    [DRY-RUN] Création: History ID 71
+2026-03-17 10:25:01,817 - INFO -    [DRY-RUN] Création: History ID 72
+2026-03-17 10:25:01,817 - INFO -    [DRY-RUN] Création: History ID 73
+2026-03-17 10:25:01,817 - INFO -    [DRY-RUN] Création: History ID 74
+2026-03-17 10:25:01,818 - INFO -    [DRY-RUN] Création: History ID 75
+2026-03-17 10:25:01,818 - INFO -    [DRY-RUN] Création: History ID 76
+2026-03-17 10:25:01,818 - INFO -    [DRY-RUN] Création: History ID 77
+2026-03-17 10:25:01,818 - INFO -    [DRY-RUN] Création: History ID 78
+2026-03-17 10:25:01,819 - INFO -    [DRY-RUN] Création: History ID 79
+2026-03-17 10:25:01,819 - INFO -    [DRY-RUN] Création: History ID 80
+2026-03-17 10:25:01,819 - INFO -    [DRY-RUN] Création: History ID 81
+2026-03-17 10:25:01,819 - INFO -    [DRY-RUN] Création: History ID 82
+2026-03-17 10:25:01,820 - INFO -    [DRY-RUN] Création: History ID 83
+2026-03-17 10:25:01,820 - INFO -    [DRY-RUN] Création: History ID 84
+2026-03-17 10:25:01,820 - INFO -    [DRY-RUN] Création: History ID 85
+2026-03-17 10:25:01,820 - INFO -    [DRY-RUN] Création: History ID 86
+2026-03-17 10:25:01,821 - INFO -    [DRY-RUN] Création: History ID 87
+2026-03-17 10:25:01,821 - INFO -    [DRY-RUN] Création: History ID 88
+2026-03-17 10:25:01,821 - INFO -    [DRY-RUN] Création: History ID 89
+2026-03-17 10:25:01,822 - INFO -    [DRY-RUN] Création: History ID 90
+2026-03-17 10:25:01,822 - INFO -    [DRY-RUN] Création: History ID 91
+2026-03-17 10:25:01,822 - INFO -    [DRY-RUN] Création: History ID 92
+2026-03-17 10:25:01,823 - INFO -    [DRY-RUN] Création: History ID 93
+2026-03-17 10:25:01,823 - INFO -    [DRY-RUN] Création: History ID 94
+2026-03-17 10:25:01,823 - INFO -    [DRY-RUN] Création: History ID 95
+2026-03-17 10:25:01,824 - INFO -    [DRY-RUN] Création: History ID 96
+2026-03-17 10:25:01,824 - INFO -    [DRY-RUN] Création: History ID 97
+2026-03-17 10:25:01,824 - INFO -    [DRY-RUN] Création: History ID 98
+2026-03-17 10:25:01,825 - INFO -    [DRY-RUN] Création: History ID 99
+2026-03-17 10:25:01,825 - INFO -    [DRY-RUN] Création: History ID 100
+2026-03-17 10:25:01,826 - INFO -    [DRY-RUN] Création: History ID 101
+2026-03-17 10:25:01,826 - INFO -    [DRY-RUN] Création: History ID 102
+2026-03-17 10:25:01,826 - INFO -    [DRY-RUN] Création: History ID 103
+2026-03-17 10:25:01,827 - INFO -    [DRY-RUN] Création: History ID 104
+2026-03-17 10:25:01,827 - INFO -    [DRY-RUN] Création: History ID 105
+2026-03-17 10:25:01,827 - INFO -    [DRY-RUN] Création: History ID 106
+2026-03-17 10:25:01,828 - INFO -    [DRY-RUN] Création: History ID 107
+2026-03-17 10:25:01,828 - INFO -    [DRY-RUN] Création: History ID 108
+2026-03-17 10:25:01,828 - INFO -    [DRY-RUN] Création: History ID 109
+2026-03-17 10:25:01,829 - INFO -    [DRY-RUN] Création: History ID 110
+2026-03-17 10:25:01,829 - INFO -    [DRY-RUN] Création: History ID 111
+2026-03-17 10:25:01,829 - INFO -    [DRY-RUN] Création: History ID 112
+2026-03-17 10:25:01,830 - INFO -    [DRY-RUN] Création: History ID 113
+2026-03-17 10:25:01,830 - INFO -    [DRY-RUN] Création: History ID 114
+2026-03-17 10:25:01,830 - INFO -    [DRY-RUN] Création: History ID 115
+2026-03-17 10:25:01,831 - INFO -    [DRY-RUN] Création: History ID 116
+2026-03-17 10:25:01,831 - INFO -    [DRY-RUN] Création: History ID 117
+2026-03-17 10:25:01,831 - INFO -    [DRY-RUN] Création: History ID 118
+2026-03-17 10:25:01,832 - INFO -    [DRY-RUN] Création: History ID 119
+2026-03-17 10:25:01,832 - INFO -    [DRY-RUN] Création: History ID 120
+2026-03-17 10:25:01,832 - INFO -    [DRY-RUN] Création: History ID 121
+2026-03-17 10:25:01,832 - INFO -    [DRY-RUN] Création: History ID 122
+2026-03-17 10:25:01,833 - INFO -    [DRY-RUN] Création: History ID 123
+2026-03-17 10:25:01,833 - INFO -    [DRY-RUN] Création: History ID 124
+2026-03-17 10:25:01,834 - INFO -    [DRY-RUN] Création: History ID 125
+2026-03-17 10:25:01,834 - INFO -    [DRY-RUN] Création: History ID 126
+2026-03-17 10:25:01,834 - INFO -    [DRY-RUN] Création: History ID 127
+2026-03-17 10:25:01,834 - INFO -    [DRY-RUN] Création: History ID 128
+2026-03-17 10:25:01,835 - INFO -    [DRY-RUN] Création: History ID 129
+2026-03-17 10:25:01,835 - INFO -    [DRY-RUN] Création: History ID 130
+2026-03-17 10:25:01,835 - INFO -    [DRY-RUN] Création: History ID 131
+2026-03-17 10:25:01,836 - INFO -    [DRY-RUN] Création: History ID 132
+2026-03-17 10:25:01,836 - INFO -    [DRY-RUN] Création: History ID 133
+2026-03-17 10:25:01,836 - INFO -    [DRY-RUN] Création: History ID 134
+2026-03-17 10:25:01,837 - INFO -    [DRY-RUN] Création: History ID 135
+2026-03-17 10:25:01,837 - INFO -    [DRY-RUN] Création: History ID 136
+2026-03-17 10:25:01,837 - INFO -    [DRY-RUN] Création: History ID 137
+2026-03-17 10:25:01,837 - INFO -    [DRY-RUN] Création: History ID 138
+2026-03-17 10:25:01,838 - INFO -    [DRY-RUN] Création: History ID 139
+2026-03-17 10:25:01,838 - INFO -    [DRY-RUN] Création: History ID 140
+2026-03-17 10:25:01,838 - INFO -    [DRY-RUN] Création: History ID 141
+2026-03-17 10:25:01,839 - INFO -    [DRY-RUN] Création: History ID 142
+2026-03-17 10:25:01,839 - INFO -    [DRY-RUN] Création: History ID 143
+2026-03-17 10:25:01,839 - INFO -    [DRY-RUN] Création: History ID 144
+2026-03-17 10:25:01,840 - INFO -    [DRY-RUN] Création: History ID 145
+2026-03-17 10:25:01,840 - INFO -    [DRY-RUN] Création: History ID 146
+2026-03-17 10:25:01,840 - INFO -    [DRY-RUN] Création: History ID 147
+2026-03-17 10:25:01,842 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-17 10:25:05,329 - INFO -    [DRY-RUN] Mise à jour des paramètres du site
+2026-03-17 10:25:05,329 - INFO - 
+================================================================================
+2026-03-17 10:25:05,329 - INFO - ⚠️  MODE DRY-RUN - Aucune modification n'a été effectuée
+2026-03-17 10:25:05,331 - INFO - ================================================================================
+2026-03-17 10:25:05,554 - INFO - 
+📊 STATISTIQUES:
+2026-03-17 10:25:05,556 - INFO -    ✅ Créés: 553
+2026-03-17 10:25:05,558 - INFO -    🔄 Mis à jour: 10
+2026-03-17 10:25:05,560 - INFO -    ⏭️  Ignorés (déjà à jour): 0
+2026-03-17 10:25:05,560 - INFO -    ❌ Erreurs: 0
+2026-03-17 10:25:05,562 - INFO - ================================================================================
+2026-03-17 10:39:30,417 - INFO - ✅ Connexion à la base de production réussie
+2026-03-17 10:39:30,418 - INFO - ================================================================================
+2026-03-17 10:39:30,419 - INFO - 🔄 SYNC LOCAL → PRODUCTION
+2026-03-17 10:39:30,419 - INFO - ================================================================================
+2026-03-17 10:39:30,419 - INFO - Mode: DRY-RUN (simulation)
+2026-03-17 10:39:30,419 - INFO - Base locale: SQLite (E:\Application\Eglise\Shalom\divine-echo-post\backend\db.sqlite3)
+2026-03-17 10:39:30,420 - INFO - Base production: PostgreSQL (Supabase)
+2026-03-17 10:39:30,420 - INFO - ================================================================================
+2026-03-17 10:39:30,420 - INFO - 
+================================================================================
+2026-03-17 10:39:30,420 - INFO - 🔄 DÉBUT DE LA SYNCHRONISATION
+2026-03-17 10:39:30,421 - INFO - ================================================================================
+2026-03-17 10:39:30,421 - INFO - 
+👤 Synchronisation des utilisateurs...
+2026-03-17 10:39:30,421 - INFO - 
+📦 Synchronisation: User
+2026-03-17 10:39:30,836 - INFO -    Local: 5 éléments
+2026-03-17 10:39:30,836 - INFO -    Production: 2 éléments existants
+2026-03-17 10:39:30,841 - INFO -    [DRY-RUN] Création: User ID 75
+2026-03-17 10:39:30,843 - INFO -    [DRY-RUN] Création: User ID 87
+2026-03-17 10:39:30,844 - INFO -    [DRY-RUN] Création: User ID 90
+2026-03-17 10:39:30,847 - INFO -    [DRY-RUN] Création: User ID 91
+2026-03-17 10:39:30,849 - INFO -    [DRY-RUN] Création: User ID 92
+2026-03-17 10:39:30,849 - INFO - 
+👤 Synchronisation des comptes...
+2026-03-17 10:39:30,850 - INFO - 
+📦 Synchronisation: Account
+2026-03-17 10:39:31,047 - INFO -    Local: 5 éléments
+2026-03-17 10:39:31,047 - INFO -    Production: 2 éléments existants
+2026-03-17 10:39:31,050 - INFO -    [DRY-RUN] Création: Account ID 69
+2026-03-17 10:39:31,052 - INFO -    [DRY-RUN] Création: Account ID 71
+2026-03-17 10:39:31,054 - INFO -    [DRY-RUN] Création: Account ID 72
+2026-03-17 10:39:31,055 - INFO -    [DRY-RUN] Création: Account ID 74
+2026-03-17 10:39:31,057 - INFO -    [DRY-RUN] Création: Account ID 75
+2026-03-17 10:39:31,057 - INFO - 
+📚 Synchronisation des catégories de cours...
+2026-03-17 10:39:31,057 - INFO - 
+📦 Synchronisation: CourseCategory
+2026-03-17 10:39:31,270 - INFO -    Local: 6 éléments
+2026-03-17 10:39:31,270 - INFO -    Production: 7 éléments existants
+2026-03-17 10:39:31,271 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 7
+2026-03-17 10:39:31,271 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 4
+2026-03-17 10:39:31,271 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 3
+2026-03-17 10:39:31,272 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 5
+2026-03-17 10:39:31,272 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 6
+2026-03-17 10:39:31,272 - INFO -    [DRY-RUN] Mise à jour: CourseCategory ID 2
+2026-03-17 10:39:31,272 - INFO - 
+📚 Synchronisation des catégories de sermons...
+2026-03-17 10:39:31,273 - INFO - 
+📦 Synchronisation: SermonCategory
+2026-03-17 10:39:33,237 - INFO -    Local: 5 éléments
+2026-03-17 10:39:33,237 - INFO -    Production: 2 éléments existants
+2026-03-17 10:39:33,237 - INFO -    [DRY-RUN] Création: SermonCategory ID 3
+2026-03-17 10:39:33,238 - INFO -    [DRY-RUN] Mise à jour: SermonCategory ID 2
+2026-03-17 10:39:33,238 - INFO -    [DRY-RUN] Mise à jour: SermonCategory ID 1
+2026-03-17 10:39:33,238 - INFO -    [DRY-RUN] Création: SermonCategory ID 4
+2026-03-17 10:39:33,239 - INFO -    [DRY-RUN] Création: SermonCategory ID 5
+2026-03-17 10:39:33,239 - INFO - 
+🏪 Synchronisation des catégories de boutiques...
+2026-03-17 10:39:33,240 - INFO - 
+📦 Synchronisation: Category
+2026-03-17 10:39:33,441 - INFO -    Local: 2 éléments
+2026-03-17 10:39:33,441 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:33,441 - INFO -    [DRY-RUN] Création: Category ID 23
+2026-03-17 10:39:33,443 - INFO -    [DRY-RUN] Création: Category ID 24
+2026-03-17 10:39:33,443 - INFO - 
+🏪 Synchronisation des sous-catégories...
+2026-03-17 10:39:33,443 - INFO - 
+📦 Synchronisation: SubCategory
+2026-03-17 10:39:33,650 - INFO -    Local: 47 éléments
+2026-03-17 10:39:33,650 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:33,652 - INFO -    [DRY-RUN] Création: SubCategory ID 631
+2026-03-17 10:39:33,655 - INFO -    [DRY-RUN] Création: SubCategory ID 632
+2026-03-17 10:39:33,656 - INFO -    [DRY-RUN] Création: SubCategory ID 633
+2026-03-17 10:39:33,658 - INFO -    [DRY-RUN] Création: SubCategory ID 634
+2026-03-17 10:39:33,660 - INFO -    [DRY-RUN] Création: SubCategory ID 635
+2026-03-17 10:39:33,663 - INFO -    [DRY-RUN] Création: SubCategory ID 636
+2026-03-17 10:39:33,665 - INFO -    [DRY-RUN] Création: SubCategory ID 637
+2026-03-17 10:39:33,667 - INFO -    [DRY-RUN] Création: SubCategory ID 638
+2026-03-17 10:39:33,669 - INFO -    [DRY-RUN] Création: SubCategory ID 639
+2026-03-17 10:39:33,671 - INFO -    [DRY-RUN] Création: SubCategory ID 640
+2026-03-17 10:39:33,672 - INFO -    [DRY-RUN] Création: SubCategory ID 641
+2026-03-17 10:39:33,674 - INFO -    [DRY-RUN] Création: SubCategory ID 642
+2026-03-17 10:39:33,675 - INFO -    [DRY-RUN] Création: SubCategory ID 643
+2026-03-17 10:39:33,676 - INFO -    [DRY-RUN] Création: SubCategory ID 644
+2026-03-17 10:39:33,678 - INFO -    [DRY-RUN] Création: SubCategory ID 645
+2026-03-17 10:39:33,680 - INFO -    [DRY-RUN] Création: SubCategory ID 646
+2026-03-17 10:39:33,681 - INFO -    [DRY-RUN] Création: SubCategory ID 647
+2026-03-17 10:39:33,683 - INFO -    [DRY-RUN] Création: SubCategory ID 648
+2026-03-17 10:39:33,685 - INFO -    [DRY-RUN] Création: SubCategory ID 649
+2026-03-17 10:39:33,686 - INFO -    [DRY-RUN] Création: SubCategory ID 650
+2026-03-17 10:39:33,688 - INFO -    [DRY-RUN] Création: SubCategory ID 651
+2026-03-17 10:39:33,689 - INFO -    [DRY-RUN] Création: SubCategory ID 652
+2026-03-17 10:39:33,692 - INFO -    [DRY-RUN] Création: SubCategory ID 653
+2026-03-17 10:39:33,693 - INFO -    [DRY-RUN] Création: SubCategory ID 654
+2026-03-17 10:39:33,695 - INFO -    [DRY-RUN] Création: SubCategory ID 655
+2026-03-17 10:39:33,696 - INFO -    [DRY-RUN] Création: SubCategory ID 656
+2026-03-17 10:39:33,697 - INFO -    [DRY-RUN] Création: SubCategory ID 657
+2026-03-17 10:39:33,699 - INFO -    [DRY-RUN] Création: SubCategory ID 658
+2026-03-17 10:39:33,701 - INFO -    [DRY-RUN] Création: SubCategory ID 659
+2026-03-17 10:39:33,702 - INFO -    [DRY-RUN] Création: SubCategory ID 660
+2026-03-17 10:39:33,704 - INFO -    [DRY-RUN] Création: SubCategory ID 661
+2026-03-17 10:39:33,706 - INFO -    [DRY-RUN] Création: SubCategory ID 662
+2026-03-17 10:39:33,707 - INFO -    [DRY-RUN] Création: SubCategory ID 663
+2026-03-17 10:39:33,709 - INFO -    [DRY-RUN] Création: SubCategory ID 664
+2026-03-17 10:39:33,710 - INFO -    [DRY-RUN] Création: SubCategory ID 665
+2026-03-17 10:39:33,712 - INFO -    [DRY-RUN] Création: SubCategory ID 666
+2026-03-17 10:39:33,714 - INFO -    [DRY-RUN] Création: SubCategory ID 667
+2026-03-17 10:39:33,716 - INFO -    [DRY-RUN] Création: SubCategory ID 668
+2026-03-17 10:39:33,718 - INFO -    [DRY-RUN] Création: SubCategory ID 669
+2026-03-17 10:39:33,719 - INFO -    [DRY-RUN] Création: SubCategory ID 670
+2026-03-17 10:39:33,721 - INFO -    [DRY-RUN] Création: SubCategory ID 671
+2026-03-17 10:39:33,722 - INFO -    [DRY-RUN] Création: SubCategory ID 672
+2026-03-17 10:39:33,724 - INFO -    [DRY-RUN] Création: SubCategory ID 673
+2026-03-17 10:39:33,725 - INFO -    [DRY-RUN] Création: SubCategory ID 674
+2026-03-17 10:39:33,727 - INFO -    [DRY-RUN] Création: SubCategory ID 675
+2026-03-17 10:39:33,728 - INFO -    [DRY-RUN] Création: SubCategory ID 676
+2026-03-17 10:39:33,730 - INFO -    [DRY-RUN] Création: SubCategory ID 677
+2026-03-17 10:39:33,731 - INFO - 
+🏪 Synchronisation des produits de base...
+2026-03-17 10:39:33,731 - INFO - 
+📦 Synchronisation: BasicProduct
+2026-03-17 10:39:33,947 - INFO -    Local: 337 éléments
+2026-03-17 10:39:33,947 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:33,949 - INFO -    [DRY-RUN] Création: BasicProduct ID 802
+2026-03-17 10:39:33,951 - INFO -    [DRY-RUN] Création: BasicProduct ID 803
+2026-03-17 10:39:33,953 - INFO -    [DRY-RUN] Création: BasicProduct ID 804
+2026-03-17 10:39:33,955 - INFO -    [DRY-RUN] Création: BasicProduct ID 805
+2026-03-17 10:39:33,957 - INFO -    [DRY-RUN] Création: BasicProduct ID 806
+2026-03-17 10:39:33,959 - INFO -    [DRY-RUN] Création: BasicProduct ID 807
+2026-03-17 10:39:33,961 - INFO -    [DRY-RUN] Création: BasicProduct ID 808
+2026-03-17 10:39:33,963 - INFO -    [DRY-RUN] Création: BasicProduct ID 809
+2026-03-17 10:39:33,965 - INFO -    [DRY-RUN] Création: BasicProduct ID 810
+2026-03-17 10:39:33,967 - INFO -    [DRY-RUN] Création: BasicProduct ID 811
+2026-03-17 10:39:33,969 - INFO -    [DRY-RUN] Création: BasicProduct ID 812
+2026-03-17 10:39:33,971 - INFO -    [DRY-RUN] Création: BasicProduct ID 813
+2026-03-17 10:39:33,973 - INFO -    [DRY-RUN] Création: BasicProduct ID 814
+2026-03-17 10:39:33,975 - INFO -    [DRY-RUN] Création: BasicProduct ID 815
+2026-03-17 10:39:33,977 - INFO -    [DRY-RUN] Création: BasicProduct ID 816
+2026-03-17 10:39:33,979 - INFO -    [DRY-RUN] Création: BasicProduct ID 817
+2026-03-17 10:39:33,981 - INFO -    [DRY-RUN] Création: BasicProduct ID 818
+2026-03-17 10:39:34,054 - INFO -    [DRY-RUN] Création: BasicProduct ID 819
+2026-03-17 10:39:34,055 - INFO -    [DRY-RUN] Création: BasicProduct ID 820
+2026-03-17 10:39:34,057 - INFO -    [DRY-RUN] Création: BasicProduct ID 821
+2026-03-17 10:39:34,059 - INFO -    [DRY-RUN] Création: BasicProduct ID 822
+2026-03-17 10:39:34,060 - INFO -    [DRY-RUN] Création: BasicProduct ID 823
+2026-03-17 10:39:34,061 - INFO -    [DRY-RUN] Création: BasicProduct ID 824
+2026-03-17 10:39:34,063 - INFO -    [DRY-RUN] Création: BasicProduct ID 825
+2026-03-17 10:39:34,064 - INFO -    [DRY-RUN] Création: BasicProduct ID 826
+2026-03-17 10:39:34,066 - INFO -    [DRY-RUN] Création: BasicProduct ID 827
+2026-03-17 10:39:34,067 - INFO -    [DRY-RUN] Création: BasicProduct ID 828
+2026-03-17 10:39:34,068 - INFO -    [DRY-RUN] Création: BasicProduct ID 829
+2026-03-17 10:39:34,070 - INFO -    [DRY-RUN] Création: BasicProduct ID 830
+2026-03-17 10:39:34,071 - INFO -    [DRY-RUN] Création: BasicProduct ID 831
+2026-03-17 10:39:34,073 - INFO -    [DRY-RUN] Création: BasicProduct ID 832
+2026-03-17 10:39:34,075 - INFO -    [DRY-RUN] Création: BasicProduct ID 833
+2026-03-17 10:39:34,076 - INFO -    [DRY-RUN] Création: BasicProduct ID 834
+2026-03-17 10:39:34,078 - INFO -    [DRY-RUN] Création: BasicProduct ID 835
+2026-03-17 10:39:34,080 - INFO -    [DRY-RUN] Création: BasicProduct ID 836
+2026-03-17 10:39:34,082 - INFO -    [DRY-RUN] Création: BasicProduct ID 837
+2026-03-17 10:39:34,083 - INFO -    [DRY-RUN] Création: BasicProduct ID 838
+2026-03-17 10:39:34,085 - INFO -    [DRY-RUN] Création: BasicProduct ID 839
+2026-03-17 10:39:34,086 - INFO -    [DRY-RUN] Création: BasicProduct ID 840
+2026-03-17 10:39:34,087 - INFO -    [DRY-RUN] Création: BasicProduct ID 841
+2026-03-17 10:39:34,089 - INFO -    [DRY-RUN] Création: BasicProduct ID 842
+2026-03-17 10:39:34,091 - INFO -    [DRY-RUN] Création: BasicProduct ID 843
+2026-03-17 10:39:34,092 - INFO -    [DRY-RUN] Création: BasicProduct ID 844
+2026-03-17 10:39:34,094 - INFO -    [DRY-RUN] Création: BasicProduct ID 845
+2026-03-17 10:39:34,096 - INFO -    [DRY-RUN] Création: BasicProduct ID 846
+2026-03-17 10:39:34,099 - INFO -    [DRY-RUN] Création: BasicProduct ID 847
+2026-03-17 10:39:34,102 - INFO -    [DRY-RUN] Création: BasicProduct ID 848
+2026-03-17 10:39:34,104 - INFO -    [DRY-RUN] Création: BasicProduct ID 849
+2026-03-17 10:39:34,106 - INFO -    [DRY-RUN] Création: BasicProduct ID 850
+2026-03-17 10:39:34,108 - INFO -    [DRY-RUN] Création: BasicProduct ID 851
+2026-03-17 10:39:34,110 - INFO -    [DRY-RUN] Création: BasicProduct ID 852
+2026-03-17 10:39:34,112 - INFO -    [DRY-RUN] Création: BasicProduct ID 853
+2026-03-17 10:39:34,114 - INFO -    [DRY-RUN] Création: BasicProduct ID 854
+2026-03-17 10:39:34,115 - INFO -    [DRY-RUN] Création: BasicProduct ID 855
+2026-03-17 10:39:34,117 - INFO -    [DRY-RUN] Création: BasicProduct ID 856
+2026-03-17 10:39:34,118 - INFO -    [DRY-RUN] Création: BasicProduct ID 857
+2026-03-17 10:39:34,120 - INFO -    [DRY-RUN] Création: BasicProduct ID 858
+2026-03-17 10:39:34,121 - INFO -    [DRY-RUN] Création: BasicProduct ID 859
+2026-03-17 10:39:34,123 - INFO -    [DRY-RUN] Création: BasicProduct ID 860
+2026-03-17 10:39:34,125 - INFO -    [DRY-RUN] Création: BasicProduct ID 861
+2026-03-17 10:39:34,126 - INFO -    [DRY-RUN] Création: BasicProduct ID 862
+2026-03-17 10:39:34,127 - INFO -    [DRY-RUN] Création: BasicProduct ID 863
+2026-03-17 10:39:34,129 - INFO -    [DRY-RUN] Création: BasicProduct ID 864
+2026-03-17 10:39:34,130 - INFO -    [DRY-RUN] Création: BasicProduct ID 865
+2026-03-17 10:39:34,132 - INFO -    [DRY-RUN] Création: BasicProduct ID 866
+2026-03-17 10:39:34,134 - INFO -    [DRY-RUN] Création: BasicProduct ID 867
+2026-03-17 10:39:34,138 - INFO -    [DRY-RUN] Création: BasicProduct ID 868
+2026-03-17 10:39:34,139 - INFO -    [DRY-RUN] Création: BasicProduct ID 869
+2026-03-17 10:39:34,141 - INFO -    [DRY-RUN] Création: BasicProduct ID 870
+2026-03-17 10:39:34,143 - INFO -    [DRY-RUN] Création: BasicProduct ID 871
+2026-03-17 10:39:34,144 - INFO -    [DRY-RUN] Création: BasicProduct ID 872
+2026-03-17 10:39:34,146 - INFO -    [DRY-RUN] Création: BasicProduct ID 873
+2026-03-17 10:39:34,148 - INFO -    [DRY-RUN] Création: BasicProduct ID 874
+2026-03-17 10:39:34,150 - INFO -    [DRY-RUN] Création: BasicProduct ID 875
+2026-03-17 10:39:34,151 - INFO -    [DRY-RUN] Création: BasicProduct ID 876
+2026-03-17 10:39:34,153 - INFO -    [DRY-RUN] Création: BasicProduct ID 877
+2026-03-17 10:39:34,155 - INFO -    [DRY-RUN] Création: BasicProduct ID 878
+2026-03-17 10:39:34,157 - INFO -    [DRY-RUN] Création: BasicProduct ID 879
+2026-03-17 10:39:34,159 - INFO -    [DRY-RUN] Création: BasicProduct ID 880
+2026-03-17 10:39:34,160 - INFO -    [DRY-RUN] Création: BasicProduct ID 881
+2026-03-17 10:39:34,162 - INFO -    [DRY-RUN] Création: BasicProduct ID 882
+2026-03-17 10:39:34,164 - INFO -    [DRY-RUN] Création: BasicProduct ID 883
+2026-03-17 10:39:34,165 - INFO -    [DRY-RUN] Création: BasicProduct ID 884
+2026-03-17 10:39:34,168 - INFO -    [DRY-RUN] Création: BasicProduct ID 885
+2026-03-17 10:39:34,174 - INFO -    [DRY-RUN] Création: BasicProduct ID 886
+2026-03-17 10:39:34,176 - INFO -    [DRY-RUN] Création: BasicProduct ID 887
+2026-03-17 10:39:34,177 - INFO -    [DRY-RUN] Création: BasicProduct ID 888
+2026-03-17 10:39:34,179 - INFO -    [DRY-RUN] Création: BasicProduct ID 889
+2026-03-17 10:39:34,182 - INFO -    [DRY-RUN] Création: BasicProduct ID 890
+2026-03-17 10:39:34,184 - INFO -    [DRY-RUN] Création: BasicProduct ID 891
+2026-03-17 10:39:34,186 - INFO -    [DRY-RUN] Création: BasicProduct ID 892
+2026-03-17 10:39:34,189 - INFO -    [DRY-RUN] Création: BasicProduct ID 893
+2026-03-17 10:39:34,191 - INFO -    [DRY-RUN] Création: BasicProduct ID 894
+2026-03-17 10:39:34,193 - INFO -    [DRY-RUN] Création: BasicProduct ID 895
+2026-03-17 10:39:34,194 - INFO -    [DRY-RUN] Création: BasicProduct ID 896
+2026-03-17 10:39:34,198 - INFO -    [DRY-RUN] Création: BasicProduct ID 897
+2026-03-17 10:39:34,201 - INFO -    [DRY-RUN] Création: BasicProduct ID 898
+2026-03-17 10:39:34,202 - INFO -    [DRY-RUN] Création: BasicProduct ID 899
+2026-03-17 10:39:34,205 - INFO -    [DRY-RUN] Création: BasicProduct ID 900
+2026-03-17 10:39:34,207 - INFO -    [DRY-RUN] Création: BasicProduct ID 901
+2026-03-17 10:39:34,209 - INFO -    [DRY-RUN] Création: BasicProduct ID 902
+2026-03-17 10:39:34,211 - INFO -    [DRY-RUN] Création: BasicProduct ID 903
+2026-03-17 10:39:34,212 - INFO -    [DRY-RUN] Création: BasicProduct ID 904
+2026-03-17 10:39:34,214 - INFO -    [DRY-RUN] Création: BasicProduct ID 905
+2026-03-17 10:39:34,216 - INFO -    [DRY-RUN] Création: BasicProduct ID 906
+2026-03-17 10:39:34,218 - INFO -    [DRY-RUN] Création: BasicProduct ID 907
+2026-03-17 10:39:34,220 - INFO -    [DRY-RUN] Création: BasicProduct ID 908
+2026-03-17 10:39:34,222 - INFO -    [DRY-RUN] Création: BasicProduct ID 909
+2026-03-17 10:39:34,224 - INFO -    [DRY-RUN] Création: BasicProduct ID 910
+2026-03-17 10:39:34,226 - INFO -    [DRY-RUN] Création: BasicProduct ID 911
+2026-03-17 10:39:34,228 - INFO -    [DRY-RUN] Création: BasicProduct ID 912
+2026-03-17 10:39:34,229 - INFO -    [DRY-RUN] Création: BasicProduct ID 913
+2026-03-17 10:39:34,232 - INFO -    [DRY-RUN] Création: BasicProduct ID 914
+2026-03-17 10:39:34,233 - INFO -    [DRY-RUN] Création: BasicProduct ID 915
+2026-03-17 10:39:34,235 - INFO -    [DRY-RUN] Création: BasicProduct ID 916
+2026-03-17 10:39:34,237 - INFO -    [DRY-RUN] Création: BasicProduct ID 917
+2026-03-17 10:39:34,238 - INFO -    [DRY-RUN] Création: BasicProduct ID 918
+2026-03-17 10:39:34,240 - INFO -    [DRY-RUN] Création: BasicProduct ID 919
+2026-03-17 10:39:34,241 - INFO -    [DRY-RUN] Création: BasicProduct ID 920
+2026-03-17 10:39:34,243 - INFO -    [DRY-RUN] Création: BasicProduct ID 921
+2026-03-17 10:39:34,245 - INFO -    [DRY-RUN] Création: BasicProduct ID 922
+2026-03-17 10:39:34,247 - INFO -    [DRY-RUN] Création: BasicProduct ID 923
+2026-03-17 10:39:34,249 - INFO -    [DRY-RUN] Création: BasicProduct ID 924
+2026-03-17 10:39:34,251 - INFO -    [DRY-RUN] Création: BasicProduct ID 925
+2026-03-17 10:39:34,253 - INFO -    [DRY-RUN] Création: BasicProduct ID 926
+2026-03-17 10:39:34,255 - INFO -    [DRY-RUN] Création: BasicProduct ID 927
+2026-03-17 10:39:34,257 - INFO -    [DRY-RUN] Création: BasicProduct ID 928
+2026-03-17 10:39:34,259 - INFO -    [DRY-RUN] Création: BasicProduct ID 929
+2026-03-17 10:39:34,261 - INFO -    [DRY-RUN] Création: BasicProduct ID 930
+2026-03-17 10:39:34,262 - INFO -    [DRY-RUN] Création: BasicProduct ID 931
+2026-03-17 10:39:34,264 - INFO -    [DRY-RUN] Création: BasicProduct ID 932
+2026-03-17 10:39:34,265 - INFO -    [DRY-RUN] Création: BasicProduct ID 933
+2026-03-17 10:39:34,267 - INFO -    [DRY-RUN] Création: BasicProduct ID 934
+2026-03-17 10:39:34,269 - INFO -    [DRY-RUN] Création: BasicProduct ID 935
+2026-03-17 10:39:34,271 - INFO -    [DRY-RUN] Création: BasicProduct ID 936
+2026-03-17 10:39:34,272 - INFO -    [DRY-RUN] Création: BasicProduct ID 937
+2026-03-17 10:39:34,274 - INFO -    [DRY-RUN] Création: BasicProduct ID 938
+2026-03-17 10:39:34,275 - INFO -    [DRY-RUN] Création: BasicProduct ID 939
+2026-03-17 10:39:34,277 - INFO -    [DRY-RUN] Création: BasicProduct ID 940
+2026-03-17 10:39:34,279 - INFO -    [DRY-RUN] Création: BasicProduct ID 941
+2026-03-17 10:39:34,280 - INFO -    [DRY-RUN] Création: BasicProduct ID 942
+2026-03-17 10:39:34,282 - INFO -    [DRY-RUN] Création: BasicProduct ID 943
+2026-03-17 10:39:34,284 - INFO -    [DRY-RUN] Création: BasicProduct ID 944
+2026-03-17 10:39:34,285 - INFO -    [DRY-RUN] Création: BasicProduct ID 945
+2026-03-17 10:39:34,288 - INFO -    [DRY-RUN] Création: BasicProduct ID 946
+2026-03-17 10:39:34,290 - INFO -    [DRY-RUN] Création: BasicProduct ID 947
+2026-03-17 10:39:34,292 - INFO -    [DRY-RUN] Création: BasicProduct ID 948
+2026-03-17 10:39:34,293 - INFO -    [DRY-RUN] Création: BasicProduct ID 949
+2026-03-17 10:39:34,296 - INFO -    [DRY-RUN] Création: BasicProduct ID 950
+2026-03-17 10:39:34,298 - INFO -    [DRY-RUN] Création: BasicProduct ID 951
+2026-03-17 10:39:34,300 - INFO -    [DRY-RUN] Création: BasicProduct ID 952
+2026-03-17 10:39:34,302 - INFO -    [DRY-RUN] Création: BasicProduct ID 953
+2026-03-17 10:39:34,303 - INFO -    [DRY-RUN] Création: BasicProduct ID 954
+2026-03-17 10:39:34,305 - INFO -    [DRY-RUN] Création: BasicProduct ID 955
+2026-03-17 10:39:34,307 - INFO -    [DRY-RUN] Création: BasicProduct ID 956
+2026-03-17 10:39:34,309 - INFO -    [DRY-RUN] Création: BasicProduct ID 957
+2026-03-17 10:39:34,311 - INFO -    [DRY-RUN] Création: BasicProduct ID 958
+2026-03-17 10:39:34,313 - INFO -    [DRY-RUN] Création: BasicProduct ID 959
+2026-03-17 10:39:34,316 - INFO -    [DRY-RUN] Création: BasicProduct ID 960
+2026-03-17 10:39:34,317 - INFO -    [DRY-RUN] Création: BasicProduct ID 961
+2026-03-17 10:39:34,320 - INFO -    [DRY-RUN] Création: BasicProduct ID 962
+2026-03-17 10:39:34,321 - INFO -    [DRY-RUN] Création: BasicProduct ID 963
+2026-03-17 10:39:34,324 - INFO -    [DRY-RUN] Création: BasicProduct ID 964
+2026-03-17 10:39:34,326 - INFO -    [DRY-RUN] Création: BasicProduct ID 965
+2026-03-17 10:39:34,328 - INFO -    [DRY-RUN] Création: BasicProduct ID 966
+2026-03-17 10:39:34,331 - INFO -    [DRY-RUN] Création: BasicProduct ID 967
+2026-03-17 10:39:34,332 - INFO -    [DRY-RUN] Création: BasicProduct ID 968
+2026-03-17 10:39:34,334 - INFO -    [DRY-RUN] Création: BasicProduct ID 969
+2026-03-17 10:39:34,336 - INFO -    [DRY-RUN] Création: BasicProduct ID 970
+2026-03-17 10:39:34,338 - INFO -    [DRY-RUN] Création: BasicProduct ID 971
+2026-03-17 10:39:34,340 - INFO -    [DRY-RUN] Création: BasicProduct ID 972
+2026-03-17 10:39:34,343 - INFO -    [DRY-RUN] Création: BasicProduct ID 973
+2026-03-17 10:39:34,344 - INFO -    [DRY-RUN] Création: BasicProduct ID 974
+2026-03-17 10:39:34,346 - INFO -    [DRY-RUN] Création: BasicProduct ID 975
+2026-03-17 10:39:34,347 - INFO -    [DRY-RUN] Création: BasicProduct ID 976
+2026-03-17 10:39:34,350 - INFO -    [DRY-RUN] Création: BasicProduct ID 977
+2026-03-17 10:39:34,351 - INFO -    [DRY-RUN] Création: BasicProduct ID 978
+2026-03-17 10:39:34,353 - INFO -    [DRY-RUN] Création: BasicProduct ID 979
+2026-03-17 10:39:34,355 - INFO -    [DRY-RUN] Création: BasicProduct ID 980
+2026-03-17 10:39:34,357 - INFO -    [DRY-RUN] Création: BasicProduct ID 981
+2026-03-17 10:39:34,358 - INFO -    [DRY-RUN] Création: BasicProduct ID 982
+2026-03-17 10:39:34,359 - INFO -    [DRY-RUN] Création: BasicProduct ID 983
+2026-03-17 10:39:34,361 - INFO -    [DRY-RUN] Création: BasicProduct ID 984
+2026-03-17 10:39:34,363 - INFO -    [DRY-RUN] Création: BasicProduct ID 985
+2026-03-17 10:39:34,365 - INFO -    [DRY-RUN] Création: BasicProduct ID 986
+2026-03-17 10:39:34,366 - INFO -    [DRY-RUN] Création: BasicProduct ID 987
+2026-03-17 10:39:34,368 - INFO -    [DRY-RUN] Création: BasicProduct ID 988
+2026-03-17 10:39:34,370 - INFO -    [DRY-RUN] Création: BasicProduct ID 989
+2026-03-17 10:39:34,372 - INFO -    [DRY-RUN] Création: BasicProduct ID 990
+2026-03-17 10:39:34,373 - INFO -    [DRY-RUN] Création: BasicProduct ID 991
+2026-03-17 10:39:34,375 - INFO -    [DRY-RUN] Création: BasicProduct ID 992
+2026-03-17 10:39:34,377 - INFO -    [DRY-RUN] Création: BasicProduct ID 993
+2026-03-17 10:39:34,378 - INFO -    [DRY-RUN] Création: BasicProduct ID 994
+2026-03-17 10:39:34,380 - INFO -    [DRY-RUN] Création: BasicProduct ID 995
+2026-03-17 10:39:34,382 - INFO -    [DRY-RUN] Création: BasicProduct ID 996
+2026-03-17 10:39:34,383 - INFO -    [DRY-RUN] Création: BasicProduct ID 997
+2026-03-17 10:39:34,385 - INFO -    [DRY-RUN] Création: BasicProduct ID 998
+2026-03-17 10:39:34,387 - INFO -    [DRY-RUN] Création: BasicProduct ID 999
+2026-03-17 10:39:34,389 - INFO -    [DRY-RUN] Création: BasicProduct ID 1000
+2026-03-17 10:39:34,391 - INFO -    [DRY-RUN] Création: BasicProduct ID 1001
+2026-03-17 10:39:34,393 - INFO -    [DRY-RUN] Création: BasicProduct ID 1002
+2026-03-17 10:39:34,395 - INFO -    [DRY-RUN] Création: BasicProduct ID 1003
+2026-03-17 10:39:34,397 - INFO -    [DRY-RUN] Création: BasicProduct ID 1004
+2026-03-17 10:39:34,399 - INFO -    [DRY-RUN] Création: BasicProduct ID 1005
+2026-03-17 10:39:34,401 - INFO -    [DRY-RUN] Création: BasicProduct ID 1006
+2026-03-17 10:39:34,404 - INFO -    [DRY-RUN] Création: BasicProduct ID 1007
+2026-03-17 10:39:34,406 - INFO -    [DRY-RUN] Création: BasicProduct ID 1008
+2026-03-17 10:39:34,408 - INFO -    [DRY-RUN] Création: BasicProduct ID 1009
+2026-03-17 10:39:34,410 - INFO -    [DRY-RUN] Création: BasicProduct ID 1010
+2026-03-17 10:39:34,412 - INFO -    [DRY-RUN] Création: BasicProduct ID 1011
+2026-03-17 10:39:34,414 - INFO -    [DRY-RUN] Création: BasicProduct ID 1012
+2026-03-17 10:39:34,415 - INFO -    [DRY-RUN] Création: BasicProduct ID 1013
+2026-03-17 10:39:34,417 - INFO -    [DRY-RUN] Création: BasicProduct ID 1014
+2026-03-17 10:39:34,418 - INFO -    [DRY-RUN] Création: BasicProduct ID 1015
+2026-03-17 10:39:34,420 - INFO -    [DRY-RUN] Création: BasicProduct ID 1016
+2026-03-17 10:39:34,422 - INFO -    [DRY-RUN] Création: BasicProduct ID 1017
+2026-03-17 10:39:34,424 - INFO -    [DRY-RUN] Création: BasicProduct ID 1018
+2026-03-17 10:39:34,425 - INFO -    [DRY-RUN] Création: BasicProduct ID 1019
+2026-03-17 10:39:34,427 - INFO -    [DRY-RUN] Création: BasicProduct ID 1020
+2026-03-17 10:39:34,429 - INFO -    [DRY-RUN] Création: BasicProduct ID 1021
+2026-03-17 10:39:34,431 - INFO -    [DRY-RUN] Création: BasicProduct ID 1022
+2026-03-17 10:39:34,433 - INFO -    [DRY-RUN] Création: BasicProduct ID 1023
+2026-03-17 10:39:34,435 - INFO -    [DRY-RUN] Création: BasicProduct ID 1024
+2026-03-17 10:39:34,436 - INFO -    [DRY-RUN] Création: BasicProduct ID 1025
+2026-03-17 10:39:34,438 - INFO -    [DRY-RUN] Création: BasicProduct ID 1026
+2026-03-17 10:39:34,439 - INFO -    [DRY-RUN] Création: BasicProduct ID 1027
+2026-03-17 10:39:34,441 - INFO -    [DRY-RUN] Création: BasicProduct ID 1028
+2026-03-17 10:39:34,443 - INFO -    [DRY-RUN] Création: BasicProduct ID 1029
+2026-03-17 10:39:34,445 - INFO -    [DRY-RUN] Création: BasicProduct ID 1030
+2026-03-17 10:39:34,447 - INFO -    [DRY-RUN] Création: BasicProduct ID 1031
+2026-03-17 10:39:34,449 - INFO -    [DRY-RUN] Création: BasicProduct ID 1032
+2026-03-17 10:39:34,451 - INFO -    [DRY-RUN] Création: BasicProduct ID 1033
+2026-03-17 10:39:34,453 - INFO -    [DRY-RUN] Création: BasicProduct ID 1034
+2026-03-17 10:39:34,455 - INFO -    [DRY-RUN] Création: BasicProduct ID 1035
+2026-03-17 10:39:34,457 - INFO -    [DRY-RUN] Création: BasicProduct ID 1036
+2026-03-17 10:39:34,459 - INFO -    [DRY-RUN] Création: BasicProduct ID 1037
+2026-03-17 10:39:34,461 - INFO -    [DRY-RUN] Création: BasicProduct ID 1038
+2026-03-17 10:39:34,462 - INFO -    [DRY-RUN] Création: BasicProduct ID 1039
+2026-03-17 10:39:34,464 - INFO -    [DRY-RUN] Création: BasicProduct ID 1040
+2026-03-17 10:39:34,466 - INFO -    [DRY-RUN] Création: BasicProduct ID 1041
+2026-03-17 10:39:34,469 - INFO -    [DRY-RUN] Création: BasicProduct ID 1042
+2026-03-17 10:39:34,471 - INFO -    [DRY-RUN] Création: BasicProduct ID 1043
+2026-03-17 10:39:34,473 - INFO -    [DRY-RUN] Création: BasicProduct ID 1044
+2026-03-17 10:39:34,474 - INFO -    [DRY-RUN] Création: BasicProduct ID 1045
+2026-03-17 10:39:34,477 - INFO -    [DRY-RUN] Création: BasicProduct ID 1046
+2026-03-17 10:39:34,479 - INFO -    [DRY-RUN] Création: BasicProduct ID 1047
+2026-03-17 10:39:34,481 - INFO -    [DRY-RUN] Création: BasicProduct ID 1048
+2026-03-17 10:39:34,483 - INFO -    [DRY-RUN] Création: BasicProduct ID 1049
+2026-03-17 10:39:34,486 - INFO -    [DRY-RUN] Création: BasicProduct ID 1050
+2026-03-17 10:39:34,488 - INFO -    [DRY-RUN] Création: BasicProduct ID 1051
+2026-03-17 10:39:34,490 - INFO -    [DRY-RUN] Création: BasicProduct ID 1052
+2026-03-17 10:39:34,492 - INFO -    [DRY-RUN] Création: BasicProduct ID 1053
+2026-03-17 10:39:34,494 - INFO -    [DRY-RUN] Création: BasicProduct ID 1054
+2026-03-17 10:39:34,496 - INFO -    [DRY-RUN] Création: BasicProduct ID 1055
+2026-03-17 10:39:34,498 - INFO -    [DRY-RUN] Création: BasicProduct ID 1056
+2026-03-17 10:39:34,500 - INFO -    [DRY-RUN] Création: BasicProduct ID 1057
+2026-03-17 10:39:34,502 - INFO -    [DRY-RUN] Création: BasicProduct ID 1058
+2026-03-17 10:39:34,504 - INFO -    [DRY-RUN] Création: BasicProduct ID 1059
+2026-03-17 10:39:34,506 - INFO -    [DRY-RUN] Création: BasicProduct ID 1060
+2026-03-17 10:39:34,508 - INFO -    [DRY-RUN] Création: BasicProduct ID 1061
+2026-03-17 10:39:34,510 - INFO -    [DRY-RUN] Création: BasicProduct ID 1062
+2026-03-17 10:39:34,511 - INFO -    [DRY-RUN] Création: BasicProduct ID 1063
+2026-03-17 10:39:34,513 - INFO -    [DRY-RUN] Création: BasicProduct ID 1064
+2026-03-17 10:39:34,515 - INFO -    [DRY-RUN] Création: BasicProduct ID 1065
+2026-03-17 10:39:34,517 - INFO -    [DRY-RUN] Création: BasicProduct ID 1066
+2026-03-17 10:39:34,519 - INFO -    [DRY-RUN] Création: BasicProduct ID 1067
+2026-03-17 10:39:34,521 - INFO -    [DRY-RUN] Création: BasicProduct ID 1068
+2026-03-17 10:39:34,523 - INFO -    [DRY-RUN] Création: BasicProduct ID 1069
+2026-03-17 10:39:34,525 - INFO -    [DRY-RUN] Création: BasicProduct ID 1070
+2026-03-17 10:39:34,527 - INFO -    [DRY-RUN] Création: BasicProduct ID 1071
+2026-03-17 10:39:34,529 - INFO -    [DRY-RUN] Création: BasicProduct ID 1072
+2026-03-17 10:39:34,531 - INFO -    [DRY-RUN] Création: BasicProduct ID 1073
+2026-03-17 10:39:34,533 - INFO -    [DRY-RUN] Création: BasicProduct ID 1074
+2026-03-17 10:39:34,535 - INFO -    [DRY-RUN] Création: BasicProduct ID 1075
+2026-03-17 10:39:34,537 - INFO -    [DRY-RUN] Création: BasicProduct ID 1076
+2026-03-17 10:39:34,538 - INFO -    [DRY-RUN] Création: BasicProduct ID 1077
+2026-03-17 10:39:34,541 - INFO -    [DRY-RUN] Création: BasicProduct ID 1078
+2026-03-17 10:39:34,543 - INFO -    [DRY-RUN] Création: BasicProduct ID 1079
+2026-03-17 10:39:34,545 - INFO -    [DRY-RUN] Création: BasicProduct ID 1080
+2026-03-17 10:39:34,547 - INFO -    [DRY-RUN] Création: BasicProduct ID 1081
+2026-03-17 10:39:34,549 - INFO -    [DRY-RUN] Création: BasicProduct ID 1082
+2026-03-17 10:39:34,551 - INFO -    [DRY-RUN] Création: BasicProduct ID 1083
+2026-03-17 10:39:34,553 - INFO -    [DRY-RUN] Création: BasicProduct ID 1084
+2026-03-17 10:39:34,556 - INFO -    [DRY-RUN] Création: BasicProduct ID 1085
+2026-03-17 10:39:34,558 - INFO -    [DRY-RUN] Création: BasicProduct ID 1086
+2026-03-17 10:39:34,560 - INFO -    [DRY-RUN] Création: BasicProduct ID 1087
+2026-03-17 10:39:34,562 - INFO -    [DRY-RUN] Création: BasicProduct ID 1088
+2026-03-17 10:39:34,565 - INFO -    [DRY-RUN] Création: BasicProduct ID 1089
+2026-03-17 10:39:34,567 - INFO -    [DRY-RUN] Création: BasicProduct ID 1090
+2026-03-17 10:39:34,568 - INFO -    [DRY-RUN] Création: BasicProduct ID 1091
+2026-03-17 10:39:34,571 - INFO -    [DRY-RUN] Création: BasicProduct ID 1092
+2026-03-17 10:39:34,573 - INFO -    [DRY-RUN] Création: BasicProduct ID 1093
+2026-03-17 10:39:34,576 - INFO -    [DRY-RUN] Création: BasicProduct ID 1094
+2026-03-17 10:39:34,578 - INFO -    [DRY-RUN] Création: BasicProduct ID 1095
+2026-03-17 10:39:34,580 - INFO -    [DRY-RUN] Création: BasicProduct ID 1096
+2026-03-17 10:39:34,582 - INFO -    [DRY-RUN] Création: BasicProduct ID 1097
+2026-03-17 10:39:34,584 - INFO -    [DRY-RUN] Création: BasicProduct ID 1098
+2026-03-17 10:39:34,587 - INFO -    [DRY-RUN] Création: BasicProduct ID 1099
+2026-03-17 10:39:34,589 - INFO -    [DRY-RUN] Création: BasicProduct ID 1100
+2026-03-17 10:39:34,591 - INFO -    [DRY-RUN] Création: BasicProduct ID 1101
+2026-03-17 10:39:34,593 - INFO -    [DRY-RUN] Création: BasicProduct ID 1102
+2026-03-17 10:39:34,595 - INFO -    [DRY-RUN] Création: BasicProduct ID 1103
+2026-03-17 10:39:34,598 - INFO -    [DRY-RUN] Création: BasicProduct ID 1104
+2026-03-17 10:39:34,600 - INFO -    [DRY-RUN] Création: BasicProduct ID 1105
+2026-03-17 10:39:34,603 - INFO -    [DRY-RUN] Création: BasicProduct ID 1106
+2026-03-17 10:39:34,605 - INFO -    [DRY-RUN] Création: BasicProduct ID 1107
+2026-03-17 10:39:34,607 - INFO -    [DRY-RUN] Création: BasicProduct ID 1108
+2026-03-17 10:39:34,609 - INFO -    [DRY-RUN] Création: BasicProduct ID 1109
+2026-03-17 10:39:34,611 - INFO -    [DRY-RUN] Création: BasicProduct ID 1110
+2026-03-17 10:39:34,613 - INFO -    [DRY-RUN] Création: BasicProduct ID 1111
+2026-03-17 10:39:34,615 - INFO -    [DRY-RUN] Création: BasicProduct ID 1112
+2026-03-17 10:39:34,618 - INFO -    [DRY-RUN] Création: BasicProduct ID 1113
+2026-03-17 10:39:34,621 - INFO -    [DRY-RUN] Création: BasicProduct ID 1114
+2026-03-17 10:39:34,623 - INFO -    [DRY-RUN] Création: BasicProduct ID 1115
+2026-03-17 10:39:34,626 - INFO -    [DRY-RUN] Création: BasicProduct ID 1116
+2026-03-17 10:39:34,628 - INFO -    [DRY-RUN] Création: BasicProduct ID 1117
+2026-03-17 10:39:34,630 - INFO -    [DRY-RUN] Création: BasicProduct ID 1118
+2026-03-17 10:39:34,633 - INFO -    [DRY-RUN] Création: BasicProduct ID 1119
+2026-03-17 10:39:34,635 - INFO -    [DRY-RUN] Création: BasicProduct ID 1120
+2026-03-17 10:39:34,637 - INFO -    [DRY-RUN] Création: BasicProduct ID 1121
+2026-03-17 10:39:34,639 - INFO -    [DRY-RUN] Création: BasicProduct ID 1122
+2026-03-17 10:39:34,641 - INFO -    [DRY-RUN] Création: BasicProduct ID 1123
+2026-03-17 10:39:34,642 - INFO -    [DRY-RUN] Création: BasicProduct ID 1124
+2026-03-17 10:39:34,644 - INFO -    [DRY-RUN] Création: BasicProduct ID 1125
+2026-03-17 10:39:34,646 - INFO -    [DRY-RUN] Création: BasicProduct ID 1126
+2026-03-17 10:39:34,649 - INFO -    [DRY-RUN] Création: BasicProduct ID 1127
+2026-03-17 10:39:34,651 - INFO -    [DRY-RUN] Création: BasicProduct ID 1128
+2026-03-17 10:39:34,652 - INFO -    [DRY-RUN] Création: BasicProduct ID 1129
+2026-03-17 10:39:34,654 - INFO -    [DRY-RUN] Création: BasicProduct ID 1130
+2026-03-17 10:39:34,656 - INFO -    [DRY-RUN] Création: BasicProduct ID 1131
+2026-03-17 10:39:34,658 - INFO -    [DRY-RUN] Création: BasicProduct ID 1132
+2026-03-17 10:39:34,660 - INFO -    [DRY-RUN] Création: BasicProduct ID 1133
+2026-03-17 10:39:34,662 - INFO -    [DRY-RUN] Création: BasicProduct ID 1134
+2026-03-17 10:39:34,663 - INFO -    [DRY-RUN] Création: BasicProduct ID 1135
+2026-03-17 10:39:34,667 - INFO -    [DRY-RUN] Création: BasicProduct ID 1136
+2026-03-17 10:39:34,669 - INFO -    [DRY-RUN] Création: BasicProduct ID 1137
+2026-03-17 10:39:34,671 - INFO -    [DRY-RUN] Création: BasicProduct ID 1138
+2026-03-17 10:39:34,671 - INFO - 
+📖 Synchronisation des cours...
+2026-03-17 10:39:34,671 - INFO - 
+📦 Synchronisation: Course
+2026-03-17 10:39:34,900 - INFO -    Local: 4 éléments
+2026-03-17 10:39:34,900 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:34,901 - INFO -    [DRY-RUN] Création: Course ID 5
+2026-03-17 10:39:34,904 - INFO -    [DRY-RUN] Création: Course ID 4
+2026-03-17 10:39:34,906 - INFO -    [DRY-RUN] Création: Course ID 3
+2026-03-17 10:39:34,908 - INFO -    [DRY-RUN] Création: Course ID 2
+2026-03-17 10:39:34,909 - INFO - 
+📖 Synchronisation des sermons...
+2026-03-17 10:39:34,909 - INFO - 
+📦 Synchronisation: Sermon
+2026-03-17 10:39:35,130 - INFO -    Local: 3 éléments
+2026-03-17 10:39:35,130 - INFO -    Production: 1 éléments existants
+2026-03-17 10:39:35,131 - INFO -    [DRY-RUN] Création: Sermon ID 3
+2026-03-17 10:39:35,131 - INFO -    [DRY-RUN] Création: Sermon ID 2
+2026-03-17 10:39:35,134 - INFO -    [DRY-RUN] Mise à jour: Sermon ID 1
+2026-03-17 10:39:35,134 - INFO - 
+🏪 Synchronisation des boutiques...
+2026-03-17 10:39:35,135 - INFO - 
+📦 Synchronisation: Shop
+2026-03-17 10:39:35,336 - INFO -    Local: 0 éléments
+2026-03-17 10:39:35,337 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:35,337 - INFO - 
+📝 Synchronisation des leçons...
+2026-03-17 10:39:35,337 - INFO - 
+📦 Synchronisation: Lesson
+2026-03-17 10:39:37,267 - INFO -    Local: 0 éléments
+2026-03-17 10:39:37,267 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:37,268 - INFO - 
+🏪 Synchronisation des produits...
+2026-03-17 10:39:37,268 - INFO - 
+📦 Synchronisation: Product
+2026-03-17 10:39:37,484 - INFO -    Local: 0 éléments
+2026-03-17 10:39:37,484 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:37,484 - INFO - 
+🏪 Synchronisation des fréquences de contrôle...
+2026-03-17 10:39:37,484 - INFO - 
+📦 Synchronisation: ControlFrequency
+2026-03-17 10:39:37,693 - INFO -    Local: 0 éléments
+2026-03-17 10:39:37,694 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:37,694 - INFO - 
+📚 Synchronisation des inscriptions...
+2026-03-17 10:39:37,694 - INFO - 
+📦 Synchronisation: Enrollment
+2026-03-17 10:39:37,893 - INFO -    Local: 0 éléments
+2026-03-17 10:39:37,894 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:37,894 - INFO - 
+🏪 Synchronisation des produits publics...
+2026-03-17 10:39:37,894 - INFO - 
+📦 Synchronisation: PublicProduct
+2026-03-17 10:39:38,101 - INFO -    Local: 0 éléments
+2026-03-17 10:39:38,102 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:38,102 - INFO - 
+📊 Synchronisation de la progression des leçons...
+2026-03-17 10:39:38,102 - INFO - 
+📦 Synchronisation: LessonProgress
+2026-03-17 10:39:38,306 - INFO -    Local: 0 éléments
+2026-03-17 10:39:38,306 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:38,307 - INFO - 
+🏪 Synchronisation de l'historique des prix...
+2026-03-17 10:39:38,307 - INFO - 
+📦 Synchronisation: SalePriceHistory
+2026-03-17 10:39:38,523 - INFO -    Local: 0 éléments
+2026-03-17 10:39:38,523 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:38,524 - INFO - 
+🏪 Synchronisation des approvisionnements...
+2026-03-17 10:39:38,524 - INFO - 
+📦 Synchronisation: Supply
+2026-03-17 10:39:38,740 - INFO -    Local: 0 éléments
+2026-03-17 10:39:38,741 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:38,741 - INFO - 
+🏪 Synchronisation des ventes...
+2026-03-17 10:39:38,741 - INFO - 
+📦 Synchronisation: Sales
+2026-03-17 10:39:38,942 - INFO -    Local: 0 éléments
+2026-03-17 10:39:38,942 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:38,943 - INFO - 
+⭐ Synchronisation des favoris...
+2026-03-17 10:39:38,943 - INFO - 
+📦 Synchronisation: Favorite
+2026-03-17 10:39:39,150 - INFO -    Local: 1 éléments
+2026-03-17 10:39:39,150 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:39,152 - INFO -    [DRY-RUN] Création: Favorite ID 1
+2026-03-17 10:39:39,152 - INFO - 
+📜 Synchronisation de l'historique...
+2026-03-17 10:39:39,152 - INFO - 
+📦 Synchronisation: History
+2026-03-17 10:39:39,406 - INFO -    Local: 147 éléments
+2026-03-17 10:39:39,407 - INFO -    Production: 0 éléments existants
+2026-03-17 10:39:39,407 - INFO -    [DRY-RUN] Création: History ID 1
+2026-03-17 10:39:39,407 - INFO -    [DRY-RUN] Création: History ID 2
+2026-03-17 10:39:39,407 - INFO -    [DRY-RUN] Création: History ID 3
+2026-03-17 10:39:39,407 - INFO -    [DRY-RUN] Création: History ID 4
+2026-03-17 10:39:39,408 - INFO -    [DRY-RUN] Création: History ID 5
+2026-03-17 10:39:39,408 - INFO -    [DRY-RUN] Création: History ID 6
+2026-03-17 10:39:39,408 - INFO -    [DRY-RUN] Création: History ID 7
+2026-03-17 10:39:39,409 - INFO -    [DRY-RUN] Création: History ID 8
+2026-03-17 10:39:39,409 - INFO -    [DRY-RUN] Création: History ID 9
+2026-03-17 10:39:39,410 - INFO -    [DRY-RUN] Création: History ID 10
+2026-03-17 10:39:39,410 - INFO -    [DRY-RUN] Création: History ID 11
+2026-03-17 10:39:39,410 - INFO -    [DRY-RUN] Création: History ID 12
+2026-03-17 10:39:39,411 - INFO -    [DRY-RUN] Création: History ID 13
+2026-03-17 10:39:39,411 - INFO -    [DRY-RUN] Création: History ID 14
+2026-03-17 10:39:39,411 - INFO -    [DRY-RUN] Création: History ID 15
+2026-03-17 10:39:39,412 - INFO -    [DRY-RUN] Création: History ID 16
+2026-03-17 10:39:39,412 - INFO -    [DRY-RUN] Création: History ID 17
+2026-03-17 10:39:39,412 - INFO -    [DRY-RUN] Création: History ID 18
+2026-03-17 10:39:39,413 - INFO -    [DRY-RUN] Création: History ID 19
+2026-03-17 10:39:39,414 - INFO -    [DRY-RUN] Création: History ID 20
+2026-03-17 10:39:39,414 - INFO -    [DRY-RUN] Création: History ID 21
+2026-03-17 10:39:39,414 - INFO -    [DRY-RUN] Création: History ID 22
+2026-03-17 10:39:39,415 - INFO -    [DRY-RUN] Création: History ID 23
+2026-03-17 10:39:39,415 - INFO -    [DRY-RUN] Création: History ID 24
+2026-03-17 10:39:39,416 - INFO -    [DRY-RUN] Création: History ID 25
+2026-03-17 10:39:39,416 - INFO -    [DRY-RUN] Création: History ID 26
+2026-03-17 10:39:39,416 - INFO -    [DRY-RUN] Création: History ID 27
+2026-03-17 10:39:39,416 - INFO -    [DRY-RUN] Création: History ID 28
+2026-03-17 10:39:39,417 - INFO -    [DRY-RUN] Création: History ID 29
+2026-03-17 10:39:39,417 - INFO -    [DRY-RUN] Création: History ID 30
+2026-03-17 10:39:39,417 - INFO -    [DRY-RUN] Création: History ID 31
+2026-03-17 10:39:39,418 - INFO -    [DRY-RUN] Création: History ID 32
+2026-03-17 10:39:39,418 - INFO -    [DRY-RUN] Création: History ID 33
+2026-03-17 10:39:39,418 - INFO -    [DRY-RUN] Création: History ID 34
+2026-03-17 10:39:39,419 - INFO -    [DRY-RUN] Création: History ID 35
+2026-03-17 10:39:39,419 - INFO -    [DRY-RUN] Création: History ID 36
+2026-03-17 10:39:39,420 - INFO -    [DRY-RUN] Création: History ID 37
+2026-03-17 10:39:39,420 - INFO -    [DRY-RUN] Création: History ID 38
+2026-03-17 10:39:39,420 - INFO -    [DRY-RUN] Création: History ID 39
+2026-03-17 10:39:39,421 - INFO -    [DRY-RUN] Création: History ID 40
+2026-03-17 10:39:39,422 - INFO -    [DRY-RUN] Création: History ID 41
+2026-03-17 10:39:39,422 - INFO -    [DRY-RUN] Création: History ID 42
+2026-03-17 10:39:39,423 - INFO -    [DRY-RUN] Création: History ID 43
+2026-03-17 10:39:39,423 - INFO -    [DRY-RUN] Création: History ID 44
+2026-03-17 10:39:39,424 - INFO -    [DRY-RUN] Création: History ID 45
+2026-03-17 10:39:39,424 - INFO -    [DRY-RUN] Création: History ID 46
+2026-03-17 10:39:39,424 - INFO -    [DRY-RUN] Création: History ID 47
+2026-03-17 10:39:39,425 - INFO -    [DRY-RUN] Création: History ID 48
+2026-03-17 10:39:39,425 - INFO -    [DRY-RUN] Création: History ID 49
+2026-03-17 10:39:39,425 - INFO -    [DRY-RUN] Création: History ID 50
+2026-03-17 10:39:39,426 - INFO -    [DRY-RUN] Création: History ID 51
+2026-03-17 10:39:39,426 - INFO -    [DRY-RUN] Création: History ID 52
+2026-03-17 10:39:39,426 - INFO -    [DRY-RUN] Création: History ID 53
+2026-03-17 10:39:39,427 - INFO -    [DRY-RUN] Création: History ID 54
+2026-03-17 10:39:39,427 - INFO -    [DRY-RUN] Création: History ID 55
+2026-03-17 10:39:39,428 - INFO -    [DRY-RUN] Création: History ID 56
+2026-03-17 10:39:39,429 - INFO -    [DRY-RUN] Création: History ID 57
+2026-03-17 10:39:39,429 - INFO -    [DRY-RUN] Création: History ID 58
+2026-03-17 10:39:39,430 - INFO -    [DRY-RUN] Création: History ID 59
+2026-03-17 10:39:39,430 - INFO -    [DRY-RUN] Création: History ID 60
+2026-03-17 10:39:39,431 - INFO -    [DRY-RUN] Création: History ID 61
+2026-03-17 10:39:39,431 - INFO -    [DRY-RUN] Création: History ID 62
+2026-03-17 10:39:39,431 - INFO -    [DRY-RUN] Création: History ID 63
+2026-03-17 10:39:39,432 - INFO -    [DRY-RUN] Création: History ID 64
+2026-03-17 10:39:39,432 - INFO -    [DRY-RUN] Création: History ID 65
+2026-03-17 10:39:39,432 - INFO -    [DRY-RUN] Création: History ID 66
+2026-03-17 10:39:39,433 - INFO -    [DRY-RUN] Création: History ID 67
+2026-03-17 10:39:39,433 - INFO -    [DRY-RUN] Création: History ID 68
+2026-03-17 10:39:39,433 - INFO -    [DRY-RUN] Création: History ID 69
+2026-03-17 10:39:39,434 - INFO -    [DRY-RUN] Création: History ID 70
+2026-03-17 10:39:39,434 - INFO -    [DRY-RUN] Création: History ID 71
+2026-03-17 10:39:39,435 - INFO -    [DRY-RUN] Création: History ID 72
+2026-03-17 10:39:39,435 - INFO -    [DRY-RUN] Création: History ID 73
+2026-03-17 10:39:39,436 - INFO -    [DRY-RUN] Création: History ID 74
+2026-03-17 10:39:39,436 - INFO -    [DRY-RUN] Création: History ID 75
+2026-03-17 10:39:39,437 - INFO -    [DRY-RUN] Création: History ID 76
+2026-03-17 10:39:39,437 - INFO -    [DRY-RUN] Création: History ID 77
+2026-03-17 10:39:39,437 - INFO -    [DRY-RUN] Création: History ID 78
+2026-03-17 10:39:39,438 - INFO -    [DRY-RUN] Création: History ID 79
+2026-03-17 10:39:39,438 - INFO -    [DRY-RUN] Création: History ID 80
+2026-03-17 10:39:39,439 - INFO -    [DRY-RUN] Création: History ID 81
+2026-03-17 10:39:39,439 - INFO -    [DRY-RUN] Création: History ID 82
+2026-03-17 10:39:39,439 - INFO -    [DRY-RUN] Création: History ID 83
+2026-03-17 10:39:39,440 - INFO -    [DRY-RUN] Création: History ID 84
+2026-03-17 10:39:39,440 - INFO -    [DRY-RUN] Création: History ID 85
+2026-03-17 10:39:39,440 - INFO -    [DRY-RUN] Création: History ID 86
+2026-03-17 10:39:39,441 - INFO -    [DRY-RUN] Création: History ID 87
+2026-03-17 10:39:39,441 - INFO -    [DRY-RUN] Création: History ID 88
+2026-03-17 10:39:39,441 - INFO -    [DRY-RUN] Création: History ID 89
+2026-03-17 10:39:39,442 - INFO -    [DRY-RUN] Création: History ID 90
+2026-03-17 10:39:39,442 - INFO -    [DRY-RUN] Création: History ID 91
+2026-03-17 10:39:39,442 - INFO -    [DRY-RUN] Création: History ID 92
+2026-03-17 10:39:39,443 - INFO -    [DRY-RUN] Création: History ID 93
+2026-03-17 10:39:39,443 - INFO -    [DRY-RUN] Création: History ID 94
+2026-03-17 10:39:39,443 - INFO -    [DRY-RUN] Création: History ID 95
+2026-03-17 10:39:39,444 - INFO -    [DRY-RUN] Création: History ID 96
+2026-03-17 10:39:39,444 - INFO -    [DRY-RUN] Création: History ID 97
+2026-03-17 10:39:39,445 - INFO -    [DRY-RUN] Création: History ID 98
+2026-03-17 10:39:39,446 - INFO -    [DRY-RUN] Création: History ID 99
+2026-03-17 10:39:39,446 - INFO -    [DRY-RUN] Création: History ID 100
+2026-03-17 10:39:39,447 - INFO -    [DRY-RUN] Création: History ID 101
+2026-03-17 10:39:39,447 - INFO -    [DRY-RUN] Création: History ID 102
+2026-03-17 10:39:39,447 - INFO -    [DRY-RUN] Création: History ID 103
+2026-03-17 10:39:39,448 - INFO -    [DRY-RUN] Création: History ID 104
+2026-03-17 10:39:39,448 - INFO -    [DRY-RUN] Création: History ID 105
+2026-03-17 10:39:39,449 - INFO -    [DRY-RUN] Création: History ID 106
+2026-03-17 10:39:39,449 - INFO -    [DRY-RUN] Création: History ID 107
+2026-03-17 10:39:39,450 - INFO -    [DRY-RUN] Création: History ID 108
+2026-03-17 10:39:39,450 - INFO -    [DRY-RUN] Création: History ID 109
+2026-03-17 10:39:39,451 - INFO -    [DRY-RUN] Création: History ID 110
+2026-03-17 10:39:39,451 - INFO -    [DRY-RUN] Création: History ID 111
+2026-03-17 10:39:39,451 - INFO -    [DRY-RUN] Création: History ID 112
+2026-03-17 10:39:39,452 - INFO -    [DRY-RUN] Création: History ID 113
+2026-03-17 10:39:39,452 - INFO -    [DRY-RUN] Création: History ID 114
+2026-03-17 10:39:39,453 - INFO -    [DRY-RUN] Création: History ID 115
+2026-03-17 10:39:39,453 - INFO -    [DRY-RUN] Création: History ID 116
+2026-03-17 10:39:39,454 - INFO -    [DRY-RUN] Création: History ID 117
+2026-03-17 10:39:39,454 - INFO -    [DRY-RUN] Création: History ID 118
+2026-03-17 10:39:39,454 - INFO -    [DRY-RUN] Création: History ID 119
+2026-03-17 10:39:39,454 - INFO -    [DRY-RUN] Création: History ID 120
+2026-03-17 10:39:39,455 - INFO -    [DRY-RUN] Création: History ID 121
+2026-03-17 10:39:39,456 - INFO -    [DRY-RUN] Création: History ID 122
+2026-03-17 10:39:39,456 - INFO -    [DRY-RUN] Création: History ID 123
+2026-03-17 10:39:39,456 - INFO -    [DRY-RUN] Création: History ID 124
+2026-03-17 10:39:39,456 - INFO -    [DRY-RUN] Création: History ID 125
+2026-03-17 10:39:39,457 - INFO -    [DRY-RUN] Création: History ID 126
+2026-03-17 10:39:39,457 - INFO -    [DRY-RUN] Création: History ID 127
+2026-03-17 10:39:39,458 - INFO -    [DRY-RUN] Création: History ID 128
+2026-03-17 10:39:39,458 - INFO -    [DRY-RUN] Création: History ID 129
+2026-03-17 10:39:39,458 - INFO -    [DRY-RUN] Création: History ID 130
+2026-03-17 10:39:39,459 - INFO -    [DRY-RUN] Création: History ID 131
+2026-03-17 10:39:39,459 - INFO -    [DRY-RUN] Création: History ID 132
+2026-03-17 10:39:39,459 - INFO -    [DRY-RUN] Création: History ID 133
+2026-03-17 10:39:39,459 - INFO -    [DRY-RUN] Création: History ID 134
+2026-03-17 10:39:39,459 - INFO -    [DRY-RUN] Création: History ID 135
+2026-03-17 10:39:39,460 - INFO -    [DRY-RUN] Création: History ID 136
+2026-03-17 10:39:39,460 - INFO -    [DRY-RUN] Création: History ID 137
+2026-03-17 10:39:39,461 - INFO -    [DRY-RUN] Création: History ID 138
+2026-03-17 10:39:39,461 - INFO -    [DRY-RUN] Création: History ID 139
+2026-03-17 10:39:39,462 - INFO -    [DRY-RUN] Création: History ID 140
+2026-03-17 10:39:39,463 - INFO -    [DRY-RUN] Création: History ID 141
+2026-03-17 10:39:39,463 - INFO -    [DRY-RUN] Création: History ID 142
+2026-03-17 10:39:39,463 - INFO -    [DRY-RUN] Création: History ID 143
+2026-03-17 10:39:39,463 - INFO -    [DRY-RUN] Création: History ID 144
+2026-03-17 10:39:39,464 - INFO -    [DRY-RUN] Création: History ID 145
+2026-03-17 10:39:39,464 - INFO -    [DRY-RUN] Création: History ID 146
+2026-03-17 10:39:39,465 - INFO -    [DRY-RUN] Création: History ID 147
+2026-03-17 10:39:39,465 - INFO - 
+⚙️  Synchronisation des paramètres du site...
+2026-03-17 10:39:50,811 - INFO -    [DRY-RUN] Mise à jour des paramètres du site
+2026-03-17 10:39:50,811 - INFO - 
+================================================================================
+2026-03-17 10:39:50,811 - INFO - ⚠️  MODE DRY-RUN - Aucune modification n'a été effectuée
+2026-03-17 10:39:50,811 - INFO - ================================================================================
+2026-03-17 10:39:51,000 - INFO - 
+📊 STATISTIQUES:
+2026-03-17 10:39:51,001 - INFO -    ✅ Créés: 553
+2026-03-17 10:39:51,001 - INFO -    🔄 Mis à jour: 10
+2026-03-17 10:39:51,001 - INFO -    ⏭️  Ignorés (déjà à jour): 0
+2026-03-17 10:39:51,002 - INFO -    ❌ Erreurs: 0
+2026-03-17 10:39:51,002 - INFO - ================================================================================

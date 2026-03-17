@@ -285,8 +285,8 @@ const AdminEditPage = () => {
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.settings_page.form.emissions")} ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-4" name="editpage-input-4"
+                                    <label htmlFor="btn_emissions" className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">{t("admin.settings_page.form.emissions")} ({activeLang.toUpperCase()})</label>
+                                    <input id="btn_emissions" name="btn_emissions"
                                         type="text"
                                         value={getFieldValue("btn_emissions")}
                                         onChange={(e) => handleFieldChange("btn_emissions", e.target.value)}
@@ -294,8 +294,8 @@ const AdminEditPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.settings_page.form.teachings")} ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-5" name="editpage-input-5"
+                                    <label htmlFor="btn_teachings" className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">{t("admin.settings_page.form.teachings")} ({activeLang.toUpperCase()})</label>
+                                    <input id="btn_teachings" name="btn_teachings"
                                         type="text"
                                         value={getFieldValue("btn_teachings")}
                                         onChange={(e) => handleFieldChange("btn_teachings", e.target.value)}
@@ -303,8 +303,8 @@ const AdminEditPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("admin.settings_page.form.meditation")} ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-6" name="editpage-input-6"
+                                    <label htmlFor="btn_meditation" className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">{t("admin.settings_page.form.meditation")} ({activeLang.toUpperCase()})</label>
+                                    <input id="btn_meditation" name="btn_meditation"
                                         type="text"
                                         value={getFieldValue("btn_meditation")}
                                         onChange={(e) => handleFieldChange("btn_meditation", e.target.value)}
@@ -363,8 +363,8 @@ const AdminEditPage = () => {
                                     ].map((stat) => (
                                         <div key={stat.key} className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl">
                                             <div className="space-y-1.5">
-                                                <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Valeur (ex: 120+)</label>
-                                                <input id="editpage-input-7" name="editpage-input-7"
+                                                <label htmlFor={stat.valueKey} className="text-[9px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Valeur (ex: 120+)</label>
+                                                <input id={stat.valueKey} name={stat.valueKey}
                                                     type="text"
                                                     value={settings?.[stat.valueKey] || ""}
                                                     onChange={(e) => updateField(stat.valueKey, e.target.value)}
@@ -372,8 +372,8 @@ const AdminEditPage = () => {
                                                 />
                                             </div>
                                             <div className="space-y-1.5">
-                                                <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Label ({activeLang.toUpperCase()})</label>
-                                                <input id="editpage-input-8" name="editpage-input-8"
+                                                <label htmlFor={stat.key} className="text-[9px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Label ({activeLang.toUpperCase()})</label>
+                                                <input id={stat.key} name={stat.key}
                                                     type="text"
                                                     value={getFieldValue(stat.key)}
                                                     onChange={(e) => handleFieldChange(stat.key, e.target.value)}
@@ -558,7 +558,14 @@ const AdminEditPage = () => {
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
                                 />
                             </div>
-
+                             <div className="space-y-1.5">
+                                 <label htmlFor={`section_testimonials_desc_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Description ({activeLang.toUpperCase()})</label>
+                                 <textarea id={`section_testimonials_desc_${activeLang}`} name={`section_testimonials_desc_${activeLang}`}
+                                     value={getFieldValue("section_testimonials_desc")}
+                                     onChange={(e) => handleFieldChange("section_testimonials_desc", e.target.value)}
+                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
+                                 />
+                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
                                     <label htmlFor="contact_email" className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Email de contact</label>
@@ -682,8 +689,8 @@ const AdminEditPage = () => {
                     {id === "4" && (
                         <div className="space-y-6">
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nom du Ministère / Site</label>
-                                <input id="editpage-input-21" name="editpage-input-21"
+                                <label htmlFor="site_name" className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Nom du Ministère / Site</label>
+                                <input id="site_name" name="site_name"
                                     type="text"
                                     value={settings?.site_name || ""}
                                     onChange={(e) => updateField("site_name", e.target.value)}
@@ -691,17 +698,17 @@ const AdminEditPage = () => {
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description Pied de page ({activeLang.toUpperCase()})</label>
-                                <textarea id="editpage-textarea-22" name="editpage-textarea-22"
+                                <label htmlFor={`footer_description_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Description Pied de page ({activeLang.toUpperCase()})</label>
+                                <textarea id={`footer_description_${activeLang}`} name={`footer_description_${activeLang}`}
                                     value={getFieldValue("footer_description")}
                                     onChange={(e) => handleFieldChange("footer_description", e.target.value)}
                                     className="w-full h-32 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
                                 />
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Liens Rapides ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-23" name="editpage-input-23"
+                                    <label htmlFor={`footer_quick_links_title_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Titre Liens Rapides ({activeLang.toUpperCase()})</label>
+                                    <input id={`footer_quick_links_title_${activeLang}`} name={`footer_quick_links_title_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("footer_quick_links_title")}
                                         onChange={(e) => handleFieldChange("footer_quick_links_title", e.target.value)}
@@ -709,8 +716,8 @@ const AdminEditPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Contact ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-24" name="editpage-input-24"
+                                    <label htmlFor={`footer_contact_title_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Titre Contact ({activeLang.toUpperCase()})</label>
+                                    <input id={`footer_contact_title_${activeLang}`} name={`footer_contact_title_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("footer_contact_title")}
                                         onChange={(e) => handleFieldChange("footer_contact_title", e.target.value)}
@@ -718,8 +725,8 @@ const AdminEditPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Réseaux Sociaux ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-25" name="editpage-input-25"
+                                    <label htmlFor={`footer_social_title_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Titre Réseaux Sociaux ({activeLang.toUpperCase()})</label>
+                                    <input id={`footer_social_title_${activeLang}`} name={`footer_social_title_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("footer_social_title")}
                                         onChange={(e) => handleFieldChange("footer_social_title", e.target.value)}
@@ -727,8 +734,8 @@ const AdminEditPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Mention Copyright ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-26" name="editpage-input-26"
+                                    <label htmlFor={`footer_copyright_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Mention Copyright ({activeLang.toUpperCase()})</label>
+                                    <input id={`footer_copyright_${activeLang}`} name={`footer_copyright_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("footer_copyright")}
                                         onChange={(e) => handleFieldChange("footer_copyright", e.target.value)}
@@ -743,8 +750,8 @@ const AdminEditPage = () => {
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Badge ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-27" name="editpage-input-27"
+                                    <label htmlFor={`section_featured_badge_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Badge ({activeLang.toUpperCase()})</label>
+                                    <input id={`section_featured_badge_${activeLang}`} name={`section_featured_badge_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("section_featured_badge")}
                                         onChange={(e) => handleFieldChange("section_featured_badge", e.target.value)}
@@ -752,8 +759,8 @@ const AdminEditPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-28" name="editpage-input-28"
+                                    <label htmlFor={`section_featured_accent_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Accent Titre ({activeLang.toUpperCase()})</label>
+                                    <input id={`section_featured_accent_${activeLang}`} name={`section_featured_accent_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("section_featured_accent")}
                                         onChange={(e) => handleFieldChange("section_featured_accent", e.target.value)}
@@ -762,8 +769,8 @@ const AdminEditPage = () => {
                                 </div>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Principal ({activeLang.toUpperCase()})</label>
-                                <input id="editpage-input-29" name="editpage-input-29"
+                                <label htmlFor={`section_featured_title_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Titre Principal ({activeLang.toUpperCase()})</label>
+                                <input id={`section_featured_title_${activeLang}`} name={`section_featured_title_${activeLang}`}
                                     type="text"
                                     value={getFieldValue("section_featured")}
                                     onChange={(e) => handleFieldChange("section_featured", e.target.value)}
@@ -771,8 +778,8 @@ const AdminEditPage = () => {
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description ({activeLang.toUpperCase()})</label>
-                                <textarea id="editpage-textarea-30" name="editpage-textarea-30"
+                                <label htmlFor={`section_featured_desc_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Description ({activeLang.toUpperCase()})</label>
+                                <textarea id={`section_featured_desc_${activeLang}`} name={`section_featured_desc_${activeLang}`}
                                     value={getFieldValue("section_featured_desc")}
                                     onChange={(e) => handleFieldChange("section_featured_desc", e.target.value)}
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
@@ -785,8 +792,8 @@ const AdminEditPage = () => {
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Principal ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-31" name="editpage-input-31"
+                                    <label htmlFor={`section_categories_title_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Titre Principal ({activeLang.toUpperCase()})</label>
+                                    <input id={`section_categories_title_${activeLang}`} name={`section_categories_title_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("section_categories")}
                                         onChange={(e) => handleFieldChange("section_categories", e.target.value)}
@@ -794,8 +801,8 @@ const AdminEditPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-32" name="editpage-input-32"
+                                    <label htmlFor={`section_categories_accent_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Accent Titre ({activeLang.toUpperCase()})</label>
+                                    <input id={`section_categories_accent_${activeLang}`} name={`section_categories_accent_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("section_categories_accent")}
                                         onChange={(e) => handleFieldChange("section_categories_accent", e.target.value)}
@@ -804,8 +811,8 @@ const AdminEditPage = () => {
                                 </div>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description ({activeLang.toUpperCase()})</label>
-                                <textarea id="editpage-textarea-33" name="editpage-textarea-33"
+                                <label htmlFor={`section_categories_desc_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Description ({activeLang.toUpperCase()})</label>
+                                <textarea id={`section_categories_desc_${activeLang}`} name={`section_categories_desc_${activeLang}`}
                                     value={getFieldValue("section_categories_desc")}
                                     onChange={(e) => handleFieldChange("section_categories_desc", e.target.value)}
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
@@ -818,8 +825,8 @@ const AdminEditPage = () => {
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Badge ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-34" name="editpage-input-34"
+                                    <label htmlFor={`section_announcements_badge_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Badge ({activeLang.toUpperCase()})</label>
+                                    <input id={`section_announcements_badge_${activeLang}`} name={`section_announcements_badge_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("section_announcements_badge")}
                                         onChange={(e) => handleFieldChange("section_announcements_badge", e.target.value)}
@@ -827,8 +834,8 @@ const AdminEditPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-35" name="editpage-input-35"
+                                    <label htmlFor={`section_announcements_accent_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Accent Titre ({activeLang.toUpperCase()})</label>
+                                    <input id={`section_announcements_accent_${activeLang}`} name={`section_announcements_accent_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("section_announcements_accent")}
                                         onChange={(e) => handleFieldChange("section_announcements_accent", e.target.value)}
@@ -837,8 +844,8 @@ const AdminEditPage = () => {
                                 </div>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Principal ({activeLang.toUpperCase()})</label>
-                                <input id="editpage-input-36" name="editpage-input-36"
+                                <label htmlFor={`section_announcements_title_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Titre Principal ({activeLang.toUpperCase()})</label>
+                                <input id={`section_announcements_title_${activeLang}`} name={`section_announcements_title_${activeLang}`}
                                     type="text"
                                     value={getFieldValue("section_announcements_title")}
                                     onChange={(e) => handleFieldChange("section_announcements_title", e.target.value)}
@@ -846,10 +853,10 @@ const AdminEditPage = () => {
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description ({activeLang.toUpperCase()})</label>
-                                <textarea id="editpage-textarea-37" name="editpage-textarea-37"
+                                <label htmlFor={`section_announcements_desc_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Description ({activeLang.toUpperCase()})</label>
+                                <textarea id={`section_announcements_desc_${activeLang}`} name={`section_announcements_desc_${activeLang}`}
                                     value={getFieldValue("section_announcements_desc")}
-                                    onChange={(e) => handleFieldChange("section_announcements_desc", e.target.value)}
+                                    onChange={(handleFieldChange as any)("section_announcements_desc")}
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"
                                 />
                             </div>
@@ -860,8 +867,8 @@ const AdminEditPage = () => {
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Badge ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-38" name="editpage-input-38"
+                                    <label htmlFor={`section_testimonials_badge_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Badge ({activeLang.toUpperCase()})</label>
+                                    <input id={`section_testimonials_badge_${activeLang}`} name={`section_testimonials_badge_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("section_testimonials_badge")}
                                         onChange={(e) => handleFieldChange("section_testimonials_badge", e.target.value)}
@@ -869,8 +876,8 @@ const AdminEditPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accent Titre ({activeLang.toUpperCase()})</label>
-                                    <input id="editpage-input-39" name="editpage-input-39"
+                                    <label htmlFor={`section_testimonials_accent_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Accent Titre ({activeLang.toUpperCase()})</label>
+                                    <input id={`section_testimonials_accent_${activeLang}`} name={`section_testimonials_accent_${activeLang}`}
                                         type="text"
                                         value={getFieldValue("section_testimonials_accent")}
                                         onChange={(e) => handleFieldChange("section_testimonials_accent", e.target.value)}
@@ -879,8 +886,8 @@ const AdminEditPage = () => {
                                 </div>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Titre Principal ({activeLang.toUpperCase()})</label>
-                                <input id="editpage-input-40" name="editpage-input-40"
+                                <label htmlFor={`section_testimonials_title_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Titre Principal ({activeLang.toUpperCase()})</label>
+                                <input id={`section_testimonials_title_${activeLang}`} name={`section_testimonials_title_${activeLang}`}
                                     type="text"
                                     value={getFieldValue("section_testimonials_title")}
                                     onChange={(e) => handleFieldChange("section_testimonials_title", e.target.value)}
@@ -888,8 +895,8 @@ const AdminEditPage = () => {
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description ({activeLang.toUpperCase()})</label>
-                                <textarea id="editpage-textarea-41" name="editpage-textarea-41"
+                                <label htmlFor={`section_testimonials_desc_${activeLang}`} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Description ({activeLang.toUpperCase()})</label>
+                                <textarea id={`section_testimonials_desc_${activeLang}`} name={`section_testimonials_desc_${activeLang}`}
                                     value={getFieldValue("section_testimonials_desc")}
                                     onChange={(e) => handleFieldChange("section_testimonials_desc", e.target.value)}
                                     className="w-full h-24 px-4 py-3 bg-white border border-border focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm resize-none leading-relaxed"

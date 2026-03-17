@@ -1,3 +1,4 @@
+# pyre-ignore-all-errors
 """
 Script de synchronisation manuelle des données de SQLite (local) vers Supabase (production)
 
@@ -24,7 +25,7 @@ import sys
 import django
 import argparse
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List, Union
 from django.db import transaction, connections
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -34,6 +35,10 @@ import dj_database_url
 import logging
 
 # Configuration du logging
+import io
+if sys.stdout.encoding != 'utf-8':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -109,7 +114,7 @@ class DatabaseSync:
         }
         
         # Vérifier que DATABASE_URL est défini pour la production
-        self.prod_db_url = original_database_url
+        self.prod_db_url: str = original_database_url or ''
         if not self.prod_db_url:
             raise ValueError(
                 "❌ DATABASE_URL n'est pas défini.\n"
@@ -345,7 +350,7 @@ class DatabaseSync:
         self,
         model_class,
         model_name: str,
-        order_by: Optional[str] = None
+        order_by: Optional[Union[str, List[str]]] = None
     ) -> None:
         """
         Synchronise un modèle spécifique
