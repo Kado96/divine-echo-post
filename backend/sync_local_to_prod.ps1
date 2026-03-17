@@ -47,6 +47,21 @@ try {
     exit 1
 }
 
+# Charger DATABASE_URL depuis .env si présent et non défini
+$envFile = Join-Path (Get-Location) ".env"
+if (Test-Path $envFile) {
+    Get-Content $envFile | ForEach-Object {
+        $line = $_.Trim()
+        if ($line -match "^DATABASE_URL=(.+)") {
+            $value = $matches[1].Trim().Trim("'").Trim('"')
+            if (-not $env:DATABASE_URL) {
+                $env:DATABASE_URL = $value
+                Write-Host "[INFO] DATABASE_URL chargé automatiquement depuis .env" -ForegroundColor Green
+            }
+        }
+    }
+}
+
 # Vérifier que DATABASE_URL est défini
 if (-not $env:DATABASE_URL) {
     Write-Host "[ATTENTION] DATABASE_URL n'est pas defini" -ForegroundColor Yellow

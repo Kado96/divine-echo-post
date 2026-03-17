@@ -22,16 +22,16 @@ Script de synchronisation manuelle des données de SQLite (local) vers Supabase 
 
 import os
 import sys
-import django
+import django  # type: ignore
 import argparse
 from pathlib import Path
 from typing import Dict, Any, Optional, List, Union
-from django.db import transaction, connections
-from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction, connections  # type: ignore
+from django.conf import settings  # type: ignore
+from django.core.exceptions import ObjectDoesNotExist  # type: ignore
 from urllib.parse import unquote
 import socket
-import dj_database_url
+import dj_database_url  # type: ignore
 import logging
 
 # Configuration du logging
@@ -74,25 +74,25 @@ load_env_for_sync()
 original_database_url = os.environ.get('DATABASE_URL')
 if original_database_url:
     # Retirer temporairement de l'environnement pour que Django utilise SQLite par défaut (config settings.py)
-    del os.environ['DATABASE_URL']
+    os.environ.pop('DATABASE_URL', None)
 
 django.setup()
 
 # Maintenant configurer les deux bases : 'local' (SQLite) et 'prod' (PostgreSQL)
-from django.conf import settings as django_settings
+from django.conf import settings as django_settings  # type: ignore
 
 # Base locale (SQLite) - déjà configurée par settings.py
 # On va ajouter une configuration 'prod' pour PostgreSQL
 
 # Import des modèles
-from django.contrib.auth.models import User, Group, Permission
-from api.accounts.models import Account
-from api.courses.models import (
+from django.contrib.auth.models import User, Group, Permission  # type: ignore
+from api.accounts.models import Account  # type: ignore
+from api.courses.models import (  # type: ignore
     CourseCategory, Course, Lesson, Enrollment, LessonProgress, Favorite
 )
-from api.sermons.models import SermonCategory, Sermon
-from api.settings.models import SiteSettings
-from api.shops.models import (
+from api.sermons.models import SermonCategory, Sermon  # type: ignore
+from api.settings.models import SiteSettings  # type: ignore
+from api.shops.models import (  # type: ignore
     Shop, ControlFrequency, Category, SubCategory, BasicProduct,
     Product, SalePriceHistory, Supply, Sales, History, PublicProduct
 )
@@ -134,17 +134,24 @@ class DatabaseSync:
                 "3. Allez dans Settings > Database\n"
                 "4. Copiez la 'Connection string' (URI mode)\n"
                 "5. Remplacez [YOUR-PASSWORD] par votre mot de passe\n"
-                f"URL actuelle (invalide): {self.prod_db_url[:50]}..."
+                f"URL actuelle (invalide): {str(self.prod_db_url)[:50]}..."
             )
         
         # Configurer la base de production
         self._setup_prod_database()
         
+        # Déterminer le type de base locale pour les logs
+        local_db_engine = settings.DATABASES['default']['ENGINE']
+        local_db_type = "PostgreSQL" if "postgresql" in local_db_engine else "SQLite"
+        local_db_name = settings.DATABASES['default'].get('NAME', 'unknown')
+        if "postgresql" in local_db_engine:
+            local_db_name = f"{settings.DATABASES['default'].get('NAME')} on {settings.DATABASES['default'].get('HOST', 'localhost')}"
+
         logger.info("=" * 80)
         logger.info("🔄 SYNC LOCAL → PRODUCTION")
         logger.info("=" * 80)
         logger.info(f"Mode: {'DRY-RUN (simulation)' if dry_run else 'SYNCHRONISATION RÉELLE'}")
-        logger.info(f"Base locale: SQLite ({settings.DATABASES['default']['NAME']})")
+        logger.info(f"Base locale: {local_db_type} ({local_db_name})")
         logger.info(f"Base production: PostgreSQL (Supabase)")
         logger.info("=" * 80)
     
@@ -190,8 +197,8 @@ class DatabaseSync:
         
         # Résoudre IPv4 si nécessaire
         if 'HOST' in db_config and db_config['HOST']:
-            resolved_host = self._resolve_ipv4(db_config['HOST'])
-            if resolved_host != db_config['HOST'] and '.' in resolved_host:
+            resolved_host = str(self._resolve_ipv4(db_config.get('HOST', '')))
+            if resolved_host != db_config.get('HOST') and isinstance(resolved_host, str) and '.' in resolved_host:
                 db_config['HOSTADDR'] = resolved_host
             else:
                 db_config['HOST'] = resolved_host
@@ -208,18 +215,14 @@ class DatabaseSync:
         default_config = settings.DATABASES['default'].copy()
         default_config.update(db_config)
         
-        # S'assurer que toutes les clés nécessaires sont présentes
-        # Ces clés sont vérifiées par Django lors de la connexion
-        if 'TIME_ZONE' not in default_config:
-            default_config['TIME_ZONE'] = settings.TIME_ZONE
-        if 'USE_TZ' not in default_config:
-            default_config['USE_TZ'] = settings.USE_TZ
-        if 'ATOMIC_REQUESTS' not in default_config:
-            default_config['ATOMIC_REQUESTS'] = False
-        if 'AUTOCOMMIT' not in default_config:
-            default_config['AUTOCOMMIT'] = True
-        if 'CONN_MAX_AGE' not in default_config:
-            default_config['CONN_MAX_AGE'] = 0
+        # S'assurer que les paramètres requis par Django sont présents
+        # Sinon Django lève un KeyError: 'TIME_ZONE' lors de la connexion
+        default_config.setdefault('TIME_ZONE', getattr(settings, 'TIME_ZONE', 'UTC'))
+        default_config.setdefault('USE_TZ', getattr(settings, 'USE_TZ', True))
+        default_config.setdefault('ATOMIC_REQUESTS', False)
+        default_config.setdefault('AUTOCOMMIT', True)
+        default_config.setdefault('CONN_MAX_AGE', 0)
+        default_config.setdefault('ENGINE', 'django.db.backends.postgresql')
         
         # Ajouter la configuration 'prod' aux DATABASES
         settings.DATABASES['prod'] = default_config
@@ -437,11 +440,12 @@ class DatabaseSync:
                 return
         
         try:
-            # Utiliser une transaction pour la production
-            with transaction.atomic(using='prod'):
-                logger.info("\n" + "=" * 80)
-                logger.info("🔄 DÉBUT DE LA SYNCHRONISATION")
-                logger.info("=" * 80)
+            # On ne met plus de transaction globale pour permettre de voir toutes les erreurs
+            # et ne pas tout annuler à la moindre alerte d'unicité.
+            
+            logger.info("\n" + "=" * 80)
+            logger.info("🔄 DÉBUT DE LA SYNCHRONISATION")
+            logger.info("=" * 80)
                 
                 # 1. User (Django built-in) - doit être en premier
                 logger.info("\n👤 Synchronisation des utilisateurs...")
