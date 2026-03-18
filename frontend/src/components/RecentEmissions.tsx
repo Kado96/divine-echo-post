@@ -9,7 +9,7 @@ import emissionMeditation from "@/assets/emission-meditation.jpg";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { apiService } from "@/lib/api";
-import { stripHtml, getFullImageUrl } from "@/lib/utils";
+import { stripHtml, getFullImageUrl, formatPublicTitle } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 const RecentEmissions = () => {
@@ -121,7 +121,7 @@ const RecentEmissions = () => {
                   {/* Content */}
                   <div className="p-5">
                     <span className="text-accent text-xs font-semibold uppercase tracking-wider">{item.category}</span>
-                    <h3 className="font-bold text-foreground mt-1 mb-1 group-hover:text-accent transition-colors">{item.title}</h3>
+                    <h3 className="font-bold text-foreground mt-1 mb-1 group-hover:text-accent transition-colors">{formatPublicTitle(item.title)}</h3>
                     <p className="text-muted-foreground text-sm mb-3">{item.author}</p>
                     <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t border-border">
                       <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {item.duration}</span>

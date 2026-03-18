@@ -16,6 +16,22 @@ export function stripHtml(html: string) {
     .replace(/&quot;/g, '"');  // Replace quotes
 }
 
+/**
+ * Filtre les titres pour éviter d'afficher des noms de fichiers techniques (ex: image.jpg)
+ * sur le site public.
+ */
+export function formatPublicTitle(title: string | null | undefined): string {
+  if (!title) return "";
+  
+  // Si le titre contient une extension de fichier courante, on le considère comme technique
+  const fileExtensionPattern = /\.(jpg|jpeg|png|gif|webp|svg|mp3|wav|ogg|mp4|mov|webm|pdf|doc|docx)$/i;
+  if (fileExtensionPattern.test(title)) {
+    return "";
+  }
+  
+  return title;
+}
+
 export function getFullImageUrl(url: string | null | undefined): string {
   if (!url) return "";
 

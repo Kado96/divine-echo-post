@@ -10130,3 +10130,317 @@ DETAIL:  Key (id)=(75) is still referenced from table "courses_favorite".
 2026-03-17 16:59:04,364 - INFO -    ✅ Mis à jour.
 2026-03-17 16:59:04,364 - INFO - 
 ✨ TERMINÉ | Créés: 0 | Mis à jour: 60 | Erreurs: 0
+2026-03-18 17:40:56,086 - INFO - 
+📦 Synchronisation: Utilisateurs (Clé: username)
+2026-03-18 17:40:58,852 - INFO -    Local: 4 | Production: 4
+2026-03-18 17:40:58,853 - INFO - 
+📦 Synchronisation: Profils Complets (Clé: id)
+2026-03-18 17:40:59,034 - INFO -    Local: 4 | Production: 4
+2026-03-18 17:40:59,219 - INFO -    ✅ Mis à jour id: 69
+2026-03-18 17:40:59,391 - INFO -    ✅ Mis à jour id: 72
+2026-03-18 17:40:59,566 - INFO -    ✅ Mis à jour id: 74
+2026-03-18 17:40:59,769 - INFO -    ✅ Mis à jour id: 75
+2026-03-18 17:40:59,770 - INFO - 
+📦 Synchronisation: Images & Médias (Clé: file)
+2026-03-18 17:40:59,969 - INFO -    Local: 42 | Production: 42
+2026-03-18 17:41:00,154 - ERROR -    ❌ Erreur sur : duplicate key value violates unique constraint "media_mediafile_pkey"
+DETAIL:  Key (id)=(39) already exists.
+
+2026-03-18 17:41:00,326 - ERROR -    ❌ Erreur sur : duplicate key value violates unique constraint "media_mediafile_pkey"
+DETAIL:  Key (id)=(40) already exists.
+
+2026-03-18 17:41:00,499 - ERROR -    ❌ Erreur sur : duplicate key value violates unique constraint "media_mediafile_pkey"
+DETAIL:  Key (id)=(41) already exists.
+
+2026-03-18 17:41:00,676 - ERROR -    ❌ Erreur sur : duplicate key value violates unique constraint "media_mediafile_pkey"
+DETAIL:  Key (id)=(42) already exists.
+
+2026-03-18 17:41:00,850 - INFO -    ✅ Mis à jour file: users_photos/AAA.png
+2026-03-18 17:41:01,018 - INFO -    ✅ Mis à jour file: team/Aaa111.png
+2026-03-18 17:41:01,190 - INFO -    ✅ Mis à jour file: settings/shalom_logo_XC0suUY.jpg
+2026-03-18 17:41:01,362 - INFO -    ✅ Mis à jour file: settings/shalom_logo_UeWZgfD.jpg
+2026-03-18 17:41:01,535 - INFO -    ✅ Mis à jour file: settings/shalom_logo_sTUBkHE.jpg
+2026-03-18 17:41:01,710 - INFO -    ✅ Mis à jour file: settings/shalom_logo_ptMTmHh.jpg
+2026-03-18 17:41:01,887 - INFO -    ✅ Mis à jour file: settings/shalom_logo_Env0qnG.jpg
+2026-03-18 17:41:02,063 - INFO -    ✅ Mis à jour file: settings/shalom_logo_e1RoUov.jpg
+2026-03-18 17:41:02,235 - INFO -    ✅ Mis à jour file: settings/shalom_logo_cLsAsAf.jpg
+2026-03-18 17:41:02,406 - INFO -    ✅ Mis à jour file: settings/shalom_logo_aAJT40f.jpg
+2026-03-18 17:41:02,582 - INFO -    ✅ Mis à jour file: settings/shalom_logo_9qhGc1U.jpg
+2026-03-18 17:41:02,754 - INFO -    ✅ Mis à jour file: settings/shalom_logo_6n69PDU.jpg
+2026-03-18 17:41:02,929 - INFO -    ✅ Mis à jour file: settings/shalom_logo.jpg
+2026-03-18 17:41:03,101 - INFO -    ✅ Mis à jour file: settings/Facture.jpeg
+2026-03-18 17:41:03,278 - INFO -    ✅ Mis à jour file: settings/Actualite_v6ZO2QX.png
+2026-03-18 17:41:03,450 - INFO -    ✅ Mis à jour file: settings/Actualite.png
+2026-03-18 17:41:03,627 - INFO -    ✅ Mis à jour file: sermons/videos/VID_20260202_122723.mp4
+2026-03-18 17:41:03,802 - INFO -    ✅ Mis à jour file: sermons/videos/Kaspersky.mp4
+2026-03-18 17:41:03,978 - INFO -    ✅ Mis à jour file: sermons/audio/contro.mp3
+2026-03-18 17:41:04,150 - INFO -    ✅ Mis à jour file: sermons/login_makamba.jpeg
+2026-03-18 17:41:04,323 - INFO -    ✅ Mis à jour file: sermons/Isoko.png
+2026-03-18 17:41:04,495 - INFO -    ✅ Mis à jour file: sermons/conference.PNG
+2026-03-18 17:41:04,671 - INFO -    ✅ Mis à jour file: sermons/Actualite_BM1iotR.png
+2026-03-18 17:41:04,847 - INFO -    ✅ Mis à jour file: sermons/Actualite.png
+2026-03-18 17:41:05,023 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratui_ushN8OP.mp4
+2026-03-18 17:41:05,195 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratui_8EFeS1W.mp4
+2026-03-18 17:41:05,370 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratui_7OMQmgf.mp4
+2026-03-18 17:41:05,538 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratuitement.mp4
+2026-03-18 17:41:05,710 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_3_T2Uem6l.mp3
+2026-03-18 17:41:05,882 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_3_awxsie4.mp3
+2026-03-18 17:41:06,054 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_3.mp3
+2026-03-18 17:41:06,226 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_1.mp3
+2026-03-18 17:41:06,398 - INFO -    ✅ Mis à jour file: courses/v.png
+2026-03-18 17:41:06,579 - INFO -    ✅ Mis à jour file: courses/T.png
+2026-03-18 17:41:06,754 - INFO -    ✅ Mis à jour file: courses/shalom_logo.jpg
+2026-03-18 17:41:06,931 - INFO -    ✅ Mis à jour file: courses/Para.png
+2026-03-18 17:41:07,106 - INFO -    ✅ Mis à jour file: courses/Modifier_une_émission.png
+2026-03-18 17:41:07,283 - INFO -    ✅ Mis à jour file: courses/Emission.png
+2026-03-18 17:41:07,284 - INFO - 
+📦 Synchronisation: Catégories de Sermons (Clé: name)
+2026-03-18 17:41:07,484 - INFO -    Local: 5 | Production: 5
+2026-03-18 17:41:07,658 - INFO -    ✅ Mis à jour name: Famille
+2026-03-18 17:41:07,830 - INFO -    ✅ Mis à jour name: Musique
+2026-03-18 17:41:08,003 - INFO -    ✅ Mis à jour name: Prière
+2026-03-18 17:41:08,174 - INFO -    ✅ Mis à jour name: Théologie
+2026-03-18 17:41:08,346 - INFO -    ✅ Mis à jour name: Études bibliques
+2026-03-18 17:41:08,347 - INFO - 
+📦 Synchronisation: Sermons (Émissons) (Clé: title)
+2026-03-18 17:41:08,547 - INFO -    Local: 3 | Production: 3
+2026-03-18 17:41:08,727 - INFO -    ✅ Mis à jour title: Essaie
+2026-03-18 17:41:08,904 - INFO -    ✅ Mis à jour title: LA REVOLTE POSITIVE by Chris NDIKUMANA
+2026-03-18 17:41:09,084 - INFO -    ✅ Mis à jour title: La puissance
+2026-03-18 17:41:09,084 - INFO - 
+📦 Synchronisation: Annonces (Clé: title)
+2026-03-18 17:41:09,279 - INFO -    Local: 1 | Production: 1
+2026-03-18 17:41:09,458 - INFO -    ✅ Mis à jour title: URGENT
+2026-03-18 17:41:09,459 - INFO - 
+📦 Synchronisation: Témoignages (Clé: author_name)
+2026-03-18 17:43:30,327 - INFO - 
+📦 Synchronisation: Utilisateurs (Clé: username)
+2026-03-18 17:43:31,847 - INFO -    Local: 4 | Production: 4
+2026-03-18 17:43:31,847 - INFO - 
+📦 Synchronisation: Profils Complets (Clé: id)
+2026-03-18 17:43:32,021 - INFO -    Local: 4 | Production: 4
+2026-03-18 17:43:32,212 - INFO -    ✅ Mis à jour id: 69
+2026-03-18 17:43:32,381 - INFO -    ✅ Mis à jour id: 72
+2026-03-18 17:43:32,552 - INFO -    ✅ Mis à jour id: 74
+2026-03-18 17:43:32,723 - INFO -    ✅ Mis à jour id: 75
+2026-03-18 17:43:32,723 - INFO - 
+📦 Synchronisation: Images & Médias (Clé: file)
+2026-03-18 17:43:32,906 - INFO -    Local: 42 | Production: 42
+2026-03-18 17:43:33,080 - INFO -    ✅ Créé file: 
+2026-03-18 17:43:33,240 - INFO -    ✅ Créé file: 
+2026-03-18 17:43:33,409 - INFO -    ✅ Créé file: 
+2026-03-18 17:43:33,572 - INFO -    ✅ Créé file: 
+2026-03-18 17:43:33,741 - INFO -    ✅ Mis à jour file: users_photos/AAA.png
+2026-03-18 17:43:33,909 - INFO -    ✅ Mis à jour file: team/Aaa111.png
+2026-03-18 17:43:34,069 - INFO -    ✅ Mis à jour file: settings/shalom_logo_XC0suUY.jpg
+2026-03-18 17:43:34,236 - INFO -    ✅ Mis à jour file: settings/shalom_logo_UeWZgfD.jpg
+2026-03-18 17:43:34,409 - INFO -    ✅ Mis à jour file: settings/shalom_logo_sTUBkHE.jpg
+2026-03-18 17:43:34,577 - INFO -    ✅ Mis à jour file: settings/shalom_logo_ptMTmHh.jpg
+2026-03-18 17:43:34,749 - INFO -    ✅ Mis à jour file: settings/shalom_logo_Env0qnG.jpg
+2026-03-18 17:43:34,916 - INFO -    ✅ Mis à jour file: settings/shalom_logo_e1RoUov.jpg
+2026-03-18 17:43:35,077 - INFO -    ✅ Mis à jour file: settings/shalom_logo_cLsAsAf.jpg
+2026-03-18 17:43:35,237 - INFO -    ✅ Mis à jour file: settings/shalom_logo_aAJT40f.jpg
+2026-03-18 17:43:35,404 - INFO -    ✅ Mis à jour file: settings/shalom_logo_9qhGc1U.jpg
+2026-03-18 17:43:35,572 - INFO -    ✅ Mis à jour file: settings/shalom_logo_6n69PDU.jpg
+2026-03-18 17:43:35,740 - INFO -    ✅ Mis à jour file: settings/shalom_logo.jpg
+2026-03-18 17:43:35,908 - INFO -    ✅ Mis à jour file: settings/Facture.jpeg
+2026-03-18 17:43:36,076 - INFO -    ✅ Mis à jour file: settings/Actualite_v6ZO2QX.png
+2026-03-18 17:43:36,244 - INFO -    ✅ Mis à jour file: settings/Actualite.png
+2026-03-18 17:43:36,412 - INFO -    ✅ Mis à jour file: sermons/videos/VID_20260202_122723.mp4
+2026-03-18 17:43:36,580 - INFO -    ✅ Mis à jour file: sermons/videos/Kaspersky.mp4
+2026-03-18 17:43:36,748 - INFO -    ✅ Mis à jour file: sermons/audio/contro.mp3
+2026-03-18 17:43:36,924 - INFO -    ✅ Mis à jour file: sermons/login_makamba.jpeg
+2026-03-18 17:43:37,092 - INFO -    ✅ Mis à jour file: sermons/Isoko.png
+2026-03-18 17:43:37,260 - INFO -    ✅ Mis à jour file: sermons/conference.PNG
+2026-03-18 17:43:37,428 - INFO -    ✅ Mis à jour file: sermons/Actualite_BM1iotR.png
+2026-03-18 17:43:37,596 - INFO -    ✅ Mis à jour file: sermons/Actualite.png
+2026-03-18 17:43:37,768 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratui_ushN8OP.mp4
+2026-03-18 17:43:37,944 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratui_8EFeS1W.mp4
+2026-03-18 17:43:38,116 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratui_7OMQmgf.mp4
+2026-03-18 17:43:38,292 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratuitement.mp4
+2026-03-18 17:43:38,453 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_3_T2Uem6l.mp3
+2026-03-18 17:43:38,620 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_3_awxsie4.mp3
+2026-03-18 17:43:38,793 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_3.mp3
+2026-03-18 17:43:38,969 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_1.mp3
+2026-03-18 17:43:39,136 - INFO -    ✅ Mis à jour file: courses/v.png
+2026-03-18 17:43:39,304 - INFO -    ✅ Mis à jour file: courses/T.png
+2026-03-18 17:43:39,463 - INFO -    ✅ Mis à jour file: courses/shalom_logo.jpg
+2026-03-18 17:43:39,632 - INFO -    ✅ Mis à jour file: courses/Para.png
+2026-03-18 17:43:39,800 - INFO -    ✅ Mis à jour file: courses/Modifier_une_émission.png
+2026-03-18 17:43:39,968 - INFO -    ✅ Mis à jour file: courses/Emission.png
+2026-03-18 17:43:39,968 - INFO - 
+📦 Synchronisation: Catégories de Sermons (Clé: name)
+2026-03-18 17:43:40,148 - INFO -    Local: 5 | Production: 5
+2026-03-18 17:43:40,321 - INFO -    ✅ Mis à jour name: Famille
+2026-03-18 17:43:40,481 - INFO -    ✅ Mis à jour name: Musique
+2026-03-18 17:43:40,647 - INFO -    ✅ Mis à jour name: Prière
+2026-03-18 17:43:40,816 - INFO -    ✅ Mis à jour name: Théologie
+2026-03-18 17:43:40,988 - INFO -    ✅ Mis à jour name: Études bibliques
+2026-03-18 17:43:40,989 - INFO - 
+📦 Synchronisation: Sermons (Émissons) (Clé: title)
+2026-03-18 17:43:41,160 - INFO -    Local: 3 | Production: 3
+2026-03-18 17:43:41,337 - INFO -    ✅ Mis à jour title: Essaie
+2026-03-18 17:43:41,514 - INFO -    ✅ Mis à jour title: LA REVOLTE POSITIVE by Chris NDIKUMANA
+2026-03-18 17:43:41,693 - INFO -    ✅ Mis à jour title: La puissance
+2026-03-18 17:43:41,694 - INFO - 
+📦 Synchronisation: Annonces (Clé: title)
+2026-03-18 17:43:41,868 - INFO -    Local: 1 | Production: 1
+2026-03-18 17:43:42,041 - INFO -    ✅ Mis à jour title: URGENT
+2026-03-18 17:43:42,041 - INFO - 
+📦 Synchronisation: Témoignages (Clé: author)
+2026-03-18 17:43:42,214 - INFO -    Local: 5 | Production: 5
+2026-03-18 17:43:42,385 - INFO -    ✅ Mis à jour author: Rugero
+2026-03-18 17:43:42,557 - INFO -    ✅ Mis à jour author: Donald Kandeke
+2026-03-18 17:43:42,729 - INFO -    ✅ Mis à jour author: Samuel Hakizimana
+2026-03-18 17:43:42,900 - INFO -    ✅ Mis à jour author: Marie-Claire Niyonzima
+2026-03-18 17:43:43,073 - INFO -    ✅ Mis à jour author: Jean-Pierre Kabura
+2026-03-18 17:43:43,073 - INFO - 
+📦 Synchronisation: Historique Contacts (Clé: email)
+2026-03-18 17:43:43,261 - INFO -    Local: 0 | Production: 0
+2026-03-18 17:43:43,261 - INFO - 
+⚙️  Paramètres du site...
+2026-03-18 17:43:44,144 - INFO -    ✅ Mis à jour.
+2026-03-18 17:43:44,145 - INFO - 
+✨ TERMINÉ | Créés: 4 | Mis à jour: 56 | Erreurs: 0
+2026-03-18 17:46:44,417 - INFO - 
+📦 Synchronisation: Utilisateurs (Clé: username)
+2026-03-18 17:46:46,216 - INFO -    Local: 4 | Production: 4
+2026-03-18 17:46:46,217 - INFO - 
+📦 Synchronisation: Profils Complets (Clé: id)
+2026-03-18 17:46:46,415 - INFO -    Local: 4 | Production: 4
+2026-03-18 17:46:46,607 - INFO -    ✅ Mis à jour id: 69
+2026-03-18 17:46:46,798 - INFO -    ✅ Mis à jour id: 72
+2026-03-18 17:46:46,989 - INFO -    ✅ Mis à jour id: 74
+2026-03-18 17:46:47,189 - INFO -    ✅ Mis à jour id: 75
+2026-03-18 17:46:47,189 - INFO - 
+📦 Synchronisation: Images & Médias (Clé: file)
+2026-03-18 17:46:47,384 - INFO -    Local: 42 | Production: 46
+2026-03-18 17:46:47,582 - INFO -    ✅ Créé file: 
+2026-03-18 17:46:47,762 - INFO -    ✅ Créé file: 
+2026-03-18 17:46:47,957 - INFO -    ✅ Créé file: 
+2026-03-18 17:46:48,144 - INFO -    ✅ Créé file: 
+2026-03-18 17:46:48,345 - INFO -    ✅ Mis à jour file: users_photos/AAA.png
+2026-03-18 17:46:48,530 - INFO -    ✅ Mis à jour file: team/Aaa111.png
+2026-03-18 17:46:48,722 - INFO -    ✅ Mis à jour file: settings/shalom_logo_XC0suUY.jpg
+2026-03-18 17:46:48,902 - INFO -    ✅ Mis à jour file: settings/shalom_logo_UeWZgfD.jpg
+2026-03-18 17:46:49,097 - INFO -    ✅ Mis à jour file: settings/shalom_logo_sTUBkHE.jpg
+2026-03-18 17:46:49,296 - INFO -    ✅ Mis à jour file: settings/shalom_logo_ptMTmHh.jpg
+2026-03-18 17:46:49,494 - INFO -    ✅ Mis à jour file: settings/shalom_logo_Env0qnG.jpg
+2026-03-18 17:46:49,689 - INFO -    ✅ Mis à jour file: settings/shalom_logo_e1RoUov.jpg
+2026-03-18 17:46:49,882 - INFO -    ✅ Mis à jour file: settings/shalom_logo_cLsAsAf.jpg
+2026-03-18 17:46:50,087 - INFO -    ✅ Mis à jour file: settings/shalom_logo_aAJT40f.jpg
+2026-03-18 17:46:50,278 - INFO -    ✅ Mis à jour file: settings/shalom_logo_9qhGc1U.jpg
+2026-03-18 17:46:50,466 - INFO -    ✅ Mis à jour file: settings/shalom_logo_6n69PDU.jpg
+2026-03-18 17:46:50,659 - INFO -    ✅ Mis à jour file: settings/shalom_logo.jpg
+2026-03-18 17:46:50,835 - INFO -    ✅ Mis à jour file: settings/Facture.jpeg
+2026-03-18 17:46:51,031 - INFO -    ✅ Mis à jour file: settings/Actualite_v6ZO2QX.png
+2026-03-18 17:46:51,210 - INFO -    ✅ Mis à jour file: settings/Actualite.png
+2026-03-18 17:46:51,394 - INFO -    ✅ Mis à jour file: sermons/videos/VID_20260202_122723.mp4
+2026-03-18 17:46:51,578 - INFO -    ✅ Mis à jour file: sermons/videos/Kaspersky.mp4
+2026-03-18 17:46:51,773 - INFO -    ✅ Mis à jour file: sermons/audio/contro.mp3
+2026-03-18 17:46:51,951 - INFO -    ✅ Mis à jour file: sermons/login_makamba.jpeg
+2026-03-18 17:46:52,138 - INFO -    ✅ Mis à jour file: sermons/Isoko.png
+2026-03-18 17:46:52,355 - INFO -    ✅ Mis à jour file: sermons/conference.PNG
+2026-03-18 17:46:52,550 - INFO -    ✅ Mis à jour file: sermons/Actualite_BM1iotR.png
+2026-03-18 17:46:52,754 - INFO -    ✅ Mis à jour file: sermons/Actualite.png
+2026-03-18 17:46:52,948 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratui_ushN8OP.mp4
+2026-03-18 17:46:53,150 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratui_8EFeS1W.mp4
+2026-03-18 17:46:53,353 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratui_7OMQmgf.mp4
+2026-03-18 17:46:53,531 - INFO -    ✅ Mis à jour file: courses/videos/Comment_déployer_votre_application_Django_et_Postgresql_sur_Render_gratuitement.mp4
+2026-03-18 17:46:53,726 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_3_T2Uem6l.mp3
+2026-03-18 17:46:53,925 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_3_awxsie4.mp3
+2026-03-18 17:46:54,122 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_3.mp3
+2026-03-18 17:46:54,314 - INFO -    ✅ Mis à jour file: courses/audio/Turikumwe__ntituri_bamwe_gusa_1.mp3
+2026-03-18 17:46:54,498 - INFO -    ✅ Mis à jour file: courses/v.png
+2026-03-18 17:46:54,682 - INFO -    ✅ Mis à jour file: courses/T.png
+2026-03-18 17:46:54,870 - INFO -    ✅ Mis à jour file: courses/shalom_logo.jpg
+2026-03-18 17:46:55,050 - INFO -    ✅ Mis à jour file: courses/Para.png
+2026-03-18 17:46:55,242 - INFO -    ✅ Mis à jour file: courses/Modifier_une_émission.png
+2026-03-18 17:46:55,414 - INFO -    ✅ Mis à jour file: courses/Emission.png
+2026-03-18 17:46:55,414 - INFO - 
+📦 Synchronisation: Catégories de Sermons (Clé: name)
+2026-03-18 17:46:55,610 - INFO -    Local: 5 | Production: 5
+2026-03-18 17:46:55,812 - INFO -    ✅ Mis à jour name: Famille
+2026-03-18 17:46:56,028 - INFO -    ✅ Mis à jour name: Musique
+2026-03-18 17:46:56,234 - INFO -    ✅ Mis à jour name: Prière
+2026-03-18 17:46:56,420 - INFO -    ✅ Mis à jour name: Théologie
+2026-03-18 17:46:56,610 - INFO -    ✅ Mis à jour name: Études bibliques
+2026-03-18 17:46:56,610 - INFO - 
+📦 Synchronisation: Sermons (Émissons) (Clé: title)
+2026-03-18 17:46:56,814 - INFO -    Local: 3 | Production: 3
+2026-03-18 17:46:56,996 - INFO -    ✅ Mis à jour title: Essaie
+2026-03-18 17:46:57,158 - INFO -    ✅ Mis à jour title: LA REVOLTE POSITIVE by Chris NDIKUMANA
+2026-03-18 17:46:57,334 - INFO -    ✅ Mis à jour title: La puissance
+2026-03-18 17:46:57,335 - INFO - 
+📦 Synchronisation: Annonces (Clé: title)
+2026-03-18 17:46:57,520 - INFO -    Local: 1 | Production: 1
+2026-03-18 17:46:57,701 - INFO -    ✅ Mis à jour title: URGENT
+2026-03-18 17:46:57,702 - INFO - 
+📦 Synchronisation: Témoignages (Clé: author)
+2026-03-18 17:46:57,873 - INFO -    Local: 5 | Production: 5
+2026-03-18 17:46:58,041 - INFO -    ✅ Mis à jour author: Rugero
+2026-03-18 17:46:58,209 - INFO -    ✅ Mis à jour author: Donald Kandeke
+2026-03-18 17:46:58,378 - INFO -    ✅ Mis à jour author: Samuel Hakizimana
+2026-03-18 17:46:58,537 - INFO -    ✅ Mis à jour author: Marie-Claire Niyonzima
+2026-03-18 17:46:58,704 - INFO -    ✅ Mis à jour author: Jean-Pierre Kabura
+2026-03-18 17:46:58,705 - INFO - 
+📦 Synchronisation: Historique Contacts (Clé: email)
+2026-03-18 17:46:58,877 - INFO -    Local: 0 | Production: 0
+2026-03-18 17:46:58,878 - INFO - 
+⚙️  Paramètres du site...
+2026-03-18 17:46:59,585 - INFO -    ✅ Mis à jour.
+2026-03-18 17:46:59,585 - INFO - 
+✨ TERMINÉ | Créés: 4 | Mis à jour: 56 | Erreurs: 0
+2026-03-18 18:15:26,502 - INFO - 
+📦 Synchronisation: Utilisateurs (Clé: username)
+2026-03-18 18:15:29,846 - INFO -    Local: 4 | Production: 4
+2026-03-18 18:15:30,048 - INFO -    ✅ Mis à jour username: donald
+2026-03-18 18:15:30,048 - INFO - 
+📦 Synchronisation: Profils Complets (Clé: id)
+2026-03-18 18:15:30,252 - INFO -    Local: 4 | Production: 4
+2026-03-18 18:15:30,440 - INFO -    ✅ Mis à jour id: 69
+2026-03-18 18:15:30,640 - INFO -    ✅ Mis à jour id: 72
+2026-03-18 18:15:30,832 - INFO -    ✅ Mis à jour id: 74
+2026-03-18 18:15:31,137 - INFO -    ✅ Mis à jour id: 75
+2026-03-18 18:15:31,138 - INFO - 
+📦 Synchronisation: Images & Médias (Clé: file)
+2026-03-18 18:15:31,323 - INFO -    Local: 7 | Production: 50
+2026-03-18 18:15:31,495 - INFO -    ✅ Mis à jour file: users_photos/AAA.png
+2026-03-18 18:15:31,666 - INFO -    ✅ Créé file: sermons/videos/grok-video-b3b5229f-c812-4ec5-9abe-0e9c9b803aa3_pQz6DqE.mp4
+2026-03-18 18:15:31,830 - INFO -    ✅ Créé file: 
+2026-03-18 18:15:31,999 - INFO -    ✅ Créé file: 
+2026-03-18 18:15:32,174 - INFO -    ✅ Mis à jour file: sermons/Actualite.png
+2026-03-18 18:15:32,345 - INFO -    ✅ Créé file: sermons/videos/grok-video-b3b5229f-c812-4ec5-9abe-0e9c9b803aa3.mp4
+2026-03-18 18:15:32,527 - INFO -    ✅ Créé file: library/2026/03/grok-video-b3b5229f-c812-4ec5-9abe-0e9c9b803aa3.mp4
+2026-03-18 18:15:32,532 - INFO - 
+📦 Synchronisation: Catégories de Sermons (Clé: name)
+2026-03-18 18:15:32,715 - INFO -    Local: 5 | Production: 5
+2026-03-18 18:15:32,891 - INFO -    ✅ Mis à jour name: Famille
+2026-03-18 18:15:33,062 - INFO -    ✅ Mis à jour name: Musique
+2026-03-18 18:15:33,234 - INFO -    ✅ Mis à jour name: Prière
+2026-03-18 18:15:33,403 - INFO -    ✅ Mis à jour name: Théologie
+2026-03-18 18:15:33,571 - INFO -    ✅ Mis à jour name: Études bibliques
+2026-03-18 18:15:33,571 - INFO - 
+📦 Synchronisation: Sermons (Émissons) (Clé: title)
+2026-03-18 18:15:33,751 - INFO -    Local: 3 | Production: 3
+2026-03-18 18:15:33,927 - INFO -    ✅ Mis à jour title: Essaie
+2026-03-18 18:15:34,103 - INFO -    ✅ Mis à jour title: LA REVOLTE POSITIVE by Chris NDIKUMANA
+2026-03-18 18:15:34,275 - INFO -    ✅ Mis à jour title: La puissance
+2026-03-18 18:15:34,276 - INFO - 
+📦 Synchronisation: Annonces (Clé: title)
+2026-03-18 18:15:34,455 - INFO -    Local: 1 | Production: 1
+2026-03-18 18:15:34,629 - INFO -    ✅ Mis à jour title: URGENT
+2026-03-18 18:15:34,630 - INFO - 
+📦 Synchronisation: Témoignages (Clé: author)
+2026-03-18 18:15:34,795 - INFO -    Local: 3 | Production: 5
+2026-03-18 18:15:34,970 - INFO -    ✅ Mis à jour author: Samuel Hakizimana
+2026-03-18 18:15:35,143 - INFO -    ✅ Mis à jour author: Marie-Claire Niyonzima
+2026-03-18 18:15:35,307 - INFO -    ✅ Mis à jour author: Jean-Pierre Kabura
+2026-03-18 18:15:35,307 - INFO - 
+📦 Synchronisation: Historique Contacts (Clé: email)
+2026-03-18 18:15:35,534 - INFO -    Local: 0 | Production: 0
+2026-03-18 18:15:35,535 - INFO - 
+⚙️  Paramètres du site...
+2026-03-18 18:15:36,495 - INFO -    ✅ Mis à jour.
+2026-03-18 18:15:36,495 - INFO - 
+✨ TERMINÉ | Créés: 5 | Mis à jour: 19 | Erreurs: 0

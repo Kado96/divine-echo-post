@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, ChevronRight, Flame, Headphones, Calendar, Music, BookOpen, Users, HeartPulse, Radio } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { apiService } from "@/lib/api";
-import { stripHtml, getFullImageUrl } from "@/lib/utils";
+import { stripHtml, getFullImageUrl, formatPublicTitle } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -190,7 +190,7 @@ const CategoriesSection = () => {
                           {/* Middle: Title & Preacher */}
                           <div className="mt-auto mb-6">
                             <h3 className="text-2xl font-bold text-white mb-2 leading-tight group-hover:text-accent transition-colors duration-300">
-                              {stripHtml(item.title)}
+                              {formatPublicTitle(stripHtml(item.title))}
                             </h3>
                             <p className="text-white/70 text-sm font-medium">
                               {stripHtml(item.preacher_name || t("common.default_preacher"))}

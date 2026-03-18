@@ -213,6 +213,9 @@ const EditSermon = () => {
 
             if (coverImage) {
                 dataToUpdate.append('image', coverImage);
+            } else if (formData.existingImage === null) {
+                // Signal to backend to clear the image field
+                dataToUpdate.append('image', "");
             }
 
             await apiService.updateSermon(id, dataToUpdate);
@@ -527,7 +530,8 @@ const EditSermon = () => {
                                     <button
                                         onClick={() => {
                                             setCoverImage(null);
-                                            // Optional: If you want to allow deleting existing image, handle that here
+                                            setCoverPreview(null);
+                                            setFormData({ ...formData, existingImage: null });
                                         }}
                                         className="text-[10px] text-red-600 hover:text-red-800 font-bold"
                                     >

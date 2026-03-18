@@ -426,10 +426,13 @@ const CreateSermon = () => {
 
                                 {coverImage && (
                                     <button
-                                        onClick={() => setCoverImage(null)}
+                                        onClick={() => {
+                                            setCoverImage(null);
+                                            setCoverPreview(null);
+                                        }}
                                         className="text-[10px] text-red-600 hover:text-red-800 font-bold"
                                     >
-                                        Effacer
+                                        {t("common.reset")}
                                     </button>
                                 )}
                             </div>

@@ -15,6 +15,7 @@ import os
 import sys
 import django  # type: ignore
 import argparse
+import importlib
 from pathlib import Path
 from typing import Dict, Any, Optional, List, Union
 from django.db import transaction, connections  # type: ignore
@@ -165,7 +166,7 @@ class DatabaseSync:
                     if needs_update and not self.dry_run:
                         for key, value in data.items():
                             setattr(prod_item, key, value)
-                        prod_item.save(using='prod')
+                        prod_item.save(using='prod') # type: ignore
                         self.stats['updated'] += 1
                         logger.info(f"   ✅ Mis à jour {lookup_field}: {local_lookup_value}")
                     else:
@@ -173,23 +174,28 @@ class DatabaseSync:
                     
                     # Enregistrer le mappage d'ID même en cas de skip
                     if model_name in self.id_maps:
-                        self.id_maps[model_name][local_item.id] = prod_item.id
+                        self.id_maps[model_name][getattr(local_item, 'pk')] = getattr(prod_item, 'pk')
                 else:
                     # Création
                     if not self.dry_run:
-                        new_prod_item = model_class.objects.using('prod').create(**data)
+                        try:
+                            new_prod_item = model_class.objects.using('prod').create(**data)
+                        except Exception as e:
+                            logger.error(f"   ❌ Erreur de création : {e}")
+                            self.stats['errors'] += 1
+                            continue
                         self.stats['created'] += 1
                         logger.info(f"   ✅ Créé {lookup_field}: {local_lookup_value}")
                         
                         # Enregistrer le nouveau mappage d'ID
                         if model_name in self.id_maps:
-                            self.id_maps[model_name][local_item.id] = new_prod_item.id
+                            self.id_maps[model_name][getattr(local_item, 'pk')] = getattr(new_prod_item, 'pk')
                     else:
                         logger.info(f"   🔍 [DRY-RUN] Création simulée de {local_lookup_value}")
                         
             except Exception as e:
                 self.stats['errors'] += 1
-                logger.error(f"   ❌ Erreur sur {getattr(local_item, lookup_field, local_item.id)}: {e}")
+                logger.error(f"   ❌ Erreur sur {getattr(local_item, lookup_field, getattr(local_item, 'pk'))}: {e}")
 
     def reset_production(self):
         """Vide les tables en production dans le bon ordre"""
@@ -211,7 +217,7 @@ class DatabaseSync:
         for model_path in reversed(tables):
             try:
                 mod_name, class_name = model_path.rsplit('.', 1)
-                mod = __import__(mod_name, fromlist=[class_name])
+                mod = importlib.import_module(mod_name)
                 model = getattr(mod, class_name)
                 count = model.objects.using('prod').count()
                 model.objects.using('prod').all().delete()
@@ -236,7 +242,7 @@ class DatabaseSync:
         # Enfants
         self._sync_model(Sermon, "Sermons (Émissons)", lookup_field='title')
         self._sync_model(Announcement, "Annonces", lookup_field='title')
-        self._sync_model(Testimonial, "Témoignages", lookup_field='author_name')
+        self._sync_model(Testimonial, "Témoignages", lookup_field='author')
         self._sync_model(ContactMessage, "Historique Contacts", lookup_field='email')
 
         # Paramètres du site

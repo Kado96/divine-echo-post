@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Calendar, Headphones, User, ArrowLeft, Play, Download, Share2, Facebook, MessageCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { apiService } from "@/lib/api";
-import { stripHtml, getFullImageUrl } from "@/lib/utils";
+import { stripHtml, getFullImageUrl, formatPublicTitle } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -189,7 +189,7 @@ const SermonDetail = () => {
 
             <main className="flex-1">
                 <PageHero
-                    title={stripHtml(sermon.title)}
+                    title={formatPublicTitle(stripHtml(sermon.title))}
                     subtitle={stripHtml(sermon.category_name || t("common.general"))}
                     image={getFullImageUrl(sermon.image_url)}
                 />
