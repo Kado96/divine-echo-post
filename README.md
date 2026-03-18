@@ -1,58 +1,81 @@
-# Divine Echo - Shalom Ministry
+# 🚀 Divine Echo - Shalom Ministry
 
-Application complète pour la gestion du ministère Shalom, comprenant un backend Django et un frontend React.
+Application complète de gestion et de diffusion pour le ministère **Shalom**, optimisée pour une robustesse maximale et une séparation stricte entre développement et production.
 
-## 🚀 Structure du Projet
+---
 
-- **Backend** : Django REST Framework, PostgreSQL (Supabase) en production, SQLite en développement.
-- **Frontend** : React, Vite, Tailwind CSS, TypeScript.
+## 🏛️ Structure du Projet
+
+- **Backend** : Django REST Framework, PostgreSQL (**Supabase**) en production, SQLite en développement local.
+- **Frontend** : React, Vite, Tailwind CSS, TypeScript, Framer Motion (animations).
+- **Langues supportées** : Français (FR), Kirundi (RN), Anglais (EN), Kiswahili (SW).
 
 ---
 
 ## 🛠️ Workflow de Développement : Local vers Production
 
-Ce projet est configuré pour utiliser une base de données **SQLite en local** pour les tests et le développement, et **Supabase (PostgreSQL) en production** (sur Render).
-
-Pour transférer facilement vos modifications (code et données) de votre ordinateur vers le site en ligne, voici la procédure.
+Le projet utilise une architecture de synchronisation "One-Way" (Local -> Prod) pour garantir la sécurité des données et la performance.
 
 ### Étape 1 : Développement Local (SQLite)
-Développez, testez, et ajoutez des données (articles, utilisateurs, etc.) sur votre machine sans toucher au site en production.
+Travaillez en toute sécurité sur votre machine sans impacter le site en ligne.
 
-1. Vérifiez que votre fichier `backend/.env` contient bien :
+1. **Configuration (`backend/.env`)** :
    ```env
-   DATABASE_URL=votre_url_supabase_complete
+   DATABASE_URL=votre_url_supabase_ou_sqlite
    USE_LOCAL_SQLITE=True
+   DEBUG=True
    ```
-   *La ligne `USE_LOCAL_SQLITE=True` force votre ordinateur à utiliser la base locale (db.sqlite3) au lieu de Supabase.*
+   *Note : `USE_LOCAL_SQLITE=True` est obligatoire en local pour éviter les limites de connexions Supabase.*
 
-2. **CRITIQUE** : Si vous modifiez la structure de la base (fichiers `models.py`), faites toujours vos migrations en local :
+2. **Migrations de structure** :
    ```powershell
-cd e:\Application\Eglise\Shalom\divine-echo-post\backend
-.\venv\Scripts\activate
-python manage.py makemigrations
-python manage.py migrate
-
+   cd backend
+   .\venv\Scripts\activate
+   python manage.py makemigrations
+   python manage.py migrate
    ```
 
 ### Étape 2 : Déploiement et Synchronisation
 
-Quand vos données locales sont prêtes à être publiées en ligne pour vos utilisateurs :
-
-**A. Envoyer le Code (déploie sur Render)** :
-Envoyez vos modifications sur Github. Render mettra à jour l'application automatiquement.
+**1. Déploiement du Code (GitHub -> Render)** :
+Envoyez votre code sur GitHub. Le backend se déploie automatiquement sur **Render**.
 ```powershell
 git add .
-git commit -m "Mise à jour"
+git commit -m "Description de vos changements"
 git push
 ```
 
-**B. Envoyer les Données (remplit Supabase)** :
-Copiez vos données ajoutées ou modifiées en local vers la base de production (Supabase). Depuis le dossier `backend/` :
+**2. Synchronisation des Données (Local -> Supabase)** :
+Utilisez le script intelligent pour envoyer vos nouveaux articles ou sermons :
 ```powershell
-.\venv\Scripts\activate
-.\sync_local_to_prod.ps1
+python sync_local_to_prod.py
 ```
-*(Ce script est intelligent : il lit votre SQLite et le pousse vers Supabase. Il met à jour ce qui a changé sans créer de doublons).*
+*Le script compare la base locale et Supabase pour mettre à jour les données sans créer de doublons.*
+
+---
+
+## 🏗️ Architecture Technique de Robustesse
+
+Ce projet intègre des mécanismes de protection avancés contre les erreurs classiques de production.
+
+### 1. Synchronisation Intelligente (Clés Naturelles)
+Contrairement à un simple export SQL, le script `sync_local_to_prod.py` utilise :
+- **Identification par "Sens"** : Les objets sont cherchés par leur Nom (Catégories), Titre (Sermons) ou Username (Utilisateurs).
+- **Mappage Dynamique des IDs** : Si un utilisateur a l'ID 75 en local et l'ID 12 sur Supabase, le script mémorise ce changement et traduit automatiquement toutes les relations (clés étrangères) à la volée.
+
+### 2. Robustesse Frontend (Safe Array Extraction)
+Pour éviter le crash `data.map is not a function` dû à la pagination Django en production :
+- Le connecteur `frontend/src/lib/api.ts` intègre un filtre de robustesse global.
+- Chaque appel à une liste de données (Sermons, Actualités) extrait automatiquement le tableau, qu'il soit brut ou encapsulé dans un objet `{ results: [...] }`.
+
+### 3. Prévention de l'Erreur "405 Method Not Allowed"
+L'URL de l'API (`VITE_API_URL`) doit pointer exclusivement vers le serveur **Render/Python** et non vers l'hébergement statique (ex: Wuaze, InfinityFree) pour permettre les requêtes `POST` et `PATCH`.
+
+### 4. Accessibilité et Autofill (Formulaires)
+Tous les formulaires respectent les standards **W3C/Lighthouse** :
+- **Labels** liés aux `id` pour les lecteurs d'écran.
+- **Attributs Name** pour la capture de données.
+- **Auto-complete** (`email`, `current-password`) pour les gestionnaires de mots de passe.
 
 ---
 
@@ -77,8 +100,15 @@ npm run dev
 
 ---
 
-## 📝 Notes et Sécurité
-- Le fichier local `backend/db.sqlite3` ne sera **jamais** envoyé sur Github (il est protégé par `.gitignore`). La base de données en production n'est donc jamais écrasée.
-- Les fichiers médias (images importées) ne sont pas synchronisés par le script de base de données.
-- Render applique automatiquement les structures de base de données à Supabase lors du déploiement via la commande `migrate`.
+## ⚙️ Administration
 
+- **Accès Admin** : `/admin/login` sur le frontend.
+- **Initialisation** : Pour réinitialiser les textes et langues par défaut :
+  ```powershell
+  python populate_defaults.py
+  ```
+
+## 📝 Sécurité
+- `db.sqlite3` et `.env` sont exclus de Git.
+- Les accès API sont protégés par des tokens **JWT** sécurisés.
+- Support des fichiers médias via proxy pour éviter les erreurs CORS Google Drive.

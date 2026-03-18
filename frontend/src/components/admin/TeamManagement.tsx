@@ -29,7 +29,7 @@ const TeamManagement = ({ activeLang }: { activeLang: string }) => {
     const fetchMembers = async () => {
         try {
             const data = await apiService.getTeamMembers();
-            setMembers(Array.isArray(data) ? data : (data?.results || []));
+            setMembers(data || []);
         } catch (err) {
             console.error(err);
         } finally {

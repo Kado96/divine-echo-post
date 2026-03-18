@@ -82,6 +82,17 @@ class DatabaseSync:
         self.reset = reset
         self.stats = {'created': 0, 'updated': 0, 'skipped': 0, 'errors': 0}
         
+        # 🧠 Mappage dynamique des IDs (Local -> Prod) en mémoire
+        self.id_maps = {
+            'User': {},
+            'SermonCategory': {},
+            'Account': {},
+            'Sermon': {},
+            'Announcement': {},
+            'Testimonial': {},
+            'MediaFile': {}
+        }
+        
         self.prod_db_url = original_database_url or ''
         if not self.prod_db_url:
             raise ValueError("❌ DATABASE_URL n'est pas défini dans le fichier .env")
@@ -98,36 +109,53 @@ class DatabaseSync:
             })
             settings.DATABASES['prod'] = config
 
-    def _prepare_model_data(self, instance) -> Dict[str, Any]:
+    def _prepare_model_data(self, instance, model_name: str) -> Dict[str, Any]:
         data = {}
         for field in instance._meta.fields:
             if field.name in ['id']: continue
             
             if isinstance(field, django.db.models.ForeignKey):
                 related_obj = getattr(instance, field.name, None)
-                data[field.name + '_id'] = related_obj.id if related_obj else None
+                if not related_obj:
+                    data[field.name + '_id'] = None
+                    continue
+                
+                # 🔄 Traduction dynamique de l'ID Local vers ID Production
+                related_model_name = related_obj.__class__.__name__
+                local_id = related_obj.id
+                
+                if related_model_name in self.id_maps and local_id in self.id_maps[related_model_name]:
+                    data[field.name + '_id'] = self.id_maps[related_model_name][local_id]
+                else:
+                    # En dernier recours, si pas mappé, on garde l'ID original (risqué mais compatible)
+                    data[field.name + '_id'] = local_id
             else:
                 value = getattr(instance, field.name)
-                # Spécial pour les ImageField/FileField : on ne synchronise que si c'est pas binaire
                 if isinstance(field, (django.db.models.FileField, django.db.models.ImageField)):
                     data[field.name] = value.name if value else None
                 else:
                     data[field.name] = value
         return data
 
-    def _sync_model(self, model_class, model_name: str) -> None:
-        logger.info(f"\n📦 Synchronisation: {model_name}")
+    def _sync_model(self, model_class, model_display_name: str, lookup_field: str = 'id') -> None:
+        model_name = model_class.__name__
+        logger.info(f"\n📦 Synchronisation: {model_display_name} (Clé: {lookup_field})")
         
         local_items = list(model_class.objects.using('default').all())
-        prod_items = {item.id: item for item in model_class.objects.using('prod').all()}
+        prod_items = list(model_class.objects.using('prod').all())
+        
+        # Indexation de la prod par le champ de recherche (Clé Naturelle)
+        prod_lookup_map = {getattr(item, lookup_field): item for item in prod_items if getattr(item, lookup_field)}
         
         logger.info(f"   Local: {len(local_items)} | Production: {len(prod_items)}")
         
         for local_item in local_items:
             try:
-                data = self._prepare_model_data(local_item)
-                if local_item.id in prod_items:
-                    prod_item = prod_items[local_item.id]
+                local_lookup_value = getattr(local_item, lookup_field)
+                data = self._prepare_model_data(local_item, model_name)
+                
+                if local_lookup_value in prod_lookup_map:
+                    prod_item = prod_lookup_map[local_lookup_value]
                     needs_update = False
                     for key, value in data.items():
                         if getattr(prod_item, key, None) != value:
@@ -139,18 +167,29 @@ class DatabaseSync:
                             setattr(prod_item, key, value)
                         prod_item.save(using='prod')
                         self.stats['updated'] += 1
-                        logger.info(f"   ✅ Mis à jour ID {local_item.id}")
+                        logger.info(f"   ✅ Mis à jour {lookup_field}: {local_lookup_value}")
                     else:
                         self.stats['skipped'] += 1
+                    
+                    # Enregistrer le mappage d'ID même en cas de skip
+                    if model_name in self.id_maps:
+                        self.id_maps[model_name][local_item.id] = prod_item.id
                 else:
+                    # Création
                     if not self.dry_run:
-                        data['id'] = local_item.id
-                        model_class.objects.using('prod').create(**data)
+                        new_prod_item = model_class.objects.using('prod').create(**data)
                         self.stats['created'] += 1
-                        logger.info(f"   ✅ Créé ID {local_item.id}")
+                        logger.info(f"   ✅ Créé {lookup_field}: {local_lookup_value}")
+                        
+                        # Enregistrer le nouveau mappage d'ID
+                        if model_name in self.id_maps:
+                            self.id_maps[model_name][local_item.id] = new_prod_item.id
+                    else:
+                        logger.info(f"   🔍 [DRY-RUN] Création simulée de {local_lookup_value}")
+                        
             except Exception as e:
                 self.stats['errors'] += 1
-                logger.error(f"   ❌ Erreur ID {local_item.id}: {e}")
+                logger.error(f"   ❌ Erreur sur {getattr(local_item, lookup_field, local_item.id)}: {e}")
 
     def reset_production(self):
         """Vide les tables en production dans le bon ordre"""
@@ -169,9 +208,8 @@ class DatabaseSync:
             'django.contrib.auth.models.User'
         ]
         
-        for model_path in reversed(tables): # Inverser pour respecter les FK
+        for model_path in reversed(tables):
             try:
-                # Import dynamique pour le reset
                 mod_name, class_name = model_path.rsplit('.', 1)
                 mod = __import__(mod_name, fromlist=[class_name])
                 model = getattr(mod, class_name)
@@ -189,21 +227,23 @@ class DatabaseSync:
         if self.reset:
             self.reset_production()
 
-        # Ordre de synchronisation
-        self._sync_model(User, "User")
-        self._sync_model(Account, "Account")
-        self._sync_model(SermonCategory, "Catégories Sermons")
-        self._sync_model(Sermon, "Sermons")
-        self._sync_model(Announcement, "Annonces")
-        self._sync_model(Testimonial, "Témoignages")
-        self._sync_model(ContactMessage, "Messages Contact")
-        self._sync_model(MediaFile, "Fichiers Média")
+        # 🚀 ORDRE DE SYNCHRONISATION CRITIQUE (Parents d'abord)
+        self._sync_model(User, "Utilisateurs", lookup_field='username')
+        self._sync_model(Account, "Profils Complets", lookup_field='id') # Lié 1:1 au User
+        self._sync_model(MediaFile, "Images & Médias", lookup_field='file')
+        self._sync_model(SermonCategory, "Catégories de Sermons", lookup_field='name')
+        
+        # Enfants
+        self._sync_model(Sermon, "Sermons (Émissons)", lookup_field='title')
+        self._sync_model(Announcement, "Annonces", lookup_field='title')
+        self._sync_model(Testimonial, "Témoignages", lookup_field='author_name')
+        self._sync_model(ContactMessage, "Historique Contacts", lookup_field='email')
 
-        # Paramètres (Singleton)
+        # Paramètres du site
         logger.info("\n⚙️  Paramètres du site...")
         try:
             local = SiteSettings.objects.using('default').get(pk=1)
-            data = self._prepare_model_data(local)
+            data = self._prepare_model_data(local, "SiteSettings")
             if not self.dry_run:
                 SiteSettings.objects.using('prod').update_or_create(id=1, defaults=data)
                 logger.info("   ✅ Mis à jour.")

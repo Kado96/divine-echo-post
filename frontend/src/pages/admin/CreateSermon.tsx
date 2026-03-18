@@ -64,7 +64,7 @@ const CreateSermon = () => {
         try {
             setCategoriesLoading(true);
             const data = await apiService.getSermonCategories();
-            setCategories(Array.isArray(data) ? data : (data.results || []));
+            setCategories(data || []);
         } catch (err) {
             console.error("Failed to fetch categories", err);
             toast.error(t("common.error_loading_categories") || "Erreur de chargement des catégories");
@@ -77,8 +77,7 @@ const CreateSermon = () => {
         try {
             setTeamLoading(true);
             const data = await apiService.getTeamMembers();
-            const results = Array.isArray(data) ? data : (data.results || []);
-            setTeamMembers(results);
+            setTeamMembers(data || []);
         } catch (err) {
             console.error("Failed to fetch team members", err);
         } finally {

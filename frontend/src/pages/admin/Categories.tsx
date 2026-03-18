@@ -34,7 +34,7 @@ const AdminCategories = () => {
         try {
             setLoading(true);
             const data = await apiService.getSermonCategories();
-            setCategories(Array.isArray(data) ? data : (data.results || []));
+            setCategories(data || []);
         } catch (err) {
             console.error("Failed to fetch categories", err);
             toast.error(t("common.error_loading_categories"));

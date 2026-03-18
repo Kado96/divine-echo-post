@@ -60,6 +60,14 @@ export const apiService = {
         return await response.json();
     },
 
+    /**
+     * 🔥 "L'arme secrète Globale": Extrait le tableau de données, 
+     * que ce soit une liste directe ou un format paginé (results).
+     */
+    handleList(data: any) {
+        return (Array.isArray(data) ? (data as any) : data?.results) ?? null;
+    },
+
     async get(endpoint: string) {
         try {
             const response = await fetch(`${API_URL}${endpoint}`, {
@@ -92,13 +100,15 @@ export const apiService = {
 
     // Helper for sermons
     async getSermons() {
-        return this.get(`/sermons/?t=${Date.now()}`);
+        const data = await this.get(`/sermons/?t=${Date.now()}`);
+        return this.handleList(data);
     },
 
     // Helper for categories
     async getSermonCategories() {
         // Use a cache-busting timestamp to ensure we get fresh categories on mobile
-        return this.get(`/sermons/categories/?t=${Date.now()}`);
+        const data = await this.get(`/sermons/categories/?t=${Date.now()}`);
+        return this.handleList(data);
     },
 
     async createSermonCategory(data: any) {
@@ -176,7 +186,8 @@ export const apiService = {
 
     // Helper for team
     async getTeamMembers() {
-        return this.get('/settings/team/');
+        const data = await this.get('/settings/team/');
+        return this.handleList(data);
     },
 
     async createTeamMember(data: FormData) {
@@ -204,7 +215,8 @@ export const apiService = {
 
     // Helper for testimonials
     async getTestimonials() {
-        return this.get('/testimonials/');
+        const data = await this.get('/testimonials/');
+        return this.handleList(data);
     },
 
     async deleteTestimonial(id: number | string) {
@@ -244,7 +256,8 @@ export const apiService = {
 
     // Admin Sermons helpers
     async getAdminSermons() {
-        return this.get('/admin/sermons/sermons/');
+        const data = await this.get('/admin/sermons/sermons/');
+        return this.handleList(data);
     },
 
     async deleteSermon(id: number | string) {
@@ -304,12 +317,14 @@ export const apiService = {
     },
 
     async getAnnouncements() {
-        return this.get('/announcements/');
+        const data = await this.get('/announcements/');
+        return this.handleList(data);
     },
 
     // Admin Announcements helpers
     async getAdminAnnouncements() {
-        return this.get('/announcements/admin/');
+        const data = await this.get('/announcements/admin/');
+        return this.handleList(data);
     },
 
     async getAnnouncementById(id: string | number) {
@@ -349,7 +364,8 @@ export const apiService = {
 
     // User management helpers
     async getUsers() {
-        return this.get('/accounts/users/');
+        const data = await this.get('/accounts/users/');
+        return this.handleList(data);
     },
 
     async getUserById(id: string | number) {
@@ -403,7 +419,8 @@ export const apiService = {
 
     // Media helpers
     async getMediaFiles(params = '') {
-        return this.get(`/admin/media/${params}`);
+        const data = await this.get(`/admin/media/${params}`);
+        return this.handleList(data);
     },
 
     async uploadMediaFile(data: FormData) {

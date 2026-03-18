@@ -19,7 +19,7 @@ const AdminAnnouncements = () => {
         try {
             setLoading(true);
             const data = await apiService.getAdminAnnouncements();
-            setAnnouncements(Array.isArray(data) ? data : (data.results || []));
+            setAnnouncements(data || []);
         } catch (error) {
             toast.error(t("common.error_loading"));
         } finally {

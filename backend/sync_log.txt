@@ -9952,3 +9952,181 @@ DETAIL:  Key (id)=(75) is still referenced from table "courses_favorite".
 2026-03-17 14:31:53,523 - INFO -    ✅ Mis à jour.
 2026-03-17 14:31:53,523 - INFO - 
 ✨ TERMINÉ | Créés: 64 | Mis à jour: 0 | Erreurs: 0
+2026-03-17 16:21:58,517 - INFO - 
+📦 Synchronisation: User
+2026-03-17 16:22:04,595 - INFO -    Local: 4 | Production: 4
+2026-03-17 16:22:04,598 - INFO - 
+📦 Synchronisation: Account
+2026-03-17 16:22:04,789 - INFO -    Local: 4 | Production: 4
+2026-03-17 16:22:05,029 - INFO -    ✅ Mis à jour ID 69
+2026-03-17 16:22:05,197 - INFO -    ✅ Mis à jour ID 72
+2026-03-17 16:22:05,364 - INFO -    ✅ Mis à jour ID 74
+2026-03-17 16:22:05,535 - INFO -    ✅ Mis à jour ID 75
+2026-03-17 16:22:05,535 - INFO - 
+📦 Synchronisation: Catégories Sermons
+2026-03-17 16:22:05,726 - INFO -    Local: 5 | Production: 5
+2026-03-17 16:22:05,897 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:22:06,069 - INFO -    ✅ Mis à jour ID 2
+2026-03-17 16:22:06,264 - INFO -    ✅ Mis à jour ID 1
+2026-03-17 16:22:06,436 - INFO -    ✅ Mis à jour ID 4
+2026-03-17 16:22:06,608 - INFO -    ✅ Mis à jour ID 5
+2026-03-17 16:22:06,609 - INFO - 
+📦 Synchronisation: Sermons
+2026-03-17 16:22:06,787 - INFO -    Local: 3 | Production: 3
+2026-03-17 16:22:06,949 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:22:07,127 - INFO -    ✅ Mis à jour ID 2
+2026-03-17 16:22:07,302 - INFO -    ✅ Mis à jour ID 1
+2026-03-17 16:22:07,303 - INFO - 
+📦 Synchronisation: Annonces
+2026-03-17 16:22:07,505 - INFO -    Local: 1 | Production: 1
+2026-03-17 16:22:07,676 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:22:07,677 - INFO - 
+📦 Synchronisation: Témoignages
+2026-03-17 16:22:07,860 - INFO -    Local: 5 | Production: 5
+2026-03-17 16:22:08,028 - INFO -    ✅ Mis à jour ID 5
+2026-03-17 16:22:08,188 - INFO -    ✅ Mis à jour ID 4
+2026-03-17 16:22:08,360 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:22:08,521 - INFO -    ✅ Mis à jour ID 2
+2026-03-17 16:22:08,681 - INFO -    ✅ Mis à jour ID 1
+2026-03-17 16:22:08,681 - INFO - 
+📦 Synchronisation: Messages Contact
+2026-03-17 16:22:08,872 - INFO -    Local: 0 | Production: 0
+2026-03-17 16:22:08,873 - INFO - 
+📦 Synchronisation: Fichiers Média
+2026-03-17 16:22:09,052 - INFO -    Local: 42 | Production: 42
+2026-03-17 16:22:09,221 - INFO -    ✅ Mis à jour ID 42
+2026-03-17 16:22:09,454 - INFO -    ✅ Mis à jour ID 41
+2026-03-17 16:22:09,618 - INFO -    ✅ Mis à jour ID 40
+2026-03-17 16:22:09,790 - INFO -    ✅ Mis à jour ID 39
+2026-03-17 16:22:09,954 - INFO -    ✅ Mis à jour ID 38
+2026-03-17 16:22:10,152 - INFO -    ✅ Mis à jour ID 37
+2026-03-17 16:22:10,313 - INFO -    ✅ Mis à jour ID 36
+2026-03-17 16:22:10,486 - INFO -    ✅ Mis à jour ID 35
+2026-03-17 16:22:10,662 - INFO -    ✅ Mis à jour ID 34
+2026-03-17 16:22:10,834 - INFO -    ✅ Mis à jour ID 33
+2026-03-17 16:22:11,006 - INFO -    ✅ Mis à jour ID 32
+2026-03-17 16:22:11,182 - INFO -    ✅ Mis à jour ID 31
+2026-03-17 16:22:11,345 - INFO -    ✅ Mis à jour ID 30
+2026-03-17 16:22:11,518 - INFO -    ✅ Mis à jour ID 29
+2026-03-17 16:22:11,686 - INFO -    ✅ Mis à jour ID 28
+2026-03-17 16:22:11,858 - INFO -    ✅ Mis à jour ID 27
+2026-03-17 16:22:12,030 - INFO -    ✅ Mis à jour ID 26
+2026-03-17 16:22:12,202 - INFO -    ✅ Mis à jour ID 25
+2026-03-17 16:22:12,374 - INFO -    ✅ Mis à jour ID 24
+2026-03-17 16:22:12,553 - INFO -    ✅ Mis à jour ID 23
+2026-03-17 16:22:12,729 - INFO -    ✅ Mis à jour ID 22
+2026-03-17 16:22:12,894 - INFO -    ✅ Mis à jour ID 21
+2026-03-17 16:22:13,070 - INFO -    ✅ Mis à jour ID 20
+2026-03-17 16:22:13,238 - INFO -    ✅ Mis à jour ID 19
+2026-03-17 16:22:13,397 - INFO -    ✅ Mis à jour ID 18
+2026-03-17 16:22:13,570 - INFO -    ✅ Mis à jour ID 17
+2026-03-17 16:22:13,742 - INFO -    ✅ Mis à jour ID 16
+2026-03-17 16:22:13,905 - INFO -    ✅ Mis à jour ID 15
+2026-03-17 16:22:14,078 - INFO -    ✅ Mis à jour ID 14
+2026-03-17 16:22:14,254 - INFO -    ✅ Mis à jour ID 13
+2026-03-17 16:22:14,426 - INFO -    ✅ Mis à jour ID 12
+2026-03-17 16:22:14,598 - INFO -    ✅ Mis à jour ID 11
+2026-03-17 16:22:14,770 - INFO -    ✅ Mis à jour ID 10
+2026-03-17 16:22:14,942 - INFO -    ✅ Mis à jour ID 9
+2026-03-17 16:22:15,115 - INFO -    ✅ Mis à jour ID 8
+2026-03-17 16:22:15,286 - INFO -    ✅ Mis à jour ID 7
+2026-03-17 16:22:15,462 - INFO -    ✅ Mis à jour ID 6
+2026-03-17 16:22:15,638 - INFO -    ✅ Mis à jour ID 5
+2026-03-17 16:22:15,810 - INFO -    ✅ Mis à jour ID 4
+2026-03-17 16:22:15,986 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:22:16,154 - INFO -    ✅ Mis à jour ID 2
+2026-03-17 16:22:16,321 - INFO -    ✅ Mis à jour ID 1
+2026-03-17 16:22:16,321 - INFO - 
+⚙️  Paramètres du site...
+2026-03-17 16:22:20,201 - INFO -    ✅ Mis à jour.
+2026-03-17 16:22:20,201 - INFO - 
+✨ TERMINÉ | Créés: 0 | Mis à jour: 60 | Erreurs: 0
+2026-03-17 16:58:48,780 - INFO - 
+📦 Synchronisation: User
+2026-03-17 16:58:50,969 - INFO -    Local: 4 | Production: 4
+2026-03-17 16:58:50,970 - INFO - 
+📦 Synchronisation: Account
+2026-03-17 16:58:51,162 - INFO -    Local: 4 | Production: 4
+2026-03-17 16:58:51,405 - INFO -    ✅ Mis à jour ID 69
+2026-03-17 16:58:51,582 - INFO -    ✅ Mis à jour ID 72
+2026-03-17 16:58:51,774 - INFO -    ✅ Mis à jour ID 74
+2026-03-17 16:58:51,968 - INFO -    ✅ Mis à jour ID 75
+2026-03-17 16:58:52,008 - INFO - 
+📦 Synchronisation: Catégories Sermons
+2026-03-17 16:58:52,236 - INFO -    Local: 5 | Production: 5
+2026-03-17 16:58:52,457 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:58:52,634 - INFO -    ✅ Mis à jour ID 2
+2026-03-17 16:58:52,844 - INFO -    ✅ Mis à jour ID 1
+2026-03-17 16:58:53,010 - INFO -    ✅ Mis à jour ID 4
+2026-03-17 16:58:53,194 - INFO -    ✅ Mis à jour ID 5
+2026-03-17 16:58:53,195 - INFO - 
+📦 Synchronisation: Sermons
+2026-03-17 16:58:53,428 - INFO -    Local: 3 | Production: 3
+2026-03-17 16:58:53,605 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:58:53,770 - INFO -    ✅ Mis à jour ID 2
+2026-03-17 16:58:53,956 - INFO -    ✅ Mis à jour ID 1
+2026-03-17 16:58:53,958 - INFO - 
+📦 Synchronisation: Annonces
+2026-03-17 16:58:54,213 - INFO -    Local: 1 | Production: 1
+2026-03-17 16:58:54,389 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:58:54,389 - INFO - 
+📦 Synchronisation: Témoignages
+2026-03-17 16:58:54,599 - INFO -    Local: 5 | Production: 5
+2026-03-17 16:58:54,765 - INFO -    ✅ Mis à jour ID 5
+2026-03-17 16:58:54,924 - INFO -    ✅ Mis à jour ID 4
+2026-03-17 16:58:55,088 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:58:55,249 - INFO -    ✅ Mis à jour ID 2
+2026-03-17 16:58:55,411 - INFO -    ✅ Mis à jour ID 1
+2026-03-17 16:58:55,411 - INFO - 
+📦 Synchronisation: Messages Contact
+2026-03-17 16:58:55,613 - INFO -    Local: 0 | Production: 0
+2026-03-17 16:58:55,613 - INFO - 
+📦 Synchronisation: Fichiers Média
+2026-03-17 16:58:55,789 - INFO -    Local: 42 | Production: 42
+2026-03-17 16:58:55,961 - INFO -    ✅ Mis à jour ID 42
+2026-03-17 16:58:56,125 - INFO -    ✅ Mis à jour ID 41
+2026-03-17 16:58:56,289 - INFO -    ✅ Mis à jour ID 40
+2026-03-17 16:58:56,449 - INFO -    ✅ Mis à jour ID 39
+2026-03-17 16:58:56,609 - INFO -    ✅ Mis à jour ID 38
+2026-03-17 16:58:56,777 - INFO -    ✅ Mis à jour ID 37
+2026-03-17 16:58:56,949 - INFO -    ✅ Mis à jour ID 36
+2026-03-17 16:58:57,117 - INFO -    ✅ Mis à jour ID 35
+2026-03-17 16:58:57,284 - INFO -    ✅ Mis à jour ID 34
+2026-03-17 16:58:57,444 - INFO -    ✅ Mis à jour ID 33
+2026-03-17 16:58:57,609 - INFO -    ✅ Mis à jour ID 32
+2026-03-17 16:58:57,793 - INFO -    ✅ Mis à jour ID 31
+2026-03-17 16:58:57,963 - INFO -    ✅ Mis à jour ID 30
+2026-03-17 16:58:58,165 - INFO -    ✅ Mis à jour ID 29
+2026-03-17 16:58:58,349 - INFO -    ✅ Mis à jour ID 28
+2026-03-17 16:58:58,509 - INFO -    ✅ Mis à jour ID 27
+2026-03-17 16:58:58,681 - INFO -    ✅ Mis à jour ID 26
+2026-03-17 16:58:58,849 - INFO -    ✅ Mis à jour ID 25
+2026-03-17 16:58:59,009 - INFO -    ✅ Mis à jour ID 24
+2026-03-17 16:58:59,169 - INFO -    ✅ Mis à jour ID 23
+2026-03-17 16:58:59,347 - INFO -    ✅ Mis à jour ID 22
+2026-03-17 16:58:59,509 - INFO -    ✅ Mis à jour ID 21
+2026-03-17 16:58:59,677 - INFO -    ✅ Mis à jour ID 20
+2026-03-17 16:58:59,845 - INFO -    ✅ Mis à jour ID 19
+2026-03-17 16:59:00,014 - INFO -    ✅ Mis à jour ID 18
+2026-03-17 16:59:00,185 - INFO -    ✅ Mis à jour ID 17
+2026-03-17 16:59:00,357 - INFO -    ✅ Mis à jour ID 16
+2026-03-17 16:59:00,525 - INFO -    ✅ Mis à jour ID 15
+2026-03-17 16:59:00,687 - INFO -    ✅ Mis à jour ID 14
+2026-03-17 16:59:00,857 - INFO -    ✅ Mis à jour ID 13
+2026-03-17 16:59:01,069 - INFO -    ✅ Mis à jour ID 12
+2026-03-17 16:59:01,245 - INFO -    ✅ Mis à jour ID 11
+2026-03-17 16:59:01,413 - INFO -    ✅ Mis à jour ID 10
+2026-03-17 16:59:01,592 - INFO -    ✅ Mis à jour ID 9
+2026-03-17 16:59:01,753 - INFO -    ✅ Mis à jour ID 8
+2026-03-17 16:59:01,929 - INFO -    ✅ Mis à jour ID 7
+2026-03-17 16:59:02,101 - INFO -    ✅ Mis à jour ID 6
+2026-03-17 16:59:02,304 - INFO -    ✅ Mis à jour ID 5
+2026-03-17 16:59:02,493 - INFO -    ✅ Mis à jour ID 4
+2026-03-17 16:59:02,671 - INFO -    ✅ Mis à jour ID 3
+2026-03-17 16:59:02,894 - INFO -    ✅ Mis à jour ID 2
+2026-03-17 16:59:03,112 - INFO -    ✅ Mis à jour ID 1
+2026-03-17 16:59:03,113 - INFO - 
+⚙️  Paramètres du site...
+2026-03-17 16:59:04,364 - INFO -    ✅ Mis à jour.
+2026-03-17 16:59:04,364 - INFO - 
+✨ TERMINÉ | Créés: 0 | Mis à jour: 60 | Erreurs: 0

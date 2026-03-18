@@ -27,7 +27,7 @@ const RecentEmissions = () => {
         ]);
         // Filter by current language and Map backend fields to frontend fields
         const currentLang = i18n.language || 'fr';
-        const items = sermonsData.results?.filter((sermon: any) => sermon.language === currentLang).slice(0, 4).map((sermon: any) => ({
+        const items = sermonsData?.filter((sermon: any) => sermon.language === currentLang).slice(0, 4).map((sermon: any) => ({
           id: sermon.id,
           slug: sermon.slug,
           title: stripHtml(sermon.title),
