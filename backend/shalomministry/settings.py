@@ -161,8 +161,29 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_URL = '/api/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+if USE_LOCAL_SQLITE:
+    MEDIA_URL = '/api/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
+else:
+    PROJECT_ID = os.environ.get("SUPABASE_PROJECT_ID")
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "media")
+    
+    if PROJECT_ID:
+        # Configuration Supabase Storage standard et robuste selon astuce.md
+        AWS_S3_CUSTOM_DOMAIN = f"{PROJECT_ID}.supabase.co/storage/v1/object/public/{AWS_STORAGE_BUCKET_NAME}"
+        MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+        DEFAULT_FILE_STORAGE = 'api.utils.storage.CleanS3Boto3Storage'
+        
+        # Configuration boto3 nécessaire (les clés doivent être dans .env.production)
+        AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+        AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+        AWS_S3_ENDPOINT_URL = f"https://{PROJECT_ID}.supabase.co/storage/v1/s3"
+        AWS_S3_REGION_NAME = "eu-west-3" # Région par défaut, à adapter si besoin
+        AWS_S3_SIGNATURE_VERSION = "s3v4"
+    else:
+        # Fallback de sécurité si les variables n'existent pas
+        MEDIA_URL = '/api/media/'
+        MEDIA_ROOT = BASE_DIR / 'media'
 
 # ==========================
 # DEFAULT PRIMARY KEY
