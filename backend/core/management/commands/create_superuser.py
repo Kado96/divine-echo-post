@@ -12,15 +12,23 @@ class Command(BaseCommand):
         password = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
 
         if not username or not password:
+            self.stdout.write("DJANGO_SUPERUSER environment variables not fully set. Skip creation/update.")
             return
 
-        if not User.objects.filter(username=username).exists():
-            User.objects.create_superuser(
-                username=username,
-                email=email,
-                password=password
-            )
-            self.stdout.write("Superuser created")
+        # On utilise get_or_create pour s'assurer qu'un utilisateur existe
+        # et on le met à JOUR avec les valeurs des variables d'environnement.
+        user, created = User.objects.get_or_create(username=username)
+        
+        # On force la mise à jour (Pratique pour restaurer l'accès après un sync SQL)
+        user.set_password(password)
+        if email:
+            user.email = email
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+
+        if created:
+            self.stdout.write(f"CREATION-OK : Admin '{username}' cree avec succes.")
         else:
-            self.stdout.write("Superuser already exists")
+            self.stdout.write(f"UPDATE-OK   : Admin '{username}' repare (Mot de passe mis a jour).")
 

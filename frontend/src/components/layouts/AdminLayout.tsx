@@ -9,7 +9,6 @@ import {
     Settings,
     ExternalLink,
     ChevronRight,
-    Plus,
     Users,
     FileText,
     Megaphone,
@@ -146,14 +145,6 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
                         <div className="hidden sm:flex items-center gap-4">
                             <Link to="/" className="text-sm text-gray-600 hover:text-[#2271b1] flex items-center gap-1.5 font-medium">
                                 🏠 {t("nav.view_site")}
-                            </Link>
-                            <div className="h-4 w-px bg-gray-200" />
-                            <Link
-                                to="/admin/sermons/create"
-                                className="text-sm text-[#2271b1] hover:text-blue-700 flex items-center gap-1.5 font-bold"
-                            >
-                                <Plus className="w-4 h-4" />
-                                <span>{t("nav.create")}</span>
                             </Link>
                         </div>
                     </div>
