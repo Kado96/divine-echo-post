@@ -5,7 +5,7 @@
 
 import os
 from pathlib import Path
-import dj_database_url
+import dj_database_url  # pyre-ignore
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -47,7 +47,6 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "shalom-ministry-backend-ipu3.onrender.com",
-    "shalom-ministry-backend.onrender.com",
     "shalomministry.wuaze.com",
     "www.shalomministry.wuaze.com",
     "*"
@@ -236,7 +235,7 @@ SIMPLE_JWT = {
 # CORS CONFIGURATION
 # ==========================
 
-from corsheaders.defaults import default_headers
+from corsheaders.defaults import default_headers  # pyre-ignore
 
 # CORS & CSRF
 CORS_ALLOW_ALL_ORIGINS = DEBUG
@@ -250,6 +249,7 @@ if not DEBUG:
         "https://www.shalomministry.wuaze.com",
         "http://www.shalomministry.wuaze.com",
         "https://shalom-ministry-backend-ipu3.onrender.com",
+        "https://shalom-ministry-backend.onrender.com",
     ]
     # Domaines de confiance pour les requêtes CSRF (formulaires, API PATCH/POST)
     CSRF_TRUSTED_ORIGINS = [
