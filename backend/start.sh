@@ -71,10 +71,10 @@ python manage.py collectstatic --noinput || {
     exit 1
 }
 
-# Créer le superuser (optionnel, peut déjà exister)
-echo "👤 Creating superuser..."
-python manage.py create_superuser || {
-    echo "⚠️ Superuser creation failed (may already exist)"
+# Créer le superuser via le script dédié
+echo "👤 Creating or updating superuser..."
+python create_admin.py || {
+    echo "⚠️ Superuser creation script failed"
 }
 
 # Démarrer le serveur (gunicorn)
