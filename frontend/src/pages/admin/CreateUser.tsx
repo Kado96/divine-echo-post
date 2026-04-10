@@ -171,7 +171,6 @@ const AdminCreateUser = () => {
                                     onChange={handleChange}
                                     autoComplete="email"
                                     className={`w-full px-3 py-2 bg-white border ${fieldErrors.email ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg`}
-                                    required
                                 />
                                 {fieldErrors.email && <p className="text-xs text-red-500 mt-1">{fieldErrors.email}</p>}
                             </div>

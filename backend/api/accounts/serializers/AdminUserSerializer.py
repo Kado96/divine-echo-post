@@ -27,9 +27,9 @@ class AdminUserSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id", "date_joined", "photo_display"]
         extra_kwargs = {
-            'password': {'write_only': True, 'required': False},
-            'username': {'required': True},
-            'email': {'required': True},
+            'password': {'write_only': True, 'required': True}, # Mot de passe obligatoire
+            'username': {'required': True}, # Identifiant obligatoire
+            'email': {'required': False, 'allow_blank': True}, # Email optionnel
         }
 
     def to_internal_value(self, data):
@@ -74,6 +74,7 @@ class AdminUserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         photo = validated_data.pop('photo', None)
         password = validated_data.pop('password', None)
+        remove_photo = validated_data.pop('remove_photo', False) # On retire ce champ car il n'existe pas sur le modèle User
         
         # Création de l'utilisateur
         user = User.objects.create(**validated_data)
@@ -102,7 +103,7 @@ class AdminUserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         photo = validated_data.pop('photo', None)
-        remove_photo = validated_data.pop('remove_photo', False)
+        remove_photo = validated_data.pop('remove_photo', False) # On retire ce champ car il n'existe pas sur le modèle User
         password = validated_data.pop('password', None)
         
         # Mise à jour des champs basiques
