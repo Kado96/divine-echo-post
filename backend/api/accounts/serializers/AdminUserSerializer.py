@@ -35,9 +35,9 @@ class AdminUserSerializer(serializers.ModelSerializer):
     def get_photo_display(self, obj):
         request = self.context.get('request')
         try:
-            # S'assurer que l'account existe
-            account, created = Account.objects.get_or_create(user=obj)
-            if account.photo:
+            # Ne pas utiliser get_or_create ici pour éviter les erreurs 500 en lecture
+            account = getattr(obj, 'account', None)
+            if account and account.photo:
                 photo_url = account.photo.url
                 if request is not None:
                     return request.build_absolute_uri(photo_url)
@@ -49,23 +49,26 @@ class AdminUserSerializer(serializers.ModelSerializer):
     def validate_username(self, value):
         user = self.instance
         if User.objects.filter(username=value).exclude(pk=user.pk if user else None).exists():
-            raise serializers.ValidationError("Ce nom d'utilisateur existe déjà.")
+            raise serializers.ValidationError("Un utilisateur avec ce nom existe déjà.")
         return value
 
     def validate_email(self, value):
         user = self.instance
         if User.objects.filter(email=value).exclude(pk=user.pk if user else None).exists():
-            raise serializers.ValidationError("Cet email est déjà utilisé.")
+            raise serializers.ValidationError("Cet email est déjà utilisé par un autre compte.")
         return value
 
     def create(self, validated_data):
         photo = validated_data.pop('photo', None)
         password = validated_data.pop('password', None)
-        user = User(**validated_data)
+        
+        # Création de l'utilisateur
+        user = User.objects.create(**validated_data)
         if password:
             user.set_password(password)
-        user.save()
+            user.save()
         
+        # Création sécurisée de l'account
         account, created = Account.objects.get_or_create(user=user)
         if photo:
             account.photo = photo
@@ -78,6 +81,7 @@ class AdminUserSerializer(serializers.ModelSerializer):
         remove_photo = validated_data.pop('remove_photo', False)
         password = validated_data.pop('password', None)
         
+        # Mise à jour des champs basiques
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         
@@ -86,13 +90,12 @@ class AdminUserSerializer(serializers.ModelSerializer):
         
         instance.save()
         
-        if photo:
+        if photo or remove_photo:
             account, created = Account.objects.get_or_create(user=instance)
-            account.photo = photo
-            account.save()
-        elif remove_photo:
-            account, created = Account.objects.get_or_create(user=instance)
-            account.photo = None
+            if photo:
+                account.photo = photo
+            elif remove_photo:
+                account.photo = None
             account.save()
             
         return instance

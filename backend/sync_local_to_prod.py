@@ -187,8 +187,9 @@ class ShalomSync:
         logger.info(f"{'⚠️ MODE SIMULATION' if self.dry_run else '🚀 MODE RÉEL'}")
         
         try:
-            self.sync_model(User, "Utilisateurs")
-            self.sync_model(Account, "Profils")
+            # On désactive la synchronisation des utilisateurs et comptes pour préserver les identités de production
+            # self.sync_model(User, "Utilisateurs")
+            # self.sync_model(Account, "Profils")
             self.sync_model(SiteSettings, "Paramètres Site")
             self.sync_model(MediaFile, "Médias (Fichiers)")
             self.sync_model(SermonCategory, "Catégories")

@@ -51,12 +51,8 @@ class UserViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 	def perform_create(self, serializer):
-		"""Créer l'utilisateur avec le mot de passe"""
-		user = serializer.save()
-		password = self.request.data.get('password')
-		if password:
-			user.set_password(password)
-			user.save()
+		"""Logique de création de base (le serializer gère le mot de passe)"""
+		serializer.save()
 
 	def update(self, request, *args, **kwargs):
 		"""Modifier un utilisateur"""
@@ -73,18 +69,11 @@ class UserViewSet(viewsets.ModelViewSet):
 		serializer.is_valid(raise_exception=True)
 		self.perform_update(serializer)
 
-		if getattr(instance, '_prefetched_objects_cache', None):
-			instance._prefetched_objects_cache = {}
-
 		return Response(serializer.data)
 
 	def perform_update(self, serializer):
-		"""Mettre à jour l'utilisateur avec le mot de passe si fourni"""
-		user = serializer.save()
-		password = self.request.data.get('password')
-		if password and password.strip():
-			user.set_password(password)
-			user.save()
+		"""Mise à jour de base (le serializer gère le mot de passe)"""
+		serializer.save()
 
 	def destroy(self, request, *args, **kwargs):
 		"""Supprimer un utilisateur"""
