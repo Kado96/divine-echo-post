@@ -177,7 +177,7 @@ else:
         AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
         AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
         AWS_S3_ENDPOINT_URL = f"https://{PROJECT_ID}.supabase.co/storage/v1/s3"
-        AWS_S3_REGION_NAME = "eu-west-3" # Région par défaut, à adapter si besoin
+        AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "eu-central-1")
         AWS_S3_SIGNATURE_VERSION = "s3v4"
     else:
         # Fallback de sécurité si les variables n'existent pas
@@ -258,6 +258,7 @@ if not DEBUG:
         "https://www.shalomministry.wuaze.com",
         "http://www.shalomministry.wuaze.com",
         "https://shalom-ministry-backend-ipu3.onrender.com",
+        "https://shalom-ministry-backend.onrender.com",
     ]
 else:
     # En développement, autoriser tout pour faciliter la connexion

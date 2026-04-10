@@ -14,12 +14,19 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     parser_classes = [parsers.JSONParser, parsers.FormParser, parsers.MultiPartParser]
     
     def post(self, request, *args, **kwargs):
-        """Override post pour assurer le bon format de réponse"""
+        """Override post pour assurer le bon format de réponse et ajouter du log"""
         from rest_framework.exceptions import APIException
+        
+        username = request.data.get('username')
+        logger.info(f"Tentative de connexion pour l'utilisateur: {username}")
+        
         try:
-            return super().post(request, *args, **kwargs)
+            response = super().post(request, *args, **kwargs)
+            if response.status_code == 200:
+                logger.info(f"Connexion réussie pour {username}")
+            return response
         except APIException as e:
-            # Laisser DRF gérer ses propres exceptions (Authentification, Validation)
+            logger.warning(f"Échec authentification pour {username}: {str(e)}")
             raise e
         except Exception as e:
             logger.error(f"Erreur inattendue dans CustomTokenObtainPairView.post: {e}", exc_info=True)
