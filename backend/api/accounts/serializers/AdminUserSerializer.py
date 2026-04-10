@@ -32,6 +32,19 @@ class AdminUserSerializer(serializers.ModelSerializer):
             'email': {'required': True},
         }
 
+    def to_internal_value(self, data):
+        """Conversion robuste des booléens envoyés en FormData (chaînes "true"/"false")"""
+        data = data.copy()
+        for field in ['is_superuser', 'is_staff', 'is_active', 'remove_photo']:
+            if field in data:
+                val = data[field]
+                if isinstance(val, str):
+                    if val.lower() == 'true':
+                        data[field] = True
+                    elif val.lower() == 'false':
+                        data[field] = False
+        return super().to_internal_value(data)
+
     def get_photo_display(self, obj):
         request = self.context.get('request')
         try:
@@ -69,10 +82,21 @@ class AdminUserSerializer(serializers.ModelSerializer):
             user.save()
         
         # Création sécurisée de l'account
-        account, created = Account.objects.get_or_create(user=user)
-        if photo:
-            account.photo = photo
-            account.save()
+        try:
+            account, created = Account.objects.get_or_create(user=user)
+            if photo:
+                try:
+                    account.photo = photo
+                    account.save()
+                except Exception as e:
+                    import logging
+                    logger = logging.getLogger('django.request')
+                    logger.error(f"Erreur lors de l'upload de la photo pour {user.username}: {e}")
+                    # On continue même si la photo échoue pour éviter une erreur 500
+        except Exception as e:
+            import logging
+            logger = logging.getLogger('django.request')
+            logger.error(f"Erreur lors de la création de l'Account pour {user.username}: {e}")
             
         return user
 
@@ -90,12 +114,23 @@ class AdminUserSerializer(serializers.ModelSerializer):
         
         instance.save()
         
-        if photo or remove_photo:
-            account, created = Account.objects.get_or_create(user=instance)
-            if photo:
-                account.photo = photo
-            elif remove_photo:
-                account.photo = None
-            account.save()
+        try:
+            if photo or remove_photo:
+                account, created = Account.objects.get_or_create(user=instance)
+                if photo:
+                    try:
+                        account.photo = photo
+                        account.save()
+                    except Exception as e:
+                        import logging
+                        logger = logging.getLogger('django.request')
+                        logger.error(f"Erreur upload photo update pour {instance.username}: {e}")
+                elif remove_photo:
+                    account.photo = None
+                    account.save()
+        except Exception as e:
+            import logging
+            logger = logging.getLogger('django.request')
+            logger.error(f"Erreur gestion Account update pour {instance.username}: {e}")
             
         return instance

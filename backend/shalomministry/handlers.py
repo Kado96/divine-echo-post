@@ -73,19 +73,35 @@ def handler404(request, exception):
 def handler500(request):
     """
     Handler 500 personnalisé qui retourne du JSON pour les requêtes API
+    et logue l'erreur pour le débogage.
     """
-    # Vérifier si request existe et si c'est une requête API
+    import traceback
+    import logging
+    logger = logging.getLogger('django.request')
+    
+    # On essaye de récupérer l'erreur depuis sys.exc_info()
+    import sys
+    exc_type, exc_value, exc_traceback = sys.exc_info()
+    error_msg = str(exc_value) if exc_value else "Internal Server Error"
+    
+    # Log de l'erreur avec la stacktrace complète dans la console du serveur
+    logger.error(f"Erreur 500 sur {request.path}: {error_msg}")
+    if exc_info := sys.exc_info():
+        logger.error("".join(traceback.format_exception(*exc_info)))
+
+    # Vérifier si c'est une requête API
     if request and hasattr(request, 'path') and request.path.startswith('/api/'):
         return JsonResponse(
             {
-                'detail': 'Internal Server Error',
+                'detail': error_msg,
                 'error': 'server_error',
+                'error_type': exc_type.__name__ if exc_type else 'Exception',
                 'path': getattr(request, 'path', 'unknown'),
                 'method': getattr(request, 'method', 'unknown'),
             },
             status=500
         )
-    # Pour les autres requêtes (comme favicon.ico), utiliser le handler par défaut
+    # Pour les autres requêtes, utiliser le handler par défaut
     from django.views.defaults import server_error
     return server_error(request)
 
