@@ -48,18 +48,38 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         i18n.changeLanguage(lng);
     };
 
-    const sidebarLinks = [
+    const allSidebarLinks = [
         { label: t("admin.dashboard"), href: "/admin", icon: LayoutDashboard },
-        { label: t("admin.sermons"), href: "/admin/sermons", icon: BookOpen },
+        { label: t("admin.emissions"), href: "/admin/emissions", icon: BookOpen },
         { label: t("admin.announcements") || "Annonces", href: "/admin/announcements", icon: Megaphone },
         { label: t("admin.testimonials") || "Témoignages", href: "/admin/testimonials", icon: MessageCircle },
         { label: t("admin.pages") || "Pages du site", href: "/admin/pages", icon: FileText },
         { label: t("admin.categories"), href: "/admin/categories", icon: FolderTree },
         { label: t("admin.media"), href: "/admin/media", icon: ImageIcon },
         { label: t("admin.stats_detailed") || "Statistiques", href: "/admin/stats", icon: BarChart3 },
-        { label: t("admin.users") || "Équipe", href: "/admin/users", icon: Users },
+        { label: t("admin.team_page.title") || "Équipe Publique", href: "/admin/team", icon: Users },
+        { label: t("admin.users") || "Utilisateurs", href: "/admin/users", icon: User },
         { label: t("admin.settings"), href: "/admin/settings", icon: Settings },
     ];
+
+    const sidebarLinks = allSidebarLinks.filter(link => {
+        const role = (user as any)?.role || "user";
+        const isSuperuser = user?.is_superuser;
+
+        if (isSuperuser) return true;
+
+        switch (role) {
+            case "admin":
+                return true; // Admin voit tout, mais sera bloqué par le backend pour certaines actions
+            case "team":
+                // Équipe : Emissions, Annonces, Témoignages, Catégories, Media, Stats, Team, Settings
+                return ["/admin", "/admin/emissions", "/admin/announcements", "/admin/testimonials", "/admin/categories", "/admin/media", "/admin/stats", "/admin/team", "/admin/settings"].includes(link.href);
+            case "user":
+            default:
+                // Utilisateur Simple : Uniquement Emissions et Témoignages
+                return ["/admin", "/admin/emissions", "/admin/testimonials"].includes(link.href);
+        }
+    });
 
     return (
         <div className="flex min-h-screen bg-[#f0f0f1]">

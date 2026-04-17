@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions
 from .models import Announcement
 from .serializers import AnnouncementSerializer
+from api.accounts.permissions import IsTeamMember
 
 class AnnouncementViewSet(viewsets.ModelViewSet):
     queryset = Announcement.objects.filter(is_active=True)
@@ -10,4 +11,4 @@ class AnnouncementViewSet(viewsets.ModelViewSet):
 class AdminAnnouncementViewSet(viewsets.ModelViewSet):
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsTeamMember]

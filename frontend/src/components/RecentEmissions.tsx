@@ -19,34 +19,34 @@ const RecentEmissions = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSermons = async () => {
+    const fetchEmissions = async () => {
       try {
-        const [sermonsData, settingsData] = await Promise.all([
-          apiService.getSermons(),
+        const [emissionsData, settingsData] = await Promise.all([
+          apiService.getEmissions(),
           apiService.getSettings()
         ]);
         // Filter by current language and Map backend fields to frontend fields
         const currentLang = i18n.language || 'fr';
-        const items = sermonsData?.filter((sermon: any) => sermon.language === currentLang).slice(0, 4).map((sermon: any) => ({
-          id: sermon.id,
-          slug: sermon.slug,
-          title: stripHtml(sermon.title),
-          author: stripHtml(sermon.preacher_name || t("common.default_preacher")),
-          category: sermon.category_name || t("common.general"),
-          duration: sermon.duration_minutes ? `${sermon.duration_minutes} min` : "N/A",
-          listeners: sermon.views_count || 0,
+        const items = emissionsData?.filter((emission: any) => emission.language === currentLang).slice(0, 4).map((emission: any) => ({
+          id: emission.id,
+          slug: emission.slug,
+          title: stripHtml(emission.title),
+          author: stripHtml(emission.preacher_name || t("common.default_preacher")),
+          category: emission.category_name || t("common.general"),
+          duration: emission.duration_minutes ? `${emission.duration_minutes} min` : "N/A",
+          listeners: emission.views_count || 0,
           isNew: true,
-          image: getFullImageUrl(sermon.image) || emissionPreaching,
+          image: getFullImageUrl(emission.image) || emissionPreaching,
         })) || [];
         setRecentItems(items);
         setSettings(settingsData);
       } catch (err) {
-        console.error("Failed to fetch sermons", err);
+        console.error("Failed to fetch emissions", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchSermons();
+    fetchEmissions();
   }, [i18n.language]);
 
   const getSetting = (key: string) => {
@@ -91,7 +91,7 @@ const RecentEmissions = () => {
           }`}>
           {recentItems.length > 0 ? (
             recentItems.map((item, i) => (
-              <Link key={item.id} to={`/sermon/${item.slug}`}>
+              <Link key={item.id} to={`/emission/${item.slug}`}>
                 <motion.div
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}

@@ -7,9 +7,11 @@ import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiService } from "@/lib/api";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 const AdminCreateUser = () => {
     const { t } = useTranslation();
+    const { user: currentUser } = useAuth();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -18,7 +20,7 @@ const AdminCreateUser = () => {
         first_name: "",
         last_name: "",
         password: "",
-        role: "pastor",
+        role: "user",
         is_active: true
     });
     const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -238,8 +240,11 @@ const AdminCreateUser = () => {
                                     onChange={handleChange}
                                     className={`w-full px-3 py-2 bg-white border ${fieldErrors.role ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg`}
                                 >
-                                    <option value="pastor">{t("admin.users_page.form.role_pastor")}</option>
-                                    <option value="admin">{t("admin.users_page.form.role_admin")}</option>
+                                    <option value="user">{t("admin.users_page.form.role_user")}</option>
+                                    <option value="team">{t("admin.users_page.form.role_team")}</option>
+                                    {currentUser?.is_superuser && (
+                                        <option value="admin">{t("admin.users_page.form.role_admin")}</option>
+                                    )}
                                 </select>
                                 {fieldErrors.role && <p className="text-xs text-red-500 mt-1">{fieldErrors.role}</p>}
                             </div>

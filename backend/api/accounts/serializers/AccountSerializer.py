@@ -3,7 +3,7 @@ from .UserSerializer import UserSerializer
 class BasicAccountSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Account
-		fields = "phone_number",
+		fields = "phone_number", "role"
 
 	def to_representation(self, obj:Account):
 		try:

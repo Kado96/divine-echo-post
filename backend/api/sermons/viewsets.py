@@ -1,9 +1,10 @@
-from rest_framework import viewsets, filters, status
+from rest_framework import viewsets, filters
+from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import SermonCategory, Sermon
+from api.accounts.permissions import IsSimpleUser, IsTeamMember
 from .serializers import (
     SermonCategorySerializer,
     SermonListSerializer,
@@ -49,7 +50,7 @@ class AdminSermonViewSet(viewsets.ModelViewSet):
     """API admin pour la gestion complète des prédications"""
     queryset = Sermon.objects.all()
     serializer_class = AdminSermonSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSimpleUser]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ["category", "language", "featured", "is_active"]
     search_fields = ["title", "description", "preacher_name"]
@@ -86,5 +87,5 @@ class AdminSermonCategoryViewSet(viewsets.ModelViewSet):
     """API admin pour la gestion complète des catégories de prédications"""
     queryset = SermonCategory.objects.all()
     serializer_class = SermonCategorySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsTeamMember]
     # Pas de lookup_field = "slug" ici pour utiliser l'ID par défaut (standard admin)

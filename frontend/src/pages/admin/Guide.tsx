@@ -21,12 +21,12 @@ const Guide = () => {
         {
             title: "Tableau de Bord",
             icon: Layout,
-            content: "Le tableau de bord est votre centre de contrôle. Il affiche un résumé des statistiques vitales et vous donne des accès rapides aux actions les plus courantes comme la création de sermons ou l'ajout de membres."
+            content: "Le tableau de bord est votre centre de contrôle. Il affiche un résumé des statistiques vitales et vous donne des accès rapides aux actions les plus courantes comme la création d'émissions ou l'ajout de membres."
         },
         {
-            title: "Gestion des Sermons",
+            title: "Gestion des Émissions",
             icon: BookOpen,
-            content: "C'est le cœur de votre site. Vous pouvez ajouter des sermons sous trois formats : Vidéo native, Audio native, ou Lien YouTube. N'oubliez pas de définir une image mise en avant pour un meilleur rendu visuel sur le site public."
+            content: "C'est le cœur de votre site. Vous pouvez ajouter des émissions sous trois formats : Vidéo native, Audio native, ou Lien YouTube. N'oubliez pas de définir une image mise en avant pour un meilleur rendu visuel sur le site public."
         },
         {
             title: "Annonces & Communication",
@@ -36,12 +36,12 @@ const Guide = () => {
         {
             title: "Équipe & Pasteurs",
             icon: Users,
-            content: "Gérez ici les profils des pasteurs et des administrateurs. Seuls les administrateurs ont accès à ce panneau, les pasteurs peuvent être créés pour apparaître comme auteurs de sermons sans pour autant avoir accès à l'administration complète."
+            content: "Gérez ici les profils des pasteurs et des administrateurs. Seuls les administrateurs ont accès à ce panneau, les pasteurs peuvent être créés pour apparaître comme auteurs d'émissions sans pour autant avoir accès à l'administration complète."
         },
         {
             title: "Bibliothèque Média",
             icon: ImageIcon,
-            content: "Tous vos fichiers (images, audio, documents) sont centralisés ici. Vous pouvez les réutiliser dans n'importe quel sermon ou page sans avoir à les renvoyer systématiquement."
+            content: "Tous vos fichiers (images, audio, documents) sont centralisés ici. Vous pouvez les réutiliser dans n'importe quelle émission ou page sans avoir à les renvoyer systématiquement."
         },
         {
             title: "Personnalisation des Pages",
@@ -90,7 +90,7 @@ const Guide = () => {
                     <div className="space-y-2">
                         <h4 className="text-lg font-bold text-amber-900">Conseil d'administration</h4>
                         <p className="text-amber-800/80 text-sm leading-relaxed italic">
-                            "Maintenir votre site à jour régulièrement avec de nouveaux sermons et annonces est le meilleur moyen d'augmenter votre impact spirituel auprès de votre communauté en ligne."
+                            "Maintenir votre site à jour régulièrement avec de nouvelles émissions et annonces est le meilleur moyen d'augmenter votre impact spirituel auprès de votre communauté en ligne."
                         </p>
                     </div>
                 </div>

@@ -12,20 +12,30 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const AdminDashboard = () => {
     const { t } = useTranslation();
 
-    const quickActions = [
-        { label: t("admin.dashboard_page.quick_actions.new_sermon"), icon: Plus, href: "/admin/sermons/create", color: "bg-blue-600" },
-        { label: t("admin.dashboard_page.quick_actions.add_user"), icon: Users, href: "/admin/users/create", color: "bg-emerald-600" },
+    const { user } = useAuth();
+    const role = (user as any)?.role || "user";
+    const isSuperuser = user?.is_superuser;
+
+    const allQuickActions = [
+        { label: t("admin.dashboard_page.quick_actions.new_emission"), icon: Plus, href: "/admin/emissions/create", color: "bg-blue-600" },
+        { label: t("admin.dashboard_page.quick_actions.add_user"), icon: Users, href: "/admin/users/create", color: "bg-emerald-600", adminOnly: true },
         { label: t("admin.dashboard_page.quick_actions.view_site"), icon: ExternalLink, href: "/", color: "bg-orange-500" },
         { label: t("admin.dashboard_page.quick_actions.messages"), icon: MessageSquare, href: "/admin/testimonials", color: "bg-purple-600" },
     ];
 
+    const quickActions = allQuickActions.filter(action => {
+        if (!action.adminOnly) return true;
+        return isSuperuser || role === "admin";
+    });
+
     const statsOverview = [
         { label: t("admin.dashboard_page.stats.total_views"), value: "125.4K", icon: Play, color: "text-blue-600" },
-        { label: t("admin.dashboard_page.stats.active_sermons"), value: "48", icon: BookOpen, color: "text-emerald-600" },
+        { label: t("admin.dashboard_page.stats.active_emissions"), value: "48", icon: BookOpen, color: "text-emerald-600" },
         { label: t("admin.dashboard_page.stats.announcements"), value: "3", icon: Megaphone, color: "text-orange-600" },
         { label: t("admin.dashboard_page.stats.impact"), value: "89%", icon: TrendingUp, color: "text-purple-600" },
     ];
@@ -81,11 +91,11 @@ const AdminDashboard = () => {
                         <div className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden">
                             <div className="px-6 py-4 border-b border-border bg-gray-50/50 flex items-center justify-between">
                                 <h3 className="font-black text-sm text-[#1d2327]">{t("admin.dashboard_page.recent_activity")}</h3>
-                                <Link to="/admin/sermons" className="text-[10px] font-black uppercase text-[#2271b1] hover:underline">{t("admin.dashboard_page.view_all")}</Link>
+                                <Link to="/admin/emissions" className="text-[10px] font-black uppercase text-[#2271b1] hover:underline">{t("admin.dashboard_page.view_all")}</Link>
                             </div>
                             <div className="divide-y divide-gray-50">
                                 {[1, 2, 3].map(i => {
-                                    const activityLink = i === 1 ? "/admin/sermons" : i === 2 ? "/admin/announcements" : "/admin/testimonials";
+                                    const activityLink = i === 1 ? "/admin/emissions" : i === 2 ? "/admin/announcements" : "/admin/testimonials";
                                     return (
                                         <Link key={i} to={activityLink} className="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors block">
                                             <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-[10px] font-bold">
@@ -93,7 +103,7 @@ const AdminDashboard = () => {
                                             </div>
                                             <div>
                                                 <p className="text-xs sm:text-sm font-bold text-gray-800">
-                                                    {i === 1 ? t("admin.dashboard_page.activity.new_sermon") : i === 2 ? t("admin.dashboard_page.activity.updated_announcement") : t("admin.dashboard_page.activity.new_testimonial")}
+                                                    {i === 1 ? t("admin.dashboard_page.activity.new_emission") : i === 2 ? t("admin.dashboard_page.activity.updated_announcement") : t("admin.dashboard_page.activity.new_testimonial")}
                                                 </p>
                                                 <p className="text-[10px] text-gray-400">{t("common.hours_ago", { count: i * 2 })}</p>
                                             </div>

@@ -99,6 +99,7 @@ MIDDLEWARE = [
 
     'api.middlewares.APIDebugMiddleware',
     'api.middlewares.DisableCSRF',
+    'api.middlewares.MediaCORSMiddleware',
 ]
 
 ROOT_URLCONF = 'shalomministry.urls'

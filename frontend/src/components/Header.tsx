@@ -57,9 +57,9 @@ const Header = () => {
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
         <a href="/" className="flex items-center gap-3">
-          {settings?.logo ? (
+          {settings?.logo_url_display || settings?.logo ? (
             <img
-              src={getFullImageUrl(settings.logo)}
+              src={settings.logo_url_display || getFullImageUrl(settings.logo)}
               alt={settings.site_name || "Logo"}
               className="h-10 w-auto object-contain"
             />

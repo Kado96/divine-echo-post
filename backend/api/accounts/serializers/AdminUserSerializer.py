@@ -7,6 +7,7 @@ class AdminUserSerializer(serializers.ModelSerializer):
     photo = serializers.ImageField(required=False, allow_null=True, write_only=True)
     photo_display = serializers.SerializerMethodField()
     remove_photo = serializers.BooleanField(write_only=True, required=False, default=False)
+    role = serializers.CharField(required=False)
     
     class Meta:
         model = User
@@ -21,6 +22,7 @@ class AdminUserSerializer(serializers.ModelSerializer):
             "is_staff",
             "is_active",
             "date_joined",
+            "role",
             "photo",
             "photo_display",
             "remove_photo"
@@ -44,6 +46,15 @@ class AdminUserSerializer(serializers.ModelSerializer):
                     elif val.lower() == 'false':
                         data[field] = False
         return super().to_internal_value(data)
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        account = getattr(instance, 'account', None)
+        if account:
+            ret['role'] = account.role
+        else:
+            ret['role'] = 'admin' if instance.is_superuser else 'user'
+        return ret
 
     def get_photo_display(self, obj):
         request = self.context.get('request')
@@ -77,6 +88,12 @@ class AdminUserSerializer(serializers.ModelSerializer):
         remove_photo = validated_data.pop('remove_photo', False) # On retire ce champ car il n'existe pas sur le modèle User
         
         # Création de l'utilisateur
+        role = validated_data.pop('role', 'user')
+        
+        # S'il y a un rôle d'admin ou équipe, s'assurer que is_staff est True
+        if role in ['admin', 'team', 'user']:
+            validated_data['is_staff'] = True
+
         user = User.objects.create(**validated_data)
         if password:
             user.set_password(password)
@@ -85,15 +102,15 @@ class AdminUserSerializer(serializers.ModelSerializer):
         # Création sécurisée de l'account
         try:
             account, created = Account.objects.get_or_create(user=user)
+            account.role = role
             if photo:
                 try:
                     account.photo = photo
-                    account.save()
                 except Exception as e:
                     import logging
                     logger = logging.getLogger('django.request')
                     logger.error(f"Erreur lors de l'upload de la photo pour {user.username}: {e}")
-                    # On continue même si la photo échoue pour éviter une erreur 500
+            account.save()
         except Exception as e:
             import logging
             logger = logging.getLogger('django.request')
@@ -103,8 +120,9 @@ class AdminUserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         photo = validated_data.pop('photo', None)
-        remove_photo = validated_data.pop('remove_photo', False) # On retire ce champ car il n'existe pas sur le modèle User
+        remove_photo = validated_data.pop('remove_photo', False)
         password = validated_data.pop('password', None)
+        role = validated_data.pop('role', None)
         
         # Mise à jour des champs basiques
         for attr, value in validated_data.items():
@@ -116,19 +134,16 @@ class AdminUserSerializer(serializers.ModelSerializer):
         instance.save()
         
         try:
-            if photo or remove_photo:
-                account, created = Account.objects.get_or_create(user=instance)
-                if photo:
-                    try:
-                        account.photo = photo
-                        account.save()
-                    except Exception as e:
-                        import logging
-                        logger = logging.getLogger('django.request')
-                        logger.error(f"Erreur upload photo update pour {instance.username}: {e}")
-                elif remove_photo:
-                    account.photo = None
-                    account.save()
+            account, created = Account.objects.get_or_create(user=instance)
+            if role:
+                account.role = role
+            
+            if photo:
+                account.photo = photo
+            elif remove_photo:
+                account.photo = None
+            
+            account.save()
         except Exception as e:
             import logging
             logger = logging.getLogger('django.request')

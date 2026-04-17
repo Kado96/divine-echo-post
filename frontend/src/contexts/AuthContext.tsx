@@ -8,6 +8,7 @@ interface User {
     first_name: string;
     last_name: string;
     email: string;
+    role: string;
     is_superuser: boolean;
     is_staff: boolean;
     groups: string[];
@@ -106,6 +107,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             first_name: data.first_name || "",
             last_name: data.last_name || "",
             email: data.email || "",
+            role: data.account?.role || (data.is_superuser ? "admin" : "user"),
             is_superuser: data.is_superuser || false,
             is_staff: data.is_staff || false,
             groups: data.groups || [],

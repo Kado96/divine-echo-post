@@ -18,7 +18,7 @@ def generate_password(length=8):
 class AccountViewSet(viewsets.ModelViewSet):
 	serializer_class = AccountSerializer
 	authentication_classes = JWTAuthentication, SessionAuthentication
-	permission_classes = [IsAuthenticated]
+	permission_classes = [CanManageUsers]
 	filter_backends = [filters.DjangoFilterBackend, ]
 	filterset_fields = {
 		'user': ['exact'],

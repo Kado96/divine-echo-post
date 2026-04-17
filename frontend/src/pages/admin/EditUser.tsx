@@ -8,9 +8,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiService } from "@/lib/api";
 import { toast } from "sonner";
 import { getFullImageUrl } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 const AdminEditUser = () => {
     const { t } = useTranslation();
+    const { user: currentUser } = useAuth();
     const navigate = useNavigate();
     const { id } = useParams();
     const queryClient = useQueryClient();
@@ -21,7 +23,7 @@ const AdminEditUser = () => {
         first_name: "",
         last_name: "",
         password: "",
-        role: "pastor",
+        role: "user",
         is_active: true
     });
     const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -45,7 +47,7 @@ const AdminEditUser = () => {
                 first_name: user.first_name || "",
                 last_name: user.last_name || "",
                 password: "", // Don't pre-fill password
-                role: user.is_superuser ? "admin" : "pastor",
+                role: user.role || (user.is_superuser ? "admin" : "user"),
                 is_active: user.is_active !== false
             });
             if (user.photo_display || user.photo) {
@@ -64,6 +66,7 @@ const AdminEditUser = () => {
             if (data.password) {
                 payload.append("password", data.password);
             }
+            payload.append("role", data.role);
             payload.append("is_superuser", data.role === "admin" ? "true" : "false");
             payload.append("is_staff", "true");
             payload.append("is_active", data.is_active ? "true" : "false");
@@ -301,8 +304,11 @@ const AdminEditUser = () => {
                                     onChange={handleChange}
                                     className={`w-full px-3 py-2 bg-white border ${fieldErrors.role ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg`}
                                 >
-                                    <option value="pastor">{t("admin.users_page.form.role_pastor")}</option>
-                                    <option value="admin">{t("admin.users_page.form.role_admin")}</option>
+                                    <option value="user">{t("admin.users_page.form.role_user")}</option>
+                                    <option value="team">{t("admin.users_page.form.role_team")}</option>
+                                    {(currentUser?.is_superuser || user?.role === 'admin') && (
+                                        <option value="admin">{t("admin.users_page.form.role_admin")}</option>
+                                    )}
                                 </select>
                                 {fieldErrors.role && <p className="text-xs text-red-500 mt-1">{fieldErrors.role}</p>}
                             </div>

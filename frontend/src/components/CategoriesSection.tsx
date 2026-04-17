@@ -20,15 +20,15 @@ const CategoriesSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [sermonsData, categoriesData, settingsData] = await Promise.all([
-          apiService.getSermons(),
-          apiService.getSermonCategories(),
+        const [emissionsData, categoriesData, settingsData] = await Promise.all([
+          apiService.getEmissions(),
+          apiService.getEmissionCategories(),
           apiService.getSettings()
         ]);
-
-        const results = sermonsData.results || sermonsData;
+        
+        const results = emissionsData.results || emissionsData;
         const catResults = categoriesData.results || categoriesData;
-
+        
         setEmissions(results);
         setCategories(catResults);
         setSettings(settingsData);
@@ -152,7 +152,7 @@ const CategoriesSection = () => {
                 }`}>
                 <AnimatePresence mode="popLayout">
                   {filteredEmissions.map((item, idx) => {
-                    const dateObj = item.sermon_date || item.created_at;
+                    const dateObj = item.emission_date || item.sermon_date || item.created_at;
                     const isValidDate = dateObj && !isNaN(new Date(dateObj).getTime());
 
                     return (
@@ -164,7 +164,7 @@ const CategoriesSection = () => {
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ delay: idx * 0.05 }}
                         className="group relative h-[420px] rounded-[2rem] overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/10"
-                        onClick={() => navigate(`/sermon/${item.slug}`)}
+                        onClick={() => navigate(`/emission/${item.slug}`)}
                       >
                         {/* Background Image */}
                         <div className="absolute inset-0">

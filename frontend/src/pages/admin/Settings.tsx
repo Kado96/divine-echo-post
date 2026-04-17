@@ -436,6 +436,7 @@ const AdminSettings = () => {
                                                         value={settings?.ticker_bg_color || "#e60000"}
                                                         onChange={(e) => setSettings({ ...settings, ticker_bg_color: e.target.value })}
                                                         className="flex-1 px-3 py-1.5 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
+                                                        aria-label="Code couleur HEX"
                                                     />
                                                 </div>
                                             </div>

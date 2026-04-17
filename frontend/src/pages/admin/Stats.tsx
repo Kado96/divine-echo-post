@@ -147,13 +147,13 @@ const AdminStats = () => {
                             <h3 className="font-bold text-[#1d2327]">{t("admin.stats_page.favorites.title")}</h3>
                         </div>
                         <div className="divide-y divide-gray-100">
-                            {stats.top_sermons.length > 0 ? (
-                                stats.top_sermons.map((sermon: any, i: number) => (
-                                    <div key={sermon.id} className="p-4 flex items-center justify-between">
+                            {(stats.top_emissions || []).length > 0 ? (
+                                (stats.top_emissions || []).map((emission: any, i: number) => (
+                                    <div key={emission.id} className="p-4 flex items-center justify-between">
                                         <div className="flex-1 mr-4">
-                                            <p className="text-sm font-bold text-[#2271b1] line-clamp-1">{sermon.title}</p>
+                                            <p className="text-sm font-bold text-[#2271b1] line-clamp-1">{emission.title}</p>
                                             <p className="text-[10px] text-gray-400 capitalize">
-                                                {sermon.category} • {formatValue(sermon.views)} {t("admin.stats_page.favorites.people")}
+                                                {emission.category} • {formatValue(emission.views)} {t("admin.stats_page.favorites.people")}
                                             </p>
                                         </div>
                                         <div className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded whitespace-nowrap">

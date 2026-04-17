@@ -1,14 +1,26 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 interface PrivateRouteProps {
     children: React.ReactNode;
+    allowedRoles?: string[];
 }
 
-const PrivateRoute = ({ children }: PrivateRouteProps) => {
-    const { isAuthenticated, isLoading } = useAuth();
+const PrivateRoute = ({ children, allowedRoles }: PrivateRouteProps) => {
+    const { isAuthenticated, isLoading, user } = useAuth();
     const location = useLocation();
+
+    useEffect(() => {
+        if (!isLoading && isAuthenticated && allowedRoles && user) {
+            const hasRole = allowedRoles.includes((user as any).role) || user.is_superuser;
+            if (!hasRole) {
+                toast.error("Accès refusé : Vous n'avez pas les permissions nécessaires.");
+            }
+        }
+    }, [isLoading, isAuthenticated, allowedRoles, user]);
 
     if (isLoading) {
         return (
@@ -24,6 +36,15 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
     if (!isAuthenticated) {
         // Redirect to login, preserving the intended destination
         return <Navigate to="/admin/login" state={{ from: location }} replace />;
+    }
+
+    // Role check
+    if (allowedRoles && user) {
+        const hasRole = allowedRoles.includes((user as any).role) || user.is_superuser;
+        if (!hasRole) {
+            // Redirect unauthorized users to admin dashboard
+            return <Navigate to="/admin" replace />;
+        }
     }
 
     return <>{children}</>;

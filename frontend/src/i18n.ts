@@ -17,7 +17,7 @@ const resources = {
             },
             common: {
                 error_loading: "Erreur lors du chargement",
-                sermon_not_found: "Sermon introuvable",
+                emission_not_found: "Émission introuvable",
                 back: "Retour",
                 listen_audio: "Écouter l'audio",
                 browser_audio_error: "Votre navigateur ne supporte pas la lecture audio.",
@@ -70,11 +70,12 @@ const resources = {
                 draft_saved: "Brouillon enregistré !",
                 created_success: "Créé avec succès !",
                 show_more: "Voir plus",
-                is_required: "est obligatoire"
+                is_required: "est obligatoire",
+                featured: "En Vedette"
             },
             admin: {
                 dashboard: "Tableau de Bord",
-                sermons: "Sermons",
+                emissions: "Émissions",
                 categories: "Catégories",
                 media: "Médiathèque",
                 users: "Équipe & Pasteurs",
@@ -93,7 +94,7 @@ const resources = {
                 },
                 stats: {
                     views: "Vues Totales",
-                    published: "Sermons Publiés",
+                    published: "Émissions Publiées",
                     listeners: "Auditeurs Actuels",
                     comments: "Commentaires",
                     weekly_growth: "Croissance Hebdo",
@@ -104,7 +105,7 @@ const resources = {
                     welcome: "Bienvenue, Admin ! 👋",
                     subtitle: "Voici ce qui se passe sur votre plateforme Shalom aujourd'hui.",
                     quick_actions: {
-                        new_sermon: "Nouveau Sermon",
+                        new_emission: "Nouvelle Émission",
                         add_user: "Ajouter Pasteur",
                         view_site: "Voir le Site",
                         messages: "Messages"
@@ -112,20 +113,20 @@ const resources = {
                     overview: "Vue d'Ensemble 📈",
                     stats: {
                         total_views: "Vues Totales",
-                        active_sermons: "Sermons Actifs",
+                        active_emissions: "Émissions Actives",
                         announcements: "Annonces",
                         impact: "Impact Médias"
                     },
                     recent_activity: "Activité Récente",
                     view_all: "Voir tout",
                     activity: {
-                        new_sermon: "Nouveau sermon publié",
+                        new_emission: "Nouvelle émission publiée",
                         updated_announcement: "Annonce mise à jour",
                         new_testimonial: "Nouveau témoignage reçu"
                     },
                     help: {
                         title: "Besoin d'aide ? 🤝",
-                        desc: "Si vous rencontrez des difficultés pour gérer vos sermons ou annonces, notre équipe est là pour vous.",
+                        desc: "Si vous rencontrez des difficultés pour gérer vos émissions ou annonces, notre équipe est là pour vous.",
                         guide_btn: "Lire le GUIDE",
                         support_btn: "Contacter le support"
                     }
@@ -180,7 +181,7 @@ const resources = {
                     table: {
                         name: "Nom",
                         slug: "Identifiant",
-                        total: "Total Sermons",
+                        total: "Total Emissions",
                         modify: "Modifier",
                         quick_edit: "Actions",
                         delete: "Supprimer",
@@ -193,13 +194,13 @@ const resources = {
                         confirm_delete: "Êtes-vous sûr de vouloir supprimer la catégorie \"{{name}}\" ?"
                     }
                 },
-                sermons_page: {
-                    title: "Gestion des Sermons",
+                emissions_page: {
+                    title: "Gestion des Émissions",
                     desc: "Gérez vos enseignements audio, vidéo et liens YouTube",
-                    create_title: "Nouveau Sermon",
+                    create_title: "Nouvelle Émission",
                     search_placeholder: "Rechercher par titre, auteur...",
                     form: {
-                        title: "Titre du sermon",
+                        title: "Titre de l'émission",
                         content: "Description / Versets clés",
                         type: "Type de média",
                         type_video: "Vidéo (Fichier)",
@@ -290,8 +291,8 @@ const resources = {
                         website: "Site Web",
                         send_notification: "Envoyer email de bienvenue",
                         role: "Rôle",
-                        role_pastor: "Pasteur / Auteur",
-                        role_pasteur: "Pasteur / Auteur",
+                        role_user: "Utilisateur Simple",
+                        role_team: "Équipe",
                         role_admin: "Administrateur",
                         password: "Mot de passe",
                         is_active: "Compte actif",
@@ -315,7 +316,7 @@ const resources = {
                 },
                 stats_page: {
                     title: "Analyses de l'Audience",
-                    subtitle: "Comprenez l'impact de vos sermons en un coup d'œil",
+                    subtitle: "Comprenez l'impact de vos émissions en un coup d'œil",
                     labels: {
                         views: "Vues totales",
                         listeners: "+5% ce mois",
@@ -334,7 +335,7 @@ const resources = {
                         rest_of_world: "Reste du monde"
                     },
                     favorites: {
-                        title: "Sermons les plus écoutés",
+                        title: "Émissions les plus écoutées",
                         listened_by: "Écouté par",
                         people: "personnes"
                     }
@@ -389,7 +390,7 @@ const resources = {
                     choose_logo: "Choisir un logo",
                     logo_help: "Format recommandé : PNG ou SVG transparent. Taille suggérée : 200x200px.",
                     form: {
-                        emissions: "Nom de l'onglet Sermons",
+                        emissions: "Nom de l'onglet Émissions",
                         teachings: "Nom de l'onglet Enseignements",
                         meditation: "Nom de l'onglet Méditation",
                         ticker_section: "Bandeau défilant (Type France 24)",
@@ -402,6 +403,24 @@ const resources = {
                         ticker_color_label: "Couleur de fond",
                         ticker_opacity_label: "Opacité",
                         ticker_help: "Le bandeau affiche automatiquement les annonces actives. L'opacité permet de le rendre transparent."
+                    }
+                },
+                team_page: {
+                    title: "Gestion de l'Équipe Publique",
+                    desc: "Personnalisez qui s'affiche dans la section 'Notre Équipe' du site.",
+                    add_btn: "Ajouter un membre",
+                    create_title: "Nouveau membre d'équipe",
+                    edit_title: "Modifier le membre d'équipe",
+                    back: "Retour à l'équipe",
+                    form: {
+                        name: "Nom Complet",
+                        role_fr: "Rôle (Français)",
+                        role_rn: "Rôle (Kirundi)",
+                        role_en: "Rôle (Anglais)",
+                        role_sw: "Rôle (Swahili)",
+                        photo: "Photo",
+                        order: "Ordre d'affichage",
+                        submit: "Enregistrer le membre"
                     }
                 }
             },
@@ -425,7 +444,7 @@ const resources = {
                 search_label: "RECHERCHE",
                 search_placeholder: "Choisir un thème",
                 nav_label: "NAVIGATION",
-                search: "Chercher un sermon...",
+                search: "Chercher une émission...",
                 view_emission: "Voir l'émission",
                 items: {
                     "Famille": "Famille",
@@ -444,8 +463,8 @@ const resources = {
                 title_accent: "récents",
                 description: "Découvrez nos derniers messages et enseignements pour grandir chaque jour.",
                 new: "Nouveau",
-                loading: "Chargement des sermons...",
-                empty: "Aucun sermon n'a été trouvé pour le moment."
+                loading: "Chargement des émissions...",
+                empty: "Aucune émission n'a été trouvée pour le moment."
             },
             about: {
                 history_badge: "Notre Histoire",
@@ -502,7 +521,7 @@ const resources = {
                 about_speaker: "À propos de l'orateur",
                 general: "Général",
                 back: "Retour",
-                sermon_not_found: "Sermon introuvable",
+                emission_not_found: "Émission introuvable",
                 browser_video_error: "Votre navigateur ne supporte pas la lecture de vidéos.",
                 browser_audio_error: "Votre navigateur ne supporte pas la lecture audio.",
                 default_preacher: "Prédicateur",
@@ -534,7 +553,7 @@ const resources = {
             },
             common: {
                 error_loading: "Error loading content",
-                sermon_not_found: "Sermon not found",
+                emission_not_found: "Broadcast not found",
                 back: "Back",
                 listen_audio: "Listen to audio",
                 browser_audio_error: "Your browser does not support audio playback.",
@@ -587,11 +606,12 @@ const resources = {
                 draft_saved: "Draft saved!",
                 created_success: "Successfully created!",
                 show_more: "Show more",
-                is_required: "is required"
+                is_required: "is required",
+                featured: "Featured"
             },
             admin: {
                 dashboard: "Dashboard",
-                sermons: "Sermons",
+                emissions: "Émissions",
                 categories: "Categories",
                 media: "Media",
                 users: "Team & Pastors",
@@ -610,7 +630,7 @@ const resources = {
                 },
                 stats: {
                     views: "Total Views",
-                    published: "Published",
+                    published: "Broadcasts Published",
                     listeners: "Active Listeners",
                     comments: "Comments",
                     weekly_growth: "Weekly growth",
@@ -621,7 +641,7 @@ const resources = {
                     welcome: "Welcome, Admin! 👋",
                     subtitle: "Here's what's happening on your Shalom portal today.",
                     quick_actions: {
-                        new_sermon: "New Sermon",
+                        new_emission: "New Broadcast",
                         add_user: "Add Pastor",
                         view_site: "View Site",
                         messages: "Messages"
@@ -629,20 +649,20 @@ const resources = {
                     overview: "Overview 📈",
                     stats: {
                         total_views: "Total Views",
-                        active_sermons: "Active Sermons",
+                        active_emissions: "Active Broadcasts",
                         announcements: "Announcements",
                         impact: "Impact Level"
                     },
                     recent_activity: "Recent Activity",
                     view_all: "View all",
                     activity: {
-                        new_sermon: "New sermon published",
+                        new_emission: "New broadcast published",
                         updated_announcement: "Announcement updated",
                         new_testimonial: "New testimonial received"
                     },
                     help: {
                         title: "Need help? 🤝",
-                        desc: "If you have trouble managing your sermons or announcements, our team is here to help.",
+                        desc: "If you have trouble managing your broadcasts or announcements, our team is here to help.",
                         guide_btn: "Read the GUIDE",
                         support_btn: "Contact support"
                     }
@@ -697,7 +717,7 @@ const resources = {
                     table: {
                         name: "Name",
                         slug: "Slug",
-                        total: "Total Sermons",
+                        total: "Total Broadcasts",
                         modify: "Edit",
                         quick_edit: "Actions",
                         delete: "Delete",
@@ -710,13 +730,13 @@ const resources = {
                         confirm_delete: "Are you sure you want to delete the category \"{{name}}\" ?"
                     }
                 },
-                sermons_page: {
-                    title: "Sermons Management",
+                emissions_page: {
+                    title: "Emissions Management",
                     desc: "Manage your audio, video and YouTube teachings",
-                    create_title: "New Sermon",
+                    create_title: "New Emission",
                     search_placeholder: "Search by title, author...",
                     form: {
-                        title: "Sermon title",
+                        title: "Broadcast title",
                         content: "Description / Key Verses",
                         type: "Media Type",
                         type_video: "Video (File)",
@@ -807,7 +827,8 @@ const resources = {
                         website: "Website",
                         send_notification: "Send welcome email",
                         role: "Role",
-                        role_pastor: "Pastor / Author",
+                        role_user: "Simple User",
+                        role_team: "Team Member",
                         role_admin: "Administrator",
                         password: "Password",
                         is_active: "Active account",
@@ -831,7 +852,7 @@ const resources = {
                 },
                 stats_page: {
                     title: "Audience Analytics",
-                    subtitle: "Understand the impact of your sermons at a glance",
+                    subtitle: "Understand the impact of your Emissions at a glance",
                     labels: {
                         views: "Total views",
                         listeners: "+5% this month",
@@ -850,7 +871,7 @@ const resources = {
                         rest_of_world: "Rest of the world"
                     },
                     favorites: {
-                        title: "Most Listened Sermons",
+                        title: "Most Listened Broadcasts",
                         listened_by: "Listened by",
                         people: "people"
                     }
@@ -919,6 +940,24 @@ const resources = {
                         ticker_opacity_label: "Opacity",
                         ticker_help: "The ticker automatically displays active announcements. Opacity allows for transparency."
                     }
+                },
+                team_page: {
+                    title: "Public Team Management",
+                    desc: "Customize who appears in the 'Our Team' section of the site.",
+                    add_btn: "Add Member",
+                    create_title: "New Team Member",
+                    edit_title: "Edit Team Member",
+                    back: "Back to team",
+                    form: {
+                        name: "Full Name",
+                        role_fr: "Role (French)",
+                        role_rn: "Role (Kirundi)",
+                        role_en: "Role (English)",
+                        role_sw: "Role (Swahili)",
+                        photo: "Photo",
+                        order: "Display Order",
+                        submit: "Save Member"
+                    }
                 }
             },
             hero: {
@@ -941,7 +980,7 @@ const resources = {
                 search_label: "SEARCH",
                 search_placeholder: "Choose a theme",
                 nav_label: "NAVIGATION",
-                search: "Search a sermon...",
+                search: "Search a broadcast...",
                 view_emission: "View broadcast",
                 items: {
                     "Famille": "Family",
@@ -960,8 +999,8 @@ const resources = {
                 title_accent: "Teachings",
                 description: "Discover our latest messages and teachings to grow every day.",
                 new: "New",
-                loading: "Loading sermons...",
-                empty: "No sermon was found at the moment."
+                loading: "Loading broadcasts...",
+                empty: "No broadcast was found at the moment."
             },
             about: {
                 history_badge: "Our History",
@@ -1018,7 +1057,7 @@ const resources = {
                 about_speaker: "About speaker",
                 general: "General",
                 back: "Back",
-                sermon_not_found: "Sermon not found",
+                emission_not_found: "Broadcast not found",
                 browser_video_error: "Your browser does not support video playback.",
                 browser_audio_error: "Your browser does not support audio playback.",
                 default_preacher: "Preacher",
@@ -1050,7 +1089,7 @@ const resources = {
             },
             common: {
                 error_loading: "Kuvura ibirimo vyunze",
-                sermon_not_found: "Inyigisho ntibonetse",
+                emission_not_found: "Inyigisho ntibonetse",
                 back: "Subira inyuma",
                 listen_audio: "Umviriza ijwi",
                 browser_audio_error: "Urubuga rwanyu ntirushobora kwerekana ijwi.",
@@ -1100,11 +1139,12 @@ const resources = {
                 published_success: "Vyashizweko neza !",
                 draft_saved: "Ikandiko ryafashwe !",
                 created_success: "Vyaremwe neza !",
-                show_more: "Raba bindi"
+                show_more: "Raba bindi",
+                featured: "Ibintu zibanze"
             },
             admin: {
                 dashboard: "Ikibanza",
-                sermons: "Inyigisho",
+                emissions: "Inyigisho",
                 categories: "Imice",
                 media: "Ibikoresho",
                 users: "Abakozi n'Abapasitori",
@@ -1134,7 +1174,7 @@ const resources = {
                     welcome: "Mwaramutse, Admin! 👋",
                     subtitle: "Ng'ibi ibiriko biba ku rubuga rwanyu rwa Shalom uyu musi.",
                     quick_actions: {
-                        new_sermon: "Inyigisho nshasha",
+                        new_emission: "Inyigisho nshasha",
                         add_user: "Ongerako umukozi",
                         view_site: "Raba urubuga",
                         messages: "Ubutumwa"
@@ -1142,14 +1182,14 @@ const resources = {
                     overview: "Muri rusange 📈",
                     stats: {
                         total_views: "Ibiharuro vyose",
-                        active_sermons: "Inyigisho zihari",
+                        active_emissions: "Inyigisho zihari",
                         announcements: "Amakuru",
                         impact: "Ingaruka mu muryango"
                     },
                     recent_activity: "Ibikorwa vya vuba",
                     view_all: "Raba vyose",
                     activity: {
-                        new_sermon: "Inyigisho nshasha yashizweko",
+                        new_emission: "Inyigisho nshasha yashizweko",
                         updated_announcement: "Amakuru yavuguruwe",
                         new_testimonial: "Ivyashinguwe bishasha"
                     },
@@ -1244,7 +1284,7 @@ const resources = {
                     edit_title: "Hindura umuce",
                     manage: "Genura"
                 },
-                sermons_page: {
+                emissions_page: {
                     title: "Urutonde rw'Inyigisho",
                     desc: "Tunganya ubutumwa bw'amajwi, amavidewo n'imiyoboro ya YouTube",
                     create_title: "Inyigisho nshasha",
@@ -1308,9 +1348,10 @@ const resources = {
                         last_name: "Izina rya kabiri",
                         website: "Urubuga",
                         send_notification: "Rungikira umukozi ubutumwa",
-                        role: "Ibanga",
-                        role_pastor: "Umupasitori",
-                        role_admin: "Ubuyobozi",
+                        role: "Akazi (Role)",
+                        role_user: "Umukoresha usanzwe",
+                        role_team: "Umugwi (Team)",
+                        role_admin: "Umuyobozi",
                         password: "Ijambo kabanga",
                         is_active: "Konti ikora",
                         creating: "Biriko birakorwa...",
@@ -1508,7 +1549,7 @@ const resources = {
                 about_speaker: "Ibitwerekeye umupasitori",
                 general: "Rusange",
                 back: "Subira inyuma",
-                sermon_not_found: "Inyigisho ntibonetse",
+                emission_not_found: "Inyigisho ntibonetse",
                 browser_video_error: "Urubuga rwanyu ntirushobora kwerekana videwo.",
                 browser_audio_error: "Urubuga rwanyu ntirushobora kwerekana ijwi.",
                 default_preacher: "Umupasitori",
@@ -1540,7 +1581,7 @@ const resources = {
             },
             common: {
                 error_loading: "Hitilafu wakati wa kupakia",
-                sermon_not_found: "Mahubiri hayajapatikana",
+                emission_not_found: "Mahubiri hayajapatikana",
                 back: "Rudi",
                 listen_audio: "Sikiliza sauti",
                 browser_audio_error: "Kivinjari chako hakiauni kucheza sauti.",
@@ -1590,11 +1631,12 @@ const resources = {
                 published_success: "Imechapishwa kwa mafanikio!",
                 draft_saved: "Rasimu imehifadhiwa!",
                 created_success: "Imeundwa kwa mafanikio!",
-                show_more: "Onyesha zaidi"
+                show_more: "Onyesha zaidi",
+                featured: "Yaliyoangaziwa"
             },
             admin: {
                 dashboard: "Dashibodi",
-                sermons: "Mahubiri",
+                emissions: "Mahubiri",
                 categories: "Makundi",
                 media: "Midia",
                 users: "Timu na Wachungaji",
@@ -1624,7 +1666,7 @@ const resources = {
                     welcome: "Karibu, Admin! 👋",
                     subtitle: "Hivi ndivyo vinavyofanyika kwenye lango lako la Shalom leo.",
                     quick_actions: {
-                        new_sermon: "Mahubiri Mapya",
+                        new_emission: "Mahubiri Mapya",
                         add_user: "Ongeza Mchungaji",
                         view_site: "Tazama Tovuti",
                         messages: "Ujumbe"
@@ -1632,14 +1674,14 @@ const resources = {
                     overview: "Muhtasari 📈",
                     stats: {
                         total_views: "Jumla ya Maoni",
-                        active_sermons: "Mahubiri Amilifu",
+                        active_emissions: "Mahubiri Amilifu",
                         announcements: "Matangazo",
                         impact: "Kiwango cha Impact"
                     },
                     recent_activity: "Shughuli ya Hivi Karibuni",
                     view_all: "Tazama yote",
                     activity: {
-                        new_sermon: "Mahubiri mapya yamechapishwa",
+                        new_emission: "Mahubiri mapya yamechapishwa",
                         updated_announcement: "Tangazo limesasishwa",
                         new_testimonial: "Ushuhuda mpya umepokelewa"
                     },
@@ -1691,7 +1733,7 @@ const resources = {
                     edit_title: "Hariri Kikundi",
                     manage: "Dhibiti"
                 },
-                sermons_page: {
+                emissions_page: {
                     title: "Usimamizi wa Mahubiri",
                     desc: "Dhibiti mafundisho yako ya sauti, video na viungo vya YouTube",
                     create_title: "Mahubiri Mapya",
@@ -1784,8 +1826,9 @@ const resources = {
                         last_name: "Jina la mwisho",
                         website: "Tovuti",
                         send_notification: "Tuma barua pepe ya kukaribisha",
-                        role: "Jukumu",
-                        role_pastor: "Mchungaji / Mwandishi",
+                        role: "Sehwili (Role)",
+                        role_user: "Mtumiaji Rahisi",
+                        role_team: "Kikundi (Team)",
                         role_admin: "Msimamizi",
                         password: "Nenosiri",
                         is_active: "Akaunti inayotumika",
@@ -1987,7 +2030,7 @@ const resources = {
                 about_speaker: "Kuhusu mzungumzaji",
                 general: "Jumla",
                 back: "Rudi",
-                sermon_not_found: "Mahubiri hayajapatikana",
+                emission_not_found: "Mahubiri hayajapatikana",
                 browser_video_error: "Kivinjari chako hakiauni kucheza video.",
                 browser_audio_error: "Kivinjari chako hakiauni kucheza sauti.",
                 default_preacher: "Mhubiri",

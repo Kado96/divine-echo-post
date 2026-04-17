@@ -170,7 +170,7 @@ const CreateAnnouncement = () => {
                                 disabled={loading}
                                 className="text-sm font-bold text-gray-400 hover:text-gray-600"
                             >
-                                {t("admin.sermons_page.form.save_draft")}
+                                {t("admin.emissions_page.form.save_draft")}
                             </button>
                         </div>
                     </form>

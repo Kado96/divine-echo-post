@@ -9,8 +9,11 @@ import { apiService } from "@/lib/api";
 import { useState } from "react";
 import { getFullImageUrl } from "@/lib/utils";
 
+import { useAuth } from "@/contexts/AuthContext";
+
 const AdminUsers = () => {
     const { t } = useTranslation();
+    const { user: currentUser } = useAuth();
     const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -138,9 +141,11 @@ const AdminUsers = () => {
                                     <div className="flex items-center gap-2 text-xs text-gray-600">
                                         <Shield className="w-3.5 h-3.5 text-gray-400" />
                                         <span className="font-bold text-[#2271b1]">
-                                            {user.is_superuser
+                                            {user.role === 'admin' || user.is_superuser
                                                 ? t("admin.users_page.form.role_admin")
-                                                : t("admin.users_page.form.role_pastor")}
+                                                : user.role === 'team'
+                                                    ? t("admin.users_page.form.role_team")
+                                                    : t("admin.users_page.form.role_user")}
                                         </span>
                                     </div>
                                 </div>
@@ -153,14 +158,19 @@ const AdminUsers = () => {
                                         <Edit2 className="w-3 h-3" />
                                         {t("admin.categories_page.table.modify")}
                                     </Link>
-                                    <button
-                                        className="text-red-500 hover:text-red-700 transition-colors px-1 h-8 flex items-center gap-1 ml-auto"
-                                        disabled={deleteMutation.isPending}
-                                        onClick={() => handleDelete(user.id, user.username)}
-                                    >
-                                        <Trash2 className="w-3 h-3" />
-                                        {t("admin.categories_page.table.delete")}
-                                    </button>
+                                    
+                                    {/* Action de suppression : masquée si l'utilisateur est protégé ou si c'est soi-même */}
+                                    {(!(user.is_superuser || user.role === 'admin') || currentUser?.is_superuser) && 
+                                     (user.id !== currentUser?.id) && (
+                                        <button
+                                            className="text-red-500 hover:text-red-700 transition-colors px-1 h-8 flex items-center gap-1 ml-auto"
+                                            disabled={deleteMutation.isPending}
+                                            onClick={() => handleDelete(user.id, user.username)}
+                                        >
+                                            <Trash2 className="w-3 h-3" />
+                                            {t("admin.categories_page.table.delete")}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ))}

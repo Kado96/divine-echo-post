@@ -13,6 +13,11 @@ const AdminCategories = () => {
     const [categories, setCategories] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    
+    // Bulk actions state
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [bulkAction, setBulkAction] = useState<string>("");
+    const [processingBulk, setProcessingBulk] = useState(false);
 
     // Form state
     const [activeLang, setActiveLang] = useState<"fr" | "en" | "rn" | "sw">("fr");
@@ -33,7 +38,7 @@ const AdminCategories = () => {
     const fetchCategories = async () => {
         try {
             setLoading(true);
-            const data = await apiService.getSermonCategories();
+            const data = await apiService.getEmissionCategories();
             setCategories(data || []);
         } catch (err) {
             console.error("Failed to fetch categories", err);
@@ -115,10 +120,10 @@ const AdminCategories = () => {
             };
 
             if (editingId) {
-                await apiService.updateSermonCategory(editingId, payload);
+                await apiService.updateEmissionCategory(editingId, payload);
                 toast.success(t("common.saved_success"));
             } else {
-                await apiService.createSermonCategory(payload);
+                await apiService.createEmissionCategory(payload);
                 toast.success(t("common.saved_success"));
             }
 
@@ -141,21 +146,56 @@ const AdminCategories = () => {
     const handleDeleteCategory = async (id: number, catName: string) => {
         if (window.confirm(t("admin.categories_page.validation.confirm_delete", { name: catName }))) {
             try {
-                await apiService.deleteSermonCategory(id);
+                await apiService.deleteEmissionCategory(id);
                 toast.success(t("common.deleted_success"));
+                setSelectedIds(selectedIds.filter(sId => sId !== id));
                 fetchCategories();
             } catch (error: any) {
                 // If ID fails, try slug as fallback
                 try {
                    const cat = categories.find(c => c.id === id);
                    if (cat && cat.slug) {
-                       await apiService.deleteSermonCategory(cat.slug);
+                       await apiService.deleteEmissionCategory(cat.slug);
                        toast.success(t("common.deleted_success"));
                        fetchCategories();
                        return;
                    }
                 } catch(e) {}
                 toast.error(error.message || t("common.error_deleting"));
+            }
+        }
+    };
+
+    const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.checked) {
+            setSelectedIds(categories.map((c) => c.id));
+        } else {
+            setSelectedIds([]);
+        }
+    };
+
+    const handleSelectOne = (id: number) => {
+        if (selectedIds.includes(id)) {
+            setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id));
+        } else {
+            setSelectedIds([...selectedIds, id]);
+        }
+    };
+
+    const handleBulkAction = async () => {
+        if (bulkAction === "delete" && selectedIds.length > 0) {
+            if (window.confirm(`Voulez-vous vraiment supprimer ces ${selectedIds.length} catégories ?`)) {
+                try {
+                    setProcessingBulk(true);
+                    await Promise.all(selectedIds.map(id => apiService.deleteEmissionCategory(id)));
+                    toast.success("Catégories supprimées.");
+                    setSelectedIds([]);
+                    fetchCategories();
+                } catch (error: any) {
+                    toast.error(error.message || t("common.error_deleting"));
+                } finally {
+                    setProcessingBulk(false);
+                }
             }
         }
     };
@@ -196,8 +236,9 @@ const AdminCategories = () => {
                                 </label>
                                 <input
                                     id="category-name"
-                                    name="name"
+                                    name="category-name"
                                     type="text"
+                                    autoComplete="off"
                                     value={activeLang === "fr" ? name_fr : activeLang === "en" ? name_en : activeLang === "rn" ? name_rn : name_sw}
                                     onChange={(e) => {
                                         const val = e.target.value;
@@ -221,8 +262,9 @@ const AdminCategories = () => {
                                 <label htmlFor="category-slug" className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-tight">{t("admin.categories_page.slug")}</label>
                                 <input
                                     id="category-slug"
-                                    name="slug"
+                                    name="category-slug"
                                     type="text"
+                                    autoComplete="off"
                                     value={slug}
                                     onChange={(e) => setSlug(e.target.value)}
                                     className="w-full px-3 py-2 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
@@ -280,26 +322,61 @@ const AdminCategories = () => {
 
                     {/* Right Column: Category Table (WP Style) */}
                     <div className="lg:col-span-3">
-                        <div className="flex items-center justify-end gap-2 mb-2">
-                            <div className="relative">
-                                <label htmlFor="category-search" className="sr-only">{t("admin.categories_page.search")}</label>
-                                <input
-                                    id="category-search"
-                                    name="search"
-                                    type="text"
-                                    placeholder={t("admin.categories_page.search")}
-                                    className="pl-8 pr-3 py-1 bg-white border border-border text-xs focus:ring-1 focus:ring-[#2271b1] outline-none w-48"
-                                />
-                                <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                             <div className="flex items-center gap-2">
+                                <label htmlFor="bulk-action" className="sr-only">Actions groupées</label>
+                                <select 
+                                    id="bulk-action"
+                                    name="bulk-action"
+                                    className="border border-border bg-white text-xs px-2 py-1 outline-none h-7 min-w-[140px]"
+                                    value={bulkAction}
+                                    onChange={(e) => setBulkAction(e.target.value)}
+                                >
+                                    <option value="">Actions groupées</option>
+                                    <option value="delete">Supprimer</option>
+                                </select>
+                                <Button 
+                                    size="sm" 
+                                    variant="outline" 
+                                    className="h-7 py-0 px-3 text-[11px] bg-white text-[#2271b1] border-[#2271b1] hover:bg-[#2271b1] hover:text-white"
+                                    onClick={handleBulkAction}
+                                    disabled={selectedIds.length === 0 || !bulkAction || processingBulk}
+                                >
+                                    {processingBulk ? <Loader2 className="w-3 h-3 animate-spin" /> : "Appliquer"}
+                                </Button>
                             </div>
-                            <Button size="sm" variant="outline" className="h-7 py-0 px-3 text-[11px] bg-white">{t("admin.categories_page.search_btn")}</Button>
+                            <div className="flex items-center gap-2">
+                                <div className="relative">
+                                    <label htmlFor="category-search" className="sr-only">{t("admin.categories_page.search")}</label>
+                                    <input
+                                        id="category-search"
+                                        name="category-search"
+                                        type="text"
+                                        autoComplete="off"
+                                        placeholder={t("admin.categories_page.search")}
+                                        className="pl-8 pr-3 py-1 bg-white border border-border text-xs focus:ring-1 focus:ring-[#2271b1] outline-none w-48"
+                                    />
+                                    <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                                </div>
+                                <Button size="sm" variant="outline" className="h-7 py-0 px-3 text-[11px] bg-white">{t("admin.categories_page.search_btn")}</Button>
+                            </div>
                         </div>
 
                         <div className="bg-white border border-border shadow-sm overflow-hidden">
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="bg-white border-b border-border text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                                        <th className="px-3 py-3 w-8"><input id="categories-list-all" type="checkbox" aria-label={t("common.select_all")} /></th>
+                                        <th className="px-3 py-3 w-8">
+                                            <label htmlFor="categories-list-all" className="sr-only">{t("common.select_all")}</label>
+                                            <input 
+                                                id="categories-list-all" 
+                                                name="categories-list-all" 
+                                                type="checkbox" 
+                                                aria-label={t("common.select_all")} 
+                                                checked={selectedIds.length > 0 && selectedIds.length === categories.length && categories.length > 0}
+                                                onChange={handleSelectAll}
+                                            />
+                                        </th>
                                         <th className="px-3 py-3">{t("admin.categories_page.table.name")}</th>
                                         <th className="px-3 py-3">{t("admin.categories_page.table.slug")}</th>
                                         <th className="px-3 py-3 text-right">{t("admin.categories_page.table.total")}</th>
@@ -320,7 +397,17 @@ const AdminCategories = () => {
                                         </tr>
                                     ) : categories.map((cat) => (
                                         <tr key={cat.id} className="border-b border-gray-100 hover:bg-[#f6f7f7] group transition-colors">
-                                            <td className="px-3 py-4 w-8"><input id={`cat-list-check-${cat.id}`} type="checkbox" aria-label={cat.name} /></td>
+                                            <td className="px-3 py-4 w-8">
+                                                <label htmlFor={`cat-list-check-${cat.id}`} className="sr-only">Sélectionner {cat.name}</label>
+                                                <input 
+                                                    id={`cat-list-check-${cat.id}`} 
+                                                    name={`cat-list-check-${cat.id}`} 
+                                                    type="checkbox" 
+                                                    aria-label={cat.name} 
+                                                    checked={selectedIds.includes(cat.id)}
+                                                    onChange={() => handleSelectOne(cat.id)}
+                                                />
+                                            </td>
                                             <td className="px-3 py-4">
                                                 <span
                                                     className="text-sm font-bold text-[#2271b1] cursor-pointer hover:text-[#135e96]"

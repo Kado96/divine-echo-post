@@ -98,24 +98,24 @@ export const apiService = {
         }
     },
 
-    // Helper for sermons
-    async getSermons() {
+    // Helper for emissions
+    async getEmissions() {
         const data = await this.get(`/sermons/?t=${Date.now()}`);
         return this.handleList(data);
     },
 
     // Helper for categories
-    async getSermonCategories() {
+    async getEmissionCategories() {
         // Use a cache-busting timestamp to ensure we get fresh categories on mobile
         const data = await this.get(`/sermons/categories/?t=${Date.now()}`);
         return this.handleList(data);
     },
 
-    async createSermonCategory(data: any) {
+    async createEmissionCategory(data: any) {
         return this.post('/admin/sermons/categories/', data);
     },
 
-    async updateSermonCategory(idOrSlug: string | number, data: any) {
+    async updateEmissionCategory(idOrSlug: string | number, data: any) {
         try {
             const response = await fetch(`${API_URL}/admin/sermons/categories/${idOrSlug}/`, {
                 method: 'PATCH',
@@ -130,7 +130,7 @@ export const apiService = {
         }
     },
     
-    async deleteSermonCategory(idOrSlug: string | number) {
+    async deleteEmissionCategory(idOrSlug: string | number) {
         try {
             const response = await fetch(`${API_URL}/admin/sermons/categories/${idOrSlug}/`, {
                 method: 'DELETE',
@@ -190,8 +190,12 @@ export const apiService = {
         return this.handleList(data);
     },
 
+    async getTeamMemberById(id: string | number) {
+        return this.get(`/settings/team/${id}/`);
+    },
+
     async createTeamMember(data: FormData) {
-        return this.post('/settings/team/', data, 'multipart/form-data');
+        return this.post('/settings/team/', data);
     },
 
     async updateTeamMember(id: number, data: FormData) {
@@ -254,20 +258,20 @@ export const apiService = {
         }
     },
 
-    // Admin Sermons helpers
-    async getAdminSermons() {
+    // Admin Emissions helpers
+    async getAdminEmissions() {
         const data = await this.get('/admin/sermons/sermons/');
         return this.handleList(data);
     },
 
-    async deleteSermon(id: number | string) {
+    async deleteEmission(id: number | string) {
         try {
             const response = await fetch(`${API_URL}/admin/sermons/sermons/${id}/`, {
                 method: 'DELETE',
                 headers: this.getHeaders(null),
                 credentials: 'include'
             });
-            if (response.status === 401) return this.handleResponse(response, `sermon delete ${id}`);
+            if (response.status === 401) return this.handleResponse(response, `emission delete ${id}`);
             if (!response.ok) throw new Error('Delete failed');
             return true;
         } catch (error) {
@@ -276,11 +280,11 @@ export const apiService = {
         }
     },
 
-    async getSermonById(id: string) {
+    async getEmissionById(id: string) {
         return this.get(`/admin/sermons/sermons/${id}/`);
     },
 
-    async updateSermon(id: string, data: any) {
+    async updateEmission(id: string, data: any) {
         const isFormData = data instanceof FormData;
         try {
             const response = await fetch(`${API_URL}/admin/sermons/sermons/${id}/`, {
@@ -289,7 +293,7 @@ export const apiService = {
                 body: isFormData ? data : JSON.stringify(data),
                 credentials: 'include'
             });
-            return await this.handleResponse(response, `sermon update ${id}`);
+            return await this.handleResponse(response, `emission update ${id}`);
         } catch (error) {
             console.error("Update error:", error);
             throw error;
@@ -312,7 +316,7 @@ export const apiService = {
         }
     },
 
-    async getSermonBySlug(slug: string) {
+    async getEmissionBySlug(slug: string) {
         return this.get(`/sermons/${slug}/`);
     },
 

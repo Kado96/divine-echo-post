@@ -134,6 +134,7 @@ const AdminLogin = () => {
                                     onClick={() => setShowPassword(!showPassword)}
                                     className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-blue-300/40 hover:text-blue-200/70 transition-colors"
                                     tabIndex={-1}
+                                    aria-label="Afficher/Masquer le mot de passe"
                                 >
                                     {showPassword ? (
                                         <EyeOff className="w-4 h-4" />

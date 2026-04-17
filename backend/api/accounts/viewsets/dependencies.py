@@ -28,3 +28,4 @@ from django.views.decorators.csrf import csrf_exempt
 
 from api.accounts.serializers import *
 from api.accounts.models import *
+from api.accounts.permissions import IsAdminManager, IsTeamMember, IsSimpleUser, CanManageUsers

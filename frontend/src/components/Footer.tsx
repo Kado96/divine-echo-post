@@ -26,9 +26,9 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              {settings?.logo ? (
+              {settings?.logo_url_display || settings?.logo ? (
                 <img
-                  src={settings.logo}
+                  src={settings.logo_url_display || getFullImageUrl(settings.logo)}
                   alt={settings.site_name || "Logo"}
                   className="h-10 w-auto object-contain"
                 />

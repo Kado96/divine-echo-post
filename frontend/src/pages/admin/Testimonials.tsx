@@ -113,7 +113,7 @@ const AdminTestimonials = () => {
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-400 font-medium uppercase">{t("admin.sermons_page.form.language")}:</span>
+                        <span className="text-xs text-gray-400 font-medium uppercase">{t("admin.emissions_page.form.language")}:</span>
                         <select id="testimonials-select-1" name="testimonials-select-1"
                             value={langFilter}
                             onChange={(e) => setLangFilter(e.target.value)}

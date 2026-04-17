@@ -210,6 +210,7 @@ const EditAnnouncement = () => {
                                 <input
                                     type="checkbox"
                                     id="is_active"
+                                    name="is_active"
                                     checked={formData.is_active}
                                     onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
                                     className="rounded border-gray-300 text-[#2271b1] focus:ring-[#2271b1]"
