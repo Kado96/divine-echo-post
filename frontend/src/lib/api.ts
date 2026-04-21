@@ -48,7 +48,12 @@ export const apiService = {
                 } else if (!isLoginPage) {
                     // Pour le site public, on se contente de logguer sans bloquer l'exécution
                     console.warn(`[API] 401 détecté sur une route publique (${endpoint}). L'accès anonyme sera utilisé.`);
-                    return null;
+                    
+                    // Retourner une structure vide par défaut pour éviter les plantages (Cannot read properties of null)
+                    if (endpoint.includes('?') || endpoint.endsWith('/')) {
+                        return { results: [], count: 0, next: null, previous: null };
+                    }
+                    return {};
                 }
             }
             throw new Error('Unauthorized');

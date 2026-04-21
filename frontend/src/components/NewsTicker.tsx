@@ -20,9 +20,11 @@ const NewsTicker = () => {
                     apiService.getAnnouncements(),
                     apiService.getSettings()
                 ]);
-                const results = Array.isArray(announcementsData) ? announcementsData : (announcementsData.results || []);
-                setAnnouncements(results.filter((a: any) => a.is_active));
-                setSettings(settingsData);
+                const results = Array.isArray(announcementsData) 
+                    ? announcementsData 
+                    : (announcementsData?.results || []);
+                setAnnouncements(results.filter((a: any) => a && a.is_active));
+                setSettings(settingsData || {});
 
                 if (settingsData && settingsData.ticker_enabled === false) {
                     setIsVisible(false);
