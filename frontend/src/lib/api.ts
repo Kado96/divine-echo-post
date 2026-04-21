@@ -60,6 +60,15 @@ export const apiService = {
         }
 
         if (!response.ok) {
+            // Gestion gracieuse du 404 sur les endpoints de liste/recherche
+            if (response.status === 404 && (endpoint.includes('?') || endpoint.endsWith('/'))) {
+                console.warn(`[API] 404 gracieusement géré sur ${endpoint}. Retour d'une structure vide.`);
+                if (endpoint.includes('?') || endpoint.endsWith('/')) {
+                    return { results: [], count: 0, next: null, previous: null };
+                }
+                return [];
+            }
+
             let errorMsg = `API Error: ${response.statusText}`;
             let errData = null;
             try {
