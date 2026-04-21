@@ -6,6 +6,7 @@ from api.accounts.permissions import IsSimpleUser
 class TestimonialViewSet(viewsets.ModelViewSet):
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
+    authentication_classes = []
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
 import { apiService } from "@/lib/api";
-import { getFullImageUrl } from "@/lib/utils";
+import { getFullImageUrl, getLocalizedField } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
@@ -82,13 +82,10 @@ const TeamSection = () => {
         };
         fetchSettings();
         fetchTeam();
-    }, []);
+    }, [i18n.language]);
 
     const getSetting = (key: string) => {
-        if (!settings) return null;
-        const lang = i18n.language || 'fr';
-        const fieldName = `${key}_${lang}`;
-        return settings[fieldName] || settings[key];
+        return getLocalizedField(settings, key, i18n.language);
     };
 
     const teamFallback = [

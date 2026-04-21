@@ -3,13 +3,14 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import SermonCategory, Sermon
+from .models import SermonCategory, Sermon, SermonComment
 from api.accounts.permissions import IsSimpleUser, IsTeamMember
 from .serializers import (
     SermonCategorySerializer,
     SermonListSerializer,
     SermonDetailSerializer,
     AdminSermonSerializer,
+    SermonCommentSerializer,
 )
 
 
@@ -18,6 +19,7 @@ class SermonCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SermonCategorySerializer
     lookup_field = "slug"
     permission_classes = [AllowAny]
+    authentication_classes = []
 
 
 class SermonViewSet(viewsets.ReadOnlyModelViewSet):
@@ -37,7 +39,7 @@ class SermonViewSet(viewsets.ReadOnlyModelViewSet):
             return SermonDetailSerializer
         return SermonListSerializer
 
-    @action(detail=True, methods=["post"], permission_classes=[AllowAny])
+    @action(detail=True, methods=["post"], permission_classes=[AllowAny], authentication_classes=[])
     def increment_views(self, request, slug=None):
         """Incrémenter le compteur de vues"""
         sermon = self.get_object()
@@ -89,3 +91,29 @@ class AdminSermonCategoryViewSet(viewsets.ModelViewSet):
     serializer_class = SermonCategorySerializer
     permission_classes = [IsTeamMember]
     # Pas de lookup_field = "slug" ici pour utiliser l'ID par défaut (standard admin)
+
+
+class SermonCommentViewSet(viewsets.ModelViewSet):
+    """API publique pour les commentaires (création et liste des approuvés)"""
+    queryset = SermonComment.objects.filter(is_approved=True)
+    serializer_class = SermonCommentSerializer
+    permission_classes = [AllowAny]
+    authentication_classes = []
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ["sermon"]
+    ordering_fields = ["created_at"]
+
+    def perform_create(self, serializer):
+        # Les commentaires sont soumis mais non approuvés par défaut
+        serializer.save(is_approved=False)
+
+
+class AdminSermonCommentViewSet(viewsets.ModelViewSet):
+    """API admin pour la modération des commentaires"""
+    queryset = SermonComment.objects.all()
+    serializer_class = SermonCommentSerializer
+    permission_classes = [IsSimpleUser]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ["sermon", "is_approved"]
+    search_fields = ["author_name", "author_email", "content"]
+    ordering_fields = ["created_at"]

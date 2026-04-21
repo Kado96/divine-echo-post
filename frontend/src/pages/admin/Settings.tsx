@@ -16,6 +16,7 @@ const AdminSettings = () => {
     const [quoteAuthorPreview, setQuoteAuthorPreview] = useState<string | null>(null);
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [quoteFile, setQuoteFile] = useState<File | null>(null);
+    const [activeTab, setActiveTab] = useState('fr');
     const [pickerOpen, setPickerOpen] = useState(false);
     const [pickerTarget, setPickerTarget] = useState<'logo' | 'quote' | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -91,28 +92,43 @@ const AdminSettings = () => {
         setSaving(true);
         try {
             const formData = new FormData();
-            formData.append('site_name', settings.site_name || '');
-            formData.append('description', settings.description || '');
-            formData.append('ticker_enabled', String(settings.ticker_enabled ?? true));
-            formData.append('ticker_speed', String(settings.ticker_speed || 30));
-            formData.append('ticker_refresh_interval', String(settings.ticker_refresh_interval || 3600));
-            formData.append('ticker_bg_color', settings.ticker_bg_color || "#e60000");
-            formData.append('ticker_opacity', String(settings.ticker_opacity ?? 100));
+            
+            // Iterate through all settings to append them to the request
+            // Exclude read-only fields and images (handled separately)
+            const excludeFields = [
+                'id', 'created_at', 'updated_at', 
+                'logo', 'logo_url_display', 
+                'hero_image', 'hero_image_display',
+                'about_image', 'about_image_display',
+                'team_image', 'team_image_display',
+                'quote_author_image', 'quote_author_image_display'
+            ];
 
-            // Verset / Citation fields
-            formData.append('quote_text_fr', settings.quote_text_fr || '');
-            formData.append('quote_author_name_fr', settings.quote_author_name_fr || '');
-            formData.append('quote_author_subtitle_fr', settings.quote_author_subtitle_fr || '');
+            Object.keys(settings).forEach(key => {
+                if (!excludeFields.includes(key)) {
+                    const value = settings[key];
+                    if (value !== null && value !== undefined) {
+                        // Booleans must be strings for FormData
+                        if (typeof value === 'boolean') {
+                            formData.append(key, value ? 'true' : 'false');
+                        } else {
+                            formData.append(key, String(value));
+                        }
+                    }
+                }
+            });
 
-            const file = logoFile || fileInputRef.current?.files?.[0];
-            if (file) {
-                formData.append('logo', file);
-            }
+            // Handle Files
+            const logo = logoFile || fileInputRef.current?.files?.[0];
+            if (logo) formData.append('logo', logo);
 
             const authorFile = quoteFile || quoteAuthorFileInputRef.current?.files?.[0];
-            if (authorFile) {
-                formData.append('quote_author_image', authorFile);
-            }
+            if (authorFile) formData.append('quote_author_image', authorFile);
+
+            // Add other section images if they are in state as Files
+            if (settings.hero_image instanceof File) formData.append('hero_image', settings.hero_image);
+            if (settings.about_image instanceof File) formData.append('about_image', settings.about_image);
+            if (settings.team_image instanceof File) formData.append('team_image', settings.team_image);
 
             await apiService.updateSettings(formData);
             toast.success("Paramètres enregistrés avec succès");
@@ -136,6 +152,38 @@ const AdminSettings = () => {
         { code: 'rn', name: 'Kirundi' },
         { code: 'sw', name: 'Swahili' },
     ];
+
+    const RenderInput = (label: string, fieldBase: string, type: 'text' | 'textarea' | 'number' = 'text', isMultilingual: boolean = true) => {
+        const fieldName = isMultilingual ? `${fieldBase}_${activeTab}` : fieldBase;
+        const value = settings[fieldName] || "";
+
+        return (
+            <div className="space-y-1.5 p-4 border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
+                <div className="flex justify-between items-center mb-1">
+                    <label htmlFor={fieldName} className="text-[11px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">
+                        {label} {isMultilingual && <span className="text-[#2271b1] ml-1">({activeTab.toUpperCase()})</span>}
+                    </label>
+                </div>
+                {type === 'textarea' ? (
+                    <textarea
+                        id={fieldName}
+                        value={value}
+                        onChange={(e) => setSettings({ ...settings, [fieldName]: e.target.value })}
+                        rows={3}
+                        className="w-full px-3 py-2 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none rounded-md transition-all"
+                    />
+                ) : (
+                    <input
+                        id={fieldName}
+                        type={type}
+                        value={value}
+                        onChange={(e) => setSettings({ ...settings, [fieldName]: type === 'number' ? parseInt(e.target.value) : e.target.value })}
+                        className="w-full px-3 py-2 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none rounded-md transition-all"
+                    />
+                )}
+            </div>
+        );
+    };
 
     if (loading) {
         return (
@@ -165,313 +213,271 @@ const AdminSettings = () => {
                     </Button>
                 </header>
 
-                <div className="bg-white border border-border shadow-sm overflow-hidden">
-                    <table className="w-full text-left border-collapse">
-                        <tbody>
-                            {/* Site Language Setting */}
-                            <tr className="border-b border-gray-100">
-                                <th className="px-6 py-5 w-1/3 text-sm font-semibold text-gray-700 bg-gray-50/50">
-                                    <label htmlFor="admin-lang-select">{t("admin.settings_page.site_lang")}</label>
-                                </th>
-                                <td className="px-6 py-5">
-                                    <div className="flex flex-col gap-3">
-                                        <select
-                                            id="admin-lang-select"
-                                            name="admin_language"
-                                            value={i18n.language}
-                                            onChange={(e) => changeLanguage(e.target.value)}
-                                            className="w-full max-w-xs px-3 py-1.5 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
-                                        >
-                                            {languages.map(lang => (
-                                                <option key={lang.code} value={lang.code}>{lang.name}</option>
-                                            ))}
-                                        </select>
-                                        <p className="text-[11px] text-gray-500">
-                                            {t("admin.settings_page.lang_help")}
-                                        </p>
-                                    </div>
-                                </td>
-                            </tr>
+                <div className="flex flex-col md:flex-row gap-8">
+                    {/* Primary Settings Column */}
+                    <div className="flex-1 space-y-8">
+                        {/* Tab Selector for Multilingual Content */}
+                        <div className="bg-white border border-border shadow-sm rounded-2xl overflow-hidden p-1 flex gap-1 mb-2">
+                            {languages.map((lang) => (
+                                <button
+                                    key={lang.code}
+                                    type="button"
+                                    onClick={() => setActiveTab(lang.code)}
+                                    className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${activeTab === lang.code ? 'bg-[#2271b1] text-white shadow-md' : 'text-gray-400 hover:bg-gray-50'}`}
+                                >
+                                    {lang.name}
+                                </button>
+                            ))}
+                        </div>
 
-                            {/* Site Title */}
-                            <tr className="border-b border-gray-100">
-                                <th className="px-6 py-5 w-1/3 text-sm font-semibold text-gray-700 bg-gray-50/50">
-                                    <label htmlFor="site-title-input">{t("admin.settings_page.site_title")}</label>
-                                </th>
-                                <td className="px-6 py-5">
+                        {/* Section: Hero */}
+                        <div className="bg-white border border-border shadow-sm rounded-2xl overflow-hidden">
+                            <div className="px-6 py-4 bg-gray-50/50 border-b border-border flex items-center justify-between">
+                                <h3 className="text-sm font-bold text-gray-700">🚀 Section Héro</h3>
+                                <span className="text-[10px] bg-blue-100 text-[#2271b1] px-2 py-0.5 rounded-full font-bold">ACCUEIL</span>
+                            </div>
+                            <div className="divide-y divide-gray-50">
+                                {RenderInput("Badge Héro", "hero_badge")}
+                                {RenderInput("Titre Héro", "hero_title")}
+                                {RenderInput("Sous-titre Héro", "hero_subtitle", "textarea")}
+                                {RenderInput("Description Héro", "hero_description", "textarea")}
+                                {RenderInput("Bouton Émissions", "btn_emissions")}
+                                {RenderInput("Bouton Enseignements", "btn_teachings")}
+                                {RenderInput("Bouton Méditation", "btn_meditation")}
+                            </div>
+                        </div>
+
+                        {/* Section: À Propos */}
+                        <div className="bg-white border border-border shadow-sm rounded-2xl overflow-hidden">
+                            <div className="px-6 py-4 bg-gray-50/50 border-b border-border">
+                                <h3 className="text-sm font-bold text-gray-700">✨ Section À Propos</h3>
+                            </div>
+                            <div className="divide-y divide-gray-50">
+                                {RenderInput("Badge À Propos", "about_badge")}
+                                {RenderInput("Titre À Propos", "about_title")}
+                                {RenderInput("Accent Titre À Propos", "about_title_accent")}
+                                {RenderInput("Contenu Principal", "about_content", "textarea")}
+                                <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-50/20">
+                                    {RenderInput("Feature 1", "about_feature1")}
+                                    {RenderInput("Feature 2", "about_feature2")}
+                                    {RenderInput("Feature 3", "about_feature3")}
+                                    {RenderInput("Feature 4", "about_feature4")}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Section: Verset du jour / Citation */}
+                        <div className="bg-white border border-border shadow-sm rounded-2xl overflow-hidden">
+                            <div className="px-6 py-4 bg-blue-50/50 border-b border-blue-100 flex items-center justify-between">
+                                <h3 className="text-sm font-bold text-blue-800">📖 Verset du Jour / Citation</h3>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded-full border-2 border-accent/20 overflow-hidden bg-gray-50 group relative">
+                                        {quoteAuthorPreview ? (
+                                            <img src={quoteAuthorPreview} alt="Auteur" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center"><ImageIcon className="w-3 h-3 text-gray-300" /></div>
+                                        )}
+                                        <button onClick={() => { setPickerTarget('quote'); setPickerOpen(true); }} className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"><Upload className="w-3 h-3 text-white" /></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="divide-y divide-gray-50">
+                                {RenderInput("Texte de la citation", "quote_text", "textarea")}
+                                <div className="grid grid-cols-1 md:grid-cols-2">
+                                    {RenderInput("Nom de l'auteur", "quote_author_name")}
+                                    {RenderInput("Rôle de l'auteur", "quote_author_subtitle")}
+                                </div>
+                                {RenderInput("Verset Biblique", "bible_verse", "textarea")}
+                                {RenderInput("Référence du Verset", "bible_verse_ref")}
+                            </div>
+                        </div>
+
+                        {/* Section: Équipe */}
+                        <div className="bg-white border border-border shadow-sm rounded-2xl overflow-hidden">
+                            <div className="px-6 py-4 bg-gray-50/50 border-b border-border">
+                                <h3 className="text-sm font-bold text-gray-700">👥 Section Équipe</h3>
+                            </div>
+                            <div className="divide-y divide-gray-50">
+                                {RenderInput("Titre Équipe", "team_title")}
+                                {RenderInput("Description Équipe", "team_description", "textarea")}
+                            </div>
+                        </div>
+
+                        {/* Section: Statistiques */}
+                        <div className="bg-white border border-border shadow-sm rounded-2xl overflow-hidden">
+                            <div className="px-6 py-4 bg-emerald-50/50 border-b border-emerald-100 flex items-center justify-between">
+                                <h3 className="text-sm font-bold text-emerald-800">📊 Statistiques & Impact</h3>
+                            </div>
+                            <div className="divide-y divide-gray-50 p-4 space-y-4">
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Années d'Expérience</label>
+                                        <input type="number" value={settings?.stat_years_value || 0} onChange={(e) => setSettings({...settings, stat_years_value: parseInt(e.target.value)})} className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Émissions Produites</label>
+                                        <input type="number" value={settings?.stat_emissions_value || 0} onChange={(e) => setSettings({...settings, stat_emissions_value: parseInt(e.target.value)})} className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Audience Mensuelle</label>
+                                        <input type="number" value={settings?.stat_audience_value || 0} onChange={(e) => setSettings({...settings, stat_audience_value: parseInt(e.target.value)})} className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Langues Diffusées</label>
+                                        <input type="number" value={settings?.stat_languages_value || 0} onChange={(e) => setSettings({...settings, stat_languages_value: parseInt(e.target.value)})} className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-gray-50">
+                                    {RenderInput("Label Années", "stat_years_label")}
+                                    {RenderInput("Label Émissions", "stat_emissions")}
+                                    {RenderInput("Label Audience", "stat_audience")}
+                                    {RenderInput("Label Langues", "stat_languages")}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Section: Footer */}
+                        <div className="bg-white border border-border shadow-sm rounded-2xl overflow-hidden">
+                            <div className="px-6 py-4 bg-gray-50/50 border-b border-border">
+                                <h3 className="text-sm font-bold text-gray-700">⚓ Footer & Pages</h3>
+                            </div>
+                            <div className="divide-y divide-gray-50">
+                                {RenderInput("Description Footer", "footer_description", "textarea")}
+                                <div className="grid grid-cols-1 md:grid-cols-2">
+                                    {RenderInput("Titre Liens Rapides", "footer_quick_links_title")}
+                                    {RenderInput("Titre Contact", "footer_contact_title")}
+                                    {RenderInput("Titre Réseaux Sociaux", "footer_social_title")}
+                                    {RenderInput("Copyright", "footer_copyright")}
+                                </div>
+                                <div className="p-4 bg-gray-50/30">
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase mb-4">Titres des Pages</p>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                        {RenderInput("Page Émissions", "page_courses_title")}
+                                        {RenderInput("Page À Propos", "page_about_title")}
+                                        {RenderInput("Page Contact", "page_contact_title")}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Sidebar: Global Settings */}
+                    <div className="w-full md:w-80 space-y-6">
+                        {/* Branding Card */}
+                        <div className="bg-white border border-border shadow-sm rounded-2xl p-6 space-y-6">
+                            <h3 className="text-xs font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
+                                <Globe className="w-4 h-4 text-[#2271b1]" /> IDENTITÉ GÉNÉRALE
+                            </h3>
+                            
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Nom du Site</label>
                                     <input
                                         type="text"
-                                        id="site-title-input"
-                                        name="site_title"
                                         value={settings?.site_name || ""}
                                         onChange={(e) => setSettings({ ...settings, site_name: e.target.value })}
-                                        className="w-full max-w-md px-3 py-1.5 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
+                                        className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm focus:border-[#2271b1] outline-none"
                                     />
-                                </td>
-                            </tr>
+                                </div>
 
-                            {/* Tagline / Description */}
-                            <tr className="border-b border-gray-100">
-                                <th className="px-6 py-5 w-1/3 text-sm font-semibold text-gray-700 bg-gray-50/50">
-                                    <label htmlFor="site-description-input">{t("admin.settings_page.slogan")}</label>
-                                </th>
-                                <td className="px-6 py-5">
-                                    <input
-                                        type="text"
-                                        id="site-description-input"
-                                        name="description"
+                                <div className="space-y-2">
+                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Slogan Global</label>
+                                    <textarea
                                         value={settings?.description || ""}
                                         onChange={(e) => setSettings({ ...settings, description: e.target.value })}
-                                        className="w-full max-w-md px-3 py-1.5 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
+                                        className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm focus:border-[#2271b1] outline-none h-20"
                                     />
-                                    <p className="text-[11px] text-gray-500 mt-1">{t("admin.settings_page.slogan_help")}</p>
-                                </td>
-                            </tr>
+                                </div>
 
-                            {/* Logo Upload */}
-                            <tr className="border-b border-gray-100">
-                                <th className="px-6 py-5 w-1/3 text-sm font-semibold text-gray-700 bg-gray-50/50">
-                                    <span>{t("admin.settings_page.logo_section")}</span>
-                                </th>
-                                <td className="px-6 py-5">
-                                    <div className="flex items-start gap-6">
-                                        <div className="flex flex-col gap-2">
-                                            <div className="w-24 h-24 border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center bg-gray-50 overflow-hidden group relative">
-                                                {logoPreview ? (
-                                                    <img src={logoPreview} alt="Preview" className="w-full h-full object-contain" />
-                                                ) : (
-                                                    <ImageIcon className="w-8 h-8 text-gray-300" />
-                                                )}
-                                            </div>
-                                            <p className="text-[10px] text-gray-400 text-center italic">{t("admin.settings_page.logo_preview")}</p>
-                                        </div>
-                                        <div className="flex flex-col gap-3 pt-1">
-                                            <input
-                                                type="file"
-                                                ref={fileInputRef}
-                                                onChange={handleLogoChange}
-                                                accept="image/*"
-                                                className="hidden"
-                                                id="logo-upload"
-                                            />
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                className="h-8 text-[11px] border-gray-200 hover:border-[#2271b1] hover:text-[#2271b1] transition-all gap-2"
-                                                onClick={() => { setPickerTarget('logo'); setPickerOpen(true); }}
-                                            >
-                                                <ImageIcon className="w-3 h-3" />
-                                                Choisir depuis la médiathèque
-                                            </Button>
-                                            <p className="text-[11px] text-gray-500 leading-relaxed max-w-xs">
-                                                {t("admin.settings_page.logo_help")}
-                                            </p>
-                                        </div>
+                                <div className="space-y-2">
+                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Logo</label>
+                                    <div className="relative group w-32 h-32 mx-auto bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 overflow-hidden flex items-center justify-center">
+                                        {logoPreview ? (
+                                            <img src={logoPreview} alt="Logo" className="w-full h-full object-contain p-2" />
+                                        ) : (
+                                            <ImageIcon className="w-8 h-8 text-gray-200" />
+                                        )}
+                                        <button onClick={() => { setPickerTarget('logo'); setPickerOpen(true); }} className="absolute inset-0 bg-[#2271b1]/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                            <Upload className="w-6 h-6 text-white" />
+                                        </button>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
+                        </div>
 
-                            {/* Gospel Quote / Verset du jour Section */}
-                            <tr className="border-b border-gray-100 bg-blue-50/20">
-                                <th className="px-6 py-8 w-1/3 text-sm font-semibold text-gray-700 bg-blue-50/50 flex flex-col items-start gap-1">
-                                    <h3 className="text-[#2271b1] font-bold">📖 {t("admin.settings_page.verse_section") || "Verset du Jour / Citation"}</h3>
-                                    <p className="text-[11px] font-normal text-blue-600/70">{t("admin.settings_page.verse_help") || "Gérez la parole affichée sur la page d'accueil."}</p>
-                                </th>
-                                <td className="px-6 py-8">
-                                    <div className="space-y-6">
-                                        {/* Verse Text */}
-                                        <div className="space-y-2">
-                                            <label htmlFor="quote-text-fr" className="text-xs font-bold text-gray-400 uppercase cursor-pointer">Texte du Verset / Citation</label>
-                                            <textarea
-                                                id="quote-text-fr"
-                                                name="quote_text_fr"
-                                                rows={3}
-                                                value={settings?.quote_text_fr || ""}
-                                                onChange={(e) => setSettings({ ...settings, quote_text_fr: e.target.value })}
-                                                placeholder="Entrez le verset du jour..."
-                                                className="w-full max-w-2xl px-3 py-2 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none rounded-md"
-                                            />
-                                        </div>
+                        {/* Bandéau défilant (Ticker) */}
+                        <div className="bg-[#1d2327] text-white shadow-xl rounded-2xl p-6 space-y-6 overflow-hidden relative">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#2271b1] blur-[60px] opacity-20 -mr-16 -mt-16"></div>
+                            <h3 className="text-xs font-bold text-white border-b border-white/10 pb-3 flex items-center gap-2 relative z-10">
+                                📣 BANDEAU DÉFILANT
+                            </h3>
+                            
+                            <div className="space-y-5 relative z-10">
+                                <div className="flex items-center justify-between">
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase">Activer le bandeau</label>
+                                    <button 
+                                        onClick={() => setSettings({ ...settings, ticker_enabled: !settings.ticker_enabled })}
+                                        className={`w-10 h-5 rounded-full relative transition-colors ${settings.ticker_enabled ? 'bg-[#2271b1]' : 'bg-gray-700'}`}
+                                    >
+                                        <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${settings.ticker_enabled ? 'left-6' : 'left-1'}`}></div>
+                                    </button>
+                                </div>
 
-                                        <div className="grid grid-cols-2 gap-6">
-                                            {/* Author Name */}
-                                            <div className="space-y-2">
-                                                <label htmlFor="quote-author-name-fr" className="text-xs font-bold text-gray-400 uppercase cursor-pointer">Nom de l'auteur</label>
-                                                <input
-                                                    type="text"
-                                                    id="quote-author-name-fr"
-                                                    name="quote_author_name_fr"
-                                                    value={settings?.quote_author_name_fr || ""}
-                                                    onChange={(e) => setSettings({ ...settings, quote_author_name_fr: e.target.value })}
-                                                    className="w-full px-3 py-1.5 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
-                                                />
-                                            </div>
-                                            {/* Author Role */}
-                                            <div className="space-y-2">
-                                                <label htmlFor="quote-author-subtitle-fr" className="text-xs font-bold text-gray-400 uppercase cursor-pointer">Rôle / Sous-titre</label>
-                                                <input
-                                                    type="text"
-                                                    id="quote-author-subtitle-fr"
-                                                    name="quote_author_subtitle_fr"
-                                                    value={settings?.quote_author_subtitle_fr || ""}
-                                                    onChange={(e) => setSettings({ ...settings, quote_author_subtitle_fr: e.target.value })}
-                                                    className="w-full px-3 py-1.5 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
-                                                />
-                                            </div>
-                                        </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase">Vitesse (sec)</label>
+                                    <input 
+                                        type="number" 
+                                        value={settings?.ticker_speed || 30}
+                                        onChange={(e) => setSettings({...settings, ticker_speed: parseInt(e.target.value)})}
+                                        className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white" 
+                                    />
+                                </div>
 
-                                        {/* Author Photo */}
-                                        <div className="space-y-3">
-                                            <label htmlFor="quote-author-upload" className="text-xs font-bold text-gray-400 uppercase cursor-pointer">Photo de l'auteur</label>
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-16 h-16 rounded-full border-2 border-accent/20 overflow-hidden bg-gray-50 flex-shrink-0 relative group">
-                                                    {quoteAuthorPreview ? (
-                                                        <div className="relative w-full h-full">
-                                                            <img src={quoteAuthorPreview} alt="Auteur" className="w-full h-full object-cover" />
-                                                            <button
-                                                                type="button"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    setQuoteAuthorPreview(null);
-                                                                    if (quoteAuthorFileInputRef.current) {
-                                                                        quoteAuthorFileInputRef.current.value = "";
-                                                                    }
-                                                                }}
-                                                                className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                                                                title="Supprimer la photo"
-                                                            >
-                                                                <X className="w-5 h-5 text-white" />
-                                                            </button>
-                                                        </div>
-                                                    ) : (
-                                                        <div className="w-full h-full flex items-center justify-center">
-                                                            <ImageIcon className="w-6 h-6 text-gray-300" />
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <input
-                                                    type="file"
-                                                    id="quote-author-upload"
-                                                    ref={quoteAuthorFileInputRef}
-                                                    onChange={handleQuoteAuthorPhotoChange}
-                                                    accept="image/*"
-                                                    className="hidden"
-                                                />
-                                                <Button
-                                                    type="button"
-                                                    variant="outline"
-                                                    size="sm"
-                                                    className="text-[10px] h-8 px-4 border-gray-200 hover:border-[#2271b1] transition-all"
-                                                    onClick={() => { setPickerTarget('quote'); setPickerOpen(true); }}
-                                                >
-                                                    <ImageIcon className="w-3 h-3 mr-2" /> Choisir depuis la médiathèque
-                                                </Button>
-                                            </div>
-                                        </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase">Couleur de fond</label>
+                                    <div className="flex gap-2">
+                                        <input 
+                                            type="color" 
+                                            value={settings?.ticker_bg_color || "#e60000"}
+                                            onChange={(e) => setSettings({...settings, ticker_bg_color: e.target.value})}
+                                            className="h-9 w-12 bg-transparent cursor-pointer" 
+                                        />
+                                        <input 
+                                            type="text" 
+                                            value={settings?.ticker_bg_color || "#e60000"}
+                                            onChange={(e) => setSettings({...settings, ticker_bg_color: e.target.value})}
+                                            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs" 
+                                        />
                                     </div>
-                                </td>
-                            </tr>
-                            {/* News Ticker Toggle */}
-                            <tr className="border-b border-gray-100">
-                                <th className="px-6 py-5 w-1/3 text-sm font-semibold text-gray-700 bg-gray-50/50">
-                                    <span>{t("admin.settings_page.form.ticker_section")}</span>
-                                </th>
-                                <td className="px-6 py-5">
-                                    <div className="flex flex-col gap-4">
-                                        <div className="flex items-center gap-3">
-                                            <input
-                                                type="checkbox"
-                                                id="ticker-enabled"
-                                                checked={settings?.ticker_enabled ?? true}
-                                                onChange={(e) => setSettings({ ...settings, ticker_enabled: e.target.checked })}
-                                                className="w-4 h-4 text-[#2271b1] rounded border-gray-300 focus:ring-[#2271b1]"
-                                            />
-                                            <label htmlFor="ticker-enabled" className="text-sm font-medium text-gray-700">
-                                                {t("admin.settings_page.form.ticker_desc")}
-                                            </label>
-                                        </div>
+                                </div>
 
-                                        <div className="grid grid-cols-2 gap-4 max-w-md">
-                                            <div className="space-y-1">
-                                                <label htmlFor="ticker-speed" className="text-xs font-bold text-gray-400 uppercase cursor-pointer">{t("admin.settings_page.form.ticker_speed_label")}</label>
-                                                <input
-                                                    type="number"
-                                                    id="ticker-speed"
-                                                    name="ticker_speed"
-                                                    value={settings?.ticker_speed || 30}
-                                                    onChange={(e) => setSettings({ ...settings, ticker_speed: parseInt(e.target.value) })}
-                                                    className="w-full px-3 py-1.5 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
-                                                    min="5"
-                                                    max="300"
-                                                />
-                                            </div>
-                                            <div className="space-y-1">
-                                                <label htmlFor="ticker-refresh" className="text-xs font-bold text-gray-400 uppercase cursor-pointer">{t("admin.settings_page.form.ticker_refresh_label")}</label>
-                                                <input
-                                                    type="number"
-                                                    id="ticker-refresh"
-                                                    name="ticker_refresh_interval"
-                                                    value={settings?.ticker_refresh_interval || 3600}
-                                                    onChange={(e) => setSettings({ ...settings, ticker_refresh_interval: parseInt(e.target.value) })}
-                                                    className="w-full px-3 py-1.5 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
-                                                    min="60"
-                                                />
-                                            </div>
-                                            <div className="space-y-1">
-                                                <label htmlFor="ticker-bg-color" className="text-xs font-bold text-gray-400 uppercase cursor-pointer">{t("admin.settings_page.form.ticker_color_label")}</label>
-                                                <div className="flex items-center gap-2">
-                                                    <input
-                                                        type="color"
-                                                        id="ticker-bg-color"
-                                                        name="ticker_bg_color"
-                                                        value={settings?.ticker_bg_color || "#e60000"}
-                                                        onChange={(e) => setSettings({ ...settings, ticker_bg_color: e.target.value })}
-                                                        className="h-8 w-12 cursor-pointer border border-border"
-                                                    />
-                                                    <input
-                                                        type="text"
-                                                        id="ticker-bg-color-text"
-                                                        name="ticker_bg_color_hex"
-                                                        value={settings?.ticker_bg_color || "#e60000"}
-                                                        onChange={(e) => setSettings({ ...settings, ticker_bg_color: e.target.value })}
-                                                        className="flex-1 px-3 py-1.5 bg-white border border-border text-sm focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none"
-                                                        aria-label="Code couleur HEX"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="space-y-1">
-                                                <label htmlFor="ticker-opacity" className="text-xs font-bold text-gray-400 uppercase cursor-pointer">{t("admin.settings_page.form.ticker_opacity_label")} ({settings?.ticker_opacity ?? 100}%)</label>
-                                                <input
-                                                    type="range"
-                                                    id="ticker-opacity"
-                                                    name="ticker_opacity"
-                                                    value={settings?.ticker_opacity ?? 100}
-                                                    onChange={(e) => setSettings({ ...settings, ticker_opacity: parseInt(e.target.value) })}
-                                                    className="w-full h-8 accent-[#2271b1] cursor-pointer"
-                                                    min="0"
-                                                    max="100"
-                                                />
-                                            </div>
-                                        </div>
-                                        <p className="text-[11px] text-gray-500 italic">
-                                            {t("admin.settings_page.form.ticker_help")}
-                                        </p>
+                                <div className="space-y-1.5">
+                                    <div className="flex justify-between text-[10px] font-bold text-gray-400 uppercase">
+                                        <span>Opacité</span>
+                                        <span>{settings?.ticker_opacity || 100}%</span>
                                     </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    <input 
+                                        type="range" 
+                                        min="0" max="100"
+                                        value={settings?.ticker_opacity || 100}
+                                        onChange={(e) => setSettings({...settings, ticker_opacity: parseInt(e.target.value)})}
+                                        className="w-full accent-[#2271b1]" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
-                    <div className="p-6 bg-gray-50/50 border-t border-border flex justify-end">
-                        <Button
-                            onClick={handleSave}
-                            disabled={saving}
-                            className="bg-[#2271b1] hover:bg-[#135e96] text-white text-xs h-9 px-8 gap-2 shadow-sm"
-                        >
-                            {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
-                            {t("admin.settings_page.save")}
-                        </Button>
+                        {/* Save Button Sidebar */}
+                        <div className="bg-white border border-border shadow-sm rounded-2xl p-4">
+                            <Button
+                                onClick={handleSave}
+                                disabled={saving}
+                                className="w-full bg-[#2271b1] hover:bg-[#135e96] text-white py-6 rounded-xl font-bold flex flex-col gap-1 h-auto"
+                            >
+                                {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                                <span>Sauvegarder tout</span>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

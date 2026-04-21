@@ -52,6 +52,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         { label: t("admin.dashboard"), href: "/admin", icon: LayoutDashboard },
         { label: t("admin.emissions"), href: "/admin/emissions", icon: BookOpen },
         { label: t("admin.announcements") || "Annonces", href: "/admin/announcements", icon: Megaphone },
+        { label: t("admin.comments_page.title") || "Commentaires", href: "/admin/comments", icon: MessageCircle },
         { label: t("admin.testimonials") || "Témoignages", href: "/admin/testimonials", icon: MessageCircle },
         { label: t("admin.pages") || "Pages du site", href: "/admin/pages", icon: FileText },
         { label: t("admin.categories"), href: "/admin/categories", icon: FolderTree },
@@ -72,8 +73,8 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
             case "admin":
                 return true; // Admin voit tout, mais sera bloqué par le backend pour certaines actions
             case "team":
-                // Équipe : Emissions, Annonces, Témoignages, Catégories, Media, Stats, Team, Settings
-                return ["/admin", "/admin/emissions", "/admin/announcements", "/admin/testimonials", "/admin/categories", "/admin/media", "/admin/stats", "/admin/team", "/admin/settings"].includes(link.href);
+                // Équipe : Emissions, Annonces, Témoignages, Commentaires, Catégories, Media, Stats, Team, Settings
+                return ["/admin", "/admin/emissions", "/admin/announcements", "/admin/comments", "/admin/testimonials", "/admin/categories", "/admin/media", "/admin/stats", "/admin/team", "/admin/settings"].includes(link.href);
             case "user":
             default:
                 // Utilisateur Simple : Uniquement Emissions et Témoignages

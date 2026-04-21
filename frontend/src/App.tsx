@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from "
 import { AuthProvider } from "@/contexts/AuthContext";
 import PrivateRoute from "@/components/PrivateRoute";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { apiService } from "@/lib/api";
 import { getFullImageUrl } from "@/lib/utils";
 import Index from "./pages/Index";
@@ -31,6 +32,7 @@ import AdminCreateAnnouncement from "./pages/admin/CreateAnnouncement";
 import AdminEditAnnouncement from "./pages/admin/EditAnnouncement";
 import AdminCreateTestimonial from "./pages/admin/CreateTestimonial";
 import AdminEditTestimonial from "./pages/admin/EditTestimonial";
+import AdminComments from "./pages/admin/Comments";
 import EmissionDetail from "./pages/EmissionDetail";
 import AdminTeam from "./pages/admin/Team";
 import AdminCreateTeamMember from "./pages/admin/CreateTeamMember";
@@ -76,6 +78,7 @@ const AppRoutes = () => {
           <Route path="/admin/announcements" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminAnnouncements /></PrivateRoute>} />
           <Route path="/admin/announcements/create" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminCreateAnnouncement /></PrivateRoute>} />
           <Route path="/admin/announcements/edit/:id" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminEditAnnouncement /></PrivateRoute>} />
+          <Route path="/admin/comments" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminComments /></PrivateRoute>} />
           <Route path="/admin/categories" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminCategories /></PrivateRoute>} />
           <Route path="/admin/media" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminMedia /></PrivateRoute>} />
           <Route path="/admin/stats" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminStats /></PrivateRoute>} />
@@ -102,6 +105,8 @@ const AppRoutes = () => {
 };
 
 const App = () => {
+  const { i18n } = useTranslation();
+
   useEffect(() => {
     apiService.getSettings().then(data => {
       if (data.site_name) {
@@ -120,7 +125,7 @@ const App = () => {
         }
       }
     }).catch(console.error);
-  }, []);
+  }, [i18n.language]);
 
   return (
     <QueryClientProvider client={queryClient}>

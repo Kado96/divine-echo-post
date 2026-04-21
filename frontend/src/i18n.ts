@@ -16,6 +16,7 @@ const resources = {
                 greetings: "Salutations"
             },
             common: {
+                no_comments: "Soyez le premier à laisser un commentaire !",
                 error_loading: "Erreur lors du chargement",
                 emission_not_found: "Émission introuvable",
                 back: "Retour",
@@ -31,7 +32,7 @@ const resources = {
                 description: "Description",
                 no_description: "Aucune description disponible.",
                 share_this: "Partager cet enseignement",
-                about_speaker: "À propos de l'orateur",
+                about_speaker: "À propos de l'éditeur",
                 ministry_role: "Enseignant de la Parole",
                 join_us_teaching: "Rejoignez-nous pour cet enseignement profond alors que nous explorons la parole de Dieu ensemble.",
                 info_events: "Infos & Événements",
@@ -41,6 +42,8 @@ const resources = {
                 error_deleting: "Erreur lors de la suppression",
                 loading: "Chargement...",
                 no_results: "Aucun résultat trouvé",
+                similar_emissions: "Émissions similaires",
+                view_more: "Voir plus",
                 unknown_author: "Auteur inconnu",
                 no_category: "Aucune catégorie",
                 hours_ago: "Il y a {{count}} heures",
@@ -71,7 +74,26 @@ const resources = {
                 created_success: "Créé avec succès !",
                 show_more: "Voir plus",
                 is_required: "est obligatoire",
-                featured: "En Vedette"
+                error_loading_media: "Erreur de chargement du média. Veuillez réessayer.",
+                featured: "En Vedette",
+                name: "Nom complet",
+                email: "Email",
+                message: "Votre message",
+                discovery: "Découvrir plus",
+                discovery_subtitle: "ÉMISSIONS SIMILAIRES",
+                listeners: "Auditeurs",
+                speaker: "Orateur",
+                join_us: "Rejoignez-nous",
+                comments_section: {
+                    title: "Commentaires",
+                    leave_comment: "Laisser un commentaire",
+                    name_placeholder: "Votre nom",
+                    email_placeholder: "Votre email",
+                    comment_placeholder: "Écrivez votre commentaire ici...",
+                    submit: "Envoyer le commentaire",
+                    waiting_approval: "Votre commentaire est en attente de modération.",
+                    no_comments: "Soyez le premier à laisser un commentaire !"
+                }
             },
             admin: {
                 dashboard: "Tableau de Bord",
@@ -166,6 +188,19 @@ const resources = {
                         submit: "Enregistrer l'annonce"
                     }
                 },
+                comments_page: {
+                    title: "Modération des Commentaires",
+                    desc: "Gérez et approuvez les commentaires des fidèles",
+                    empty: "Aucun commentaire à modérer.",
+                    table: {
+                        author: "Auteur",
+                        emission: "Émission",
+                        status: "Statut",
+                        actions: "Actions",
+                        approve: "Approuver",
+                        delete: "Supprimer"
+                    }
+                },
                 categories_page: {
                     title: "Gestion des Catégories",
                     add_new: "Ajouter une nouvelle catégorie",
@@ -209,7 +244,9 @@ const resources = {
                         url: "URL YouTube",
                         url_placeholder: "Collez le lien YouTube ici...",
                         file: "Fichier média",
+                        select_audio_file: "Sélectionner un fichier audio",                        
                         file_help: "MP4, MOV, MP3 (Max 500MB)",
+                        image: "Image de couverture",
                         publish: "Publier officiellement",
                         visibility: "Visibilité",
                         status: "Statut",
@@ -356,6 +393,7 @@ const resources = {
                         mark_as_verified: "Approuver ce témoignage"
                     },
                     create_title: "Ajouter un témoignage",
+                    edit_title: "Modifier le témoignage",
                     back: "Retour aux témoignages",
                     form: {
                         author: "Nom de la personne",
@@ -443,7 +481,9 @@ const resources = {
                 desc: "Plongez dans nos différents thèmes pour nourrir votre marche spirituelle quotidienne.",
                 search_label: "RECHERCHE",
                 search_placeholder: "Choisir un thème",
-                nav_label: "NAVIGATION",
+                nav_label: "CATÉGORIES",
+                lang_label: "LANGUES",
+                all_lang: "Toutes",
                 search: "Chercher une émission...",
                 view_emission: "Voir l'émission",
                 items: {
@@ -518,7 +558,7 @@ const resources = {
                 description: "Description",
                 no_description: "Aucune description disponible.",
                 share_this: "Partager cet enseignement",
-                about_speaker: "À propos de l'orateur",
+                about_speaker: "À propos de l'éditeur",
                 general: "Général",
                 back: "Retour",
                 emission_not_found: "Émission introuvable",
@@ -552,6 +592,7 @@ const resources = {
                 greetings: "Greetings"
             },
             common: {
+                no_comments: "Be the first to leave a comment!",
                 error_loading: "Error loading content",
                 emission_not_found: "Broadcast not found",
                 back: "Back",
@@ -577,6 +618,8 @@ const resources = {
                 error_deleting: "Error while deleting",
                 loading: "Loading...",
                 no_results: "No results found",
+                similar_emissions: "Similar Sermons",
+                view_more: "View more",
                 unknown_author: "Unknown author",
                 no_category: "No category",
                 hours_ago: "{{count}} hours ago",
@@ -607,7 +650,26 @@ const resources = {
                 created_success: "Successfully created!",
                 show_more: "Show more",
                 is_required: "is required",
-                featured: "Featured"
+                error_loading_media: "Error loading media. Please try again.",
+                featured: "Featured",
+                name: "Full Name",
+                email: "Email",
+                message: "Your message",
+                discovery: "Discover more",
+                discovery_subtitle: "SIMILAR EMISSIONS",
+                listeners: "Listeners",
+                speaker: "Speaker",
+                join_us: "Join us",
+                comments_section: {
+                    title: "Comments",
+                    leave_comment: "Leave a comment",
+                    name_placeholder: "Your name",
+                    email_placeholder: "Your email",
+                    comment_placeholder: "Write your comment here...",
+                    submit: "Send comment",
+                    waiting_approval: "Your comment is awaiting moderation.",
+                    no_comments: "Be the first to leave a comment!"
+                }
             },
             admin: {
                 dashboard: "Dashboard",
@@ -702,6 +764,19 @@ const resources = {
                         submit: "Save announcement"
                     }
                 },
+                comments_page: {
+                    title: "Comments Moderation",
+                    desc: "Manage and approve comments from followers",
+                    empty: "No comments to moderate.",
+                    table: {
+                        author: "Author",
+                        emission: "Broadcast",
+                        status: "Status",
+                        actions: "Actions",
+                        approve: "Approve",
+                        delete: "Delete"
+                    }
+                },
                 categories_page: {
                     title: "Categories Management",
                     add_new: "Add new category",
@@ -745,7 +820,9 @@ const resources = {
                         url: "YouTube URL",
                         url_placeholder: "Paste YouTube link here...",
                         file: "Media file",
+                        select_audio_file: "Select an audio file",                        
                         file_help: "MP4, MOV, MP3 (Max 500MB)",
+                        image: "Featured image",
                         publish: "Publish officially",
                         visibility: "Visibility",
                         status: "Status",
@@ -892,6 +969,7 @@ const resources = {
                         mark_as_verified: "Approve this testimonial"
                     },
                     create_title: "Add Testimonial",
+                    edit_title: "Edit testimonial",
                     back: "Back to testimonials",
                     form: {
                         author: "Person's Name",
@@ -979,7 +1057,9 @@ const resources = {
                 desc: "Deep dive into our various themes to nourish your daily spiritual journey.",
                 search_label: "SEARCH",
                 search_placeholder: "Choose a theme",
-                nav_label: "NAVIGATION",
+                nav_label: "CATEGORIES",
+                lang_label: "LANGUAGES",
+                all_lang: "All",
                 search: "Search a broadcast...",
                 view_emission: "View broadcast",
                 items: {
@@ -1088,6 +1168,7 @@ const resources = {
                 greetings: "Mwaramutse"
             },
             common: {
+                no_comments: "Ba uwa mbere mu kwandika ico ubivugako !",
                 error_loading: "Kuvura ibirimo vyunze",
                 emission_not_found: "Inyigisho ntibonetse",
                 back: "Subira inyuma",
@@ -1113,6 +1194,8 @@ const resources = {
                 error_deleting: "Habaye ikibazo mu gusiba",
                 loading: "Biriko biraza...",
                 no_results: "Nta nsiguro yaboneka",
+                similar_emissions: "Inyigisho zisa",
+                view_more: "Raba izindi",
                 unknown_author: "Uwavyanditse ntimuzwi",
                 no_category: "Nta muce urimwo",
                 hours_ago: "Haraciye amasaha {{count}}",
@@ -1140,7 +1223,18 @@ const resources = {
                 draft_saved: "Ikandiko ryafashwe !",
                 created_success: "Vyaremwe neza !",
                 show_more: "Raba bindi",
-                featured: "Ibintu zibanze"
+                error_loading_media: "Habaye ikibazo mu kuraba iki kintu. Gerageza kandi.",
+                featured: "Ibintu zibanze",
+                comments_section: {
+                    title: "Ibitekerezo",
+                    leave_comment: "Andika ico ubivugako",
+                    name_placeholder: "Izina ryawe",
+                    email_placeholder: "Email yawe",
+                    comment_placeholder: "Andika hano ico ubivugako...",
+                    submit: "Rungika ico ubivugako",
+                    waiting_approval: "Ico washashije kiriko kirasuzumwa.",
+                    no_comments: "Ba uwa mbere mu kwandika ico ubivugako !"
+                }
             },
             admin: {
                 dashboard: "Ikibanza",
@@ -1231,6 +1325,19 @@ const resources = {
                         submit: "Emeza amakuru"
                     }
                 },
+                comments_page: {
+                    title: "Ikiraba banyerekanako",
+                    desc: "Genura n'ukwemezwa ibitekerezo vy'abayumviriza",
+                    empty: "Nta gitekerezo gihari co kuraba.",
+                    table: {
+                        author: "Uwavyanditse",
+                        emission: "Inyigisho",
+                        status: "Uko bihagaze",
+                        actions: "Ibihindurwa",
+                        approve: "Emeza",
+                        delete: "Siba"
+                    }
+                },
                 pages_page: {
                     title: "Genura Izindi Mbuga",
                     desc: "Hinyanyura uko urubuga rwashizweho n'ivyamamaza ku rubuga rwa Shalom Ministry.",
@@ -1299,7 +1406,9 @@ const resources = {
                         url: "Lien YouTube",
                         url_placeholder: "Shira lien ya videwo ya YouTube hano...",
                         file: "Fiziye y'ibikoresho",
+                        select_audio_file: "Hitamo fiziye y'ijwi",                        
                         file_help: "MP4, MOV, MP3 (Max 500MB)",
+                        image: "Isanamu nkuru",
                         publish: "Ishira ku rubuga",
                         visibility: "Uko riboneka",
                         status: "Uko bihagaze",
@@ -1413,6 +1522,7 @@ const resources = {
                         mark_as_verified: "Emeza iyi ntagihe"
                     },
                     create_title: "Ongerako ivyashinguwe",
+                    edit_title: "Hinyanyura ivyashinguwe",
                     back: "Subira ku vyashinguwe",
                     form: {
                         author: "Izina ry'umuntu",
@@ -1472,7 +1582,9 @@ const resources = {
                 desc: "Andura ubwoko butandukanye bw'ibikirimo kugira uheze ufushe ubuzima bwawe bw'impwemu.",
                 search_label: "ANDURA",
                 search_placeholder: "Hitamo umuce",
-                nav_label: "UBUYOBOZI",
+                nav_label: "IMICE",
+                lang_label: "INDIMI",
+                all_lang: "Zose",
                 search: "Andura inyigisho...",
                 view_emission: "Raba inyigisho",
                 items: {
@@ -1580,6 +1692,7 @@ const resources = {
                 greetings: "Salamu"
             },
             common: {
+                no_comments: "Kuwa wa kwanza kuacha maoni!",
                 error_loading: "Hitilafu wakati wa kupakia",
                 emission_not_found: "Mahubiri hayajapatikana",
                 back: "Rudi",
@@ -1605,6 +1718,8 @@ const resources = {
                 error_deleting: "Hitilafu wakati wa kufuta",
                 loading: "Inapakia...",
                 no_results: "Hakuna matokeo yaliyopatikana",
+                similar_emissions: "Mahubiri yanayofanana",
+                view_more: "Ona zaidi",
                 unknown_author: "Mwandishi asiyejulikana",
                 no_category: "Hakuna kikundi",
                 hours_ago: "Masaa {{count}} yaliyopita",
@@ -1632,7 +1747,19 @@ const resources = {
                 draft_saved: "Rasimu imehifadhiwa!",
                 created_success: "Imeundwa kwa mafanikio!",
                 show_more: "Onyesha zaidi",
-                featured: "Yaliyoangaziwa"
+                is_required: "inahitajika",
+                error_loading_media: "Hitilafu wakati wa kupakia maudhui. Tafadhali jaribu tena.",
+                featured: "Yaliyoangaziwa",
+                comments_section: {
+                    title: "Maoni",
+                    leave_comment: "Acha maoni",
+                    name_placeholder: "Jina lako",
+                    email_placeholder: "Barua pepe yako",
+                    comment_placeholder: "Andika maoni yako hapa...",
+                    submit: "Tuma maoni",
+                    waiting_approval: "Maoni yako yanasubiri kuidhinishwa.",
+                    no_comments: "Kuwa wa kwanza kuacha maoni!"
+                }
             },
             admin: {
                 dashboard: "Dashibodi",
@@ -1706,7 +1833,21 @@ const resources = {
                         priority_high: "Juu",
                         priority_normal: "Kawaida",
                         event_date: "Tarehe ya hafla:",
-                        status: "Hali:"
+                        status: "Hali:",
+                        submit: "Hifadhi tangazo"
+                    }
+                },
+                comments_page: {
+                    title: "Usimamizi wa Maoni",
+                    desc: "Simamia na uidhinishe maoni kutoka kwa waaminifu",
+                    empty: "Hakuna maoni ya kudhibiti.",
+                    table: {
+                        author: "Mwandishi",
+                        emission: "Mahubiri",
+                        status: "Hali",
+                        actions: "Vitendo",
+                        approve: "Idhinisha",
+                        delete: "Futa"
                     }
                 },
                 categories_page: {
@@ -1748,7 +1889,9 @@ const resources = {
                         url: "URL ya YouTube",
                         url_placeholder: "Bandika kiungo cha YouTube hapa...",
                         file: "Faili ya media",
+                        select_audio_file: "Chagua faili ya sauti",
                         file_help: "MP4, MOV, MP3 (Max 500MB)",
+                        image: "Picha iliyoangaziwa",
                         publish: "Chapisha rasmi",
                         visibility: "Uonekano",
                         status: "Hali",
@@ -1891,6 +2034,7 @@ const resources = {
                         mark_as_verified: "Idhinisha ushuhuda huu"
                     },
                     create_title: "Ongeza Ushuhuda",
+                    edit_title: "Hariri Ushuhuda",
                     back: "Rudi kwenye ushuhuda",
                     form: {
                         author: "Jina la Mtu",
@@ -1953,7 +2097,9 @@ const resources = {
                 desc: "Ingia ndani ya mandhari yetu mbalimbali ili kulisha safari yako ya kiroho ya kila siku.",
                 search_label: "TAFUTA",
                 search_placeholder: "Chagua mandhari",
-                nav_label: "URAMBAZAJI",
+                nav_label: "MAKUNDI",
+                lang_label: "LUGHA",
+                all_lang: "Zote",
                 search: "Tafuta mahubiri...",
                 view_emission: "Tazama utangazaji",
                 items: {

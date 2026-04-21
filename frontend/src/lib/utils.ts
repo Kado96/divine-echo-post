@@ -35,30 +35,79 @@ export function formatPublicTitle(title: string | null | undefined): string {
 export function getFullImageUrl(url: string | null | undefined): string {
   if (!url) return "";
 
-  // If it's already an absolute URL
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    // If it's localhost in HTTPS, force HTTP (localhost:8000 doesn't support SSL)
-    if (url.includes('localhost') && url.startsWith('https://')) {
-      return url.replace('https://', 'http://');
+  const isDev = import.meta.env.DEV;
+  const prodDomain = "shalom-ministry-backend-ipu3.onrender.com";
+  const localDomain = "localhost:8000";
+
+  // If it's already an absolute URL or a dynamic preview URL (blob/data)
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('blob:') || url.startsWith('data:')) {
+    let resultUrl = url;
+    
+    /* 
+    // Suppression du swap automatique car si le fichier n'est pas présent localement, cela casse le lien.
+    // On fait confiance à l'URL absolue renvoyée par l'API.
+    if (isDev && url.includes(prodDomain)) {
+      resultUrl = url.replace(prodDomain, localDomain).replace('https://', 'http://');
     }
-    // For production URLs, we can leave them as is or ensure HTTPS if needed
-    return url;
+    */
+    
+    // Fix localhost https issue
+    if (resultUrl.startsWith('https://') && resultUrl.includes('localhost')) {
+      return resultUrl.replace('https://', 'http://');
+    }
+    return resultUrl;
   }
 
-  // Base URL of the API (without /api at the end)
   const apiUrl = import.meta.env.VITE_API_URL || '';
   const baseUrl = apiUrl.replace('/api', '').replace(/\/$/, '');
 
-  // If the path is relative (/media/...)
-  const relativePath = url.startsWith('/') ? url : `/${url}`;
+  // Handle missing media prefix robustly for local development
+  let relativePath = url.startsWith('/') ? url : `/${url}`;
+  
+  // If the URL looks like a media path but is missing the /api/media/ prefix
+  if (!relativePath.startsWith('/api/media/') && !relativePath.startsWith('/static/')) {
+    if (relativePath.startsWith('/sermons/') || relativePath.startsWith('/settings/') || relativePath.startsWith('/announcements/')) {
+       relativePath = `/api/media${relativePath}`;
+    }
+  }
 
-  // Combine baseUrl and relativePath
   const fullUrl = `${baseUrl}${relativePath}`;
 
-  // If the resulting URL is on localhost, ensure it's http
   if (fullUrl.includes('localhost') && fullUrl.startsWith('https://')) {
     return fullUrl.replace('https://', 'http://');
   }
 
   return fullUrl;
+}
+
+/**
+ * Récupère dynamiquement un champ localisé (ex: title_fr, title_en) 
+ * avec un fallback intelligent vers le champ de base ou le français.
+ */
+export function getLocalizedField(obj: any, fieldName: string, lang: string = 'fr'): string {
+  if (!obj) return "";
+  
+  // Normalisation du code langue (ex: 'fr-FR' -> 'fr')
+  const safeLang = (lang || 'fr').split('-')[0].toLowerCase();
+  
+  // 1. Tenter le champ spécifique à la langue (ex: title_fr)
+  const langField = `${fieldName}_${safeLang}`;
+  if (obj[langField] && typeof obj[langField] === 'string' && obj[langField].trim() !== "") {
+    return obj[langField];
+  }
+  
+  // 2. Tenter le champ de base (ex: title) - souvent utilisé pour la langue par défaut (FR)
+  if (obj[fieldName] && typeof obj[fieldName] === 'string' && obj[fieldName].trim() !== "") {
+    return obj[fieldName];
+  }
+  
+  // 3. Fallback vers le français explicite si différent de la langue demandée
+  if (safeLang !== 'fr') {
+    const frField = `${fieldName}_fr`;
+    if (obj[frField] && typeof obj[frField] === 'string' && obj[frField].trim() !== "") {
+      return obj[frField];
+    }
+  }
+  
+  return "";
 }

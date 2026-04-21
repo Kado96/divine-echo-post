@@ -39,7 +39,7 @@ const NewsTicker = () => {
         const refreshMs = (settings?.ticker_refresh_interval || 3600) * 1000;
         const interval = setInterval(fetchData, refreshMs);
         return () => clearInterval(interval);
-    }, [settings?.ticker_refresh_interval]);
+    }, [i18n.language, settings?.ticker_refresh_interval]);
 
     // If definitely disabled, show nothing
     if (!isVisible || (settings && settings.ticker_enabled === false)) return null;

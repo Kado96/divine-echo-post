@@ -58,20 +58,13 @@ const EditTestimonial = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!id) return;
-        if (!formData.author.trim()) {
-            toast.error(t("common.author_required"));
-            return;
-        }
-        if (!formData.content_fr.trim()) {
-            toast.error(t("admin.announcements_page.validation.content_fr_required") || "Contenu FR requis");
-            return;
-        }
         try {
             setLoading(true);
             await apiService.updateTestimonial(id, {
                 ...formData,
                 rating: parseInt(formData.rating),
-                content: formData.content_fr
+                // Generic field for backward compatibility, use French if available
+                content: formData.content_fr || formData.content_en || formData.content_rn || formData.content_sw || ""
             });
             toast.success(t("common.saved_success"));
             navigate("/admin/testimonials");
@@ -172,7 +165,7 @@ const EditTestimonial = () => {
                                     onChange={(e) => setFormData({ ...formData, [`content_${activeTab}`]: e.target.value })}
                                     className="w-full h-40 pl-10 pr-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-[#2271b1] outline-none transition-all text-sm resize-none italic"
                                     placeholder={t("admin.testimonials_page.form.placeholder_content")}
-                                    required={activeTab === 'fr'}
+                                    required={false}
                                 />
                                 <Quote className="w-5 h-5 absolute left-3 top-4 text-gray-300" />
                             </div>
@@ -182,6 +175,7 @@ const EditTestimonial = () => {
                             <input
                                 type="checkbox"
                                 id="verify"
+                                name="status"
                                 className="rounded-sm"
                                 checked={formData.status === "Vérifié"}
                                 onChange={(e) => setFormData({ ...formData, status: e.target.checked ? "Vérifié" : "Nouveau" })}

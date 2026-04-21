@@ -7,7 +7,7 @@ import contactCity from "@/assets/contact-city.jpg";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { apiService } from "@/lib/api";
-import { stripHtml } from "@/lib/utils";
+import { stripHtml, getLocalizedField } from "@/lib/utils";
 
 
 const ContactSection = () => {
@@ -23,7 +23,7 @@ const ContactSection = () => {
 
   useEffect(() => {
     apiService.getSettings().then(setSettings).catch(console.error);
-  }, []);
+  }, [i18n.language]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,10 +47,7 @@ const ContactSection = () => {
   };
 
   const getSetting = (key: string) => {
-    if (!settings) return null;
-    const lang = i18n.language || 'fr';
-    const fieldName = `${key}_${lang}`;
-    return settings[fieldName] || settings[key];
+    return getLocalizedField(settings, key, i18n.language);
   };
 
   const contactInfo = [

@@ -251,6 +251,8 @@ if not DEBUG:
         "http://www.shalomministry.wuaze.com",
         "https://shalom-ministry-backend-ipu3.onrender.com",
         "https://shalom-ministry-backend.onrender.com",
+        "https://shalom-ministry.onrender.com",
+        "https://shalom-ministry-frontend.onrender.com",
     ]
     # Domaines de confiance pour les requêtes CSRF (formulaires, API PATCH/POST)
     CSRF_TRUSTED_ORIGINS = [

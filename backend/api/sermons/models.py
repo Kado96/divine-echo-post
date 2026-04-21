@@ -115,3 +115,26 @@ class Sermon(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class SermonComment(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    sermon = models.ForeignKey(
+        Sermon,
+        on_delete=models.CASCADE,
+        related_name="comments",
+    )
+    author_name = models.CharField(max_length=100)
+    author_email = models.EmailField()
+    content = models.TextField()
+    is_approved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Commentaire"
+        verbose_name_plural = "Commentaires"
+
+    def __str__(self):
+        return f"De: {self.author_name} sur {self.sermon.title}"

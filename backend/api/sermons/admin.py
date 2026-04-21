@@ -13,7 +13,7 @@ L'admin Django (/admin/) est uniquement pour :
 Toutes les opérations utilisateur doivent passer par l'API.
 """
 from django.contrib import admin
-from .models import SermonCategory, Sermon
+from .models import SermonCategory, Sermon, SermonComment
 
 
 @admin.register(SermonCategory)
@@ -43,3 +43,15 @@ class SermonAdmin(admin.ModelAdmin):
             "fields": ("featured", "is_active", "views_count")
         }),
     )
+
+
+@admin.register(SermonComment)
+class SermonCommentAdmin(admin.ModelAdmin):
+    list_display = ("author_name", "sermon", "is_approved", "created_at")
+    list_filter = ("is_approved", "created_at")
+    search_fields = ("author_name", "author_email", "content")
+    actions = ["approve_comments"]
+
+    def approve_comments(self, request, queryset):
+        queryset.update(is_approved=True)
+    approve_comments.short_description = "Approuver les commentaires sélectionnés"

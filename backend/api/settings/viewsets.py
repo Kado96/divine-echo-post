@@ -131,6 +131,7 @@ class SiteSettingsViewSet(viewsets.ModelViewSet):
     lookup_field = 'pk'
     pagination_class = None  # Désactiver complètement la pagination pour éviter les erreurs 400
     parser_classes = (MultiPartParser, FormParser, JSONParser)  # Support pour les uploads de fichiers
+    authentication_classes = []
     
     def get_permissions(self):
         """Permettre la lecture publique, l'écriture admin seulement"""
@@ -342,6 +343,7 @@ class TeamMemberViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     pagination_class = None
     parser_classes = (MultiPartParser, FormParser, JSONParser)
+    authentication_classes = []
 
     def get_permissions(self):
         """Lecture publique, écriture admin seulement"""

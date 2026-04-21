@@ -1,3 +1,5 @@
+import i18n from '@/i18n';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export class ApiError extends Error {
@@ -16,6 +18,10 @@ export const apiService = {
     getHeaders(contentType: string | null = 'application/json') {
         const token = localStorage.getItem('token');
         const headers: Record<string, string> = {};
+        
+        // Add current language to headers
+        headers['Accept-Language'] = i18n.language || 'fr';
+
         if (contentType) {
             headers['Content-Type'] = contentType;
         }
@@ -31,8 +37,19 @@ export const apiService = {
             localStorage.removeItem('token');
             localStorage.removeItem('refresh_token');
             localStorage.removeItem('user');
+            
+            // On ne redirige vers le login que si on est déjà sur l'admin ou si la requête visait l'admin
             if (typeof window !== 'undefined') {
-                window.location.href = '/admin/login';
+                const isLoginPage = window.location.pathname.includes('/admin/login');
+                const isAdminPath = window.location.pathname.startsWith('/admin') || endpoint.includes('admin');
+                
+                if (isAdminPath && !isLoginPage) {
+                    window.location.href = '/admin/login';
+                } else if (!isLoginPage) {
+                    // Pour le site public, on se contente de logguer sans bloquer l'exécution
+                    console.warn(`[API] 401 détecté sur une route publique (${endpoint}). L'accès anonyme sera utilisé.`);
+                    return null;
+                }
             }
             throw new Error('Unauthorized');
         }
@@ -99,8 +116,9 @@ export const apiService = {
     },
 
     // Helper for emissions
-    async getEmissions() {
-        const data = await this.get(`/sermons/?t=${Date.now()}`);
+    async getEmissions(params = '') {
+        const query = params ? (params.startsWith('?') ? params : `?${params}`) : '';
+        const data = await this.get(`/sermons/${query}${query ? '&' : '?'}t=${Date.now()}`);
         return this.handleList(data);
     },
 
@@ -433,5 +451,39 @@ export const apiService = {
 
     async deleteMediaFile(id: number | string) {
         return this.delete(`/admin/media/${id}/`);
+    },
+
+    // Sermon Comments helpers
+    async getSermonComments(sermonId: number | string) {
+        const data = await this.get(`/sermons/comments/?sermon=${sermonId}`);
+        return this.handleList(data);
+    },
+
+    async postSermonComment(data: any) {
+        return this.post('/sermons/comments/', data);
+    },
+
+    async getAdminComments() {
+        const data = await this.get('/admin/sermons/comments/');
+        return this.handleList(data);
+    },
+
+    async updateCommentStatus(id: number | string, data: any) {
+        try {
+            const response = await fetch(`${API_URL}/admin/sermons/comments/${id}/`, {
+                method: 'PATCH',
+                headers: this.getHeaders('application/json'),
+                body: JSON.stringify(data),
+                credentials: 'include'
+            });
+            return await this.handleResponse(response, `comment update ${id}`);
+        } catch (error) {
+            console.error("Comment update error:", error);
+            throw error;
+        }
+    },
+
+    async deleteComment(id: number | string) {
+        return this.delete(`/admin/sermons/comments/${id}/`);
     }
 };

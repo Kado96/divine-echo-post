@@ -22,6 +22,7 @@ import { stripHtml, getFullImageUrl } from "@/lib/utils";
 import { toast } from "sonner";
 import { Users, ChevronDown, Check } from "lucide-react";
 import MediaPickerModal from "@/components/admin/MediaPickerModal";
+import MediaHub from "@/components/media/MediaHub";
 
 const CreateEmission = () => {
     const { t } = useTranslation();
@@ -387,7 +388,7 @@ const CreateEmission = () => {
 
                                     {formData.content_type === "video" && (
                                         <div className="pt-2 border-t border-dashed border-border">
-                                            <span className="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-tight block">Ou charger un fichier local</span>
+                                            <span className="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-tight block">{t("admin.emissions_page.form.select_audio_file")}</span>
                                             <Button
                                                 type="button"
                                                 variant="outline"
@@ -395,15 +396,23 @@ const CreateEmission = () => {
                                                 className="text-xs w-full justify-start text-gray-500"
                                                 onClick={(e) => { e.preventDefault(); setPickerTarget('media'); setPickerOpen(true); }}
                                             >
-                                                <Video className="w-4 h-4 mr-2" /> Choisir depuis la médiathèque
+                                                <Video className="w-4 h-4 mr-2" /> {t("admin.emissions_page.form.select_audio_file")}
                                             </Button>
+                                            {mediaPreview && (
+                                                <div className="mt-4 rounded-xl overflow-hidden shadow-xl aspect-video w-full">
+                                                    <MediaHub 
+                                                        emission={{...formData, content_type: 'video'}}
+                                                        forceUrl={mediaPreview}
+                                                    />
+                                                </div>
+                                            )}
                                             {mediaFile && <p className="text-[10px] text-[#2271b1] font-medium mt-2 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500"></span> {mediaFile.name}</p>}
                                         </div>
                                     )}
                                 </div>
                             ) : (
                                 <div className="space-y-4">
-                                    <span className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 block">Sélectionner un fichier audio</span>
+                                    <span className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-2 block">{t("admin.emissions_page.form.select_audio_file")}</span>
                                     <Button
                                         type="button"
                                         variant="outline"
@@ -411,8 +420,17 @@ const CreateEmission = () => {
                                         className="text-xs w-full justify-start text-gray-500 py-6"
                                         onClick={(e) => { e.preventDefault(); setPickerTarget('media'); setPickerOpen(true); }}
                                     >
-                                        <Mic className="w-6 h-6 mr-3 text-gray-400" /> Choisir un audio depuis la médiathèque
+                                        <Mic className="w-6 h-6 mr-3 text-gray-400" /> {t("admin.emissions_page.form.select_audio_file")}
                                     </Button>
+                                    {mediaPreview && (
+                                        <div className="mt-4 rounded-xl overflow-hidden shadow-lg w-full">
+                                            <MediaHub 
+                                                emission={{...formData, content_type: 'audio'}}
+                                                forceContentType="audio"
+                                                forceUrl={mediaPreview}
+                                            />
+                                        </div>
+                                    )}
                                     {mediaFile && <p className="text-[10px] text-[#2271b1] font-medium mt-2 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500"></span> {mediaFile.name}</p>}
                                 </div>
                             )}
@@ -540,9 +558,9 @@ const CreateEmission = () => {
                             <div className="p-4 space-y-4">
                                 {/* Author Selection Dropdown */}
                                 <div className="space-y-2 relative">
-                                    <label className="text-[10px] text-gray-400 font-bold uppercase tracking-tight flex items-center gap-2">
+                                    <div className="text-[10px] text-gray-400 font-bold uppercase tracking-tight flex items-center gap-2">
                                         <Users className="w-3.5 h-3.5" /> Sélectionner l'éditeur
-                                    </label>
+                                    </div>
                                     
                                     <button 
                                         type="button"

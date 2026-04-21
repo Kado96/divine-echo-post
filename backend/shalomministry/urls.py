@@ -35,11 +35,16 @@ admin.site.site_title = 'Administration'
 def serve_media_with_cors(request, path):
     """Vue pour servir les médias avec CORS"""
     file_path = os.path.join(settings.MEDIA_ROOT, path)
+    
     if os.path.exists(file_path):
         response = FileResponse(open(file_path, 'rb'))
         response["Access-Control-Allow-Origin"] = "*"
         return response
-    return HttpResponse(status=404)
+        
+    response = HttpResponse(status=404)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
 
 urlpatterns = [
     # Priorité absolue à l'API pour éviter les interceptions par les regex catch-all

@@ -10,7 +10,7 @@ import emissionMeditation from "@/assets/emission-meditation.jpg";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import { apiService } from "@/lib/api";
-import { stripHtml, getFullImageUrl } from "@/lib/utils";
+import { stripHtml, getFullImageUrl, getLocalizedField } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 const AUTOPLAY_INTERVAL = 8000; // 8 seconds for Hero slides
@@ -66,34 +66,43 @@ const HeroSection = () => {
         ]);
         setSettings(settingsData);
 
-        // Map short language code (e.g. 'fr-FR' -> 'fr')
-        const currentLang = (i18n.language || 'fr').split('-')[0];
+        // Smart Language Prioritization
+        const currentLang = (i18n.language || 'fr').split('-')[0].toLowerCase();
         
-        const realItems = emissionsData?.filter((e: any) => e.language === currentLang).slice(0, 5).map((e: any, idx: number) => ({
+        // 1. Sort by matching language first
+        const sortedEmissions = [...(emissionsData || [])].sort((a: any, b: any) => {
+          const aMatch = (a.language || 'fr').toLowerCase() === currentLang;
+          const bMatch = (b.language || 'fr').toLowerCase() === currentLang;
+          if (aMatch && !bMatch) return -1;
+          if (!aMatch && bMatch) return 1;
+          return 0;
+        });
+
+        const realItems = sortedEmissions.slice(0, 5).map((e: any, idx: number) => ({
           id: e.id,
           slug: e.slug,
-          title: stripHtml(e.title),
-          badge: e.category_name || t("common.featured"),
-          description: stripHtml(e.description || ""),
-          image: getFullImageUrl(e.image) || FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length],
+          title: getLocalizedField(e, "title", i18n.language),
+          badge: getLocalizedField(e, "category_name", i18n.language) || t("common.featured"),
+          description: getLocalizedField(e, "description", i18n.language),
+          language: (e.language || 'fr').toUpperCase(),
+          image: getFullImageUrl(e.image_url) || getFullImageUrl(e.image) || FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length],
           isNew: true,
           isEmission: true,
-        })) || [];
+        }));
 
         if (realItems.length > 0) {
           setHeroItems(realItems);
         } else {
           // Fallback only to the official HERO SETTINGS from the admin, no invention.
-          const lang = i18n.language || 'fr';
-          const badgeField = `hero_badge_${lang}`;
-          const titleField = `hero_title_${lang}`;
-          const descField = `hero_description_${lang}`;
+          const badge = getLocalizedField(settingsData, "hero_badge", i18n.language) || t("hero.subtitle");
+          const title = getLocalizedField(settingsData, "hero_title", i18n.language) || t("hero.title");
+          const desc = getLocalizedField(settingsData, "hero_description", i18n.language) || t("hero.description");
 
           setHeroItems([{
             id: 'settings-fallback',
-            title: stripHtml(settingsData[titleField] || settingsData.hero_title || t("hero.title")),
-            badge: stripHtml(settingsData[badgeField] || settingsData.hero_badge || t("hero.subtitle")),
-            description: stripHtml(settingsData[descField] || settingsData.hero_description || settingsData.description || t("hero.description")),
+            title: stripHtml(title),
+            badge: stripHtml(badge),
+            description: stripHtml(desc),
             image: getFullImageUrl(settingsData.hero_image_display) || heroBg,
             isEmission: false,
           }]);

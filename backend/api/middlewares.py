@@ -97,17 +97,25 @@ class MediaCORSMiddleware(MiddlewareMixin):
             # Obtenir l'origine de la requête
             origin = request.META.get('HTTP_ORIGIN', '')
             
-            # Vérifier si l'origine est autorisée
+            # Vérifier si on doit autoriser tout (DEBUG ou configuration spécifique)
+            allow_all = getattr(settings, 'CORS_ALLOW_ALL_ORIGINS', False)
             allowed_origins = getattr(settings, 'CORS_ALLOWED_ORIGINS', [])
-            if origin in allowed_origins:
+            
+            if allow_all:
+                response['Access-Control-Allow-Origin'] = origin if origin else '*'
+                response['Access-Control-Allow-Credentials'] = 'true'
+            elif origin in allowed_origins:
                 response['Access-Control-Allow-Origin'] = origin
                 response['Access-Control-Allow-Credentials'] = 'true'
-                response['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS'
-                response['Access-Control-Allow-Headers'] = 'accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-csrftoken, x-requested-with'
-                response['Access-Control-Expose-Headers'] = 'Content-Length, Content-Type'
+            
+            # Toujours ajouter les méthodes et headers pour éviter les échecs de preflight
+            response['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS'
+            response['Access-Control-Allow-Headers'] = 'accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-csrftoken, x-requested-with'
+            response['Access-Control-Expose-Headers'] = 'Content-Length, Content-Type'
             
             # Pour les requêtes OPTIONS (preflight)
             if request.method == 'OPTIONS':
                 response['Access-Control-Max-Age'] = '86400'
         
         return response
+

@@ -9,7 +9,7 @@ import team3 from "@/assets/team/team-3.png";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { apiService } from "@/lib/api";
-import { stripHtml, getFullImageUrl } from "@/lib/utils";
+import { stripHtml, getFullImageUrl, getLocalizedField } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 
@@ -62,13 +62,10 @@ const AboutSection = () => {
 
     fetchSettings();
     fetchTeam();
-  }, []);
+  }, [i18n.language]);
 
   const getSetting = (key: string) => {
-    if (!settings) return null;
-    const lang = i18n.language || 'fr';
-    const fieldName = `${key}_${lang}`;
-    return settings[fieldName] || settings[key];
+    return getLocalizedField(settings, key, i18n.language);
   };
 
 
@@ -146,6 +143,7 @@ const AboutSection = () => {
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img
                 src={settings?.about_image_display || aboutChurch}
+                onError={(e) => { e.currentTarget.src = aboutChurch; }}
                 alt="Église Shalom"
                 className="w-full h-[400px] lg:h-[500px] object-cover"
               />
@@ -222,6 +220,7 @@ const AboutSection = () => {
             <div className="flex items-center gap-4 relative z-10">
               <img
                 src={settings?.quote_author_image_display || pastorPortrait}
+                onError={(e) => { e.currentTarget.src = pastorPortrait; }}
                 alt="Pasteur"
                 className="w-16 h-16 rounded-full object-cover border-2 border-accent shadow-lg"
               />
@@ -264,6 +263,7 @@ const AboutSection = () => {
                   <div key={member.id} className="flex-[0_0_100%] min-w-0 relative h-full">
                     <img
                       src={member.photo_display || (member.photo?.includes('/src/') || member.photo?.includes('/assets/') ? member.photo : getFullImageUrl(member.photo)) || member.photo}
+                      onError={(e) => { e.currentTarget.src = aboutTeam; }}
                       alt={member.name}
                       className="w-full h-full min-h-[450px] object-cover transition-transform duration-1000 scale-100 group-hover:scale-110"
                     />

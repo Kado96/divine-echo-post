@@ -4,11 +4,14 @@
     "."
   ],
   "search_path": [
-    "venv/Lib/site-packages"
+    "venv/Lib/site-packages",
+    "backend/venv/Lib/site-packages"
   ],
   "site_roots": [
-    "venv/Lib/site-packages"
+    "venv/Lib/site-packages",
+    "backend/venv/Lib/site-packages"
   ],
+
   "exclude": [
     "**/venv/**",
     "**/.venv/**"

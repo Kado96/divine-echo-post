@@ -133,18 +133,21 @@ const TeamManagement = ({ activeLang }: { activeLang: string }) => {
                                         <User className="w-12 h-12" />
                                     </div>
                                 )}
-                                <label className="absolute inset-0 bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                <div className="absolute inset-0 bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
                                     <input
+                                        id={`member_photo_upload_${member.id}`}
+                                        name={`member_photo_upload_${member.id}`}
+                                        title={`Changer la photo de ${member.name}`}
                                         type="file"
-                                        className="hidden"
+                                        className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
                                         accept="image/*"
                                         onChange={(e) => {
                                             const file = e.target.files?.[0];
                                             if (file) handleChange(member.id, 'photo', file);
                                         }}
                                     />
-                                    <Camera className="w-6 h-6" />
-                                </label>
+                                    <Camera className="w-6 h-6 absolute z-0 pointer-events-none" />
+                                </div>
                             </div>
                             <p className="text-[10px] text-gray-400 uppercase font-bold tracking-tighter">Photo du membre</p>
                         </div>

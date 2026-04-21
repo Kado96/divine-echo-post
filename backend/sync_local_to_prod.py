@@ -102,9 +102,9 @@ class ShalomSync:
                                         with val.open('rb') as f:
                                             prod_storage.save(val.name, f)
                                 else:
-                                    logger.warning(f"    ⚠️ Manquant en local : {val.name}")
+                                    pass  # Ignorer les avertissements des médias manquants localement
                             except Exception as file_err:
-                                logger.warning(f"    ⚠️ Erreur S3 sur {field.name}: {file_err}")
+                                pass  # Ignorer les avertissements des exceptions S3 qui n'empêchent pas la synchronisation
                             data[field.name] = val.name
                         else:
                             data[field.name] = None

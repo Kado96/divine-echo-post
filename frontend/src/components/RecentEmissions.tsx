@@ -9,7 +9,7 @@ import emissionMeditation from "@/assets/emission-meditation.jpg";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { apiService } from "@/lib/api";
-import { stripHtml, getFullImageUrl, formatPublicTitle } from "@/lib/utils";
+import { stripHtml, getFullImageUrl, formatPublicTitle, getLocalizedField } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 const RecentEmissions = () => {
@@ -25,19 +25,33 @@ const RecentEmissions = () => {
           apiService.getEmissions(),
           apiService.getSettings()
         ]);
-        // Filter by current language and Map backend fields to frontend fields
-        const currentLang = i18n.language || 'fr';
-        const items = emissionsData?.filter((emission: any) => emission.language === currentLang).slice(0, 4).map((emission: any) => ({
+        const allEmissions = Array.isArray(emissionsData) ? emissionsData : (emissionsData?.results || []);
+        
+        // Smart Language Prioritization
+        const currentLang = (i18n.language || 'fr').split('-')[0].toLowerCase();
+        
+        // 1. Sort by: Matching language first, then by date (if available)
+        const sortedEmissions = [...allEmissions].sort((a: any, b: any) => {
+          const aMatch = (a.language || 'fr').toLowerCase() === currentLang;
+          const bMatch = (b.language || 'fr').toLowerCase() === currentLang;
+          if (aMatch && !bMatch) return -1;
+          if (!aMatch && bMatch) return 1;
+          return 0; // Keep original order for same match status
+        });
+
+        const items = sortedEmissions.slice(0, 4).map((emission: any, idx: number) => ({
           id: emission.id,
           slug: emission.slug,
-          title: stripHtml(emission.title),
-          author: stripHtml(emission.preacher_name || t("common.default_preacher")),
-          category: emission.category_name || t("common.general"),
+          title: getLocalizedField(emission, "title", i18n.language),
+          author: getLocalizedField(emission, "preacher_name", i18n.language) || t("common.default_preacher"),
+          category: getLocalizedField(emission, "category_name", i18n.language) || t("common.general"),
           duration: emission.duration_minutes ? `${emission.duration_minutes} min` : "N/A",
           listeners: emission.views_count || 0,
           isNew: true,
-          image: getFullImageUrl(emission.image) || emissionPreaching,
-        })) || [];
+          language: (emission.language || 'fr').toUpperCase(),
+          isPreferredLang: (emission.language || 'fr').toLowerCase() === currentLang,
+          image: getFullImageUrl(emission.image_url) || getFullImageUrl(emission.image) || [emissionPreaching, emissionWorship, emissionFamily, emissionMeditation][idx % 4],
+        }));
         setRecentItems(items);
         setSettings(settingsData);
       } catch (err) {
@@ -50,10 +64,7 @@ const RecentEmissions = () => {
   }, [i18n.language]);
 
   const getSetting = (key: string) => {
-    if (!settings) return null;
-    const lang = i18n.language || 'fr';
-    const fieldName = `${key}_${lang}`;
-    return settings[fieldName] || settings[key];
+    return getLocalizedField(settings, key, i18n.language);
   };
 
   if (loading && recentItems.length === 0) {
@@ -91,7 +102,7 @@ const RecentEmissions = () => {
           }`}>
           {recentItems.length > 0 ? (
             recentItems.map((item, i) => (
-              <Link key={item.id} to={`/emission/${item.slug}`}>
+              <Link key={item.id} to={`/emission/${item.slug}`} aria-label={`${t("categories.view_emission")}: ${item.title}`}>
                 <motion.div
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -103,17 +114,22 @@ const RecentEmissions = () => {
                   <div className="relative h-48 overflow-hidden">
                     <img
                       src={item.image}
-                      alt={item.title}
+                      alt=""
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     {item.isNew && (
-                      <span className="absolute top-3 left-3 flex items-center gap-1 bg-accent text-accent-foreground text-xs px-2.5 py-1 rounded-full font-semibold shadow-md">
-                        <Sparkles className="w-3 h-3" /> {t("recent.new")}
+                      <span className="absolute top-3 left-3 flex items-center gap-1 bg-accent text-accent-foreground text-[10px] px-2 py-0.5 rounded-full font-bold shadow-md z-30 uppercase">
+                        <Sparkles className="w-2.5 h-2.5" /> {t("recent.new")}
                       </span>
                     )}
-                    {/* Play button */}
-                    <div className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-accent/90 text-accent-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-lg" aria-label={`Écouter ${item.title}`}>
+                    {(!item.isPreferredLang || true) && (
+                      <span className={`absolute ${item.isNew ? 'top-9' : 'top-3'} left-3 flex items-center gap-1 bg-white/90 backdrop-blur-md text-black text-[9px] px-2 py-0.5 rounded-full font-black shadow-sm z-30 border border-black/5`}>
+                         {item.language}
+                      </span>
+                    )}
+                    {/* Play button indicator */}
+                    <div className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-accent/90 text-accent-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-lg" aria-hidden="true">
                       <Play className="w-5 h-5 ml-0.5" />
                     </div>
                   </div>

@@ -32,10 +32,10 @@ import {
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { apiService } from "@/lib/api";
-import { stripHtml } from "@/lib/utils";
+import { stripHtml, getFullImageUrl } from "@/lib/utils";
 import { toast } from "sonner";
 import MediaPickerModal from "@/components/admin/MediaPickerModal";
-import ReactPlayer from "react-player";
+import MediaHub from "@/components/media/MediaHub";
 
 const EditEmission = () => {
     const { t } = useTranslation();
@@ -480,12 +480,9 @@ const EditEmission = () => {
                                             className="w-full px-3 py-1.5 bg-white border border-border text-xs focus:ring-1 focus:ring-[#2271b1] outline-none"
                                         />
                                         {formData.content_type === "youtube" && formData.content_url && (
-                                            <div className="mt-3 rounded-xl overflow-hidden bg-black aspect-video w-full">
-                                                <ReactPlayer 
-                                                    url={formData.content_url} 
-                                                    width="100%" 
-                                                    height="100%" 
-                                                    controls 
+                                            <div className="mt-3 rounded-xl overflow-hidden shadow-xl aspect-video w-full">
+                                                <MediaHub 
+                                                    emission={{...formData, content_type: 'youtube', video_url: formData.content_url}}
                                                 />
                                             </div>
                                         )}
@@ -501,23 +498,29 @@ const EditEmission = () => {
                                                 className="text-xs w-full justify-start text-gray-500"
                                                 onClick={(e) => { e.preventDefault(); setPickerTarget('media'); setPickerOpen(true); }}
                                             >
-                                                <Video className="w-4 h-4 mr-2" /> Choisir depuis la médiathèque
+                                                <Video className="w-4 h-4 mr-2" /> {t("admin.emissions_page.form.select_audio_file")}
                                             </Button>
                                             
-                                            {mediaFile && mediaPreview && (
-                                                <div className="mt-3 rounded-xl overflow-hidden bg-black aspect-video w-full">
-                                                    <ReactPlayer url={mediaPreview} width="100%" height="100%" controls />
+                                            {mediaPreview && (
+                                                <div className="mt-4 rounded-xl overflow-hidden shadow-xl aspect-video w-full">
+                                                    <MediaHub 
+                                                        emission={{...formData, content_type: 'video'}}
+                                                        forceUrl={mediaPreview}
+                                                    />
                                                 </div>
                                             )}
-                                            {mediaFile && !mediaPreview && <p className="text-[10px] text-[#2271b1] font-medium mt-2 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500"></span> {mediaFile.name}</p>}
                                             
                                             {(!mediaFile && formData.existingVideo) && (
-                                                <div className="mt-3 flex flex-col gap-2">
-                                                    <div className="rounded-xl overflow-hidden bg-black aspect-video w-full">
-                                                        <ReactPlayer url={formData.existingVideo} width="100%" height="100%" controls />
+                                                <div className="mt-4 flex flex-col gap-2">
+                                                    <div className="rounded-xl overflow-hidden shadow-xl aspect-video w-full">
+                                                        <MediaHub 
+                                                            emission={{...formData, content_type: 'video'}}
+                                                            forceUrl={formData.existingVideo}
+                                                        />
                                                     </div>
-                                                    <p className="text-[10px] text-blue-600 truncate italic bg-blue-50 p-1 rounded">
-                                                        {t("common.current_file")}: {formData.existingVideo}
+                                                    <p className="text-[10px] text-blue-600 truncate italic bg-blue-50 p-2 rounded-lg border border-blue-100 flex items-center gap-2">
+                                                        <Video className="w-3 h-3" />
+                                                        <span>{t("common.current_file")}: {formData.existingVideo}</span>
                                                     </p>
                                                 </div>
                                             )}
@@ -537,20 +540,28 @@ const EditEmission = () => {
                                         <Mic className="w-6 h-6 mr-3 text-gray-400" /> Choisir un audio depuis la médiathèque
                                     </Button>
                                     
-                                    {mediaFile && mediaPreview && (
-                                        <div className="mt-3 w-full rounded-xl overflow-hidden">
-                                            <ReactPlayer url={mediaPreview} width="100%" height="50px" controls className="bg-gray-100" />
+                                    {mediaPreview && (
+                                        <div className="mt-4 rounded-xl overflow-hidden shadow-lg w-full">
+                                            <MediaHub 
+                                                emission={{...formData, content_type: 'audio'}}
+                                                forceContentType="audio"
+                                                forceUrl={mediaPreview}
+                                            />
                                         </div>
                                     )}
-                                    {mediaFile && !mediaPreview && <p className="text-[10px] text-[#2271b1] font-medium mt-2 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500"></span> {mediaFile.name}</p>}
                                     
                                     {(!mediaFile && formData.existingAudio) && (
-                                        <div className="mt-3 flex flex-col gap-2">
-                                            <div className="w-full rounded-xl overflow-hidden">
-                                                <ReactPlayer url={formData.existingAudio} width="100%" height="50px" controls className="bg-gray-100" />
+                                        <div className="mt-4 flex flex-col gap-2">
+                                            <div className="w-full rounded-xl overflow-hidden shadow-lg">
+                                                <MediaHub 
+                                                    emission={{...formData, content_type: 'audio'}}
+                                                    forceContentType="audio"
+                                                    forceUrl={formData.existingAudio}
+                                                />
                                             </div>
-                                            <p className="text-[10px] text-blue-600 truncate italic bg-blue-50 p-1 rounded">
-                                                {t("common.current_file")}: {formData.existingAudio}
+                                            <p className="text-[10px] text-blue-600 truncate italic bg-blue-50 p-2 rounded-lg border border-blue-100 flex items-center gap-2">
+                                                <Mic className="w-3 h-3" />
+                                                <span>{t("common.current_file")}: {formData.existingAudio}</span>
                                             </p>
                                         </div>
                                     )}
@@ -651,9 +662,9 @@ const EditEmission = () => {
                             <div className="p-4 space-y-4">
                                 {/* Status Selector */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-tight flex items-center gap-1.5">
+                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-tight flex items-center gap-1.5">
                                         <Eye className="w-3 h-3" /> {t("admin.emissions_page.form.status")}
-                                    </label>
+                                    </div>
                                     <div className="flex bg-gray-50 p-1 rounded-md border border-gray-100">
                                         <button
                                             type="button"
@@ -728,9 +739,9 @@ const EditEmission = () => {
                                 {/* Quick Select */}
                                 {/* Author Selection Dropdown */}
                                 <div className="space-y-2 relative">
-                                    <label className="text-[10px] text-gray-400 font-bold uppercase tracking-tight flex items-center gap-2">
+                                    <div className="text-[10px] text-gray-400 font-bold uppercase tracking-tight flex items-center gap-2">
                                         <Users className="w-3.5 h-3.5" /> Sélectionner l'éditeur
-                                    </label>
+                                    </div>
                                     
                                     <button 
                                         type="button"
