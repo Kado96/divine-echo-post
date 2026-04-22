@@ -32,16 +32,35 @@ admin.site.site_header = 'SHALOM MINISTRY ADMINISTRATION'
 admin.site.index_title = 'Shalom Ministry Admin'
 admin.site.site_title = 'Administration'
 
+from django.shortcuts import redirect
+import logging
+
+logger = logging.getLogger(__name__)
+
 def serve_media_with_cors(request, path):
-    """Vue pour servir les médias avec CORS"""
+    """Vue pour servir les médias avec CORS et fallback Supabase"""
     file_path = os.path.join(settings.MEDIA_ROOT, path)
     
+    # 1. Tenter de servir le fichier localement
     if os.path.exists(file_path):
         response = FileResponse(open(file_path, 'rb'))
         response["Access-Control-Allow-Origin"] = "*"
         return response
         
-    response = HttpResponse(status=404)
+    # 2. Si absent, tenter une redirection vers Supabase Storage (Fallback Intelligent)
+    # L'ID projet vient de settings.py ou du défaut eiokoxdmgxxyexmqfsua
+    project_id = getattr(settings, 'PROJECT_ID', 'eiokoxdmgxxyexmqfsua')
+    bucket = getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'media')
+    
+    # On construit l'URL Supabase - Note: CleanS3Boto3Storage utilise le préfixe 'media/'
+    # Mais si le chemin contient déjà 'media/', on évite de le doubler
+    clean_path = path if path.startswith('media/') else f"media/{path}"
+    supabase_url = f"https://{project_id}.supabase.co/storage/v1/object/public/{bucket}/{clean_path}"
+    
+    logger.info(f"[MEDIA FALLBACK] Fichier local absent: {path}. Redirection vers {supabase_url}")
+    
+    # Rediriger vers Supabase
+    response = redirect(supabase_url)
     response["Access-Control-Allow-Origin"] = "*"
     return response
 

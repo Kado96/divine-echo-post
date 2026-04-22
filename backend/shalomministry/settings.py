@@ -165,11 +165,12 @@ if USE_LOCAL_SQLITE:
     MEDIA_URL = '/api/media/'
     MEDIA_ROOT = BASE_DIR / 'media'
 else:
-    PROJECT_ID = os.environ.get("SUPABASE_PROJECT_ID")
+    PROJECT_ID = os.environ.get("SUPABASE_PROJECT_ID", "eiokoxdmgxxyexmqfsua")
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "media")
     
     if PROJECT_ID:
         # Configuration Supabase Storage standard et robuste selon astuce.md
+        # Note: on utilise storage.supabase.co pour l'URL publique des objets
         AWS_S3_CUSTOM_DOMAIN = f"{PROJECT_ID}.supabase.co/storage/v1/object/public/{AWS_STORAGE_BUCKET_NAME}"
         MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
         DEFAULT_FILE_STORAGE = 'api.utils.storage.CleanS3Boto3Storage'
