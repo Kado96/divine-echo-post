@@ -56,10 +56,6 @@ def serve_media_with_cors(request, path):
     # Mais si le chemin contient déjà 'media/', on évite de le doubler
     clean_path = path if path.startswith('media/') else f"media/{path}"
     
-    # Si le bucket s'appelle dej 'media', on evite la duplication
-    if bucket == 'media' and clean_path.startswith('media/'):
-        clean_path = clean_path[len('media/'):]
-        
     supabase_url = f"https://{project_id}.supabase.co/storage/v1/object/public/{bucket}/{clean_path}"
     
     logger.info(f"[MEDIA FALLBACK] Fichier local absent: {path}. Redirection vers {supabase_url}")
