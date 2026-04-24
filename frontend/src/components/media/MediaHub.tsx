@@ -17,6 +17,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
     const playerRef = useRef<ReactPlayer>(null);
     
     // Internal States
+    // If it's YouTube, we use light mode which is instant, so we start as ready
     const [isReady, setIsReady] = useState(false);
     const [playerError, setPlayerError] = useState<string | null>(null);
     const [hasRetriedFromProd, setHasRetriedFromProd] = useState(false);
@@ -99,7 +100,8 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
     // Timeout for loading warning (don't unmount player)
     useEffect(() => {
         let timeout: NodeJS.Timeout;
-        if (!isReady && !playerError && finalMediaUrl) {
+        // Don't timeout for YouTube/Light mode as it's immediate
+        if (!isReady && !playerError && finalMediaUrl && !isYoutube) {
             timeout = setTimeout(() => {
                 if (!isReady) {
                     console.warn(`[MediaHub] Loading timeout reached for: ${finalMediaUrl}`);
@@ -180,6 +182,8 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                         console.log(`[MediaHub] Player ready for ${emission.slug}`);
                         setIsReady(true);
                     }}
+                    light={isYoutube} // Use light mode for YouTube to avoid timeouts and improve performance
+                    playIcon={<div className="bg-white/20 backdrop-blur-md p-6 rounded-full border border-white/30 hover:scale-110 transition-transform cursor-pointer"><PlayIcon className="w-12 h-12 text-white fill-current" /></div>}
                     onError={(e) => {
                         console.error(`[MediaHub] Error loading ${finalMediaUrl}:`, e);
                         
@@ -212,7 +216,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
 
             {/* Loading Indicator (When loading but not ready initially) */}
             <AnimatePresence>
-                {!isReady && !playerError && (
+                {!isReady && !playerError && !isYoutube && (
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
