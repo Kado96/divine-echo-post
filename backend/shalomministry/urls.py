@@ -38,13 +38,18 @@ import logging
 logger = logging.getLogger(__name__)
 
 def serve_media_with_cors(request, path):
-    """Vue pour servir les médias avec CORS et fallback Supabase"""
+    """Vue optimisée pour servir les médias (Vidéo/Audio) avec CORS et support du streaming"""
     file_path = os.path.join(settings.MEDIA_ROOT, path)
     
     # 1. Tenter de servir le fichier localement
     if os.path.exists(file_path):
-        response = FileResponse(open(file_path, 'rb'))
+        # Utilisation de FileResponse avec as_attachment=False pour le streaming
+        response = FileResponse(open(file_path, 'rb'), content_type=None)
         response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Range, Content-Type"
+        response["Access-Control-Expose-Headers"] = "Content-Range, Content-Length, Accept-Ranges"
+        response["Accept-Ranges"] = "bytes" # Crucial pour les lecteurs vidéo
         return response
         
     # 2. Si absent, tenter une redirection vers Supabase Storage (Fallback Intelligent)

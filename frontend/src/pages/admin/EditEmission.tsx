@@ -482,7 +482,12 @@ const EditEmission = () => {
                                         {formData.content_type === "youtube" && formData.content_url && (
                                             <div className="mt-3 rounded-xl overflow-hidden shadow-xl aspect-video w-full">
                                                 <MediaHub 
-                                                    emission={{...formData, content_type: 'youtube', video_url: formData.content_url}}
+                                                    emission={{
+                                                        ...formData, 
+                                                        content_type: 'youtube', 
+                                                        video_url: formData.content_url,
+                                                        image_url: coverPreview || formData.existingImage
+                                                    }}
                                                 />
                                             </div>
                                         )}
@@ -504,7 +509,11 @@ const EditEmission = () => {
                                             {mediaPreview && (
                                                 <div className="mt-4 rounded-xl overflow-hidden shadow-xl aspect-video w-full">
                                                     <MediaHub 
-                                                        emission={{...formData, content_type: 'video'}}
+                                                        emission={{
+                                                            ...formData, 
+                                                            content_type: 'video',
+                                                            image_url: coverPreview || formData.existingImage
+                                                        }}
                                                         forceUrl={mediaPreview}
                                                     />
                                                 </div>
@@ -514,7 +523,11 @@ const EditEmission = () => {
                                                 <div className="mt-4 flex flex-col gap-2">
                                                     <div className="rounded-xl overflow-hidden shadow-xl aspect-video w-full">
                                                         <MediaHub 
-                                                            emission={{...formData, content_type: 'video'}}
+                                                            emission={{
+                                                                ...formData, 
+                                                                content_type: 'video',
+                                                                image_url: coverPreview || formData.existingImage
+                                                            }}
                                                             forceUrl={formData.existingVideo}
                                                         />
                                                     </div>
@@ -543,7 +556,11 @@ const EditEmission = () => {
                                     {mediaPreview && (
                                         <div className="mt-4 rounded-xl overflow-hidden shadow-lg w-full">
                                             <MediaHub 
-                                                emission={{...formData, content_type: 'audio'}}
+                                                emission={{
+                                                    ...formData, 
+                                                    content_type: 'audio',
+                                                    image_url: coverPreview || formData.existingImage
+                                                }}
                                                 forceContentType="audio"
                                                 forceUrl={mediaPreview}
                                             />
@@ -554,7 +571,11 @@ const EditEmission = () => {
                                         <div className="mt-4 flex flex-col gap-2">
                                             <div className="w-full rounded-xl overflow-hidden shadow-lg">
                                                 <MediaHub 
-                                                    emission={{...formData, content_type: 'audio'}}
+                                                    emission={{
+                                                        ...formData, 
+                                                        content_type: 'audio',
+                                                        image_url: coverPreview || formData.existingImage
+                                                    }}
                                                     forceContentType="audio"
                                                     forceUrl={formData.existingAudio}
                                                 />

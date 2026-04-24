@@ -49,50 +49,45 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         }
 
         // 2. Original emission resolution logic
-        let url = "";
-        let youtube = false;
+        let rawUrl = "";
+        let isYt = false;
+        let isAud = false;
 
         const videoUrl = emission.video_url || "";
-        const videoFile = emission.video_file_url || getFullImageUrl(emission.video_file);
-        const audioFile = emission.audio_file_url || getFullImageUrl(emission.audio_file);
+        const videoFile = emission.video_file_url || (emission.video_file ? getFullImageUrl(emission.video_file) : "");
+        const audioFile = emission.audio_file_url || (emission.audio_file ? getFullImageUrl(emission.audio_file) : "");
         const audioUrl = emission.audio_url || "";
+        const contentType = emission.content_type;
 
-        // 1. Try based on explicit content type
-        if (emission.content_type === "youtube" || videoUrl.match(isYoutubeRegExp) || videoUrl.includes('youtube.com')) {
-            url = videoUrl;
-            youtube = true;
-        } else if (emission.content_type === "audio" || forceContentType === 'audio') {
-            url = audioFile || audioUrl || videoFile || videoUrl || "";
-        } else if (emission.content_type === "video" || forceContentType === 'video') {
-            url = videoFile || videoUrl || audioFile || audioUrl || "";
-        } else {
-            // 2. Generic Fallback: find anything that exists
-            url = videoUrl || videoFile || audioFile || audioUrl || "";
-            youtube = Boolean(url.match(isYoutubeRegExp) || url.includes('youtube.com'));
+        // A. Detection Cascade
+        // 1. YouTube?
+        if (contentType === "youtube" || videoUrl.match(isYoutubeRegExp) || videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+            rawUrl = videoUrl;
+            isYt = true;
+        } 
+        // 2. Direct Video?
+        else if (contentType === "video" || videoUrl || videoFile) {
+            rawUrl = videoUrl || videoFile;
+            isYt = false;
+        }
+        // 3. Audio?
+        else if (contentType === "audio" || audioUrl || audioFile) {
+            rawUrl = audioUrl || audioFile;
+            isAud = true;
         }
 
-        // Final detection update
-        const isActuallyYoutube = youtube || Boolean(url && (url.match(isYoutubeRegExp) || url.includes('youtube.com')));
-        const isActuallyAudio = !isActuallyYoutube && (emission.content_type === "audio" || forceContentType === 'audio' || (!videoFile && !videoUrl && (audioFile || audioUrl)));
-
-        if (url) {
-            console.log(`[MediaHub] Resolved URL for ${emission.slug}:`, { url, isActuallyYoutube, isActuallyAudio });
-        } else {
-            console.warn(`[MediaHub] No media URL found for ${emission.slug}`, emission);
-        }
-
-        let resolved = {
-            finalMediaUrl: getFullImageUrl(url),
-            isYoutube: isActuallyYoutube,
-            forceAudioType: isActuallyAudio
-        };
+        let resolvedUrl = getFullImageUrl(rawUrl);
 
         // Apply manual production switch if we already failed local
-        if (hasRetriedFromProd && resolved.finalMediaUrl.includes("localhost")) {
-            resolved.finalMediaUrl = resolved.finalMediaUrl.replace(/http:\/\/localhost:8000|http:\/\/127.0.0.1:8000/g, "https://shalom-ministry-backend-ipu3.onrender.com");
+        if (hasRetriedFromProd && resolvedUrl.includes("localhost")) {
+            resolvedUrl = resolvedUrl.replace(/http:\/\/localhost:8000|http:\/\/127.0.0.1:8000/g, "https://shalom-ministry-backend-ipu3.onrender.com");
         }
 
-        return resolved;
+        return {
+            finalMediaUrl: resolvedUrl,
+            isYoutube: isYt,
+            forceAudioType: isAud || forceContentType === 'audio'
+        };
     }, [emission, forceContentType, forceUrl, hasRetriedFromProd]);
 
 
@@ -167,57 +162,63 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                 </div>
             )}
-
             {/* THE ACTUAL PLAYER */}
             <div className={`relative z-10 w-full h-full flex flex-col justify-center items-center`}>
-                <ReactPlayer
-                    key={`${emission.slug}-${forceContentType}`}
-                    ref={playerRef}
-                    url={finalMediaUrl}
-                    controls={true} // Restoring native controls for 100% reliability
-                    width="100%"
-                    height="100%"
-                    playsinline
-                    onReady={() => {
-                        console.log(`[MediaHub] Player ready for ${emission.slug}`);
-                        setIsReady(true);
-                    }}
-                    light={isYoutube ? (getFullImageUrl(emission.image_url || emission.image || emission.thumbnail) || true) : false} 
-                    playIcon={
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div className="bg-white/20 backdrop-blur-md p-6 rounded-full border border-white/30 hover:scale-110 transition-transform shadow-2xl">
-                                <PlayIcon className="w-12 h-12 text-white fill-current" />
-                            </div>
-                        </div>
-                    }
-                    onError={(e) => {
-                        console.error(`[MediaHub] Error loading ${finalMediaUrl}:`, e);
-                        
-                        // IF we are in local and the file failed, attempt a fallback to Production
-                        if (!hasRetriedFromProd && finalMediaUrl.includes("localhost")) {
-                            console.log("[MediaHub] Local file failed, attempting production fallback...");
-                            setHasRetriedFromProd(true);
-                            setPlayerError(null);
-                            setIsReady(false);
-                            return;
-                        }
-
-                        setPlayerError(String(e) || "True");
-                        toast.error(t("common.error_loading_media"));
-                    }}
-                    config={{
-                        file: {
-                            forceAudio: forceAudioType,
-                            attributes: { 
-                                poster: getFullImageUrl(emission.image_url) || undefined,
-                                preload: "auto"
-                            }
-                        },
-                        youtube: {
-                            playerVars: { showinfo: 0, modestbranding: 1, rel: 0 }
-                        }
-                    }}
-                />
+                {isYoutube ? (
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src={`https://www.youtube.com/embed/${finalMediaUrl.split('v=')[1]?.split('&')[0] || finalMediaUrl.split('/').pop()}`}
+                        title="YouTube video player" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowFullScreen
+                        onLoad={() => {
+                            console.log("[MediaHub] Native IFRAME loaded");
+                            setIsReady(true);
+                        }}
+                    ></iframe>
+                ) : forceAudioType ? (
+                    <div className="flex flex-col items-center justify-center p-8 w-full max-w-md">
+                        <audio 
+                            key={finalMediaUrl}
+                            src={finalMediaUrl}
+                            controls 
+                            preload="metadata"
+                            className="w-full h-12"
+                            onCanPlay={() => {
+                                console.log("[MediaHub] Audio can play:", finalMediaUrl);
+                                setIsReady(true);
+                            }}
+                            onError={(e) => {
+                                console.error("[MediaHub] Audio Error:", e);
+                                setPlayerError("Erreur Audio Native");
+                            }}
+                        >
+                            Votre navigateur ne supporte pas la lecture audio.
+                        </audio>
+                    </div>
+                ) : (
+                    <video 
+                        key={finalMediaUrl}
+                        src={finalMediaUrl}
+                        controls 
+                        playsInline
+                        preload="metadata"
+                        className="w-full h-full object-contain bg-black shadow-inner"
+                        onCanPlay={() => {
+                            console.log("[MediaHub] Video can play:", finalMediaUrl);
+                            setIsReady(true);
+                        }}
+                        poster={getFullImageUrl(emission.image_url) || undefined}
+                        onError={(e) => {
+                            console.error("[MediaHub] Video Error:", e);
+                            setPlayerError("Erreur Vidéo Native");
+                        }}
+                    >
+                        Votre navigateur ne supporte pas la lecture vidéo.
+                    </video>
+                )}
             </div>
 
             {/* Loading Indicator (When loading but not ready initially) */}

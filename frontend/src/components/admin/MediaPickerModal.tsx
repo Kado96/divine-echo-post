@@ -126,6 +126,8 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({ isOpen, onClose, on
                     </div>
                     <div className="relative w-full sm:w-auto">
                         <input 
+                            id="media-search"
+                            name="media-search"
                             type="text" 
                             placeholder="Chercher..." 
                             value={searchQuery}

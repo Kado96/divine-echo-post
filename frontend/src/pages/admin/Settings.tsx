@@ -311,20 +311,48 @@ const AdminSettings = () => {
                             <div className="divide-y divide-gray-50 p-4 space-y-4">
                                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                                     <div className="space-y-1">
-                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Années d'Expérience</label>
-                                        <input type="number" value={settings?.stat_years_value || 0} onChange={(e) => setSettings({...settings, stat_years_value: parseInt(e.target.value)})} className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" />
+                                        <label htmlFor="stat_years_value" className="text-[10px] font-bold text-gray-400 uppercase cursor-pointer">Années d'Expérience</label>
+                                        <input 
+                                            id="stat_years_value"
+                                            name="stat_years_value"
+                                            type="number" 
+                                            value={settings?.stat_years_value || 0} 
+                                            onChange={(e) => setSettings({...settings, stat_years_value: parseInt(e.target.value)})} 
+                                            className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" 
+                                        />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Émissions Produites</label>
-                                        <input type="number" value={settings?.stat_emissions_value || 0} onChange={(e) => setSettings({...settings, stat_emissions_value: parseInt(e.target.value)})} className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" />
+                                        <label htmlFor="stat_emissions_value" className="text-[10px] font-bold text-gray-400 uppercase cursor-pointer">Émissions Produites</label>
+                                        <input 
+                                            id="stat_emissions_value"
+                                            name="stat_emissions_value"
+                                            type="number" 
+                                            value={settings?.stat_emissions_value || 0} 
+                                            onChange={(e) => setSettings({...settings, stat_emissions_value: parseInt(e.target.value)})} 
+                                            className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" 
+                                        />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Audience Mensuelle</label>
-                                        <input type="number" value={settings?.stat_audience_value || 0} onChange={(e) => setSettings({...settings, stat_audience_value: parseInt(e.target.value)})} className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" />
+                                        <label htmlFor="stat_audience_value" className="text-[10px] font-bold text-gray-400 uppercase cursor-pointer">Audience Mensuelle</label>
+                                        <input 
+                                            id="stat_audience_value"
+                                            name="stat_audience_value"
+                                            type="number" 
+                                            value={settings?.stat_audience_value || 0} 
+                                            onChange={(e) => setSettings({...settings, stat_audience_value: parseInt(e.target.value)})} 
+                                            className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" 
+                                        />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Langues Diffusées</label>
-                                        <input type="number" value={settings?.stat_languages_value || 0} onChange={(e) => setSettings({...settings, stat_languages_value: parseInt(e.target.value)})} className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" />
+                                        <label htmlFor="stat_languages_value" className="text-[10px] font-bold text-gray-400 uppercase cursor-pointer">Langues Diffusées</label>
+                                        <input 
+                                            id="stat_languages_value"
+                                            name="stat_languages_value"
+                                            type="number" 
+                                            value={settings?.stat_languages_value || 0} 
+                                            onChange={(e) => setSettings({...settings, stat_languages_value: parseInt(e.target.value)})} 
+                                            className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm" 
+                                        />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-gray-50">

@@ -69,59 +69,6 @@ const AboutSection = () => {
   };
 
 
-  const teamCarousel = [
-    {
-      id: 'p1',
-      name: "Jean Emmanuel",
-      role_fr: "Dirigeant Pasteur",
-      role_en: "Lead Pastor",
-      photo: pastorPortrait,
-      desc: "Direction et vision spirituelle du ministère."
-    },
-    {
-      id: 'p2',
-      name: "Donald Nom",
-      role_fr: "Pasteur / Auteur",
-      role_en: "Pastor / Author",
-      photo: team1,
-      desc: "Enseignement et rédaction."
-    },
-    {
-      id: 'p3',
-      name: "kandeke Donald",
-      role_fr: "Pasteur / Auteur",
-      role_en: "Pastor / Author",
-      photo: team2,
-      desc: "Dévoué à la Parole."
-    },
-    {
-      id: 'p4',
-      name: "Patrick Kandeke",
-      role_fr: "Pasteur / Auteur",
-      role_en: "Pastor / Author",
-      photo: team3,
-      desc: "Soutien et leadership."
-    },
-    {
-      id: 't1',
-      name: "qa_agent",
-      role_fr: "Administrateur",
-      role_en: "Administrator",
-      photo: aboutTeam,
-      desc: "Gestion système."
-    },
-    {
-      id: 't2',
-      name: "Donale",
-      role_fr: "Administrateur",
-      role_en: "Administrator",
-      photo: aboutChurch,
-      desc: "Coordination et support."
-    },
-  ];
-
-  const displayMembers = members.length > 0 ? members : teamCarousel;
-
   const values = [
     { icon: BookOpen, title: getSetting("about_feature1"), desc: "" },
     { icon: Heart, title: getSetting("about_feature2"), desc: "" },
@@ -249,89 +196,29 @@ const AboutSection = () => {
             </div>
           </motion.div>
 
-          {/* Team image / Carousel */}
+          {/* Vision Image / Story focus */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
-            className="lg:col-span-3 relative rounded-3xl overflow-hidden group shadow-2xl"
+            className="lg:col-span-3 relative rounded-3xl overflow-hidden group shadow-2xl min-h-[450px]"
           >
-            <div className="overflow-hidden h-full rounded-3xl min-h-[450px]" ref={emblaRef}>
-              <div className="flex h-full">
-                {displayMembers.map(member => (
-                  <div key={member.id} className="flex-[0_0_100%] min-w-0 relative h-full">
-                    <img
-                      src={member.photo_display || (member.photo?.includes('/src/') || member.photo?.includes('/assets/') ? member.photo : getFullImageUrl(member.photo)) || member.photo}
-                      onError={(e) => { e.currentTarget.src = aboutTeam; }}
-                      alt={member.name}
-                      className="w-full h-full min-h-[450px] object-cover transition-transform duration-1000 scale-100 group-hover:scale-110"
-                    />
-
-                    {/* Bottom Right Floating Info Overlay */}
-                    <div className="absolute bottom-12 right-6 md:bottom-16 md:right-10 text-right z-30 pointer-events-none">
-                      <motion.div
-                        initial={{ opacity: 0, x: 50, y: 20 }}
-                        whileInView={{ opacity: 1, x: 0, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 lg:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)] inline-block text-right"
-                      >
-                        <h3 className="text-3xl lg:text-5xl font-black text-white mb-2 leading-none tracking-tighter uppercase drop-shadow-2xl">
-                          {member.name}
-                        </h3>
-                        <div className="flex items-center justify-end gap-3 mt-4">
-                          <span className="w-3 h-3 rounded-full bg-accent shadow-[0_0_15px_rgba(234,179,8,1)] animate-pulse" />
-                          <p className="text-accent text-[12px] lg:text-[14px] font-black uppercase tracking-[0.3em] drop-shadow-md">
-                            {member[`role_${i18n.language}`] || member.role_fr || member.role || "Shalom Ministry"}
-                          </p>
-                        </div>
-                      </motion.div>
-                    </div>
-
-                    {/* Bottom Gradient for readability */}
-                    <div className="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-10" />
-
-                  </div>
-                ))}
+            <img
+              src={settings?.about_team_display || aboutTeam}
+              onError={(e) => { e.currentTarget.src = aboutTeam; }}
+              alt="Vision Shalom"
+              className="w-full h-full object-cover transition-transform duration-1000 scale-100 group-hover:scale-110"
+            />
+            {/* Overlay Info */}
+            <div className="absolute inset-x-0 bottom-0 p-8 lg:p-12 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+              <div className="relative z-10 text-right">
+                <p className="text-accent font-black uppercase tracking-[0.3em] mb-2 text-xs">Notre Mission</p>
+                <h3 className="text-white text-3xl lg:text-5xl font-black uppercase tracking-tighter">
+                  Une Famille, <span className="text-accent italic">Une Vision</span>
+                </h3>
               </div>
             </div>
-
-            {/* Pagination Dots */}
-            {displayMembers.length > 1 && (
-              <div className="absolute top-10 right-10 flex gap-2 z-20">
-                {displayMembers.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => emblaApi?.scrollTo(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-500 border border-white/20 ${index === selectedIndex ? "bg-white w-6 border-white shadow-[0_0_10px_white]" : "bg-white/20 hover:bg-white/40"
-                      }`}
-                    aria-label={`Aller au membre ${index + 1}`}
-                  />
-                ))}
-              </div>
-            )}
-
-            {/* Navigation Arrows */}
-            {displayMembers.length > 1 && (
-              <>
-                <button
-                  onClick={() => emblaApi?.scrollPrev()}
-                  className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 hover:bg-accent backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all duration-300 z-30 group/btn shadow-2xl hover:scale-110 active:scale-95"
-                  aria-label="Membre précédent"
-                >
-                  <ChevronLeft className="w-6 h-6 transition-transform group-hover/btn:-translate-x-0.5" />
-                </button>
-                <button
-                  onClick={() => emblaApi?.scrollNext()}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 hover:bg-accent backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all duration-300 z-30 group/btn shadow-2xl hover:scale-110 active:scale-95"
-                  aria-label="Membre suivant"
-                >
-                  <ChevronRight className="w-6 h-6 transition-transform group-hover/btn:translate-x-0.5" />
-                </button>
-              </>
-            )}
-
-
           </motion.div>
         </div>
       </div>

@@ -401,7 +401,11 @@ const CreateEmission = () => {
                                             {mediaPreview && (
                                                 <div className="mt-4 rounded-xl overflow-hidden shadow-xl aspect-video w-full">
                                                     <MediaHub 
-                                                        emission={{...formData, content_type: 'video'}}
+                                                        emission={{
+                                                            ...formData, 
+                                                            content_type: 'video',
+                                                            image_url: coverPreview
+                                                        }}
                                                         forceUrl={mediaPreview}
                                                     />
                                                 </div>
@@ -425,7 +429,11 @@ const CreateEmission = () => {
                                     {mediaPreview && (
                                         <div className="mt-4 rounded-xl overflow-hidden shadow-lg w-full">
                                             <MediaHub 
-                                                emission={{...formData, content_type: 'audio'}}
+                                                emission={{
+                                                    ...formData, 
+                                                    content_type: 'audio',
+                                                    image_url: coverPreview
+                                                }}
                                                 forceContentType="audio"
                                                 forceUrl={mediaPreview}
                                             />

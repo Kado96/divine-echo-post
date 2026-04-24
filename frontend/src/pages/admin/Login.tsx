@@ -1,11 +1,13 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Eye, EyeOff, Lock, User, Loader2, ChurchIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { apiService } from "@/lib/api";
+import { getFullImageUrl } from "@/lib/utils";
 
 const AdminLogin = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { login } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
@@ -15,6 +17,11 @@ const AdminLogin = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [settings, setSettings] = useState<any>(null);
+
+    useEffect(() => {
+        apiService.getSettings().then(setSettings).catch(console.error);
+    }, []);
 
     // Redirect destination after login
     const from = (location.state as any)?.from?.pathname || "/admin";
@@ -33,6 +40,8 @@ const AdminLogin = () => {
             setIsSubmitting(false);
         }
     };
+
+    const siteName = settings ? (i18n.language === 'fr' ? settings.site_name : (settings[`site_name_${i18n.language}`] || settings.site_name)) : "Shalom Ministry";
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 relative overflow-hidden">
@@ -54,11 +63,15 @@ const AdminLogin = () => {
             <div className="relative z-10 w-full max-w-md mx-4">
                 {/* Logo / Brand */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/25 mb-4">
-                        <ChurchIcon className="w-8 h-8 text-white" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/25 mb-4 overflow-hidden">
+                        {settings?.logo ? (
+                            <img src={getFullImageUrl(settings.logo)} alt="Logo" className="w-full h-full object-cover" />
+                        ) : (
+                            <ChurchIcon className="w-8 h-8 text-white" />
+                        )}
                     </div>
                     <h1 className="text-2xl font-bold text-white tracking-tight">
-                        Shalom Ministry
+                        {siteName}
                     </h1>
                     <p className="text-sm text-blue-200/60 mt-1">
                         Panneau d'administration
