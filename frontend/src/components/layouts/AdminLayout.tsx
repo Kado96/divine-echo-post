@@ -58,7 +58,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         { label: t("admin.categories"), href: "/admin/categories", icon: FolderTree },
         { label: t("admin.media"), href: "/admin/media", icon: ImageIcon },
         { label: t("admin.stats_detailed") || "Statistiques", href: "/admin/stats", icon: BarChart3 },
-        { label: t("admin.team_page.title") || "Équipe Publique", href: "/admin/team", icon: Users },
+        { label: t("admin.team_page.title") || "A propos de nous", href: "/admin/team", icon: Users },
         { label: t("admin.users") || "Utilisateurs", href: "/admin/users", icon: User },
         { label: t("admin.settings"), href: "/admin/settings", icon: Settings },
     ];

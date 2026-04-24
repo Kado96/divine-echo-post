@@ -100,7 +100,7 @@ const resources = {
                 emissions: "Émissions",
                 categories: "Catégories",
                 media: "Médiathèque",
-                users: "Équipe & Pasteurs",
+                users: "Utilisateurs",
                 pages: "Pages",
                 announcements: "Annonces",
                 testimonials: "Témoignages",
@@ -312,7 +312,7 @@ const resources = {
                     }
                 },
                 users_page: {
-                    title: "Équipe & Pasteurs",
+                    title: "Utilisateurs",
                     desc: "Gérez les administrateurs et contributeurs",
                     add_btn: "Ajouter un membre",
                     filters: {
@@ -444,7 +444,7 @@ const resources = {
                     }
                 },
                 team_page: {
-                    title: "Gestion de l'Équipe Publique",
+                    title: "À propos de nous",
                     desc: "Personnalisez qui s'affiche dans la section 'Notre Équipe' du site.",
                     add_btn: "Ajouter un membre",
                     create_title: "Nouveau membre d'équipe",
@@ -676,7 +676,7 @@ const resources = {
                 emissions: "Émissions",
                 categories: "Categories",
                 media: "Media",
-                users: "Team & Pastors",
+                users: "Users",
                 pages: "Pages",
                 announcements: "Announcements",
                 testimonials: "Testimonials",
@@ -888,7 +888,7 @@ const resources = {
                     }
                 },
                 users_page: {
-                    title: "Team & Pastors",
+                    title: "Users",
                     desc: "Manage administrators and contributors",
                     add_btn: "Add Team Member",
                     filters: {
@@ -1020,7 +1020,7 @@ const resources = {
                     }
                 },
                 team_page: {
-                    title: "Public Team Management",
+                    title: "About Us",
                     desc: "Customize who appears in the 'Our Team' section of the site.",
                     add_btn: "Add Member",
                     create_title: "New Team Member",
@@ -1241,7 +1241,7 @@ const resources = {
                 emissions: "Inyigisho",
                 categories: "Imice",
                 media: "Ibikoresho",
-                users: "Abakozi n'Abapasitori",
+                users: "Abakoresha",
                 pages: "Amadohote",
                 announcements: "Amakuru",
                 testimonials: "Ivyashinguwe",
@@ -1445,7 +1445,7 @@ const resources = {
                     }
                 },
                 users_page: {
-                    title: "Abakozi n'Abapasitori",
+                    title: "Abakoresha",
                     desc: "Tunganya abantu bishinzwe ibirimo",
                     add_btn: "Ongerako umukozi",
                     search_placeholder: "Andura ku zina canke ku butumwa...",
@@ -1766,7 +1766,7 @@ const resources = {
                 emissions: "Mahubiri",
                 categories: "Makundi",
                 media: "Midia",
-                users: "Timu na Wachungaji",
+                users: "Watumiaji",
                 pages: "Kurasa",
                 announcements: "Matangazo",
                 testimonials: "Ushuhuda",
@@ -1957,7 +1957,7 @@ const resources = {
                     }
                 },
                 users_page: {
-                    title: "Timu na Wachungaji",
+                    title: "Watumiaji",
                     desc: "Dhibiti wasimamizi na wachangiaji",
                     add_btn: "Ongeza Mwanachama wa Timu",
                     search_placeholder: "Tafuta kwa jina au barua pepe...",
