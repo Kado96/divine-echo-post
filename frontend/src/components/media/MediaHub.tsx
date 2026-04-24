@@ -99,16 +99,16 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
     // Timeout for loading warning (don't unmount player)
     useEffect(() => {
         let timeout: NodeJS.Timeout;
-        if (!isReady && !playerError) {
+        if (!isReady && !playerError && finalMediaUrl) {
             timeout = setTimeout(() => {
                 if (!isReady) {
-                    console.warn("[MediaHub] Loading is taking longer than expected...");
-                    toast.warning("Le chargement prend plus de temps que prévu, veuillez patienter.");
+                    console.warn(`[MediaHub] Loading timeout reached for: ${finalMediaUrl}`);
+                    toast.warning(t("common.loading_long") || "Le chargement prend du temps. Si vous êtes en local, vérifiez que le backend est lancé.");
                 }
-            }, 10000); // 10 seconds to warn
+            }, 15000); // Increased to 15 seconds for slower connections
         }
         return () => clearTimeout(timeout);
-    }, [isReady, playerError]);
+    }, [isReady, playerError, finalMediaUrl, t]);
 
 
     if (!finalMediaUrl) {
@@ -217,10 +217,23 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute inset-0 z-[45] flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] pointer-events-none"
+                        className="absolute inset-0 z-[45] flex flex-col items-center justify-center bg-black/60 backdrop-blur-[2px] p-6 text-center"
                     >
                         <div className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin mb-4" />
-                        <p className="text-white font-bold text-xs uppercase tracking-widest animate-pulse">Chargement...</p>
+                        <p className="text-white font-bold text-xs uppercase tracking-widest animate-pulse mb-4">Chargement...</p>
+                        
+                        {/* Emergency fallback button if it hangs on localhost */}
+                        {!hasRetriedFromProd && finalMediaUrl.includes("localhost") && (
+                            <button 
+                                onClick={() => {
+                                    console.log("[MediaHub] Manual override: Switching to production media");
+                                    setHasRetriedFromProd(true);
+                                }}
+                                className="text-[10px] text-white/50 hover:text-white underline transition-colors"
+                            >
+                                Trop long ? Essayer la version en ligne
+                            </button>
+                        )}
                     </motion.div>
                 )}
             </AnimatePresence>
