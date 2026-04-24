@@ -182,7 +182,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                         console.log(`[MediaHub] Player ready for ${emission.slug}`);
                         setIsReady(true);
                     }}
-                    light={isYoutube} // Use light mode for YouTube to avoid timeouts and improve performance
+                    light={isYoutube ? (getFullImageUrl(emission.image_url || emission.image) || true) : false} 
                     playIcon={<div className="bg-white/20 backdrop-blur-md p-6 rounded-full border border-white/30 hover:scale-110 transition-transform cursor-pointer"><PlayIcon className="w-12 h-12 text-white fill-current" /></div>}
                     onError={(e) => {
                         console.error(`[MediaHub] Error loading ${finalMediaUrl}:`, e);
