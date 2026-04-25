@@ -73,12 +73,9 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
             case "admin":
                 return true; // Admin voit tout, mais sera bloqué par le backend pour certaines actions
             case "team":
-                // Équipe : Emissions, Annonces, Témoignages, Commentaires, Catégories, Media, Stats, Team, Settings
-                return ["/admin", "/admin/emissions", "/admin/announcements", "/admin/comments", "/admin/testimonials", "/admin/categories", "/admin/media", "/admin/stats", "/admin/team", "/admin/settings"].includes(link.href);
-            case "user":
             default:
-                // Utilisateur Simple : Uniquement Emissions et Témoignages
-                return ["/admin", "/admin/emissions", "/admin/testimonials"].includes(link.href);
+                // Éditeur : Accès à presque toutes les sections de gestion
+                return ["/admin", "/admin/emissions", "/admin/announcements", "/admin/comments", "/admin/testimonials", "/admin/pages", "/admin/categories", "/admin/media", "/admin/stats", "/admin/team", "/admin/settings"].includes(link.href);
         }
     });
 

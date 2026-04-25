@@ -128,7 +128,7 @@ const resources = {
                     subtitle: "Voici ce qui se passe sur votre plateforme Shalom aujourd'hui.",
                     quick_actions: {
                         new_emission: "Nouvelle Émission",
-                        add_user: "Ajouter Pasteur",
+                        add_user: "Ajouter Utilisateur",
                         view_site: "Voir le Site",
                         messages: "Messages"
                     },
@@ -329,7 +329,7 @@ const resources = {
                         send_notification: "Envoyer email de bienvenue",
                         role: "Rôle",
                         role_user: "Utilisateur Simple",
-                        role_team: "Équipe",
+                        role_team: "Éditeur",
                         role_admin: "Administrateur",
                         password: "Mot de passe",
                         is_active: "Compte actif",
@@ -704,7 +704,7 @@ const resources = {
                     subtitle: "Here's what's happening on your Shalom portal today.",
                     quick_actions: {
                         new_emission: "New Broadcast",
-                        add_user: "Add Pastor",
+                        add_user: "Add User",
                         view_site: "View Site",
                         messages: "Messages"
                     },
@@ -905,7 +905,7 @@ const resources = {
                         send_notification: "Send welcome email",
                         role: "Role",
                         role_user: "Simple User",
-                        role_team: "Team Member",
+                        role_team: "Editor",
                         role_admin: "Administrator",
                         password: "Password",
                         is_active: "Active account",
@@ -1269,7 +1269,7 @@ const resources = {
                     subtitle: "Ng'ibi ibiriko biba ku rubuga rwanyu rwa Shalom uyu musi.",
                     quick_actions: {
                         new_emission: "Inyigisho nshasha",
-                        add_user: "Ongerako umukozi",
+                        add_user: "Ongerako umukoresha",
                         view_site: "Raba urubuga",
                         messages: "Ubutumwa"
                     },
@@ -1459,7 +1459,7 @@ const resources = {
                         send_notification: "Rungikira umukozi ubutumwa",
                         role: "Akazi (Role)",
                         role_user: "Umukoresha usanzwe",
-                        role_team: "Umugwi (Team)",
+                        role_team: "Umwanditsi (Editor)",
                         role_admin: "Umuyobozi",
                         password: "Ijambo kabanga",
                         is_active: "Konti ikora",
@@ -1794,7 +1794,7 @@ const resources = {
                     subtitle: "Hivi ndivyo vinavyofanyika kwenye lango lako la Shalom leo.",
                     quick_actions: {
                         new_emission: "Mahubiri Mapya",
-                        add_user: "Ongeza Mchungaji",
+                        add_user: "Ongeza Mtumiaji",
                         view_site: "Tazama Tovuti",
                         messages: "Ujumbe"
                     },
@@ -1971,7 +1971,7 @@ const resources = {
                         send_notification: "Tuma barua pepe ya kukaribisha",
                         role: "Sehwili (Role)",
                         role_user: "Mtumiaji Rahisi",
-                        role_team: "Kikundi (Team)",
+                        role_team: "Mhariri (Editor)",
                         role_admin: "Msimamizi",
                         password: "Nenosiri",
                         is_active: "Akaunti inayotumika",

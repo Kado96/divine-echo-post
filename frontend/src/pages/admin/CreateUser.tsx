@@ -20,7 +20,7 @@ const AdminCreateUser = () => {
         first_name: "",
         last_name: "",
         password: "",
-        role: "user",
+        role: "team",
         is_active: true
     });
     const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -240,7 +240,6 @@ const AdminCreateUser = () => {
                                     onChange={handleChange}
                                     className={`w-full px-3 py-2 bg-white border ${fieldErrors.role ? 'border-red-500' : 'border-border'} focus:ring-1 focus:ring-[#2271b1] outline-none transition-all text-sm rounded-lg`}
                                 >
-                                    <option value="user">{t("admin.users_page.form.role_user")}</option>
                                     <option value="team">{t("admin.users_page.form.role_team")}</option>
                                     {currentUser?.is_superuser && (
                                         <option value="admin">{t("admin.users_page.form.role_admin")}</option>

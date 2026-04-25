@@ -8,15 +8,14 @@ SEXES = (
 )
 
 ROLE_CHOICES = (
-    ("user", "Utilisateur Simple"),
-    ("team", "Équipe"),
+    ("team", "Éditeur"),
     ("admin", "Administrateur"),
 )
 
 class Account(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='account')
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="user")
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="team")
     is_active = models.BooleanField(default=True)
     
     photo = models.ImageField(upload_to='users_photos/', blank=True, null=True)
