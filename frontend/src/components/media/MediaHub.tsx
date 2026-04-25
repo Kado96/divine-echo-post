@@ -24,18 +24,31 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
 
     // Resolve Media URL with intelligent fallback
     const { finalMediaUrl, isYoutube, forceAudioType } = useMemo(() => {
-        const isYoutubeRegExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const getYoutubeId = (url: string) => {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/|live\/)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        };
+
+        const getProxyUrl = (url: string) => {
+            if (url.includes('drive.google.com')) {
+                const apiBase = import.meta.env.VITE_API_URL || "";
+                return `${apiBase}/media-proxy/?url=${encodeURIComponent(url)}`;
+            }
+            return getFullImageUrl(url);
+        };
         
         // 1. Prioritize forceUrl if provided (Admin Preview)
         if (forceUrl) {
-            const isYt = forceUrl.includes('youtube.com') || forceUrl.includes('youtu.be');
+            const ytId = getYoutubeId(forceUrl);
+            const isYt = !!ytId;
             const isAudio = forceUrl.toLowerCase().endsWith('.mp3') || 
                             forceUrl.toLowerCase().endsWith('.wav') || 
                             forceUrl.toLowerCase().endsWith('.m4a') ||
                             forceContentType === 'audio';
             
             let resolved = {
-                finalMediaUrl: getFullImageUrl(forceUrl),
+                finalMediaUrl: isYt ? forceUrl : getProxyUrl(forceUrl),
                 isYoutube: isYt,
                 forceAudioType: isAudio && !isYt
             };
@@ -59,9 +72,9 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         const audioUrl = emission.audio_url || "";
         const contentType = emission.content_type;
 
-        // A. Detection Cascade
+        const ytId = getYoutubeId(videoUrl);
         // 1. YouTube?
-        if (contentType === "youtube" || videoUrl.match(isYoutubeRegExp) || videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+        if (contentType === "youtube" || ytId) {
             rawUrl = videoUrl;
             isYt = true;
         } 
@@ -76,7 +89,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
             isAud = true;
         }
 
-        let resolvedUrl = getFullImageUrl(rawUrl);
+        let resolvedUrl = isYt ? rawUrl : getProxyUrl(rawUrl);
 
         // Apply manual production switch if we already failed local
         if (hasRetriedFromProd && resolvedUrl.includes("localhost")) {
@@ -166,10 +179,12 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
             <div className={`relative z-10 w-full h-full flex flex-col justify-center items-center`}>
                 {isYoutube ? (
                     <iframe 
+                        id="youtube-player"
+                        name="youtube-player"
                         width="100%" 
                         height="100%" 
-                        src={`https://www.youtube.com/embed/${finalMediaUrl.split('v=')[1]?.split('&')[0] || finalMediaUrl.split('/').pop()}`}
-                        title="YouTube video player" 
+                        src={`https://www.youtube.com/embed/${finalMediaUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/|live\/)([^#&?]*).*/)?.[2] || finalMediaUrl.split('/').pop()}`}
+                        title={emission.title || "YouTube video player"} 
                         frameBorder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                         allowFullScreen
@@ -181,11 +196,14 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                 ) : forceAudioType ? (
                     <div className="flex flex-col items-center justify-center p-8 w-full max-w-md">
                         <audio 
+                            id="audio-player-native"
+                            name="audio-player-native"
                             key={finalMediaUrl}
                             src={finalMediaUrl}
                             controls 
                             preload="metadata"
                             className="w-full h-12"
+                            aria-label={emission.title || "Lecteur audio"}
                             onCanPlay={() => {
                                 console.log("[MediaHub] Audio can play:", finalMediaUrl);
                                 setIsReady(true);
@@ -200,12 +218,15 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                     </div>
                 ) : (
                     <video 
+                        id="video-player-native"
+                        name="video-player-native"
                         key={finalMediaUrl}
                         src={finalMediaUrl}
                         controls 
                         playsInline
                         preload="metadata"
                         className="w-full h-full object-contain bg-black shadow-inner"
+                        aria-label={emission.title || "Lecteur vidéo"}
                         onCanPlay={() => {
                             console.log("[MediaHub] Video can play:", finalMediaUrl);
                             setIsReady(true);

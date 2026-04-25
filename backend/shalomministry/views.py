@@ -107,3 +107,54 @@ class ImageProxyView(View):
             file_id = drive_file_id_match.group(1)
             return f'https://drive.google.com/uc?export=view&id={file_id}'
         return url
+
+class MediaProxyView(View):
+    """
+    Proxy pour les fichiers média Google Drive qui supporte le streaming (Range requests)
+    """
+    def get(self, request, *args, **kwargs):
+        media_url = request.GET.get('url')
+        if not media_url:
+            return HttpResponse('URL manquante', status=400)
+        
+        if 'drive.google.com' not in media_url:
+            return HttpResponse('Seules les URLs Google Drive sont supportées', status=400)
+        
+        # Extraire l'ID du fichier
+        file_id_match = re.search(r'(?:/d/|id=)([a-zA-Z0-9_-]+)', media_url)
+        if not file_id_match:
+            return HttpResponse('ID de fichier non trouvé', status=400)
+        
+        file_id = file_id_match.group(1)
+        direct_url = f'https://drive.google.com/uc?export=download&id={file_id}'
+        
+        # Gérer les headers de Range pour le streaming mobile
+        range_header = request.headers.get('Range', None)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        if range_header:
+            headers['Range'] = range_header
+
+        try:
+            # On utilise stream=True pour ne pas charger tout le fichier en mémoire
+            with requests.get(direct_url, headers=headers, stream=True, timeout=30) as r:
+                r.raise_for_status()
+                
+                # Créer une StreamingHttpResponse pour relayer les données
+                response = StreamingHttpResponse(
+                    r.iter_content(chunk_size=8192),
+                    status=r.status_code,
+                    content_type=r.headers.get('Content-Type', 'video/mp4')
+                )
+                
+                # Relayer les headers essentiels pour le lecteur vidéo
+                for header in ['Content-Range', 'Content-Length', 'Accept-Ranges']:
+                    if header in r.headers:
+                        response[header] = r.headers[header]
+                
+                response['Access-Control-Allow-Origin'] = '*'
+                return response
+                
+        except Exception as e:
+            return HttpResponse(f'Erreur de proxying: {str(e)}', status=500)

@@ -12,7 +12,7 @@ from drf_yasg import openapi
 
 # Handlers
 from shalomministry.handlers import handler400, handler403, handler404, handler500
-from shalomministry.views import RootView, ImageProxyView
+from shalomministry.views import RootView, ImageProxyView, MediaProxyView
 
 # Configuration Swagger
 schema_view = get_schema_view(
@@ -91,6 +91,7 @@ urlpatterns = [
     
     # Utilitaires
     path('api/image-proxy/', ImageProxyView.as_view(), name='image_proxy'),
+    path('api/media-proxy/', MediaProxyView.as_view(), name='media_proxy'),
     re_path(r'^api/media/(?P<path>.*)$', serve_media_with_cors, name='media'),
     re_path(r'^favicon\.ico$', lambda request: HttpResponse(status=404)),
     
