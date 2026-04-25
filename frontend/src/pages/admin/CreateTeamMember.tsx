@@ -86,8 +86,10 @@ const CreateTeamMember = () => {
                     <div className="lg:col-span-2 space-y-6">
                         <div className="bg-white border border-border shadow-sm p-6 rounded-2xl space-y-6">
                             <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.name")}</label>
+                                <label htmlFor="member-name" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.name")}</label>
                                 <input
+                                    id="member-name"
+                                    name="name"
                                     type="text"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -99,8 +101,10 @@ const CreateTeamMember = () => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_fr")}</label>
+                                    <label htmlFor="role-fr" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_fr")}</label>
                                     <input
+                                        id="role-fr"
+                                        name="role_fr"
                                         type="text"
                                         value={formData.role_fr}
                                         onChange={(e) => setFormData({ ...formData, role_fr: e.target.value })}
@@ -108,8 +112,10 @@ const CreateTeamMember = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_rn")}</label>
+                                    <label htmlFor="role-rn" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_rn")}</label>
                                     <input
+                                        id="role-rn"
+                                        name="role_rn"
                                         type="text"
                                         value={formData.role_rn}
                                         onChange={(e) => setFormData({ ...formData, role_rn: e.target.value })}
@@ -117,8 +123,10 @@ const CreateTeamMember = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_en")}</label>
+                                    <label htmlFor="role-en" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_en")}</label>
                                     <input
+                                        id="role-en"
+                                        name="role_en"
                                         type="text"
                                         value={formData.role_en}
                                         onChange={(e) => setFormData({ ...formData, role_en: e.target.value })}
@@ -126,8 +134,10 @@ const CreateTeamMember = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_sw")}</label>
+                                    <label htmlFor="role-sw" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_sw")}</label>
                                     <input
+                                        id="role-sw"
+                                        name="role_sw"
                                         type="text"
                                         value={formData.role_sw}
                                         onChange={(e) => setFormData({ ...formData, role_sw: e.target.value })}
@@ -174,16 +184,18 @@ const CreateTeamMember = () => {
                                 />
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.order")}</label>
-                                <input
-                                    type="number"
-                                    value={formData.order}
-                                    onChange={(e) => setFormData({ ...formData, order: e.target.value })}
-                                    className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:border-[#2271b1] outline-none text-sm font-medium"
-                                />
-                                <p className="text-[10px] text-gray-400 italic">Plus le chiffre est bas, plus le membre apparaît haut.</p>
-                            </div>
+                             <div className="space-y-2">
+                                 <label htmlFor="member-order" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.order")}</label>
+                                 <input
+                                     id="member-order"
+                                     name="order"
+                                     type="number"
+                                     value={formData.order}
+                                     onChange={(e) => setFormData({ ...formData, order: e.target.value })}
+                                     className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:border-[#2271b1] outline-none text-sm font-medium"
+                                 />
+                                 <p className="text-[10px] text-gray-400 italic">Plus le chiffre est bas, plus le membre apparaît haut.</p>
+                             </div>
 
                             <Button
                                 type="submit"

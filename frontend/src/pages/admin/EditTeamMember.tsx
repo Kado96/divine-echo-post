@@ -130,6 +130,7 @@ const EditTeamMember = () => {
                                 <label htmlFor="member-name" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.name")}</label>
                                 <input
                                     id="member-name"
+                                    name="name"
                                     type="text"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -143,6 +144,7 @@ const EditTeamMember = () => {
                                     <label htmlFor="member-role-fr" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_fr")}</label>
                                     <input
                                         id="member-role-fr"
+                                        name="role_fr"
                                         type="text"
                                         value={formData.role_fr}
                                         onChange={(e) => setFormData({ ...formData, role_fr: e.target.value })}
@@ -153,6 +155,7 @@ const EditTeamMember = () => {
                                     <label htmlFor="member-role-rn" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_rn")}</label>
                                     <input
                                         id="member-role-rn"
+                                        name="role_rn"
                                         type="text"
                                         value={formData.role_rn}
                                         onChange={(e) => setFormData({ ...formData, role_rn: e.target.value })}
@@ -163,6 +166,7 @@ const EditTeamMember = () => {
                                     <label htmlFor="member-role-en" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_en")}</label>
                                     <input
                                         id="member-role-en"
+                                        name="role_en"
                                         type="text"
                                         value={formData.role_en}
                                         onChange={(e) => setFormData({ ...formData, role_en: e.target.value })}
@@ -173,6 +177,7 @@ const EditTeamMember = () => {
                                     <label htmlFor="member-role-sw" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.role_sw")}</label>
                                     <input
                                         id="member-role-sw"
+                                        name="role_sw"
                                         type="text"
                                         value={formData.role_sw}
                                         onChange={(e) => setFormData({ ...formData, role_sw: e.target.value })}
@@ -222,6 +227,7 @@ const EditTeamMember = () => {
                                 <label htmlFor="member-order" className="text-xs font-bold text-gray-700 uppercase">{t("admin.team_page.form.order")}</label>
                                 <input
                                     id="member-order"
+                                    name="order"
                                     type="number"
                                     value={formData.order}
                                     onChange={(e) => setFormData({ ...formData, order: e.target.value })}

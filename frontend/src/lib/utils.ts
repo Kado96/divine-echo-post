@@ -41,6 +41,12 @@ export function getFullImageUrl(url: string | null | undefined): string {
 
   // If it's already an absolute URL or a dynamic preview URL (blob/data)
   if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('blob:') || url.startsWith('data:')) {
+    // 🔥 PROTECTION CORB : Si c'est du Google Drive, on passe par notre proxy backend
+    if (url.includes('drive.google.com')) {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      return `${apiUrl}/image-proxy/?url=${encodeURIComponent(url)}`;
+    }
+    
     let resultUrl = url;
     
     /* 
@@ -71,7 +77,9 @@ export function getFullImageUrl(url: string | null | undefined): string {
     }
   }
 
-  const fullUrl = `${baseUrl}${relativePath}`;
+  // 🔥 Sécurisation des caractères spéciaux (espaces, accents) pour les fichiers locaux/Android
+  const encodedPath = relativePath.split('/').map(segment => encodeURIComponent(segment)).join('/');
+  const fullUrl = `${baseUrl}${encodedPath}`;
 
   if (fullUrl.includes('localhost') && fullUrl.startsWith('https://')) {
     return fullUrl.replace('https://', 'http://');
