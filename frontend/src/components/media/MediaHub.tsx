@@ -179,8 +179,8 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
             <div className={`relative z-10 w-full h-full flex flex-col justify-center items-center`}>
                 {isYoutube ? (
                     <iframe 
-                        id="youtube-player"
-                        name="youtube-player"
+                        id={`youtube-player-${emission.id}`}
+                        name={`youtube-player-${emission.id}`}
                         width="100%" 
                         height="100%" 
                         src={`https://www.youtube.com/embed/${finalMediaUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/|live\/)([^#&?]*).*/)?.[2] || finalMediaUrl.split('/').pop()}`}
@@ -196,8 +196,8 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                 ) : forceAudioType ? (
                     <div className="flex flex-col items-center justify-center p-8 w-full max-w-md">
                         <audio 
-                            id="audio-player-native"
-                            name="audio-player-native"
+                            id={`audio-player-${emission.id}`}
+                            name={`audio-player-${emission.id}`}
                             key={finalMediaUrl}
                             src={finalMediaUrl}
                             controls 
@@ -218,8 +218,8 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                     </div>
                 ) : (
                     <video 
-                        id="video-player-native"
-                        name="video-player-native"
+                        id={`video-player-${emission.id}`}
+                        name={`video-player-${emission.id}`}
                         key={finalMediaUrl}
                         src={finalMediaUrl}
                         controls 

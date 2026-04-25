@@ -53,12 +53,12 @@ def serve_media_with_cors(request, path):
         return response
         
     # 2. Si absent, tenter une redirection vers Supabase Storage (Fallback Intelligent)
-    # L'ID projet vient de settings.py ou du défaut eiokoxdmgxxyexmqfsua
     project_id = getattr(settings, 'PROJECT_ID', 'eiokoxdmgxxyexmqfsua')
     bucket = getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'media')
     
-    # On construit l'URL Supabase - Note: CleanS3Boto3Storage utilise le préfixe 'media/'
-    # Mais si le chemin contient déjà 'media/', on évite de le doubler
+    # On construit l'URL Supabase - Note: Votre bucket s'appelle 'media'
+    # et contient un sous-dossier 'media/' (confirmé par capture d'écran).
+    # On doit donc s'assurer que le chemin commence par 'media/'
     clean_path = path if path.startswith('media/') else f"media/{path}"
     
     supabase_url = f"https://{project_id}.supabase.co/storage/v1/object/public/{bucket}/{clean_path}"
