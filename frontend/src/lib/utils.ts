@@ -35,37 +35,29 @@ export function formatPublicTitle(title: string | null | undefined): string {
 export function getFullImageUrl(url: string | null | undefined): string {
   if (!url) return "";
 
+  const apiUrl = import.meta.env.VITE_API_URL || '';
   const isDev = import.meta.env.DEV;
-  const prodDomain = "shalom-ministry-backend-ipu3.onrender.com";
-  const localDomain = "localhost:8000";
 
   // If it's already an absolute URL or a dynamic preview URL (blob/data)
   if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('blob:') || url.startsWith('data:')) {
     // 🔥 PROTECTION CORB/CORS : On passe par notre proxy backend pour TOUTES les images externes en production
-    const isExternal = !url.includes('localhost') && !url.includes('127.0.0.1');
+    // Sauf si c'est déjà une URL de notre backend (on vérifie si l'URL contient le domaine de l'API)
+    const backendDomain = new URL(apiUrl).hostname;
+    const isExternal = !url.includes(backendDomain) && !url.includes('localhost') && !url.includes('127.0.0.1');
+    
     if (isExternal && (url.startsWith('http://') || url.startsWith('https://'))) {
-      const apiUrl = import.meta.env.VITE_API_URL || '';
       return `${apiUrl}/image-proxy/?url=${encodeURIComponent(url)}`;
     }
     
     let resultUrl = url;
     
-    /* 
-    // Suppression du swap automatique car si le fichier n'est pas présent localement, cela casse le lien.
-    // On fait confiance à l'URL absolue renvoyée par l'API.
-    if (isDev && url.includes(prodDomain)) {
-      resultUrl = url.replace(prodDomain, localDomain).replace('https://', 'http://');
-    }
-    */
-    
-    // Fix localhost https issue
-    if (resultUrl.startsWith('https://') && resultUrl.includes('localhost')) {
+    // Fix localhost https issue in development
+    if (isDev && resultUrl.startsWith('https://') && resultUrl.includes('localhost')) {
       return resultUrl.replace('https://', 'http://');
     }
     return resultUrl;
   }
 
-  const apiUrl = import.meta.env.VITE_API_URL || '';
   const baseUrl = apiUrl.replace('/api', '').replace(/\/$/, '');
 
   // Handle missing media prefix robustly for local development

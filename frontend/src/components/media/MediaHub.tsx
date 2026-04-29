@@ -53,11 +53,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                 forceAudioType: isAudio && !isYt
             };
 
-            // Apply manual production switch if we already failed local
-            if (hasRetriedFromProd && resolved.finalMediaUrl.includes("localhost")) {
-                resolved.finalMediaUrl = resolved.finalMediaUrl.replace(/http:\/\/localhost:8000|http:\/\/127.0.0.1:8000/g, "https://shalom-ministry-backend-ipu3.onrender.com");
-            }
-
+            // L'URL est déjà résolue via getProxyUrl qui utilise VITE_API_URL
             return resolved;
         }
 
@@ -91,11 +87,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
 
         let resolvedUrl = isYt ? rawUrl : getProxyUrl(rawUrl);
 
-        // Apply manual production switch if we already failed local
-        if (hasRetriedFromProd && resolvedUrl.includes("localhost")) {
-            resolvedUrl = resolvedUrl.replace(/http:\/\/localhost:8000|http:\/\/127.0.0.1:8000/g, "https://shalom-ministry-backend-ipu3.onrender.com");
-        }
-
+        // L'URL est déjà résolue via getProxyUrl qui utilise VITE_API_URL
         return {
             finalMediaUrl: resolvedUrl,
             isYoutube: isYt,
