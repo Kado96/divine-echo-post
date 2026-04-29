@@ -52,20 +52,25 @@ def serve_media_with_cors(request, path):
         response["Accept-Ranges"] = "bytes" # Crucial pour les lecteurs vidéo
         return response
         
-    # 2. Si absent, tenter une redirection vers Supabase Storage (Fallback Intelligent)
+    # 2. Si absent, tenter une redirection ou un proxy vers Supabase Storage (Fallback Intelligent)
     project_id = getattr(settings, 'PROJECT_ID', 'eiokoxdmgxxyexmqfsua')
     bucket = getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'media')
-    
-    # On construit l'URL Supabase - Note: Votre bucket s'appelle 'media'
-    # et contient un sous-dossier 'media/' (confirmé par capture d'écran).
-    # On doit donc s'assurer que le chemin commence par 'media/'
     clean_path = path if path.startswith('media/') else f"media/{path}"
-    
     supabase_url = f"https://{project_id}.supabase.co/storage/v1/object/public/{bucket}/{clean_path}"
-    
-    logger.info(f"[MEDIA FALLBACK] Fichier local absent: {path}. Redirection vers {supabase_url}")
-    
-    # Rediriger vers Supabase
+
+    # 🔥 PROTECTION CORB : Pour les images, on utilise un proxy plutôt qu'une redirection
+    is_image = any(path.lower().endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'])
+    if is_image:
+        try:
+            img_res = requests.get(supabase_url, timeout=10)
+            img_res.raise_for_status()
+            response = HttpResponse(img_res.content, content_type=img_res.headers.get('Content-Type'))
+            response["Access-Control-Allow-Origin"] = "*"
+            return response
+        except Exception as e:
+            logger.error(f"[MEDIA PROXY ERROR] {str(e)}")
+
+    logger.info(f"[MEDIA FALLBACK] Redirection vers {supabase_url}")
     response = redirect(supabase_url)
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "GET, OPTIONS"

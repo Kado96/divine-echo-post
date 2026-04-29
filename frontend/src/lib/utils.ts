@@ -41,8 +41,9 @@ export function getFullImageUrl(url: string | null | undefined): string {
 
   // If it's already an absolute URL or a dynamic preview URL (blob/data)
   if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('blob:') || url.startsWith('data:')) {
-    // 🔥 PROTECTION CORB : Si c'est du Google Drive, on passe par notre proxy backend
-    if (url.includes('drive.google.com')) {
+    // 🔥 PROTECTION CORB/CORS : On passe par notre proxy backend pour TOUTES les images externes en production
+    const isExternal = !url.includes('localhost') && !url.includes('127.0.0.1');
+    if (isExternal && (url.startsWith('http://') || url.startsWith('https://'))) {
       const apiUrl = import.meta.env.VITE_API_URL || '';
       return `${apiUrl}/image-proxy/?url=${encodeURIComponent(url)}`;
     }

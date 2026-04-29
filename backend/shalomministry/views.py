@@ -57,12 +57,8 @@ class ImageProxyView(View):
         if not image_url:
             return HttpResponse('URL manquante', status=400)
         
-        # Vérifier que c'est une URL Google Drive
-        if 'drive.google.com' not in image_url:
-            return HttpResponse('Seules les URLs Google Drive sont supportées', status=400)
-        
-        # Convertir l'URL si nécessaire
-        converted_url = self.convert_google_drive_url(image_url)
+        # Convertir l'URL si c'est du Google Drive
+        converted_url = self.convert_google_drive_url(image_url) if 'drive.google.com' in image_url else image_url
         
         # Utiliser le cache pour éviter de télécharger plusieurs fois la même image
         cache_key = f"image_proxy_{hash(converted_url)}"
