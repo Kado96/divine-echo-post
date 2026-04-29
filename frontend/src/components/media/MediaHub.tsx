@@ -200,6 +200,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                             name={`audio-player-${emission.id}`}
                             key={finalMediaUrl}
                             src={finalMediaUrl}
+                            crossOrigin="anonymous"
                             controls 
                             preload="metadata"
                             className="w-full h-12"
@@ -222,6 +223,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                         name={`video-player-${emission.id}`}
                         key={finalMediaUrl}
                         src={finalMediaUrl}
+                        crossOrigin="anonymous"
                         controls 
                         playsInline
                         preload="metadata"

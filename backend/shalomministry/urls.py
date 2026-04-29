@@ -68,6 +68,9 @@ def serve_media_with_cors(request, path):
     # Rediriger vers Supabase
     response = redirect(supabase_url)
     response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "Range, Content-Type"
+    response["Access-Control-Expose-Headers"] = "Content-Range, Content-Length, Accept-Ranges"
     return response
 
 

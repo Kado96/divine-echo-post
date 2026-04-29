@@ -154,6 +154,9 @@ class MediaProxyView(View):
                         response[header] = r.headers[header]
                 
                 response['Access-Control-Allow-Origin'] = '*'
+                response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+                response["Access-Control-Allow-Headers"] = "Range, Content-Type"
+                response["Access-Control-Expose-Headers"] = "Content-Range, Content-Length, Accept-Ranges"
                 return response
                 
         except Exception as e:

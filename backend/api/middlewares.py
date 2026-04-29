@@ -101,10 +101,11 @@ class MediaCORSMiddleware(MiddlewareMixin):
             allow_all = getattr(settings, 'CORS_ALLOW_ALL_ORIGINS', False)
             allowed_origins = getattr(settings, 'CORS_ALLOWED_ORIGINS', [])
             
-            if allow_all:
-                response['Access-Control-Allow-Origin'] = origin if origin else '*'
+            if allow_all or not origin:
+                response['Access-Control-Allow-Origin'] = '*'
                 response['Access-Control-Allow-Credentials'] = 'true'
-            elif origin in allowed_origins:
+            else:
+                # Autoriser l'origine si elle est dans la liste ou forcer l'autorisation pour les médias publics
                 response['Access-Control-Allow-Origin'] = origin
                 response['Access-Control-Allow-Credentials'] = 'true'
             
