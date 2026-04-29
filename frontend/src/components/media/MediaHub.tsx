@@ -90,20 +90,33 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         const audioUrl = emission.audio_url || "";
         const contentType = emission.content_type;
 
+        // Détecter YouTube UNIQUEMENT si l'URL est vraiment YouTube (pas Google Drive)
         const ytId = getYoutubeId(videoUrl);
-        // 1. YouTube?
-        if (contentType === "youtube" || ytId) {
-            rawUrl = videoUrl;
-            isYt = true;
-        } 
-        // 2. Direct Video?
-        else if (contentType === "video" || videoUrl || videoFile) {
-            rawUrl = videoUrl || videoFile;
+        const isRealYoutube = !!ytId && videoUrl.includes('youtu');
+
+        // PRIORITÉ : fichier uploadé > URL externe
+        // 1. Fichier vidéo uploadé ? → Utiliser directement (Supabase)
+        if (videoFile) {
+            rawUrl = videoFile;
             isYt = false;
         }
-        // 3. Audio?
-        else if (contentType === "audio" || audioUrl || audioFile) {
-            rawUrl = audioUrl || audioFile;
+        // 2. Fichier audio uploadé ? → Utiliser directement (Supabase)
+        else if (audioFile) {
+            rawUrl = audioFile;
+            isAud = true;
+        }
+        // 3. URL YouTube valide ? → Iframe YouTube
+        else if (isRealYoutube) {
+            rawUrl = videoUrl;
+            isYt = true;
+        }
+        // 4. URL vidéo externe (pas Google Drive) ? → Tenter de lire
+        else if (videoUrl && !videoUrl.includes('drive.google.com')) {
+            rawUrl = videoUrl;
+        }
+        // 5. URL audio externe ? → Tenter de lire
+        else if (audioUrl && !audioUrl.includes('drive.google.com')) {
+            rawUrl = audioUrl;
             isAud = true;
         }
 
