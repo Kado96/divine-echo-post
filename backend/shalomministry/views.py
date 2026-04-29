@@ -62,21 +62,37 @@ class ImageProxyView(View):
         
         # Utiliser le cache pour éviter de télécharger plusieurs fois la même image
         cache_key = f"image_proxy_{hash(converted_url)}"
-        cached_response = cache.get(cache_key)
+        cached_data = cache.get(cache_key)
         
-        if cached_response:
-            content, content_type = cached_response
+        if cached_data:
+            content, content_type = cached_data
             response = HttpResponse(content, content_type=content_type)
-            response['Cache-Control'] = 'public, max-age=3600'  # Cache 1h
+            response['Access-Control-Allow-Origin'] = '*'
+            response['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+            response['Access-Control-Allow-Headers'] = '*'
+            response['Cache-Control'] = 'public, max-age=3600'
             return response
-        
+
         try:
-            # Télécharger l'image depuis Google Drive
             headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             }
             
+            # Logique intelligente : on tente l'URL fournie, 
+            # et si elle échoue on tente l'autre variante (avec ou sans double media)
             img_response = requests.get(converted_url, headers=headers, timeout=10)
+            
+            if img_response.status_code != 200:
+                if "/public/media/media/" in converted_url:
+                    retry_url = converted_url.replace("/public/media/media/", "/public/media/")
+                elif "/public/media/" in converted_url:
+                    retry_url = converted_url.replace("/public/media/", "/public/media/media/")
+                else:
+                    retry_url = None
+                
+                if retry_url:
+                    img_response = requests.get(retry_url, headers=headers, timeout=10)
+            
             img_response.raise_for_status()
             
             # Déterminer le content-type

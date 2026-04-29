@@ -52,26 +52,43 @@ def serve_media_with_cors(request, path):
         response["Accept-Ranges"] = "bytes" # Crucial pour les lecteurs vidéo
         return response
         
-    # 2. Si absent, tenter une redirection ou un proxy vers Supabase Storage (Fallback Intelligent)
+    # 2. Construction de l'URL Supabase
     project_id = getattr(settings, 'PROJECT_ID', 'eiokoxdmgxxyexmqfsua')
     bucket = getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'media')
-    clean_path = path if path.startswith('media/') else f"media/{path}"
+    clean_path = path.strip('/')
+    
+    # URL 1: Racine du bucket (nouvelle norme)
     supabase_url = f"https://{project_id}.supabase.co/storage/v1/object/public/{bucket}/{clean_path}"
+    # URL 2: Dossier 'media/' (ancienne norme/fallback)
+    fallback_url = f"https://{project_id}.supabase.co/storage/v1/object/public/{bucket}/media/{clean_path}"
 
-    # 🔥 PROTECTION CORB : Pour les images, on utilise un proxy plutôt qu'une redirection
-    is_image = any(path.lower().endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'])
+    # 🔥 PROTECTION CORB : Pour les images, on utilise un proxy
+    is_image = any(path.lower().endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.png'])
     if is_image:
         try:
-            img_res = requests.get(supabase_url, timeout=10)
+            # Tenter l'URL principale
+            img_res = requests.get(supabase_url, timeout=5)
+            if img_res.status_code != 200:
+                # Tenter le fallback
+                img_res = requests.get(fallback_url, timeout=5)
+            
             img_res.raise_for_status()
             response = HttpResponse(img_res.content, content_type=img_res.headers.get('Content-Type'))
             response["Access-Control-Allow-Origin"] = "*"
+            response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
             return response
         except Exception as e:
-            logger.error(f"[MEDIA PROXY ERROR] {str(e)}")
+            logger.error(f"[MEDIA PROXY ERROR] {str(e)} for path {path}")
 
-    logger.info(f"[MEDIA FALLBACK] Redirection vers {supabase_url}")
-    response = redirect(supabase_url)
+    # Pour les autres fichiers (Audio/Vidéo), on redirige vers l'URL qui répond
+    try:
+        check_res = requests.head(supabase_url, timeout=3)
+        final_url = supabase_url if check_res.status_code == 200 else fallback_url
+    except:
+        final_url = supabase_url
+
+    logger.info(f"[MEDIA FALLBACK] Redirection vers {final_url}")
+    response = redirect(final_url)
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
     response["Access-Control-Allow-Headers"] = "Range, Content-Type"
