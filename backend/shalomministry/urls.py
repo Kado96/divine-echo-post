@@ -2,8 +2,9 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
-from django.http import HttpResponse, FileResponse
+from django.http import HttpResponse, FileResponse, StreamingHttpResponse
 import os
+import requests
 
 # Swagger
 from rest_framework import permissions
@@ -80,20 +81,49 @@ def serve_media_with_cors(request, path):
         except Exception as e:
             logger.error(f"[MEDIA PROXY ERROR] {str(e)} for path {path}")
 
-    # Pour les autres fichiers (Audio/Vidéo), on redirige vers l'URL qui répond
+    # Pour les autres fichiers (Audio/Vidéo), on STREAM aussi (pas de redirect 302, ça casse sur mobile)
     try:
         check_res = requests.head(supabase_url, timeout=3)
         final_url = supabase_url if check_res.status_code == 200 else fallback_url
     except:
         final_url = supabase_url
 
-    logger.info(f"[MEDIA FALLBACK] Redirection vers {final_url}")
-    response = redirect(final_url)
-    response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-    response["Access-Control-Allow-Headers"] = "Range, Content-Type"
-    response["Access-Control-Expose-Headers"] = "Content-Range, Content-Length, Accept-Ranges"
-    return response
+    logger.info(f"[MEDIA STREAM] Streaming depuis {final_url}")
+    
+    try:
+        # Relayer les headers Range pour le streaming mobile
+        stream_headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        range_header = request.META.get('HTTP_RANGE')
+        if range_header:
+            stream_headers['Range'] = range_header
+        
+        media_res = requests.get(final_url, headers=stream_headers, stream=True, timeout=30)
+        media_res.raise_for_status()
+        
+        response = StreamingHttpResponse(
+            media_res.iter_content(chunk_size=8192),
+            status=media_res.status_code,
+            content_type=media_res.headers.get('Content-Type', 'application/octet-stream')
+        )
+        
+        # Relayer les headers essentiels pour le streaming
+        for header in ['Content-Range', 'Content-Length', 'Accept-Ranges']:
+            if header in media_res.headers:
+                response[header] = media_res.headers[header]
+        
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Range, Content-Type"
+        response["Access-Control-Expose-Headers"] = "Content-Range, Content-Length, Accept-Ranges"
+        return response
+    except Exception as e:
+        logger.error(f"[MEDIA STREAM ERROR] {str(e)} for path {path}")
+        # Dernier recours : redirection
+        response = redirect(final_url)
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
 
 
 urlpatterns = [

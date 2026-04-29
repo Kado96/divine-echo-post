@@ -32,45 +32,34 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         };
 
         /**
-         * Convertit une URL média (Supabase, relative, ou backend) en URL de streaming
-         * via l'endpoint /api/media/ du backend, qui supporte les Range Requests.
-         * NE PAS utiliser getFullImageUrl ici (proxy d'images = pas de streaming).
+         * Résout l'URL de streaming d'un fichier média uploadé.
+         * RÈGLE D'OR : utiliser l'URL Supabase DIRECTEMENT (pas de proxy, pas de redirect).
+         * Sans crossOrigin sur les tags video/audio, le navigateur mobile ne vérifie pas CORS.
          */
         const getMediaStreamUrl = (url: string): string => {
             if (!url) return "";
 
-            // 1. Si c'est une URL Supabase, extraire le chemin et router via /api/media/
+            // 1. URL Supabase → utiliser DIRECTEMENT (streaming natif, Range Requests supportés)
             if (url.includes('supabase.co/storage/')) {
-                const match = url.match(/\/public\/media\/(.+)$/);
-                if (match) {
-                    return `${baseUrl}/api/media/${match[1]}`;
-                }
+                return url;
             }
 
-            // 2. Si c'est déjà une URL du backend (onrender, localhost), l'utiliser telle quelle
-            try {
-                if (apiUrl) {
-                    const backendHost = new URL(apiUrl).hostname;
-                    if (url.includes(backendHost)) {
-                        return url;
-                    }
-                }
-            } catch (e) { /* ignore URL parse error */ }
+            // 2. URL du backend contenant /api/media/ → la garder telle quelle
+            if (url.startsWith('http') && url.includes('/api/media/')) {
+                return url;
+            }
 
-            // 3. Si c'est un chemin relatif, construire l'URL backend
+            // 3. Chemin relatif → construire l'URL Supabase directe
             if (!url.startsWith('http')) {
-                const path = url.startsWith('/') ? url : `/${url}`;
-                if (path.startsWith('/api/media/')) {
-                    return `${baseUrl}${path}`;
-                }
-                // Ajouter le préfixe /api/media/ pour les chemins comme "media/sermons/file.mp4"
-                if (path.startsWith('/media/') || path.startsWith('/sermons/') || path.startsWith('/settings/')) {
-                    return `${baseUrl}/api/media${path}`;
-                }
-                return `${baseUrl}/api/media${path}`;
+                const cleanPath = url.startsWith('/') ? url.substring(1) : url;
+                // Construire l'URL Supabase directe (bucket "media", dossier "media/")
+                const supabaseProjectId = import.meta.env.VITE_SUPABASE_PROJECT_ID || 'eiokoxdmgxxyexmqfsua';
+                const hasMediaPrefix = cleanPath.startsWith('media/');
+                const fullPath = hasMediaPrefix ? cleanPath : `media/${cleanPath}`;
+                return `https://${supabaseProjectId}.supabase.co/storage/v1/object/public/media/${fullPath}`;
             }
 
-            // 4. URL absolue quelconque : utiliser telle quelle
+            // 4. Autre URL absolue → utiliser telle quelle
             return url;
         };
         
