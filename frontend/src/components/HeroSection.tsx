@@ -161,6 +161,7 @@ const HeroSection = () => {
           <img 
             src={currentItem?.image} 
             alt="" 
+            crossOrigin="anonymous"
             className="w-full h-full object-cover" 
           />
           {/* Smarter overlay: dark enough for text but transparent enough to see the image */}

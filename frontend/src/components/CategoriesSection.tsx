@@ -227,6 +227,7 @@ const CategoriesSection = () => {
                             src={item.image_url ? getFullImageUrl(item.image_url) : (item.image ? getFullImageUrl(item.image) : "https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=2070&auto=format&fit=crop")}
                             onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=2070&auto=format&fit=crop"; }}
                             alt={item.title}
+                            crossOrigin="anonymous"
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />

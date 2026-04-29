@@ -208,6 +208,7 @@ const AboutSection = () => {
               src={settings?.about_team_display || aboutTeam}
               onError={(e) => { e.currentTarget.src = aboutTeam; }}
               alt="Vision Shalom"
+              crossOrigin="anonymous"
               className="w-full h-full object-cover transition-transform duration-1000 scale-100 group-hover:scale-110"
             />
             {/* Overlay Info */}

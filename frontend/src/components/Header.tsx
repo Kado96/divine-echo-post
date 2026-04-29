@@ -74,6 +74,7 @@ const Header = () => {
               src={settings.logo_url_display || getFullImageUrl(settings.logo)}
               alt={settings.site_name || "Logo"}
               className="h-10 w-auto object-contain"
+              crossOrigin="anonymous"
               onError={() => setLogoError(true)}
             />
           ) : (

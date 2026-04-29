@@ -85,9 +85,11 @@ class ImageProxyView(View):
             # Mettre en cache pendant 1 heure
             cache.set(cache_key, (img_response.content, content_type), 3600)
             
-            # Retourner l'image avec les headers CORS appropriés
+            # Retourner l'image avec les headers CORS et de cache appropriés
             response = HttpResponse(img_response.content, content_type=content_type)
             response['Access-Control-Allow-Origin'] = '*'
+            response['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+            response['Access-Control-Allow-Headers'] = '*'
             response['Cache-Control'] = 'public, max-age=3600'
             
             return response
