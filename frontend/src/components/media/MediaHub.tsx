@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import ReactPlayer from 'react-player';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play as PlayIcon, VolumeX } from "lucide-react";
+import { Play as PlayIcon, VolumeX, Music } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { getFullImageUrl } from "@/lib/utils";
@@ -14,18 +13,18 @@ interface MediaHubProps {
 
 const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUrl }) => {
     const { t } = useTranslation();
-    const playerRef = useRef<ReactPlayer>(null);
     
     // Internal States
     const [isReady, setIsReady] = useState(false);
     const [playerError, setPlayerError] = useState<string | null>(null);
 
-    // Resolve Media URL - Routes uploaded files through /api/media/ for streaming
+    // Resolve Media URL - Direct Supabase streaming (no proxy, no redirect)
     const { finalMediaUrl, isYoutube, forceAudioType } = useMemo(() => {
         const apiUrl = import.meta.env.VITE_API_URL || '';
         const baseUrl = apiUrl.replace('/api', '').replace(/\/$/, '');
 
         const getYoutubeId = (url: string) => {
+            if (!url || !url.includes('youtu')) return null;
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/|live\/)([^#&?]*).*/;
             const match = url.match(regExp);
             return (match && match[2].length === 11) ? match[2] : null;
@@ -33,18 +32,17 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
 
         /**
          * Résout l'URL de streaming d'un fichier média uploadé.
-         * RÈGLE D'OR : utiliser l'URL Supabase DIRECTEMENT (pas de proxy, pas de redirect).
-         * Sans crossOrigin sur les tags video/audio, le navigateur mobile ne vérifie pas CORS.
+         * RÈGLE D'OR : utiliser l'URL Supabase DIRECTEMENT.
          */
         const getMediaStreamUrl = (url: string): string => {
             if (!url) return "";
 
-            // 1. URL Supabase → utiliser DIRECTEMENT (streaming natif, Range Requests supportés)
+            // 1. URL Supabase → utiliser DIRECTEMENT
             if (url.includes('supabase.co/storage/')) {
                 return url;
             }
 
-            // 2. URL du backend contenant /api/media/ → la garder telle quelle
+            // 2. URL du backend contenant /api/media/ → la garder
             if (url.startsWith('http') && url.includes('/api/media/')) {
                 return url;
             }
@@ -52,7 +50,6 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
             // 3. Chemin relatif → construire l'URL Supabase directe
             if (!url.startsWith('http')) {
                 const cleanPath = url.startsWith('/') ? url.substring(1) : url;
-                // Construire l'URL Supabase directe (bucket "media", dossier "media/")
                 const supabaseProjectId = import.meta.env.VITE_SUPABASE_PROJECT_ID || 'eiokoxdmgxxyexmqfsua';
                 const hasMediaPrefix = cleanPath.startsWith('media/');
                 const fullPath = hasMediaPrefix ? cleanPath : `media/${cleanPath}`;
@@ -90,33 +87,33 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         const audioUrl = emission.audio_url || "";
         const contentType = emission.content_type;
 
-        // Détecter YouTube UNIQUEMENT si l'URL est vraiment YouTube (pas Google Drive)
+        // Détecter YouTube UNIQUEMENT si l'URL est vraiment YouTube
         const ytId = getYoutubeId(videoUrl);
-        const isRealYoutube = !!ytId && videoUrl.includes('youtu');
+        const isRealYoutube = !!ytId;
 
-        // PRIORITÉ : fichier uploadé > URL externe
-        // 1. Fichier vidéo uploadé ? → Utiliser directement (Supabase)
+        // PRIORITÉ ABSOLUE : fichier uploadé > URL externe
         if (videoFile) {
             rawUrl = videoFile;
             isYt = false;
         }
-        // 2. Fichier audio uploadé ? → Utiliser directement (Supabase)
         else if (audioFile) {
             rawUrl = audioFile;
             isAud = true;
         }
-        // 3. URL YouTube valide ? → Iframe YouTube
         else if (isRealYoutube) {
             rawUrl = videoUrl;
             isYt = true;
         }
-        // 4. URL vidéo externe (pas Google Drive) ? → Tenter de lire
         else if (videoUrl && !videoUrl.includes('drive.google.com')) {
             rawUrl = videoUrl;
         }
-        // 5. URL audio externe ? → Tenter de lire
         else if (audioUrl && !audioUrl.includes('drive.google.com')) {
             rawUrl = audioUrl;
+            isAud = true;
+        }
+
+        // Forcer le type audio si content_type le dit et qu'on n'a pas de vidéo
+        if (contentType === 'audio' && !videoFile) {
             isAud = true;
         }
 
@@ -130,31 +127,38 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
     }, [emission, forceContentType, forceUrl]);
 
 
-    
-    // Timeout for loading warning (don't unmount player)
+    // Reset states when URL changes
+    useEffect(() => {
+        setIsReady(false);
+        setPlayerError(null);
+    }, [finalMediaUrl]);
+
+    // Timeout for loading warning
     useEffect(() => {
         let timeout: NodeJS.Timeout;
-        // Don't timeout for YouTube/Light mode as it's immediate
         if (!isReady && !playerError && finalMediaUrl && !isYoutube) {
             timeout = setTimeout(() => {
                 if (!isReady) {
-                    console.warn(`[MediaHub] Loading timeout reached for: ${finalMediaUrl}`);
-                    toast.warning(t("common.loading_long") || "Le chargement prend du temps. Si vous êtes en local, vérifiez que le backend est lancé.");
+                    console.warn(`[MediaHub] Loading timeout for: ${finalMediaUrl}`);
+                    toast.warning(t("common.loading_long") || "Le chargement prend du temps...");
                 }
-            }, 15000); // Increased to 15 seconds for slower connections
+            }, 15000);
         }
         return () => clearTimeout(timeout);
-    }, [isReady, playerError, finalMediaUrl, t]);
+    }, [isReady, playerError, finalMediaUrl, isYoutube, t]);
 
 
+    // ═══════════════════════════════════════
+    // RENDER: No media available
+    // ═══════════════════════════════════════
     if (!finalMediaUrl) {
         return (
-            <div className="aspect-video w-full rounded-[2.5rem] overflow-hidden shadow-2xl bg-black flex items-center justify-center border border-white/10">
+            <div className="aspect-video w-full rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl bg-black flex items-center justify-center border border-white/10">
                 {emission.image_url ? (
-                    <img src={getFullImageUrl(emission.image_url)} alt="" className="w-full h-full object-cover opacity-30" />
+                    <img src={getFullImageUrl(emission.image_url)} alt="" className="w-full h-full object-cover opacity-30" crossOrigin="anonymous" />
                 ) : (
                     <div className="flex flex-col items-center gap-4 text-white/20">
-                        <PlayIcon className="w-16 h-16 fill-current" />
+                        <PlayIcon className="w-12 h-12 md:w-16 md:h-16 fill-current" />
                         <p className="font-bold uppercase tracking-widest text-xs">{t("common.media_not_available")}</p>
                     </div>
                 )}
@@ -162,22 +166,24 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         );
     }
 
+    // ═══════════════════════════════════════
+    // RENDER: Error state
+    // ═══════════════════════════════════════
     if (playerError) {
         return (
-            <div className="aspect-video w-full rounded-[2.5rem] overflow-hidden shadow-2xl bg-black flex flex-col items-center justify-center border-2 border-destructive/50 p-8 text-center space-y-4">
-                <div className="bg-destructive/10 p-4 rounded-full">
-                    <VolumeX className="w-12 h-12 text-destructive" />
+            <div className="aspect-video w-full rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl bg-black flex flex-col items-center justify-center border-2 border-destructive/50 p-6 md:p-8 text-center space-y-3 md:space-y-4">
+                <div className="bg-destructive/10 p-3 md:p-4 rounded-full">
+                    <VolumeX className="w-8 h-8 md:w-12 md:h-12 text-destructive" />
                 </div>
                 <div>
-                    <h3 className="text-xl font-bold text-white mb-2">{t("common.error_loading_media") || "Erreur de chargement"}</h3>
-                    <p className="text-white/60 text-sm max-w-md mx-auto">
-                        Impossible de charger le média. Vérifiez votre connexion ou que le fichier existe bien sur le serveur.
+                    <h3 className="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">{t("common.error_loading_media") || "Erreur de chargement"}</h3>
+                    <p className="text-white/60 text-xs md:text-sm max-w-md mx-auto">
+                        Impossible de charger le média. Vérifiez votre connexion.
                     </p>
-                    {playerError !== "True" && <p className="text-[10px] text-white/30 mt-4 font-mono break-all line-clamp-1">{playerError}</p>}
                 </div>
                 <button 
                     onClick={() => { setPlayerError(null); setIsReady(false); }}
-                    className="px-6 py-2 bg-white text-black rounded-xl font-bold hover:bg-white/90 transition-all text-sm"
+                    className="px-5 py-2 bg-white text-black rounded-xl font-bold hover:bg-white/90 transition-all text-sm"
                 >
                     Réessayer
                 </button>
@@ -185,105 +191,150 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         );
     }
 
-    return (
-        <div 
-            id="custom-player-container"
-            className="relative group/player bg-black rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 select-none aspect-video"
-        >
-            {/* Background for Audio */}
-            {forceAudioType && (
-                <div className="absolute inset-0 z-0">
-                    <img 
-                        src={getFullImageUrl(emission.image_url) || "/placeholder-emission.jpg"} 
-                        alt="" 
-                        className="w-full h-full object-cover opacity-60" 
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                </div>
-            )}
-            {/* THE ACTUAL PLAYER */}
-            <div className={`relative z-10 w-full h-full flex flex-col justify-center items-center`}>
-                {isYoutube ? (
-                    <iframe 
-                        id={`youtube-player-${emission.id}`}
-                        name={`youtube-player-${emission.id}`}
-                        width="100%" 
-                        height="100%" 
-                        src={`https://www.youtube.com/embed/${finalMediaUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/|live\/)([^#&?]*).*/)?.[2] || finalMediaUrl.split('/').pop()}`}
-                        title={emission.title || "YouTube video player"} 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowFullScreen
-                        onLoad={() => {
-                            console.log("[MediaHub] Native IFRAME loaded");
-                            setIsReady(true);
-                        }}
-                    ></iframe>
-                ) : forceAudioType ? (
-                    <div className="flex flex-col items-center justify-center p-8 w-full max-w-md">
+    // ═══════════════════════════════════════
+    // RENDER: YouTube Player
+    // ═══════════════════════════════════════
+    if (isYoutube) {
+        const ytVideoId = finalMediaUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/|live\/)([^#&?]*).*/)?.[2] || '';
+        return (
+            <div className="aspect-video w-full rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl border border-white/10 bg-black">
+                <iframe 
+                    id={`youtube-player-${emission.id}`}
+                    width="100%" 
+                    height="100%" 
+                    src={`https://www.youtube.com/embed/${ytVideoId}`}
+                    title={emission.title || "YouTube video player"} 
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowFullScreen
+                    onLoad={() => setIsReady(true)}
+                />
+            </div>
+        );
+    }
+
+    // ═══════════════════════════════════════
+    // RENDER: Audio Player (Design adapté mobile)
+    // ═══════════════════════════════════════
+    if (forceAudioType) {
+        return (
+            <div className="w-full rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+                <div className="relative">
+                    {/* Cover image (si disponible) */}
+                    {emission.image_url && (
+                        <div className="relative w-full aspect-[2/1] md:aspect-[3/1]">
+                            <img 
+                                src={getFullImageUrl(emission.image_url)} 
+                                alt="" 
+                                className="w-full h-full object-cover opacity-40"
+                                crossOrigin="anonymous"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent" />
+                        </div>
+                    )}
+
+                    {/* Audio info + controls */}
+                    <div className={`${emission.image_url ? '-mt-16 relative z-10' : ''} p-5 md:p-8 space-y-4`}>
+                        <div className="flex items-center gap-4">
+                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-accent/20 backdrop-blur-sm border border-accent/30 flex items-center justify-center flex-shrink-0">
+                                <Music className="w-7 h-7 md:w-8 md:h-8 text-accent" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                                <p className="text-white font-bold text-sm md:text-base truncate">
+                                    {emission.title || "Audio"}
+                                </p>
+                                <p className="text-white/50 text-xs md:text-sm truncate">
+                                    {emission.preacher_name || t("common.default_preacher")}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Lecteur audio natif — contrôles du navigateur = fiabilité maximale sur mobile */}
                         <audio 
                             id={`audio-player-${emission.id}`}
-                            name={`audio-player-${emission.id}`}
                             key={finalMediaUrl}
                             src={finalMediaUrl}
                             controls 
                             preload="metadata"
-                            className="w-full h-12"
+                            className="w-full h-12 md:h-14 rounded-xl"
+                            style={{ colorScheme: 'dark' }}
                             aria-label={emission.title || "Lecteur audio"}
                             onCanPlay={() => {
-                                console.log("[MediaHub] Audio can play:", finalMediaUrl);
+                                console.log("[MediaHub] Audio ready:", finalMediaUrl);
                                 setIsReady(true);
                             }}
                             onError={(e) => {
-                                console.error("[MediaHub] Audio Error:", e);
-                                setPlayerError("Erreur Audio Native");
+                                console.error("[MediaHub] Audio Error:", finalMediaUrl, e);
+                                setPlayerError("Impossible de lire ce fichier audio");
                             }}
                         >
                             Votre navigateur ne supporte pas la lecture audio.
                         </audio>
                     </div>
-                ) : (
-                    <video 
-                        id={`video-player-${emission.id}`}
-                        name={`video-player-${emission.id}`}
-                        key={finalMediaUrl}
-                        src={finalMediaUrl}
-                        controls 
-                        playsInline
-                        preload="metadata"
-                        className="w-full h-full object-contain bg-black shadow-inner"
-                        aria-label={emission.title || "Lecteur vidéo"}
-                        onCanPlay={() => {
-                            console.log("[MediaHub] Video can play:", finalMediaUrl);
-                            setIsReady(true);
-                        }}
-                        poster={getFullImageUrl(emission.image_url) || undefined}
-                        onError={(e) => {
-                            console.error("[MediaHub] Video Error:", e);
-                            setPlayerError("Erreur Vidéo Native");
-                        }}
-                    >
-                        Votre navigateur ne supporte pas la lecture vidéo.
-                    </video>
-                )}
-            </div>
+                </div>
 
-            {/* Loading Indicator (When loading but not ready initially) */}
+                {/* Loading overlay */}
+                <AnimatePresence>
+                    {!isReady && !playerError && (
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 z-[45] flex items-center justify-center bg-black/40 backdrop-blur-sm rounded-2xl md:rounded-[2rem]"
+                        >
+                            <div className="w-8 h-8 border-3 border-accent border-t-transparent rounded-full animate-spin" />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        );
+    }
+
+    // ═══════════════════════════════════════
+    // RENDER: Video Player (natif HTML5 — le plus fiable sur mobile)
+    // ═══════════════════════════════════════
+    return (
+        <div 
+            id="custom-player-container"
+            className="relative bg-black rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl border border-white/10 select-none aspect-video"
+        >
+            {/* Lecteur vidéo natif — contrôles du navigateur = fiabilité maximale sur mobile */}
+            <video 
+                id={`video-player-${emission.id}`}
+                key={finalMediaUrl}
+                src={finalMediaUrl}
+                controls 
+                playsInline
+                preload="metadata"
+                className="w-full h-full object-contain bg-black"
+                aria-label={emission.title || "Lecteur vidéo"}
+                poster={getFullImageUrl(emission.image_url) || undefined}
+                onCanPlay={() => {
+                    console.log("[MediaHub] Video ready:", finalMediaUrl);
+                    setIsReady(true);
+                }}
+                onError={(e) => {
+                    console.error("[MediaHub] Video Error:", finalMediaUrl, e);
+                    setPlayerError("Impossible de lire cette vidéo");
+                }}
+            >
+                Votre navigateur ne supporte pas la lecture vidéo.
+            </video>
+
+            {/* Loading Indicator */}
             <AnimatePresence>
-                {!isReady && !playerError && !isYoutube && (
+                {!isReady && !playerError && (
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute inset-0 z-[45] flex flex-col items-center justify-center bg-black/60 backdrop-blur-[2px] p-6 text-center"
+                        className="absolute inset-0 z-[45] flex flex-col items-center justify-center bg-black/60 backdrop-blur-[2px] p-4 text-center"
                     >
-                        <div className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin mb-4" />
-                        <p className="text-white font-bold text-xs uppercase tracking-widest animate-pulse mb-4">Chargement...</p>
-
+                        <div className="w-10 h-10 md:w-12 md:h-12 border-4 border-accent border-t-transparent rounded-full animate-spin mb-3" />
+                        <p className="text-white font-bold text-xs uppercase tracking-widest animate-pulse">Chargement...</p>
                     </motion.div>
                 )}
             </AnimatePresence>
-
         </div>
     );
 };
