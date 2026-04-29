@@ -17,25 +17,61 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
     const playerRef = useRef<ReactPlayer>(null);
     
     // Internal States
-    // If it's YouTube, we use light mode which is instant, so we start as ready
     const [isReady, setIsReady] = useState(false);
     const [playerError, setPlayerError] = useState<string | null>(null);
-    const [hasRetriedFromProd, setHasRetriedFromProd] = useState(false);
 
-    // Resolve Media URL with intelligent fallback
+    // Resolve Media URL - Routes uploaded files through /api/media/ for streaming
     const { finalMediaUrl, isYoutube, forceAudioType } = useMemo(() => {
+        const apiUrl = import.meta.env.VITE_API_URL || '';
+        const baseUrl = apiUrl.replace('/api', '').replace(/\/$/, '');
+
         const getYoutubeId = (url: string) => {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/|live\/)([^#&?]*).*/;
             const match = url.match(regExp);
             return (match && match[2].length === 11) ? match[2] : null;
         };
 
-        const getProxyUrl = (url: string) => {
-            if (url.includes('drive.google.com')) {
-                const apiBase = import.meta.env.VITE_API_URL || "";
-                return `${apiBase}/media-proxy/?url=${encodeURIComponent(url)}`;
+        /**
+         * Convertit une URL média (Supabase, relative, ou backend) en URL de streaming
+         * via l'endpoint /api/media/ du backend, qui supporte les Range Requests.
+         * NE PAS utiliser getFullImageUrl ici (proxy d'images = pas de streaming).
+         */
+        const getMediaStreamUrl = (url: string): string => {
+            if (!url) return "";
+
+            // 1. Si c'est une URL Supabase, extraire le chemin et router via /api/media/
+            if (url.includes('supabase.co/storage/')) {
+                const match = url.match(/\/public\/media\/(.+)$/);
+                if (match) {
+                    return `${baseUrl}/api/media/${match[1]}`;
+                }
             }
-            return getFullImageUrl(url);
+
+            // 2. Si c'est déjà une URL du backend (onrender, localhost), l'utiliser telle quelle
+            try {
+                if (apiUrl) {
+                    const backendHost = new URL(apiUrl).hostname;
+                    if (url.includes(backendHost)) {
+                        return url;
+                    }
+                }
+            } catch (e) { /* ignore URL parse error */ }
+
+            // 3. Si c'est un chemin relatif, construire l'URL backend
+            if (!url.startsWith('http')) {
+                const path = url.startsWith('/') ? url : `/${url}`;
+                if (path.startsWith('/api/media/')) {
+                    return `${baseUrl}${path}`;
+                }
+                // Ajouter le préfixe /api/media/ pour les chemins comme "media/sermons/file.mp4"
+                if (path.startsWith('/media/') || path.startsWith('/sermons/') || path.startsWith('/settings/')) {
+                    return `${baseUrl}/api/media${path}`;
+                }
+                return `${baseUrl}/api/media${path}`;
+            }
+
+            // 4. URL absolue quelconque : utiliser telle quelle
+            return url;
         };
         
         // 1. Prioritize forceUrl if provided (Admin Preview)
@@ -47,24 +83,21 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                             forceUrl.toLowerCase().endsWith('.m4a') ||
                             forceContentType === 'audio';
             
-            let resolved = {
-                finalMediaUrl: isYt ? forceUrl : getProxyUrl(forceUrl),
+            return {
+                finalMediaUrl: isYt ? forceUrl : getMediaStreamUrl(forceUrl),
                 isYoutube: isYt,
                 forceAudioType: isAudio && !isYt
             };
-
-            // L'URL est déjà résolue via getProxyUrl qui utilise VITE_API_URL
-            return resolved;
         }
 
-        // 2. Original emission resolution logic
+        // 2. Emission resolution logic
         let rawUrl = "";
         let isYt = false;
         let isAud = false;
 
         const videoUrl = emission.video_url || "";
-        const videoFile = emission.video_file_url || (emission.video_file ? getFullImageUrl(emission.video_file) : "");
-        const audioFile = emission.audio_file_url || (emission.audio_file ? getFullImageUrl(emission.audio_file) : "");
+        const videoFile = emission.video_file_url || emission.video_file || "";
+        const audioFile = emission.audio_file_url || emission.audio_file || "";
         const audioUrl = emission.audio_url || "";
         const contentType = emission.content_type;
 
@@ -85,15 +118,14 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
             isAud = true;
         }
 
-        let resolvedUrl = isYt ? rawUrl : getProxyUrl(rawUrl);
+        const resolvedUrl = isYt ? rawUrl : getMediaStreamUrl(rawUrl);
 
-        // L'URL est déjà résolue via getProxyUrl qui utilise VITE_API_URL
         return {
             finalMediaUrl: resolvedUrl,
             isYoutube: isYt,
             forceAudioType: isAud || forceContentType === 'audio'
         };
-    }, [emission, forceContentType, forceUrl, hasRetriedFromProd]);
+    }, [emission, forceContentType, forceUrl]);
 
 
     
@@ -192,7 +224,6 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                             name={`audio-player-${emission.id}`}
                             key={finalMediaUrl}
                             src={finalMediaUrl}
-                            crossOrigin="anonymous"
                             controls 
                             preload="metadata"
                             className="w-full h-12"
@@ -215,7 +246,6 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                         name={`video-player-${emission.id}`}
                         key={finalMediaUrl}
                         src={finalMediaUrl}
-                        crossOrigin="anonymous"
                         controls 
                         playsInline
                         preload="metadata"
@@ -247,19 +277,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                     >
                         <div className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin mb-4" />
                         <p className="text-white font-bold text-xs uppercase tracking-widest animate-pulse mb-4">Chargement...</p>
-                        
-                        {/* Emergency fallback button if it hangs on localhost */}
-                        {!hasRetriedFromProd && finalMediaUrl.includes("localhost") && (
-                            <button 
-                                onClick={() => {
-                                    console.log("[MediaHub] Manual override: Switching to production media");
-                                    setHasRetriedFromProd(true);
-                                }}
-                                className="text-[10px] text-white/50 hover:text-white underline transition-colors"
-                            >
-                                Trop long ? Essayer la version en ligne
-                            </button>
-                        )}
+
                     </motion.div>
                 )}
             </AnimatePresence>
