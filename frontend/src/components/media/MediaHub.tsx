@@ -56,7 +56,13 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                 return `https://${supabaseProjectId}.supabase.co/storage/v1/object/public/media/${fullPath}`;
             }
 
-            // 4. Autre URL absolue → utiliser telle quelle
+            // 4. Bloquer explicitement Google Drive (non supporté en lecture directe)
+            if (url.includes('drive.google.com')) {
+                console.warn("[MediaHub] Google Drive URL detected and blocked for compatibility.");
+                return "";
+            }
+
+            // 5. Autre URL absolue → utiliser telle quelle
             return url;
         };
         
@@ -118,11 +124,13 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         }
 
         const resolvedUrl = isYt ? rawUrl : getMediaStreamUrl(rawUrl);
+        const isDrive = (emission.video_url || "").includes('drive.google.com') || (emission.audio_url || "").includes('drive.google.com') || (forceUrl || "").includes('drive.google.com');
 
         return {
             finalMediaUrl: resolvedUrl,
             isYoutube: isYt,
-            forceAudioType: isAud || forceContentType === 'audio'
+            forceAudioType: isAud || forceContentType === 'audio',
+            isBlockedDrive: isDrive && !resolvedUrl
         };
     }, [emission, forceContentType, forceUrl]);
 
@@ -153,15 +161,27 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
     // ═══════════════════════════════════════
     if (!finalMediaUrl) {
         return (
-            <div className="aspect-video w-full rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl bg-black flex items-center justify-center border border-white/10">
-                {emission.image_url ? (
-                    <img src={getFullImageUrl(emission.image_url)} alt="" className="w-full h-full object-cover opacity-30" crossOrigin="anonymous" />
-                ) : (
-                    <div className="flex flex-col items-center gap-4 text-white/20">
-                        <PlayIcon className="w-12 h-12 md:w-16 md:h-16 fill-current" />
-                        <p className="font-bold uppercase tracking-widest text-xs">{t("common.media_not_available")}</p>
-                    </div>
-                )}
+            <div className="aspect-video w-full rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl bg-black flex items-center justify-center border border-white/10 relative">
+                {emission.image_url && <img src={getFullImageUrl(emission.image_url)} alt="" className="w-full h-full object-cover opacity-20 absolute inset-0" />}
+                
+                <div className="relative z-10 p-6 text-center">
+                    {isBlockedDrive ? (
+                        <div className="space-y-4">
+                            <div className="bg-orange-500/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <VolumeX className="w-8 h-8 text-orange-500" />
+                            </div>
+                            <h3 className="text-white font-bold text-lg">Lien Google Drive non supporté</h3>
+                            <p className="text-white/60 text-xs max-w-xs mx-auto">
+                                Google Drive bloque souvent la lecture directe. Veuillez uploader le fichier vidéo/audio directement dans l'administration.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center gap-4 text-white/20">
+                            <PlayIcon className="w-12 h-12 md:w-16 md:h-16 fill-current" />
+                            <p className="font-bold uppercase tracking-widest text-xs">{t("common.media_not_available")}</p>
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }
@@ -206,18 +226,34 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
     // RENDER: YouTube Player
     // ═══════════════════════════════════════
     if (isYoutube) {
-        const ytVideoId = finalMediaUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/|live\/)([^#&?]*).*/)?.[2] || '';
+        // Extraction robuste de l'ID
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/|live\/)([^#&?]*).*/;
+        const match = finalMediaUrl.match(regExp);
+        const ytVideoId = (match && match[2].length === 11) ? match[2] : null;
+
+        if (!ytVideoId) {
+            return (
+                <div className="aspect-video w-full rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl bg-black flex flex-col items-center justify-center border-2 border-destructive/30 p-6 text-center">
+                    <VolumeX className="w-10 h-10 text-destructive mb-3" />
+                    <h3 className="text-white font-bold">Lien YouTube invalide</h3>
+                    <p className="text-white/40 text-xs mt-2">Nous n'avons pas pu extraire l'identifiant de cette vidéo.</p>
+                </div>
+            );
+        }
+
         return (
             <div className="aspect-video w-full rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl border border-white/10 bg-black">
                 <iframe 
                     id={`youtube-player-${emission.id}`}
                     width="100%" 
                     height="100%" 
-                    src={`https://www.youtube.com/embed/${ytVideoId}`}
+                    // Utilisation de youtube-nocookie pour une meilleure compatibilité mobile (évite les blocages cookies)
+                    src={`https://www.youtube-nocookie.com/embed/${ytVideoId}?rel=0&modestbranding=1&enablejsapi=1`}
                     title={emission.title || "YouTube video player"} 
                     frameBorder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                     allowFullScreen
+                    className="w-full h-full"
                     onLoad={() => setIsReady(true)}
                 />
             </div>
