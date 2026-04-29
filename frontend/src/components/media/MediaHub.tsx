@@ -177,16 +177,27 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                 </div>
                 <div>
                     <h3 className="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">{t("common.error_loading_media") || "Erreur de chargement"}</h3>
-                    <p className="text-white/60 text-xs md:text-sm max-w-md mx-auto">
-                        Impossible de charger le média. Vérifiez votre connexion.
+                    <p className="text-white/60 text-xs md:text-sm max-w-md mx-auto mb-6">
+                        Désolé, nous n'avons pas pu lire ce média directement.
                     </p>
+                    
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <button 
+                            onClick={() => window.open(finalMediaUrl, '_blank')}
+                            className="w-full sm:w-auto px-6 py-2.5 bg-accent text-accent-foreground rounded-xl font-bold hover:bg-accent/90 transition-all text-sm flex items-center justify-center gap-2 shadow-lg shadow-accent/20"
+                        >
+                            <PlayIcon className="w-4 h-4 fill-current" />
+                            Ouvrir le média
+                        </button>
+                        
+                        <button 
+                            onClick={() => { setPlayerError(null); setIsReady(false); }}
+                            className="w-full sm:w-auto px-6 py-2.5 bg-white/10 text-white border border-white/10 rounded-xl font-bold hover:bg-white/20 transition-all text-sm"
+                        >
+                            Réessayer
+                        </button>
+                    </div>
                 </div>
-                <button 
-                    onClick={() => { setPlayerError(null); setIsReady(false); }}
-                    className="px-5 py-2 bg-white text-black rounded-xl font-bold hover:bg-white/90 transition-all text-sm"
-                >
-                    Réessayer
-                </button>
             </div>
         );
     }
@@ -259,6 +270,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                             className="w-full h-12 md:h-14 rounded-xl"
                             style={{ colorScheme: 'dark' }}
                             aria-label={emission.title || "Lecteur audio"}
+                            onLoadedMetadata={() => setIsReady(true)}
                             onCanPlay={() => {
                                 console.log("[MediaHub] Audio ready:", finalMediaUrl);
                                 setIsReady(true);
@@ -280,7 +292,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="absolute inset-0 z-[45] flex items-center justify-center bg-black/40 backdrop-blur-sm rounded-2xl md:rounded-[2rem]"
+                            className="absolute inset-0 z-[45] flex items-center justify-center bg-black/40 backdrop-blur-sm rounded-2xl md:rounded-[2rem] pointer-events-none"
                         >
                             <div className="w-8 h-8 border-3 border-accent border-t-transparent rounded-full animate-spin" />
                         </motion.div>
@@ -296,7 +308,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
     return (
         <div 
             id="custom-player-container"
-            className="relative bg-black rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl border border-white/10 select-none aspect-video"
+            className="relative bg-black rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl border border-white/10 select-none w-full aspect-video min-h-[210px] sm:min-h-[300px]"
         >
             {/* Lecteur vidéo natif — contrôles du navigateur = fiabilité maximale sur mobile */}
             <video 
@@ -309,6 +321,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                 className="w-full h-full object-contain bg-black"
                 aria-label={emission.title || "Lecteur vidéo"}
                 poster={getFullImageUrl(emission.image_url) || undefined}
+                onLoadedMetadata={() => setIsReady(true)}
                 onCanPlay={() => {
                     console.log("[MediaHub] Video ready:", finalMediaUrl);
                     setIsReady(true);
@@ -328,7 +341,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute inset-0 z-[45] flex flex-col items-center justify-center bg-black/60 backdrop-blur-[2px] p-4 text-center"
+                        className="absolute inset-0 z-[45] flex flex-col items-center justify-center bg-black/60 backdrop-blur-[2px] p-4 text-center pointer-events-none"
                     >
                         <div className="w-10 h-10 md:w-12 md:h-12 border-4 border-accent border-t-transparent rounded-full animate-spin mb-3" />
                         <p className="text-white font-bold text-xs uppercase tracking-widest animate-pulse">Chargement...</p>

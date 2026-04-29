@@ -211,12 +211,12 @@ const EmissionDetail = () => {
                     image={getFullImageUrl(emission.image_url)}
                 />
 
-                <div className="container mx-auto px-4 py-16 -mt-20 space-y-12">
+                <div className="container mx-auto px-0 md:px-4 py-8 md:py-16 -mt-10 md:-mt-20 space-y-8 md:space-y-12">
                     {/* Top Focus Section: Back & Player */}
-                    <div className="space-y-8">
+                    <div className="space-y-6 md:space-y-8">
                         <Link
                             to="/#emissions"
-                            className="inline-flex items-center gap-2 text-muted-foreground hover:text-accent font-semibold transition-all group px-4 py-2 bg-background/50 backdrop-blur-sm rounded-full border border-border/50 shadow-sm w-fit"
+                            className="inline-flex items-center gap-2 text-muted-foreground hover:text-accent font-semibold transition-all group px-4 py-2 bg-background/50 backdrop-blur-sm rounded-full border border-border/50 shadow-sm w-fit ml-2 md:ml-0"
                         >
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> {t("common.back")}
                         </Link>
@@ -225,9 +225,9 @@ const EmissionDetail = () => {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="relative group max-w-7xl mx-auto"
+                            className="relative group max-w-7xl mx-auto w-full"
                         >
-                            <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-accent/5 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                            <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-accent/5 rounded-2xl md:rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
                             <div className="relative">
                                 <MediaHub emission={emission} />
                             </div>
