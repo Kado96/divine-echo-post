@@ -8,6 +8,9 @@ class AdminUserSerializer(serializers.ModelSerializer):
     photo_display = serializers.SerializerMethodField()
     remove_photo = serializers.BooleanField(write_only=True, required=False, default=False)
     role = serializers.CharField(required=False)
+    banner = serializers.ImageField(required=False, allow_null=True, write_only=True)
+    is_banned = serializers.BooleanField(required=False, default=False)
+    deactivated_at = serializers.DateTimeField(required=False, allow_null=True)
     
     class Meta:
         model = User
@@ -25,6 +28,9 @@ class AdminUserSerializer(serializers.ModelSerializer):
             "role",
             "photo",
             "photo_display",
+            "banner",
+            "is_banned",
+            "deactivated_at",
             "remove_photo"
         ]
         read_only_fields = ["id", "date_joined", "photo_display"]
@@ -52,8 +58,16 @@ class AdminUserSerializer(serializers.ModelSerializer):
         account = getattr(instance, 'account', None)
         if account:
             ret['role'] = account.role
+            ret['is_banned'] = account.is_banned
+            ret['deactivated_at'] = account.deactivated_at
+            if account.banner:
+                ret['banner'] = request.build_absolute_uri(account.banner.url) if request else account.banner.url
+            else:
+                ret['banner'] = None
         else:
             ret['role'] = 'admin' if instance.is_superuser else 'user'
+            ret['is_banned'] = False
+            ret['deactivated_at'] = None
         return ret
 
     def get_photo_display(self, obj):
@@ -84,8 +98,11 @@ class AdminUserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         photo = validated_data.pop('photo', None)
+        banner = validated_data.pop('banner', None)
+        is_banned = validated_data.pop('is_banned', None)
+        deactivated_at = validated_data.pop('deactivated_at', None)
         password = validated_data.pop('password', None)
-        remove_photo = validated_data.pop('remove_photo', False) # On retire ce champ car il n'existe pas sur le modèle User
+        remove_photo = validated_data.pop('remove_photo', False)
         
         # Création de l'utilisateur
         role = validated_data.pop('role', 'user')
@@ -104,12 +121,13 @@ class AdminUserSerializer(serializers.ModelSerializer):
             account, created = Account.objects.get_or_create(user=user)
             account.role = role
             if photo:
-                try:
-                    account.photo = photo
-                except Exception as e:
-                    import logging
-                    logger = logging.getLogger('django.request')
-                    logger.error(f"Erreur lors de l'upload de la photo pour {user.username}: {e}")
+                account.photo = photo
+            if banner:
+                account.banner = banner
+            if is_banned is not None:
+                account.is_banned = is_banned
+            if deactivated_at:
+                account.deactivated_at = deactivated_at
             account.save()
         except Exception as e:
             import logging
@@ -120,6 +138,9 @@ class AdminUserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         photo = validated_data.pop('photo', None)
+        banner = validated_data.pop('banner', None)
+        is_banned = validated_data.pop('is_banned', None)
+        deactivated_at = validated_data.pop('deactivated_at', None)
         remove_photo = validated_data.pop('remove_photo', False)
         password = validated_data.pop('password', None)
         role = validated_data.pop('role', None)
@@ -143,6 +164,16 @@ class AdminUserSerializer(serializers.ModelSerializer):
             elif remove_photo:
                 account.photo = None
             
+            if banner:
+                account.banner = banner
+            elif remove_photo:
+                account.photo = None
+            
+            if is_banned is not None:
+                account.is_banned = is_banned
+            if deactivated_at:
+                account.deactivated_at = deactivated_at
+                
             account.save()
         except Exception as e:
             import logging

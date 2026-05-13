@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'api.contacts',
     'api.media',
     'drf_yasg',
+    'simple_history',
 ]
 
 # ==========================
@@ -96,6 +97,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
+
 
     'api.middlewares.APIDebugMiddleware',
     'api.middlewares.DisableCSRF',

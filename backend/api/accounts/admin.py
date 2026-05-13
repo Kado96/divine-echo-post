@@ -13,6 +13,26 @@ L'admin Django (/admin/) est uniquement pour :
 Toutes les opérations utilisateur doivent passer par l'API.
 """
 from django.contrib import admin
-from .models import *
+from simple_history.admin import SimpleHistoryAdmin
+from .models import Account
 
-admin.site.register(Account)
+
+@admin.register(Account)
+class AccountAdmin(SimpleHistoryAdmin):
+    list_display = ('user', 'role', 'is_active', 'is_banned', 'created_at')
+    list_filter = ('role', 'is_active', 'is_banned')
+    search_fields = ('user__username', 'user__email', 'phone_number')
+    autocomplete_fields = ['user']
+    
+    fieldsets = (
+        ("Utilisateur", {
+            "fields": ("user", "role", "photo", "banner")
+        }),
+        ("Statut", {
+            "fields": ("is_active", "is_banned", "deactivated_at")
+        }),
+        ("Contact & OTP", {
+            "fields": ("phone_number", "email_validated", "otp_code", "otp_expire_at"),
+            "classes": ("collapse",),
+        }),
+    )

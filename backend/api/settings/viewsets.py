@@ -7,7 +7,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.conf import settings as django_settings
 import logging
-from api.accounts.permissions import IsAdminManager
+from api.accounts.permissions import IsAdminManager, IsTeamMember
 from .models import SiteSettings, TeamMember
 from .serializers import SiteSettingsSerializer, TeamMemberSerializer
 
@@ -137,7 +137,7 @@ class SiteSettingsViewSet(viewsets.ModelViewSet):
         """Permettre la lecture publique, l'écriture admin seulement"""
         if self.action in ['list', 'retrieve', 'current']:
             return [AllowAny()]
-        return [IsAdminManager()]
+        return [IsTeamMember()]
     
     @property
     def paginator(self):
@@ -346,7 +346,7 @@ class TeamMemberViewSet(viewsets.ModelViewSet):
     authentication_classes = []
 
     def get_permissions(self):
-        """Lecture publique, écriture admin seulement"""
+        """Lecture publique, écriture par l'équipe (admin + team)"""
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]
-        return [IsAdminManager()]
+        return [IsTeamMember()]

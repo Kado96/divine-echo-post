@@ -3,6 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import MediaFile
 from .serializers import MediaFileSerializer
 from rest_framework.permissions import IsAuthenticated
+from api.accounts.permissions import IsTeamMember
 
 class MediaFileViewSet(viewsets.ModelViewSet):
     """
@@ -10,7 +11,11 @@ class MediaFileViewSet(viewsets.ModelViewSet):
     """
     queryset = MediaFile.objects.all()
     serializer_class = MediaFileSerializer
-    permission_classes = [IsAuthenticated]
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [IsAuthenticated()]
+        return [IsTeamMember()]
+
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['file_type']

@@ -26,7 +26,7 @@ class AccountSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Account
 		exclude = 'otp_code',
-		read_only_fields = "is_active", "insecured", "otp_expire_at",
+		read_only_fields = ("is_active", "insecured", "otp_expire_at", "is_banned", "deactivated_at")
 	
 	def to_representation(self, obj:Account):
 		data = super().to_representation(obj)

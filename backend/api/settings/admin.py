@@ -13,7 +13,7 @@ L'admin Django (/admin/) est uniquement pour :
 Toutes les opérations utilisateur doivent passer par l'API.
 """
 from django.contrib import admin
-from .models import SiteSettings
+from .models import SiteSettings, TeamMember
 
 
 @admin.register(SiteSettings)
@@ -117,3 +117,10 @@ class SiteSettingsAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         # Ne pas permettre la suppression
         return False
+
+
+@admin.register(TeamMember)
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = ('name', 'role_fr', 'order', 'created_at')
+    list_editable = ('order',)
+    search_fields = ('name', 'role_fr', 'role_en')

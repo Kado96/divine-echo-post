@@ -9,6 +9,9 @@ import requests
 import re
 from django.core.cache import cache
 from urllib.parse import urlparse
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ShalomMinistryView(APIView):

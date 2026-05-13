@@ -97,8 +97,26 @@ class Sermon(models.Model):
     is_active = models.BooleanField(default=True)
     sermon_date = models.DateField(auto_now=False, null=True, blank=True)
     views_count = models.PositiveIntegerField(default=0)
+    
+    responsible_editor = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, 
+        related_name="responsible_sermons",
+        help_text="Éditeur responsable de cette émission"
+    )
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, 
+        related_name="created_sermons"
+    )
+    updated_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, 
+        related_name="updated_sermons"
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    from simple_history.models import HistoricalRecords
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ["-sermon_date", "-created_at"]

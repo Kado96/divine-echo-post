@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import SermonCategory, Sermon, SermonComment
-from api.accounts.permissions import IsSimpleUser, IsTeamMember
+from api.accounts.permissions import IsSimpleUser, IsTeamMember, IsAdminManager
 from .serializers import (
     SermonCategorySerializer,
     SermonListSerializer,
@@ -61,7 +61,7 @@ class AdminSermonViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save()
 
-    @action(detail=False, methods=["get"])
+    @action(detail=False, methods=["get"], permission_classes=[IsTeamMember])
     def global_stats(self, request):
         from django.db.models import Sum
         total_views = Sermon.objects.filter(is_active=True).aggregate(total=Sum('views_count'))['total'] or 0

@@ -14,6 +14,7 @@ Toutes les opérations utilisateur doivent passer par l'API.
 """
 from django.contrib import admin
 from .models import SermonCategory, Sermon, SermonComment
+from simple_history.admin import SimpleHistoryAdmin
 
 
 @admin.register(SermonCategory)
@@ -24,14 +25,19 @@ class SermonCategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(Sermon)
-class SermonAdmin(admin.ModelAdmin):
-    list_display = ("title", "preacher_name", "category", "language", "featured", "is_active", "sermon_date")
-    list_filter = ("category", "language", "featured", "is_active", "sermon_date")
+class SermonAdmin(SimpleHistoryAdmin):
+    list_display = ("title", "responsible_editor", "category", "language", "featured", "is_active", "sermon_date")
+    list_filter = ("category", "language", "featured", "is_active", "sermon_date", "responsible_editor")
     search_fields = ("title", "preacher_name", "description")
     prepopulated_fields = {"slug": ("title",)}
+    autocomplete_fields = ["responsible_editor", "created_by", "updated_by"]
+    
     fieldsets = (
         ("Informations principales", {
             "fields": ("title", "slug", "description", "category")
+        }),
+        ("Responsabilité & Traçabilité", {
+            "fields": ("responsible_editor", "created_by", "updated_by")
         }),
         ("Contenu média", {
             "fields": ("image", "video_url", "video_file", "audio_url", "audio_file")

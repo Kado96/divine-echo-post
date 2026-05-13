@@ -12,27 +12,30 @@ class IsAdminManager(permissions.BasePermission):
         if request.user.is_superuser:
             return True
         account = getattr(request.user, 'account', None)
-        return account and account.role == 'admin'
+        return (account and account.role == 'admin') or (request.user.is_staff and not account)
+
 
 class IsTeamMember(permissions.BasePermission):
     """Accès aux contenus (sermons, categories, annonces, témoignages)."""
     def has_permission(self, request, view):
         if not (request.user and request.user.is_authenticated):
             return False
-        if request.user.is_superuser:
+        if request.user.is_superuser or request.user.is_staff:
             return True
         account = getattr(request.user, 'account', None)
         return account and account.role in ['team', 'admin']
+
 
 class IsSimpleUser(permissions.BasePermission):
     """Accès uniquement aux sermons et témoignages."""
     def has_permission(self, request, view):
         if not (request.user and request.user.is_authenticated):
             return False
-        if request.user.is_superuser:
+        if request.user.is_superuser or request.user.is_staff:
             return True
         account = getattr(request.user, 'account', None)
         return account and account.role in ['user', 'team', 'admin']
+
 
 class CanManageUsers(permissions.BasePermission):
     """Seuls les Superusers peuvent créer/supprimer des Admins."""

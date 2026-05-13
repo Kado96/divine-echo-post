@@ -167,6 +167,9 @@ class AdminSermonSerializer(serializers.ModelSerializer):
             "is_active",
             "sermon_date",
             "views_count",
+            "responsible_editor",
+            "created_by",
+            "updated_by",
             "created_at",
             "updated_at",
         )
