@@ -41,6 +41,8 @@ const AboutSection = () => {
     return () => clearInterval(autoplay);
   }, [emblaApi]);
 
+  const [dailyVerse, setDailyVerse] = useState<any>(null);
+
   useEffect(() => {
     const fetchSettings = async () => {
       try {
@@ -60,8 +62,18 @@ const AboutSection = () => {
       }
     };
 
+    const fetchVerse = async () => {
+      try {
+        const data = await apiService.getDailyVerse();
+        setDailyVerse(data);
+      } catch (err) {
+        console.error("Failed to fetch daily verse", err);
+      }
+    };
+
     fetchSettings();
     fetchTeam();
+    fetchVerse();
   }, [i18n.language]);
 
   const getSetting = (key: string) => {
@@ -162,36 +174,48 @@ const AboutSection = () => {
           >
             {/* Background design element */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+            
+            {/* Background Image if available for the verse */}
+            {dailyVerse?.image && (
+              <div className="absolute inset-0 opacity-20">
+                <img 
+                  src={getFullImageUrl(dailyVerse.image)} 
+                  alt="" 
+                  className="w-full h-full object-cover" 
+                />
+                <div className="absolute inset-0 bg-primary/60 backdrop-blur-sm" />
+              </div>
+            )}
 
             {/* 1. Author Info at Top */}
             <div className="flex items-center gap-4 relative z-10">
               <img
-                src={settings?.quote_author_image_display || pastorPortrait}
+                src={dailyVerse?.author_name ? (settings?.quote_author_image_display || pastorPortrait) : (settings?.quote_author_image_display || pastorPortrait)}
                 onError={(e) => { e.currentTarget.src = pastorPortrait; }}
-                alt="Pasteur"
+                alt="Auteur"
                 className="w-16 h-16 rounded-full object-cover border-2 border-accent shadow-lg"
               />
               <div className="min-w-0">
                 <p className="text-primary-foreground font-black text-lg tracking-tight truncate">
-                  {stripHtml(getSetting("quote_author_name")) || t("about.pastor_title")}
+                  {dailyVerse?.author_name || stripHtml(getSetting("quote_author_name")) || t("about.pastor_title")}
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                   <p className="text-accent text-[11px] font-black uppercase tracking-[0.2em] truncate">
-                    {stripHtml(getSetting("quote_author_subtitle")) || t("hero.subtitle")}
+                    {dailyVerse?.reference || stripHtml(getSetting("quote_author_subtitle")) || t("hero.subtitle")}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* 2. Verse/Quote at Bottom */}
-            <div className="relative z-10 flex flex-col">
+            <div className="relative z-10 flex flex-col mt-auto">
               <Quote className="w-8 h-8 text-accent mb-2 opacity-50" />
               <p className="text-primary-foreground text-xl md:text-2xl font-medium leading-relaxed italic">
                 <span className="text-accent not-italic font-black block text-[10px] uppercase tracking-[0.3em] mb-2">
-                  {t("about.verse_of_day_label") || "Verset du jour :"}
+                  {dailyVerse?.published_at ? new Date(dailyVerse.published_at).toLocaleDateString(i18n.language, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : t("about.verse_of_day_label") || "Verset du jour :"}
                 </span>
-                "{stripHtml(getSetting("quote_text")) || t("about.quote")}"
+                "{dailyVerse ? getLocalizedField(dailyVerse, "text", i18n.language) : (stripHtml(getSetting("quote_text")) || t("about.quote"))}"
               </p>
             </div>
           </motion.div>

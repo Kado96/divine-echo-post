@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import PrivateRoute from "@/components/PrivateRoute";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -52,6 +52,17 @@ const AppRoutes = () => {
     return <Navigate to={`/emission/${slug}`} replace />;
   };
 
+  // Redirection intelligente du Dashboard selon le rôle
+  const DashboardRedirect = () => {
+    const { user, isLoading } = useAuth();
+    if (isLoading) return null;
+    const role = (user as any)?.role || "user";
+    if (role === "team") {
+      return <Navigate to="/admin/emissions" replace />;
+    }
+    return <AdminDashboard />;
+  };
+
   return (
     <>
       <div className={!isAdminPath ? "pb-[60px] sm:pb-12" : ""}>
@@ -64,7 +75,7 @@ const AppRoutes = () => {
           <Route path="/admin/login" element={<AdminLogin />} />
 
           {/* Admin Routes (protected) */}
-          <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
+          <Route path="/admin" element={<PrivateRoute><DashboardRedirect /></PrivateRoute>} />
           
           {/* Emissions & Testimonials (Accessible to all roles: user, team, admin) */}
           <Route path="/admin/emissions" element={<PrivateRoute><AdminEmissions /></PrivateRoute>} />
@@ -79,14 +90,16 @@ const AppRoutes = () => {
           <Route path="/admin/announcements/create" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminCreateAnnouncement /></PrivateRoute>} />
           <Route path="/admin/announcements/edit/:id" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminEditAnnouncement /></PrivateRoute>} />
           <Route path="/admin/comments" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminComments /></PrivateRoute>} />
-          <Route path="/admin/categories" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminCategories /></PrivateRoute>} />
-          <Route path="/admin/media" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminMedia /></PrivateRoute>} />
-          <Route path="/admin/stats" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminStats /></PrivateRoute>} />
-          <Route path="/admin/team" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminTeam /></PrivateRoute>} />
-          <Route path="/admin/team/create" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminCreateTeamMember /></PrivateRoute>} />
-          <Route path="/admin/team/edit/:id" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminEditTeamMember /></PrivateRoute>} />
-          <Route path="/admin/settings" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminSettings /></PrivateRoute>} />
-          <Route path="/admin/guide" element={<PrivateRoute allowedRoles={['admin', 'team']}><AdminGuide /></PrivateRoute>} />
+          
+          {/* Admin Only (Restricted from team role) */}
+          <Route path="/admin/categories" element={<PrivateRoute allowedRoles={['admin']}><AdminCategories /></PrivateRoute>} />
+          <Route path="/admin/media" element={<PrivateRoute allowedRoles={['admin']}><AdminMedia /></PrivateRoute>} />
+          <Route path="/admin/stats" element={<PrivateRoute allowedRoles={['admin']}><AdminStats /></PrivateRoute>} />
+          <Route path="/admin/team" element={<PrivateRoute allowedRoles={['admin']}><AdminTeam /></PrivateRoute>} />
+          <Route path="/admin/team/create" element={<PrivateRoute allowedRoles={['admin']}><AdminCreateTeamMember /></PrivateRoute>} />
+          <Route path="/admin/team/edit/:id" element={<PrivateRoute allowedRoles={['admin']}><AdminEditTeamMember /></PrivateRoute>} />
+          <Route path="/admin/settings" element={<PrivateRoute allowedRoles={['admin']}><AdminSettings /></PrivateRoute>} />
+          <Route path="/admin/guide" element={<PrivateRoute allowedRoles={['admin']}><AdminGuide /></PrivateRoute>} />
           
           {/* Strict Admin/Superuser Only (System Users & Pages) */}
           <Route path="/admin/users" element={<PrivateRoute allowedRoles={['admin']}><AdminUsers /></PrivateRoute>} />
@@ -108,6 +121,7 @@ const App = () => {
   const { i18n } = useTranslation();
 
   useEffect(() => {
+
     apiService.getSettings().then(data => {
       if (data.site_name) {
         document.title = data.site_name;

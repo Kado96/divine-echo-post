@@ -134,7 +134,7 @@ const CreateEmission = () => {
             dataToCreate.append('description_sw', formData.description_sw);
             
             dataToCreate.append('preacher_name', formData.preacher_name);
-            dataToCreate.append('emission_date', formData.emission_date);
+            dataToCreate.append('sermon_date', formData.emission_date);
             dataToCreate.append('is_active', String(publish));
 
             if (formData.category) {

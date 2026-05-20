@@ -200,6 +200,7 @@ const TeamSection = () => {
                                                 <img
                                                     src={member.photo_display || (member.photo?.includes('/src/') || member.photo?.includes('/assets/') ? member.photo : getFullImageUrl(member.photo)) || member.photo}
                                                     alt={member.name}
+                                                    loading="lazy"
                                                     className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
                                                 />
                                             </div>

@@ -261,7 +261,6 @@ const resources = {
                         schedule: "Publier maintenant",
                         update: "Mettre à jour",
                         status_scheduled: "Planifié",
-                        image: "Image de couverture",
                         video_link_or_file: "Lien ou Fichier Vidéo",
                         youtube_detected: "YouTube détecté",
                         video_url_help: "URL Vidéo (YouTube ou direct)",

@@ -82,6 +82,45 @@ export function getFullImageUrl(url: string | null | undefined): string {
 }
 
 /**
+ * Résout et encode l'URL d'un média (audio/vidéo) pour Supabase ou le Backend.
+ * Gère l'encodage des segments pour la compatibilité mobile et le préfixe media/media/.
+ */
+export function getMediaUrl(url: string | null | undefined): string {
+  if (!url) return "";
+
+  // 1. URL Absolue (Supabase ou autre)
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    if (url.includes('supabase.co/storage/')) {
+      try {
+        const urlObj = new URL(url);
+        const segments = urlObj.pathname.split('/');
+        // Encodage robuste de chaque segment (évite les erreurs 400 sur mobile)
+        const encodedSegments = segments.map(s => encodeURIComponent(decodeURIComponent(s)));
+        urlObj.pathname = encodedSegments.join('/');
+        return urlObj.toString();
+      } catch (e) {
+        return url;
+      }
+    }
+    return url;
+  }
+
+  // 2. Chemin relatif (Construction de l'URL Supabase directe)
+  // On respecte la structure /media/media/ demandée
+  const cleanPath = url.startsWith('/') ? url.substring(1) : url;
+  const supabaseProjectId = import.meta.env.VITE_SUPABASE_PROJECT_ID || 'eiokoxdmgxxyexmqfsua';
+  
+  // Si le chemin ne contient pas déjà "media/", on l'ajoute pour respecter la structure du bucket
+  const hasMediaPrefix = cleanPath.startsWith('media/');
+  const fullPath = hasMediaPrefix ? cleanPath : `media/${cleanPath}`;
+  
+  const encodedSegments = fullPath.split('/').map(s => encodeURIComponent(decodeURIComponent(s)));
+  const encodedPath = encodedSegments.join('/');
+  
+  return `https://${supabaseProjectId}.supabase.co/storage/v1/object/public/media/${encodedPath}`;
+}
+
+/**
  * Récupère dynamiquement un champ localisé (ex: title_fr, title_en) 
  * avec un fallback intelligent vers le champ de base ou le français.
  */

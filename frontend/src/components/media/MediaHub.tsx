@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play as PlayIcon, VolumeX, Music } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { getFullImageUrl } from "@/lib/utils";
+import { getFullImageUrl, getMediaUrl } from "@/lib/utils";
 
 interface MediaHubProps {
     emission: any;
@@ -19,7 +19,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
     const [playerError, setPlayerError] = useState<string | null>(null);
 
     // Resolve Media URL - Direct Supabase streaming (no proxy, no redirect)
-    const { finalMediaUrl, isYoutube, forceAudioType } = useMemo(() => {
+    const { finalMediaUrl, isYoutube, forceAudioType, isBlockedDrive } = useMemo(() => {
         const apiUrl = import.meta.env.VITE_API_URL || '';
         const baseUrl = apiUrl.replace('/api', '').replace(/\/$/, '');
 
@@ -30,42 +30,6 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
             return (match && match[2].length === 11) ? match[2] : null;
         };
 
-        /**
-         * Résout l'URL de streaming d'un fichier média uploadé.
-         * RÈGLE D'OR : utiliser l'URL Supabase DIRECTEMENT.
-         */
-        const getMediaStreamUrl = (url: string): string => {
-            if (!url) return "";
-
-            // 1. URL Supabase → utiliser DIRECTEMENT
-            if (url.includes('supabase.co/storage/')) {
-                return url;
-            }
-
-            // 2. URL du backend contenant /api/media/ → la garder
-            if (url.startsWith('http') && url.includes('/api/media/')) {
-                return url;
-            }
-
-            // 3. Chemin relatif → construire l'URL Supabase directe
-            if (!url.startsWith('http')) {
-                const cleanPath = url.startsWith('/') ? url.substring(1) : url;
-                const supabaseProjectId = import.meta.env.VITE_SUPABASE_PROJECT_ID || 'eiokoxdmgxxyexmqfsua';
-                const hasMediaPrefix = cleanPath.startsWith('media/');
-                const fullPath = hasMediaPrefix ? cleanPath : `media/${cleanPath}`;
-                return `https://${supabaseProjectId}.supabase.co/storage/v1/object/public/media/${fullPath}`;
-            }
-
-            // 4. Bloquer explicitement Google Drive (non supporté en lecture directe)
-            if (url.includes('drive.google.com')) {
-                console.warn("[MediaHub] Google Drive URL detected and blocked for compatibility.");
-                return "";
-            }
-
-            // 5. Autre URL absolue → utiliser telle quelle
-            return url;
-        };
-        
         // 1. Prioritize forceUrl if provided (Admin Preview)
         if (forceUrl) {
             const ytId = getYoutubeId(forceUrl);
@@ -76,7 +40,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                             forceContentType === 'audio';
             
             return {
-                finalMediaUrl: isYt ? forceUrl : getMediaStreamUrl(forceUrl),
+                finalMediaUrl: isYt ? forceUrl : getMediaUrl(forceUrl),
                 isYoutube: isYt,
                 forceAudioType: isAudio && !isYt
             };
@@ -97,18 +61,33 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         const ytId = getYoutubeId(videoUrl);
         const isRealYoutube = !!ytId;
 
-        // PRIORITÉ ABSOLUE : fichier uploadé > URL externe
-        if (videoFile) {
+        // PRIORITÉ : content_type du backend > fichier uploadé > URL externe
+        // Si content_type est explicitement défini, le respecter
+        if (contentType === 'youtube' && isRealYoutube) {
+            // YouTube a la priorité quand content_type === 'youtube'
+            rawUrl = videoUrl;
+            isYt = true;
+        }
+        else if (contentType === 'video' && videoFile) {
             rawUrl = videoFile;
             isYt = false;
         }
-        else if (audioFile) {
-            rawUrl = audioFile;
+        else if (contentType === 'audio' && (audioFile || audioUrl)) {
+            rawUrl = audioFile || audioUrl;
             isAud = true;
+        }
+        // Fallback : détection automatique si content_type ne correspond pas
+        else if (videoFile) {
+            rawUrl = videoFile;
+            isYt = false;
         }
         else if (isRealYoutube) {
             rawUrl = videoUrl;
             isYt = true;
+        }
+        else if (audioFile) {
+            rawUrl = audioFile;
+            isAud = true;
         }
         else if (videoUrl && !videoUrl.includes('drive.google.com')) {
             rawUrl = videoUrl;
@@ -119,11 +98,11 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
         }
 
         // Forcer le type audio si content_type le dit et qu'on n'a pas de vidéo
-        if (contentType === 'audio' && !videoFile) {
+        if (contentType === 'audio' && !videoFile && !isYt) {
             isAud = true;
         }
 
-        const resolvedUrl = isYt ? rawUrl : getMediaStreamUrl(rawUrl);
+        const resolvedUrl = isYt ? rawUrl : getMediaUrl(rawUrl);
         const isDrive = (emission.video_url || "").includes('drive.google.com') || (emission.audio_url || "").includes('drive.google.com') || (forceUrl || "").includes('drive.google.com');
 
         return {
@@ -143,14 +122,14 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
 
     // Timeout for loading warning
     useEffect(() => {
-        let timeout: NodeJS.Timeout;
+        let timeout: any;
         if (!isReady && !playerError && finalMediaUrl && !isYoutube) {
             timeout = setTimeout(() => {
                 if (!isReady) {
                     console.warn(`[MediaHub] Loading timeout for: ${finalMediaUrl}`);
                     toast.warning(t("common.loading_long") || "Le chargement prend du temps...");
                 }
-            }, 15000);
+            }, 30000);
         }
         return () => clearTimeout(timeout);
     }, [isReady, playerError, finalMediaUrl, isYoutube, t]);
@@ -241,15 +220,18 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
             );
         }
 
+        // Ajout du paramètre origin pour la compatibilité mobile (HTTPS obligatoire)
+        const origin = window.location.origin;
+
         return (
             <div className="aspect-video w-full rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl border border-white/10 bg-black">
                 <iframe 
                     id={`youtube-player-${emission.id}`}
                     width="100%" 
                     height="100%" 
-                    // Utilisation de youtube-nocookie pour une meilleure compatibilité mobile (évite les blocages cookies)
-                    src={`https://www.youtube-nocookie.com/embed/${ytVideoId}?rel=0&modestbranding=1&enablejsapi=1`}
+                    src={`https://www.youtube-nocookie.com/embed/${ytVideoId}?rel=0&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(origin)}`}
                     title={emission.title || "YouTube video player"} 
+                    data-name="sh-player-youtube"
                     frameBorder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                     allowFullScreen
@@ -299,6 +281,7 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                         {/* Lecteur audio natif — contrôles du navigateur = fiabilité maximale sur mobile */}
                         <audio 
                             id={`audio-player-${emission.id}`}
+                            data-name="sh-player-audio"
                             key={finalMediaUrl}
                             src={finalMediaUrl}
                             controls 
@@ -306,11 +289,9 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
                             className="w-full h-12 md:h-14 rounded-xl"
                             style={{ colorScheme: 'dark' }}
                             aria-label={emission.title || "Lecteur audio"}
+                            controlsList="nodownload"
                             onLoadedMetadata={() => setIsReady(true)}
-                            onCanPlay={() => {
-                                console.log("[MediaHub] Audio ready:", finalMediaUrl);
-                                setIsReady(true);
-                            }}
+                            onCanPlayThrough={() => setIsReady(true)}
                             onError={(e) => {
                                 console.error("[MediaHub] Audio Error:", finalMediaUrl, e);
                                 setPlayerError("Impossible de lire ce fichier audio");
@@ -349,14 +330,17 @@ const MediaHub: React.FC<MediaHubProps> = ({ emission, forceContentType, forceUr
             {/* Lecteur vidéo natif — contrôles du navigateur = fiabilité maximale sur mobile */}
             <video 
                 id={`video-player-${emission.id}`}
+                data-name="sh-player-video"
                 key={finalMediaUrl}
                 src={finalMediaUrl}
                 controls 
                 playsInline
+                webkit-playsinline="true"
                 preload="metadata"
                 className="w-full h-full object-contain bg-black"
                 aria-label={emission.title || "Lecteur vidéo"}
                 poster={getFullImageUrl(emission.image_url) || undefined}
+                controlsList="nodownload"
                 onLoadedMetadata={() => setIsReady(true)}
                 onCanPlay={() => {
                     console.log("[MediaHub] Video ready:", finalMediaUrl);

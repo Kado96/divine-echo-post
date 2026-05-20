@@ -81,22 +81,25 @@ class ImageProxyView(View):
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             }
             
-            # Logique intelligente : on tente l'URL fournie, 
-            # et si elle échoue on tente l'autre variante (avec ou sans double media)
+            # Logique intelligente : on tente l'URL fournie
             img_response = requests.get(converted_url, headers=headers, timeout=10)
             
+            # Si échec, on tente de nettoyer le double préfixe "media/media"
             if img_response.status_code != 200:
+                retry_url = None
                 if "/public/media/media/" in converted_url:
                     retry_url = converted_url.replace("/public/media/media/", "/public/media/")
-                elif "/public/media/" in converted_url:
-                    retry_url = converted_url.replace("/public/media/", "/public/media/media/")
-                else:
-                    retry_url = None
+                elif "/media/media/" in converted_url:
+                    retry_url = converted_url.replace("/media/media/", "/media/")
                 
                 if retry_url:
+                    logger.info(f"[IMAGE PROXY] Retrying with cleaned URL: {retry_url}")
                     img_response = requests.get(retry_url, headers=headers, timeout=10)
             
-            img_response.raise_for_status()
+            # Si toujours échec, on renvoie le statut réel au lieu d'un 500
+            if img_response.status_code != 200:
+                logger.warning(f"[IMAGE PROXY] Failed to fetch image: {converted_url} (Status: {img_response.status_code})")
+                return HttpResponse(f"Image non trouvée ({img_response.status_code})", status=img_response.status_code)
             
             # Déterminer le content-type
             content_type = img_response.headers.get('content-type', 'image/jpeg')
@@ -104,7 +107,7 @@ class ImageProxyView(View):
             # Mettre en cache pendant 1 heure
             cache.set(cache_key, (img_response.content, content_type), 3600)
             
-            # Retourner l'image avec les headers CORS et de cache appropriés
+            # Retourner l'image avec les headers CORS
             response = HttpResponse(img_response.content, content_type=content_type)
             response['Access-Control-Allow-Origin'] = '*'
             response['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
@@ -114,7 +117,13 @@ class ImageProxyView(View):
             return response
             
         except requests.exceptions.RequestException as e:
-            return HttpResponse(f'Erreur lors du téléchargement: {str(e)}', status=500)
+            error_msg = f"Network error: {str(e)}"
+            logger.error(f"[IMAGE PROXY ERROR] {error_msg}")
+            return HttpResponse(error_msg, status=502)
+        except Exception as e:
+            error_msg = f"Internal error: {str(e)}"
+            logger.error(f"[IMAGE PROXY ERROR] {error_msg}")
+            return HttpResponse(error_msg, status=500)
     
     def convert_google_drive_url(self, url):
         """Convertit une URL Google Drive en URL de téléchargement direct"""

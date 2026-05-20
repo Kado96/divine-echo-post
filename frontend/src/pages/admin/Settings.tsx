@@ -399,8 +399,9 @@ const AdminSettings = () => {
                             
                             <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Nom du Site</label>
+                                    <label htmlFor="site_name" className="text-[11px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Nom du Site</label>
                                     <input
+                                        id="site_name"
                                         type="text"
                                         value={settings?.site_name || ""}
                                         onChange={(e) => setSettings({ ...settings, site_name: e.target.value })}
@@ -409,8 +410,9 @@ const AdminSettings = () => {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Slogan Global</label>
+                                    <label htmlFor="site_description" className="text-[11px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer">Slogan Global</label>
                                     <textarea
+                                        id="site_description"
                                         value={settings?.description || ""}
                                         onChange={(e) => setSettings({ ...settings, description: e.target.value })}
                                         className="w-full px-3 py-2 bg-gray-50 border border-border rounded-lg text-sm focus:border-[#2271b1] outline-none h-20"
@@ -418,14 +420,19 @@ const AdminSettings = () => {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Logo</label>
+                                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Logo</span>
                                     <div className="relative group w-32 h-32 mx-auto bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 overflow-hidden flex items-center justify-center">
                                         {logoPreview ? (
                                             <img src={logoPreview} alt="Logo" className="w-full h-full object-contain p-2" />
                                         ) : (
                                             <ImageIcon className="w-8 h-8 text-gray-200" />
                                         )}
-                                        <button onClick={() => { setPickerTarget('logo'); setPickerOpen(true); }} className="absolute inset-0 bg-[#2271b1]/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                        <button 
+                                            type="button"
+                                            onClick={() => { setPickerTarget('logo'); setPickerOpen(true); }} 
+                                            className="absolute inset-0 bg-[#2271b1]/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
+                                            aria-label="Changer le logo"
+                                        >
                                             <Upload className="w-6 h-6 text-white" />
                                         </button>
                                     </div>
@@ -442,7 +449,7 @@ const AdminSettings = () => {
                             
                             <div className="space-y-5 relative z-10">
                                 <div className="flex items-center justify-between">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase">Activer le bandeau</label>
+                                    <span className="text-[10px] font-bold text-gray-400 uppercase">Activer le bandeau</span>
                                     <button 
                                         onClick={() => setSettings({ ...settings, ticker_enabled: !settings.ticker_enabled })}
                                         className={`w-10 h-5 rounded-full relative transition-colors ${settings.ticker_enabled ? 'bg-[#2271b1]' : 'bg-gray-700'}`}
@@ -452,8 +459,9 @@ const AdminSettings = () => {
                                 </div>
 
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase">Vitesse (sec)</label>
+                                    <label htmlFor="ticker_speed" className="text-[10px] font-bold text-gray-400 uppercase cursor-pointer">Vitesse (sec)</label>
                                     <input 
+                                        id="ticker_speed"
                                         type="number" 
                                         value={settings?.ticker_speed || 30}
                                         onChange={(e) => setSettings({...settings, ticker_speed: parseInt(e.target.value)})}
@@ -462,15 +470,17 @@ const AdminSettings = () => {
                                 </div>
 
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase">Couleur de fond</label>
-                                    <div className="flex gap-2">
+                                    <label htmlFor="ticker_bg_color" className="text-[10px] font-bold text-gray-400 uppercase cursor-pointer">Couleur de fond</label>
+                                    <div className="flex items-center gap-2">
                                         <input 
+                                            id="ticker_bg_color"
                                             type="color" 
                                             value={settings?.ticker_bg_color || "#e60000"}
                                             onChange={(e) => setSettings({...settings, ticker_bg_color: e.target.value})}
                                             className="h-9 w-12 bg-transparent cursor-pointer" 
                                         />
                                         <input 
+                                            id="ticker_bg_color_text"
                                             type="text" 
                                             value={settings?.ticker_bg_color || "#e60000"}
                                             onChange={(e) => setSettings({...settings, ticker_bg_color: e.target.value})}
@@ -481,10 +491,11 @@ const AdminSettings = () => {
 
                                 <div className="space-y-1.5">
                                     <div className="flex justify-between text-[10px] font-bold text-gray-400 uppercase">
-                                        <span>Opacité</span>
+                                        <label htmlFor="ticker_opacity">Opacité</label>
                                         <span>{settings?.ticker_opacity || 100}%</span>
                                     </div>
                                     <input 
+                                        id="ticker_opacity"
                                         type="range" 
                                         min="0" max="100"
                                         value={settings?.ticker_opacity || 100}

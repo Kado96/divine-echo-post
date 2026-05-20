@@ -8,7 +8,7 @@ import {
     AlertCircle, MessageSquare, Send, CheckCircle2, Download 
 } from "lucide-react";
 import { apiService } from "@/lib/api";
-import { stripHtml, getFullImageUrl, formatPublicTitle, getLocalizedField } from "@/lib/utils";
+import { stripHtml, getFullImageUrl, formatPublicTitle, getLocalizedField, getMediaUrl } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -108,7 +108,7 @@ const EmissionDetail = () => {
         
         // Priority to actual files rather than external URLs
         const mediaFileUrl = emission.audio_file || emission.video_file || emission.video_url || emission.audio_url;
-        const urlToDownload = getFullImageUrl(mediaFileUrl);
+        const urlToDownload = getMediaUrl(mediaFileUrl);
         
         if (!urlToDownload) {
             toast.error(t("common.error_loading") || "Fichier introuvable");

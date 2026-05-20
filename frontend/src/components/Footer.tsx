@@ -89,6 +89,16 @@ const Footer = () => {
                   <Youtube className="w-6 h-6 transition-transform group-hover:scale-110" />
                 </a>
               )}
+              {settings?.whatsapp_url && (
+                <a
+                  href={settings.whatsapp_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-13 h-13 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#25D366] hover:border-[#25D366] hover:shadow-[0_0_20px_rgba(37,211,102,0.4)] transition-all duration-500 text-gray-400 hover:text-white group"
+                >
+                  <Send className="w-6 h-6 transition-transform group-hover:scale-110" />
+                </a>
+              )}
             </div>
           </div>
 

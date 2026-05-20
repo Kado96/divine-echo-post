@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "@/components/layouts/AdminLayout";
-import { Button } from "@/components/ui/button";
 import {
     Users,
     BookOpen,
@@ -8,9 +7,9 @@ import {
     Plus,
     ExternalLink,
     Megaphone,
-    TrendingUp,
     Play,
-    Loader2
+    Loader2,
+    TrendingUp
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -30,14 +29,16 @@ const AdminDashboard = () => {
 
     const role = (user as any)?.role || "user";
     const isSuperuser = user?.is_superuser;
+    const isAdmin = isSuperuser || role === "admin";
 
     useEffect(() => {
         const fetchStats = async () => {
             try {
+                // Parallel fetching with conditional gating to avoid 403 errors
                 const [globalData, ems, anns, tests] = await Promise.all([
-                    apiService.getGlobalStats().catch(() => ({ total_views: 0 })),
+                    isAdmin ? apiService.getGlobalStats().catch(() => ({ total_views: 0 })) : Promise.resolve({ total_views: 0 }),
                     apiService.getAdminEmissions().catch(() => []),
-                    apiService.getAdminAnnouncements().catch(() => []),
+                    isAdmin ? apiService.getAdminAnnouncements().catch(() => []) : Promise.resolve([]),
                     apiService.getTestimonials().catch(() => [])
                 ]);
 
@@ -54,31 +55,27 @@ const AdminDashboard = () => {
             }
         };
         fetchStats();
-    }, []);
+    }, [isAdmin]);
 
-    const allQuickActions = [
+    // Quick Actions filtering
+    const quickActions = [
         { label: t("admin.dashboard_page.quick_actions.new_emission"), icon: Plus, href: "/admin/emissions/create", color: "bg-blue-600" },
         { label: t("admin.dashboard_page.quick_actions.add_user"), icon: Users, href: "/admin/users/create", color: "bg-emerald-600", adminOnly: true },
         { label: t("admin.dashboard_page.quick_actions.view_site"), icon: ExternalLink, href: "/", color: "bg-orange-500" },
         { label: t("admin.dashboard_page.quick_actions.messages"), icon: MessageSquare, href: "/admin/testimonials", color: "bg-purple-600" },
-    ];
+    ].filter(action => !action.adminOnly || isAdmin);
 
-    const quickActions = allQuickActions.filter(action => {
-        if (!action.adminOnly) return true;
-        return isSuperuser || role === "admin";
-    });
-
+    // Stats Overview filtering
     const statsOverview = [
-        { label: t("admin.dashboard_page.stats.total_views"), value: stats.views, icon: Play, color: "text-blue-600" },
-        { label: t("admin.dashboard_page.stats.active_emissions"), value: stats.emissions.toString(), icon: BookOpen, color: "text-emerald-600" },
-        { label: t("admin.dashboard_page.stats.announcements"), value: stats.announcements.toString(), icon: Megaphone, color: "text-orange-600" },
-        { label: t("admin.dashboard_page.stats.impact"), value: stats.testimonials.toString(), icon: MessageSquare, color: "text-purple-600" },
-    ];
+        { id: "views", label: t("admin.dashboard_page.stats.total_views"), value: stats.views, icon: Play, color: "text-blue-600", adminOnly: true },
+        { id: "emissions", label: t("admin.dashboard_page.stats.active_emissions"), value: stats.emissions.toString(), icon: BookOpen, color: "text-emerald-600" },
+        { id: "announcements", label: t("admin.dashboard_page.stats.announcements"), value: stats.announcements.toString(), icon: Megaphone, color: "text-orange-600", adminOnly: true },
+        { id: "impact", label: t("admin.dashboard_page.stats.impact"), value: stats.testimonials.toString(), icon: MessageSquare, color: "text-purple-600" },
+    ].filter(stat => !stat.adminOnly || isAdmin);
 
     return (
         <AdminLayout>
             <div className="max-w-6xl mx-auto space-y-8 pb-12">
-                {/* Salutation responsive */}
                 <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                         <h1 className="text-2xl sm:text-3xl font-black text-[#1d2327] tracking-tight">{t("admin.dashboard_page.welcome")}</h1>
@@ -91,9 +88,9 @@ const AdminDashboard = () => {
                         <Loader2 className="w-8 h-8 animate-spin text-[#2271b1]" />
                     </div>
                 ) : (
-                    <>
-                        {/* Actions Rapides - Très visuel */}
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                    <div className="space-y-8">
+                        {/* Quick Actions Grid */}
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                             {quickActions.map((action, idx) => (
                                 <Link
                                     key={idx}
@@ -108,27 +105,33 @@ const AdminDashboard = () => {
                             ))}
                         </div>
 
+                        {/* Main Content Grid */}
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            {/* Colonne Statistique & Résumé */}
                             <div className="lg:col-span-2 space-y-6">
-                                <Link to="/admin/stats" className="block hover:opacity-95 transition-opacity">
-                                    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-border shadow-sm">
-                                        <h3 className="text-lg font-black text-[#1d2327] mb-6">{t("admin.dashboard_page.overview")}</h3>
-                                        <div className="grid grid-cols-2 gap-y-8 gap-x-4">
-                                            {statsOverview.map((stat, idx) => (
-                                                <div key={idx} className="space-y-1">
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <stat.icon className={`w-4 h-4 ${stat.color}`} />
-                                                        <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest">{stat.label}</span>
-                                                    </div>
-                                                    <p className="text-xl sm:text-3xl font-black text-[#1d2327] tracking-tighter">{stat.value}</p>
-                                                </div>
-                                            ))}
-                                        </div>
+                                {/* Statistics Section */}
+                                <div className="bg-white p-6 sm:p-8 rounded-3xl border border-border shadow-sm">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h3 className="text-lg font-black text-[#1d2327]">{t("admin.dashboard_page.overview")}</h3>
+                                        {isAdmin && (
+                                            <Link to="/admin/stats" className="text-[10px] font-black uppercase text-[#2271b1] hover:underline">
+                                                {t("admin.dashboard_page.view_all")}
+                                            </Link>
+                                        )}
                                     </div>
-                                </Link>
+                                    <div className="grid grid-cols-2 gap-y-8 gap-x-4">
+                                        {statsOverview.map((stat, idx) => (
+                                            <div key={idx} className="space-y-1">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <stat.icon className={`w-4 h-4 ${stat.color}`} />
+                                                    <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest">{stat.label}</span>
+                                                </div>
+                                                <p className="text-xl sm:text-3xl font-black text-[#1d2327] tracking-tighter">{stat.value}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
 
-                                {/* Recent Activity Mini-Section */}
+                                {/* Recent Activity Placeholder Section */}
                                 <div className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden">
                                     <div className="px-6 py-4 border-b border-border bg-gray-50/50 flex items-center justify-between">
                                         <h3 className="font-black text-sm text-[#1d2327]">{t("admin.dashboard_page.recent_activity")}</h3>
@@ -136,26 +139,35 @@ const AdminDashboard = () => {
                                     </div>
                                     <div className="divide-y divide-gray-50">
                                         {[1, 2, 3].map(i => {
-                                            const activityLink = i === 1 ? "/admin/emissions" : i === 2 ? "/admin/announcements" : "/admin/testimonials";
+                                            // Conditional link based on permissions
+                                            const activityType = i === 1 ? 'emission' : i === 2 ? 'announcement' : 'testimonial';
+                                            if (activityType === 'announcement' && !isAdmin) return null;
+
+                                            const activityLink = activityType === 'emission' ? "/admin/emissions" : 
+                                                               activityType === 'announcement' ? "/admin/announcements" : 
+                                                               "/admin/testimonials";
+                                            
+                                            const activityLabel = activityType === 'emission' ? t("admin.dashboard_page.activity.new_emission") : 
+                                                                activityType === 'announcement' ? t("admin.dashboard_page.activity.updated_announcement") : 
+                                                                t("admin.dashboard_page.activity.new_testimonial");
+
                                             return (
-                                                <Link key={i} to={activityLink} className="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors block">
+                                                <Link key={i} to={activityLink} className="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
                                                     <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-[10px] font-bold">
                                                         {i}
                                                     </div>
                                                     <div>
-                                                        <p className="text-xs sm:text-sm font-bold text-gray-800">
-                                                            {i === 1 ? t("admin.dashboard_page.activity.new_emission") : i === 2 ? t("admin.dashboard_page.activity.updated_announcement") : t("admin.dashboard_page.activity.new_testimonial")}
-                                                        </p>
+                                                        <p className="text-xs sm:text-sm font-bold text-gray-800">{activityLabel}</p>
                                                         <p className="text-[10px] text-gray-400">{t("common.hours_ago", { count: i * 2 })}</p>
                                                     </div>
                                                 </Link>
                                             );
-                                        })}
+                                        }).filter(Boolean)}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Aide & Support - Très simple */}
+                            {/* Sidebar Section */}
                             <div className="lg:col-span-1">
                                 <div className="bg-[#23282d] text-white p-8 rounded-3xl shadow-xl h-full flex flex-col justify-between">
                                     <div>
@@ -174,7 +186,7 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
                         </div>
-                    </>
+                    </div>
                 )}
             </div>
         </AdminLayout>

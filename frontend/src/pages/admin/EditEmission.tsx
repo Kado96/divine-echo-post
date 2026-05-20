@@ -165,11 +165,11 @@ const EditEmission = () => {
 
     const handleSave = async (publish = false) => {
         if (!id) return;
-        if (!formData.title) {
+        if (!formData.title_fr) {
             toast.error(t("common.title_required"));
             return;
         }
-        if (!formData.description.trim()) {
+        if (!formData.description_fr || !formData.description_fr.trim()) {
             toast.error(t("common.description_required"));
             return;
         }
@@ -196,7 +196,7 @@ const EditEmission = () => {
             dataToUpdate.append('description_sw', formData.description_sw);
             
             dataToUpdate.append('preacher_name', formData.preacher_name);
-            dataToUpdate.append('emission_date', formData.emission_date);
+            dataToUpdate.append('sermon_date', formData.emission_date);
             dataToUpdate.append('is_active', String(publish ? true : formData.is_active));
 
             if (formData.category) {
@@ -205,6 +205,9 @@ const EditEmission = () => {
 
             if (formData.content_type === "youtube") {
                 dataToUpdate.append('video_url', formData.content_url);
+                // Vider les fichiers média existants pour que MediaHub priorise YouTube
+                dataToUpdate.append('audio_file', '');
+                dataToUpdate.append('video_file', '');
             }
 
             if (mediaFile) {

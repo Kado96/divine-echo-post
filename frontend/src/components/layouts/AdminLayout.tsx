@@ -71,11 +71,12 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
 
         switch (role) {
             case "admin":
-                return true; // Admin voit tout, mais sera bloqué par le backend pour certaines actions
+                return true; 
             case "team":
+                // Éditeur : Accès strictement limité à Émissions et Témoignages
+                return ["/admin/emissions", "/admin/testimonials"].includes(link.href);
             default:
-                // Éditeur : Accès à presque toutes les sections de gestion
-                return ["/admin", "/admin/emissions", "/admin/announcements", "/admin/comments", "/admin/testimonials", "/admin/pages", "/admin/categories", "/admin/media", "/admin/stats", "/admin/team", "/admin/settings"].includes(link.href);
+                return ["/admin/emissions", "/admin/testimonials"].includes(link.href);
         }
     });
 

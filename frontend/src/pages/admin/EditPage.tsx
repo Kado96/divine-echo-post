@@ -315,7 +315,7 @@ const AdminEditPage = () => {
 
                             {/* Hero Image */}
                             <div className="space-y-4 pt-4 border-t border-gray-100">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Image de Fond Héro</label>
+                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Image de Fond Héro</span>
                                 <div className="flex items-center gap-6">
                                     <div className="w-40 h-24 bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl overflow-hidden flex items-center justify-center relative group">
                                         {heroPreview ? (
@@ -427,7 +427,7 @@ const AdminEditPage = () => {
 
                             {/* About Image */}
                             <div className="space-y-4 pt-4 border-t border-gray-100">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Image Principale À Propos</label>
+                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Image Principale À Propos</span>
                                 <div className="flex items-center gap-6">
                                     <div className="w-40 h-24 bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl overflow-hidden flex items-center justify-center relative">
                                         {aboutPreview ? (

@@ -397,6 +397,43 @@ export const apiService = {
             throw error;
         }
     },
+    
+    // Daily Verse helpers
+    async getDailyVerse() {
+        const data = await this.get('/announcements/verses/');
+        const list = this.handleList(data);
+        return list && list.length > 0 ? list[0] : null;
+    },
+
+    async getAdminDailyVerses() {
+        const data = await this.get('/announcements/admin/verses/');
+        return this.handleList(data);
+    },
+
+    async createDailyVerse(data: any) {
+        const isFormData = data instanceof FormData;
+        return this.post('/announcements/admin/verses/', data);
+    },
+
+    async updateDailyVerse(id: string | number, data: any) {
+        const isFormData = data instanceof FormData;
+        try {
+            const response = await fetch(`${API_URL}/announcements/admin/verses/${id}/`, {
+                method: 'PATCH',
+                headers: this.getHeaders(isFormData ? null : 'application/json'),
+                body: isFormData ? data : JSON.stringify(data),
+                credentials: 'include'
+            });
+            return await this.handleResponse(response, `/announcements/admin/verses/${id}/`);
+        } catch (error) {
+            console.error("Daily verse update error:", error);
+            throw error;
+        }
+    },
+
+    async deleteDailyVerse(id: string | number) {
+        return this.delete(`/announcements/admin/verses/${id}/`);
+    },
 
     // User management helpers
     async getUsers() {
