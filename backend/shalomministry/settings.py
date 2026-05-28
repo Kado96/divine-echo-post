@@ -249,6 +249,10 @@ CORS_ALLOW_CREDENTIALS = True
 # Autoriser les origines en production
 if not DEBUG:
     CORS_ALLOWED_ORIGINS = [
+        "https://shalomministry.kesug.com",
+        "http://shalomministry.kesug.com",
+        "https://www.shalomministry.kesug.com",
+        "http://www.shalomministry.kesug.com",
         "https://shalomministry.wuaze.com",
         "http://shalomministry.wuaze.com",
         "https://www.shalomministry.wuaze.com",
@@ -260,6 +264,10 @@ if not DEBUG:
     ]
     # Domaines de confiance pour les requêtes CSRF (formulaires, API PATCH/POST)
     CSRF_TRUSTED_ORIGINS = [
+        "https://shalomministry.kesug.com",
+        "http://shalomministry.kesug.com",
+        "https://www.shalomministry.kesug.com",
+        "http://www.shalomministry.kesug.com",
         "https://shalomministry.wuaze.com",
         "http://shalomministry.wuaze.com",
         "https://www.shalomministry.wuaze.com",
