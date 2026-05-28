@@ -60,9 +60,17 @@ class ImageProxyView(View):
         if not image_url:
             return HttpResponse('URL manquante', status=400)
         
+        # Décoder l'URL pour s'assurer qu'elle n'est pas doublement encodée (par exemple %2F -> /)
+        from urllib.parse import unquote
+        image_url = unquote(image_url)
+        
         # Convertir l'URL si c'est du Google Drive
         converted_url = self.convert_google_drive_url(image_url) if 'drive.google.com' in image_url else image_url
         
+        # Remplacement de http par https pour Supabase/Render (obligatoire pour éviter les 400)
+        if converted_url.startswith("http://") and any(domain in converted_url for domain in ["supabase.co", "onrender.com"]):
+            converted_url = converted_url.replace("http://", "https://")
+            
         # Utiliser le cache pour éviter de télécharger plusieurs fois la même image
         cache_key = f"image_proxy_{hash(converted_url)}"
         cached_data = cache.get(cache_key)
@@ -77,10 +85,6 @@ class ImageProxyView(View):
             return response
 
         try:
-            # Remplacement intelligent de http par https pour les URLs externes (comme Supabase)
-            if converted_url.startswith("http://") and any(domain in converted_url for domain in ["supabase.co", "onrender.com"]):
-                converted_url = converted_url.replace("http://", "https://")
-                
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             }
@@ -88,22 +92,10 @@ class ImageProxyView(View):
             logger.info(f"[IMAGE PROXY] Fetching URL: {converted_url}")
             img_response = requests.get(converted_url, headers=headers, timeout=10)
             
-            # Si échec, on tente de nettoyer le double préfixe "media/media"
-            if img_response.status_code != 200:
-                retry_url = None
-                if "/public/media/media/" in converted_url:
-                    retry_url = converted_url.replace("/public/media/media/", "/public/media/")
-                elif "/media/media/" in converted_url:
-                    retry_url = converted_url.replace("/media/media/", "/media/")
-                
-                if retry_url:
-                    logger.info(f"[IMAGE PROXY] Retrying with cleaned URL: {retry_url}")
-                    img_response = requests.get(retry_url, headers=headers, timeout=10)
-            
-            # Si toujours échec, on renvoie le statut réel au lieu d'un 500
+            # Si toujours échec, on renvoie un 404
             if img_response.status_code != 200:
                 logger.warning(f"[IMAGE PROXY] Failed to fetch image: {converted_url} (Status: {img_response.status_code})")
-                return HttpResponse(f"Image non trouvée ({img_response.status_code})", status=404 if img_response.status_code == 404 else 400)
+                return HttpResponse(f"Image non trouvée ({img_response.status_code})", status=404)
             
             # Déterminer le content-type
             content_type = img_response.headers.get('content-type', 'image/jpeg')
