@@ -55,6 +55,7 @@ class AdminUserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
+        request = self.context.get('request')
         account = getattr(instance, 'account', None)
         if account:
             ret['role'] = account.role
