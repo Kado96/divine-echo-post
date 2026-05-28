@@ -77,11 +77,15 @@ class ImageProxyView(View):
             return response
 
         try:
+            # Remplacement intelligent de http par https pour les URLs externes (comme Supabase)
+            if converted_url.startswith("http://") and any(domain in converted_url for domain in ["supabase.co", "onrender.com"]):
+                converted_url = converted_url.replace("http://", "https://")
+                
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             }
             
-            # Logique intelligente : on tente l'URL fournie
+            logger.info(f"[IMAGE PROXY] Fetching URL: {converted_url}")
             img_response = requests.get(converted_url, headers=headers, timeout=10)
             
             # Si échec, on tente de nettoyer le double préfixe "media/media"
@@ -99,7 +103,7 @@ class ImageProxyView(View):
             # Si toujours échec, on renvoie le statut réel au lieu d'un 500
             if img_response.status_code != 200:
                 logger.warning(f"[IMAGE PROXY] Failed to fetch image: {converted_url} (Status: {img_response.status_code})")
-                return HttpResponse(f"Image non trouvée ({img_response.status_code})", status=img_response.status_code)
+                return HttpResponse(f"Image non trouvée ({img_response.status_code})", status=404 if img_response.status_code == 404 else 400)
             
             # Déterminer le content-type
             content_type = img_response.headers.get('content-type', 'image/jpeg')
